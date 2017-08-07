@@ -1,0 +1,27 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.3.RELEASE'
+}
+
+apply plugin: 'java'
+
+jar {
+    version = '0.0.1-SNAPSHOT'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.5'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('mysql:mysql-connector-java:5.1.39')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

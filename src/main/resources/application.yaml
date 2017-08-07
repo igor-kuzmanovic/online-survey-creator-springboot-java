@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/tech9survey?useSSL=false
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+    ddl-auto: create-drop
