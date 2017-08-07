@@ -1,45 +1,9 @@
-# Compiled class file
-*.class
+### Gradle ###
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
 
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# IntelliJ IDEA
-.idea
-*.iws
-*.iml
-*.ipr
-classes/
-out/
-
-# Eclipse
-.metadata
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
-.recommenders
-
-# Spring
+### STS ###
 .apt_generated
 .classpath
 .factorypath
@@ -47,10 +11,32 @@ local.properties
 .settings
 .springBeans
 
-# Gradle
-.gradle
-/build/
-!gradle/wrapper/gradle-wrapper.jar
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+classes/
+out/
 
-# Bower
+### NetBeans ###
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+/bin/
+
+# Others
 src/main/resources/static/bower_components
+/src/main/resources/static/nbproject/private/
+gradle/
+gradlew
+gradlew.bat
+gradle*
+bower_components/
+node_modules/
+package-lock.json
+gradle*
+.nb-gradle
