@@ -10,8 +10,8 @@
 /results/{survey_hash}/
 /finish/{survey_hash}/
 /activate/{email_hash}/
-/notifications/
 /user/settings/
+/user/notifications/
 /user/admin/
 ```
 
