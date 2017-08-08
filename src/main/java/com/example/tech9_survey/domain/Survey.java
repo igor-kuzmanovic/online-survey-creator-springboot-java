@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 

@@ -6,14 +6,23 @@
 
   function config($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/', {template:'Default route'})
-      .when('/survey/:hashedId', {template:'Survey route'})
-      .otherwise({redirectTo:'/'});
-
-    $locationProvider.html5Mode({
-      enabled: true,
-      requireBase: false
+      .when('/', {
+    })
+      .when('/home', {
+        templateUrl: '/views/home.html',
+        controller: 'HomeController',
+        controllerAs: 'hc'
+    })
+      .when('/survey/create/:hashedId', {
+        templateUrl: '/views/surveyCreator.html',
+        controller: 'SurveyCreatorController',
+        controllerAs: 'scc'
+    })
+      .otherwise({
+        redirectTo:'/'
     });
+
+    $locationProvider.html5Mode(true);
   }
 
 }());
