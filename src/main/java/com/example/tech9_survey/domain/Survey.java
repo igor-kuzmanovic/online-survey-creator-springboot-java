@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Entity
 public class Survey extends BaseEntity {
 	
-	@Size(min=2, max=240)
+	@Size(min=1, max=240)
 	@Column(nullable = false)
 	private String name;
 	
@@ -22,6 +22,25 @@ public class Survey extends BaseEntity {
 	@Past
 	@Column(nullable = false, name = "creation_date")
 	private Date creationDate;
+	
+	@Column(nullable = false, name = "publication_date")
+	private Date publicationDate;
+	
+	@Column(nullable = false, name = "expiration_date")
+	private Date expirationDate;
+	
+	@Size(max = 240)
+	@Column(name = "welcome_message")
+	private String welcomeMessage;
+	
+	@Size(max = 240)
+	@Column(name = "welcome_message")
+	private String exitMessage;
+	
+	private String description;
+	
+	@Column(nullable = false, name = "is_active")
+	private Boolean isActive;
 	
 	public void generateHashedId() throws NoSuchAlgorithmException {
 		String idString = this.getId().toString();
@@ -52,8 +71,58 @@ public class Survey extends BaseEntity {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String title) {
 		this.name = name;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getPublicationDate() {
+		return publicationDate;
+	}
+
+	public void setPublicationDate(Date publicationDate) {
+		this.publicationDate = publicationDate;
+	}
+
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public String getWelcomeMessage() {
+		return welcomeMessage;
+	}
+
+	public void setWelcomeMessage(String welcomeMessage) {
+		this.welcomeMessage = welcomeMessage;
+	}
+
+	public String getExitMessage() {
+		return exitMessage;
+	}
+
+	public void setExitMessage(String exitMessage) {
+		this.exitMessage = exitMessage;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+	
+	
 
 }
