@@ -34,7 +34,7 @@ public class Survey extends BaseEntity {
 	private String welcomeMessage;
 	
 	@Size(max = 240)
-	@Column(name = "welcome_message")
+	@Column(name = "exit_message")
 	private String exitMessage;
 	
 	private String description;
