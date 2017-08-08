@@ -1,6 +1,8 @@
 package com.example.tech9_survey.service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,10 @@ public class SurveyService {
     @Autowired
     public SurveyService(SurveyRepository surveyRepository) {
         this.surveyRepository = surveyRepository;
+    }
+   
+    public List<Survey> findAll() {
+        return surveyRepository.findAll();
     }
     
     public Survey save(Survey newSurvey) {
