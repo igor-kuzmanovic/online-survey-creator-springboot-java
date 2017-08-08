@@ -2,13 +2,9 @@
   angular.module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['$location', '$route', '$routeParams'];
+  MainController.$inject = [];
 
-  function MainController($location, $route, $routeParams) {
-    
-    this.$location = $location;
-    this.$route = $route;
-    this.$routeParams = $routeParams;
+  function MainController() {
     
   };
 })();
