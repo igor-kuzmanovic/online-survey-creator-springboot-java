@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['SurveyService', '$location', '$route'];
+  HomeController.$inject = ['SurveyService', '$location'];
 
-  function HomeController(SurveyService, $location, $route) {
+  function HomeController(SurveyService, $location) {
 
     this.generateSurvey = generateSurvey;
 

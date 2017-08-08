@@ -39,18 +39,8 @@
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
   </head>
 
-  <body ng-controller="MainController as mc">
+  <body>
     <div ng-view></div>
-
-    <a type="submit" class="btn btn-primary" ng-href="/home">Home</a>
-
-    <footer>
-      <pre>mc.$location.path() = {{mc.$location.path()}}</pre>
-      <pre>mc.$route.current.templateUrl = {{mc.$route.current.templateUrl}}</pre>
-      <pre>mc.$route.current.params = {{mc.$route.current.params}}</pre>
-      <pre>mc.$route.current.scope.name = {{mc.$route.current.scope.name}}</pre>
-      <pre>mc.$routeParams = {{mc.$routeParams}}</pre>
-    </footer>
   </body>
 
 </html>

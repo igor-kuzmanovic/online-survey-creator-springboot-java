@@ -7,6 +7,9 @@
   function config($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
+        templateUrl: '/views/main.html',
+        controller: 'MainController',
+        controllerAs: 'mc'
     })
       .when('/home', {
         templateUrl: '/views/home.html',
@@ -14,8 +17,8 @@
         controllerAs: 'hc'
     })
       .when('/survey/create/:hashedId', {
-        templateUrl: '/views/surveyCreator.html',
-        controller: 'SurveyCreatorController',
+        templateUrl: '/views/surveyCreation.html',
+        controller: 'SurveyCreationController',
         controllerAs: 'scc'
     })
       .otherwise({
