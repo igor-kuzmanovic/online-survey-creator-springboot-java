@@ -5,11 +5,11 @@
 ## Possible routes
 ```
 /home/
-/{survey_hash}/
-/create/{survey_hash}/
-/results/{survey_hash}/
-/finish/{survey_hash}/
-/activate/{email_hash}/
+/survey/{survey_hash}/
+/survey/create/{survey_hash}/
+/survey/results/{survey_hash}/
+/survey/finish/{survey_hash}/
+/user/activate/{email_hash}/
 /user/settings/
 /user/notifications/
 /user/admin/
