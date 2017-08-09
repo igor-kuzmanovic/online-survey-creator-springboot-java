@@ -5,8 +5,9 @@
 ## Possible routes
 ```
 /home/
+/survey/create/
 /survey/{survey_hash}/
-/survey/create/{survey_hash}/
+/survey/customize/{survey_hash}/
 /survey/results/{survey_hash}/
 /survey/finish/{survey_hash}/
 /user/activate/{email_hash}/
