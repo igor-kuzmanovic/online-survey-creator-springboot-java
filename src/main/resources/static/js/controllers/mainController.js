@@ -2,9 +2,11 @@
   angular.module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = [];
+  MainController.$inject = ['$location'];
 
-  function MainController() {
+  function MainController($location) {
+		
+		this.$location = $location;
     
   };
 })();

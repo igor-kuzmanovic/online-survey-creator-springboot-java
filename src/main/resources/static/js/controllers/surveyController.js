@@ -2,7 +2,7 @@
 	angular.module('app')
 		.controller('SurveyController', SurveyController);
 	
-	SurveyController.$inject = [SurveyService];
+	SurveyController.$inject = ['SurveyService'];
 	
 	function SurveyController(SurveyService) {
 		

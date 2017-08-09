@@ -6,11 +6,6 @@
 
   function config($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: '/views/main.html',
-        controller: 'MainController',
-        controllerAs: 'mc'
-    })
       .when('/home', {
         templateUrl: '/views/home.html',
         controller: 'HomeController',
@@ -21,8 +16,11 @@
         controller: 'SurveyCreationController',
         controllerAs: 'scc'
     })
+			.when('/user/notifications', {
+        templateUrl: '/views/notifications.html',
+    })
       .otherwise({
-        redirectTo:'/'
+        redirectTo:'/home'
     });
 
     $locationProvider.html5Mode(true);
