@@ -8,8 +8,8 @@
 
 		this.generateSurvey = generateSurvey;
 
-    function generateSurvey(newSurvey) {
-      SurveyService.generateSurvey(newSurvey)
+    function generateSurvey(survey) {
+      SurveyService.generateSurvey(survey)
         .then(
         function(response){
           $location.path('/survey/new/' + response.hashedId);
