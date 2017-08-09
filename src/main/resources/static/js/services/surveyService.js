@@ -11,7 +11,7 @@
     }
     
     function generateSurvey(newSurvey) {
-    	newSurvey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd");
+    	newSurvey.creationDate = $filter('date')(new Date(), "medium");
     	var def = $q.defer();
         var req = {
           method: 'POST',
