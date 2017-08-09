@@ -71,7 +71,7 @@ public class Survey extends BaseEntity {
 		return name;
 	}
 
-	public void setName(String title) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
