@@ -5,6 +5,9 @@
 	SurveyController.$inject = [SurveyService];
 	
 	function SurveyController(SurveyService) {
+		var vm = this;
+		vm.deleteSurvey = deleteSurvey;
+		vm.designSurvey = designSurvey;
 		
 	};	
 });()
