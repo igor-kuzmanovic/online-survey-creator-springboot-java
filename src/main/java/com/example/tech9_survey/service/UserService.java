@@ -1,8 +1,10 @@
 package com.example.tech9_survey.service;
 
+import com.example.tech9_survey.common.UserDto;
 import com.example.tech9_survey.domain.Role;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.repository.UserRepository;
+import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,27 +23,31 @@ import java.util.Set;
 public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
+    private JTransfo jTransfo;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JTransfo jTransfo) {
         this.userRepository = userRepository;
+        this.jTransfo = jTransfo;
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public UserDto findByUsername(String username) {
+        return jTransfo.convertTo(userRepository.findByUsername(username), UserDto.class);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDto> findAll() {
+        return jTransfo.convertList(userRepository.findAll(), UserDto.class);
     }
 
-    public User save(User user) {
-        return userRepository.save(user);
+    public UserDto save(UserDto userDto) {
+        User user = jTransfo.convertTo(userDto, User.class);
+
+        return jTransfo.convertTo(userRepository.save(user), UserDto.class);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
+        UserDto user = findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found!");
@@ -50,7 +56,7 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
     }
 
-    private Set<GrantedAuthority> getAuthorities(User user){
+    private Set<GrantedAuthority> getAuthorities(UserDto user){
         Set<GrantedAuthority> authorities = new HashSet<>();
         for(Role role : user.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getType().toString());

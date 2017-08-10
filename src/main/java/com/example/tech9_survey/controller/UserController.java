@@ -1,9 +1,11 @@
 package com.example.tech9_survey.controller;
 
+import com.example.tech9_survey.common.UserDto;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,17 +27,33 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<User> save(@RequestBody User user) {
-        String currentUserName = user.getUsername();
-        User current = userService.findByUsername(currentUserName);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<UserDto>> findAll() {
+        List<UserDto> users;
 
-        if(current == null) {
-            userService.save(user);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        try {
+            users = userService.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<UserDto> save(@RequestBody UserDto user) {
+        UserDto savedUser;
+
+        try {
+            savedUser = userService.save(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(savedUser, HttpStatus.OK);
     }
 
     @RequestMapping("/login")
