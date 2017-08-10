@@ -7,4 +7,4 @@
 	function SurveyController(SurveyService) {
 		
 	};	
-});()
+})();

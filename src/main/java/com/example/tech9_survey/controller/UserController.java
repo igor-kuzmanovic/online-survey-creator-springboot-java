@@ -1,6 +1,5 @@
 package com.example.tech9_survey.controller;
 
-import com.example.tech9_survey.common.UserDto;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -29,27 +28,21 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<UserDto>> findAll() {
-        List<UserDto> users;
+    public ResponseEntity<List<User>> findAll() {
+        List<User> users = userService.findAll();
 
-        try {
-            users = userService.findAll();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (users == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
+        
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<UserDto> save(@RequestBody UserDto user) {
-        UserDto savedUser;
+    public ResponseEntity<User> save(@RequestBody User user) {
+        User savedUser = userService.save(user);
 
-        try {
-            savedUser = userService.save(user);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (savedUser == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

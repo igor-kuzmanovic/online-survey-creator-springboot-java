@@ -1,6 +1,5 @@
 package com.example.tech9_survey.service;
 
-import com.example.tech9_survey.common.UserDto;
 import com.example.tech9_survey.domain.Role;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.repository.UserRepository;
@@ -31,23 +30,21 @@ public class UserService implements UserDetailsService {
         this.jTransfo = jTransfo;
     }
 
-    public UserDto findByUsername(String username) {
-        return jTransfo.convertTo(userRepository.findByUsername(username), UserDto.class);
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
-    public List<UserDto> findAll() {
-        return jTransfo.convertList(userRepository.findAll(), UserDto.class);
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
-    public UserDto save(UserDto userDto) {
-        User user = jTransfo.convertTo(userDto, User.class);
-
-        return jTransfo.convertTo(userRepository.save(user), UserDto.class);
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDto user = findByUsername(username);
+        User user = findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found!");
@@ -56,7 +53,7 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
     }
 
-    private Set<GrantedAuthority> getAuthorities(UserDto user){
+    private Set<GrantedAuthority> getAuthorities(User user){
         Set<GrantedAuthority> authorities = new HashSet<>();
         for(Role role : user.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getType().toString());
