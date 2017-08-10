@@ -7,7 +7,8 @@
   function SurveyService($http, $q, $filter) {
 
     var service = {
-      generateSurvey: generateSurvey
+      generateSurvey: generateSurvey,
+      getSurveys: getSurveys
     }
     
     function generateSurvey(newSurvey) {
@@ -29,5 +30,20 @@
 
     return service;
 
+    var surveysList = [];
+
+    this.getSurveys = function () {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "surveys"
+        }
+        return $http(req).success(function (response) {
+            return surveysList = response.data;
+        }).error(function () {
+            return def.reject("Failed to get surveys");
+        });
+    }
+    
   }
 } ());

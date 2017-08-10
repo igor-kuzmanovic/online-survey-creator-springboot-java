@@ -29,6 +29,9 @@ public class Survey extends BaseEntity {
 	@Column(nullable = false, name = "expiration_date")
 	private Date expirationDate;
 	
+	@Column(name = "modified_date")
+	private Date modifiedDate;
+	
 	@Size(max = 240)
 	@Column(name = "welcome_message")
 	private String welcomeMessage;
@@ -121,6 +124,14 @@ public class Survey extends BaseEntity {
 
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 	
 	
