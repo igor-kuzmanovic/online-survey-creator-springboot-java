@@ -2,13 +2,15 @@
   angular.module('app')
     .controller('SurveyCustomizationController', SurveyCustomizationController);
 
-  SurveyCustomizationController.$inject = ['QuestionService', 'AnswerService', '$location'];
+  SurveyCustomizationController.$inject = ['QuestionService', 'AnswerService', '$location', '$routeParams'];
 
-  function SurveyCustomizationController(QuestionService, AnswerService, $location) {
+  function SurveyCustomizationController(QuestionService, AnswerService, $location, $routeParams) {
 
     this.saveQuestionsAnswers = saveQuestionsAnswers;
     this.createNewQuestion = createNewQuestion;
-    this.createNewAnswer = createNewAnswer;    
+    this.createNewAnswer = createNewAnswer;
+    
+    this.surveyHashedId = $routeParams.hashedId;   
 
     function saveQuestionsAnswers() {
       if(this.questionList) {
@@ -49,29 +51,29 @@
       if (this.questionList.length < 10) {
         var newQuestionPosition = this.questionList.length + 1;
         var newQuestion = {
+          hashed_id: this.surveyHashedId,
           content: "",
           positionInSurvey: newQuestionPosition
         };
 
         this.questionList.push(newQuestion);
       };
-
-      console.log(this.questionList);
     };
 
-    function createNewAnswer(questionPosition) {
-      if (!this.questionList[questionPosition].answerList) {
-        this.questionList[questionPosition].answerList = [];
+    function createNewAnswer(questionId) {
+      if (!this.questionList[questionId].answerList) {
+        this.questionList[questionId].answerList = [];
       };
 
-      if (this.questionList[questionPosition].answerList.length < 10) {
-        var newAnswerPosition = this.questionList[questionPosition].answerList.length + 1;
+      if (this.questionList[questionId].answerList.length < 10) {
+        var newAnswerPosition = this.questionList[questionId].answerList.length + 1;
         var newAnswer = {
+          question_id: questionId,
           content: "",
           positionInQuestion: newAnswerPosition
         };
 
-        this.questionList[questionPosition].answerList.push(newAnswer);
+        this.questionList[questionId].answerList.push(newAnswer);
       };
     };
 

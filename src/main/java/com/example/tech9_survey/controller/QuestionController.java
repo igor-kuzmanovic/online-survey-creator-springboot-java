@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.service.QuestionService;
+import com.example.tech9_survey.service.SurveyService;
 
 @RestController
 @RequestMapping("/question")
@@ -17,7 +18,7 @@ public class QuestionController {
 	private QuestionService questionService;
 	
 	@Autowired
-	public QuestionController(QuestionService questionService) {
+	public QuestionController(QuestionService questionService, SurveyService surveyService) {
 		this.questionService = questionService;
 	}
 	
