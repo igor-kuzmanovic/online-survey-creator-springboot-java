@@ -6,18 +6,18 @@
 
   function SurveyCreationController(SurveyService, $location) {
 
-		this.generateSurvey = generateSurvey;
+    this.generateSurvey = generateSurvey;
 
     function generateSurvey(survey) {
       SurveyService.generateSurvey(survey)
         .then(
         function(response){
           $location.path('/survey/new/' + response.hashedId);
-      }, 
+        }, 
         function(error){
           console.log(error);
-      })
-    }  
+        })
+    };
 
   };
 })();

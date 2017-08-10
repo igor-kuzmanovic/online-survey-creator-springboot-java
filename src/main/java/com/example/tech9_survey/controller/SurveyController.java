@@ -33,11 +33,5 @@ public class SurveyController {
     	Survey newSurvey = surveyService.save(survey);
     	return new ResponseEntity<>(newSurvey, HttpStatus.OK);
     }
-    
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Survey> update(@RequestBody Survey survey) {
-    	Survey updatedSurvey = surveyService.save(survey);
-    	return new ResponseEntity<>(updatedSurvey, HttpStatus.OK);
-    }
 
 }
