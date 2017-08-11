@@ -1,76 +1,43 @@
 <div class = "jumbotron">
   <div class = "container">
     <h1>Surveys</h1>
-    	<table class="table table-striped table-hover" ng-repeat = "survey in hc.surveys">
-  			<thead>
-    			<tr>
-      				<th>Title</th>
-      				<th>Modified</th>
-      				<th>Design</th>
-      				<th>Analyze</th>
-      				<th>Share</th>
-      				<th>More</th>
-      				<th>Delete</th>
-   				 </tr>
-  			</thead>
-  			<tbody>
-    			<tr>
-      				<td>
-      					<span class="label" style = "font-size: 14px; padding: 0;">{{survey.name}}</span><br>
-      					{{survey.creationDate}}
-      				</td>
-      				<td>{{survey.modifiedDate}}</td>
-     				<td class="option">
-     					<button class = "btn btn-primary" type = "button">
-     						<span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                    </td>
-     				<td class = "option">
-     					<button class = "btn btn-primary" type = "button">
-     						<span class="glyphicon glyphicon-signal"></span>
-     					</button>
-     				</td>
-      				<td class = "option">
-     					<button class = "btn btn-primary" type = "button">
-     						<span class="glyphicon glyphicon-share"></span>
-     					</button>
-     				</td>
-      				<td class = "option">
-     					<button class = "btn btn-primary" type = "button">
-     						<span class="glyphicon glyphicon-list"></span>
-     					</button>
-     				</td>
-     				<td class="option">
-                        <button class="btn btn-primary" type="button" style="cursor: pointer" data-toggle="modal" data-target="#deleteSurveyModal">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </td>
-    			</tr>
-    	</table>
-  </div>
-
-</div>
-
-<p>
-      <a class = "btn btn-info btn-lg" href = "#" role = "button">+ Create Survey</a>
-</p>
-
-<div class="modal fade" id="deleteSurveyModal" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Confirmation</h4>
-      </div>
-      <div class="modal-body">
-        <div class="panel-body" style="font-size: 125%">
-          Are you sure you want to <span style="color: red; font-weight: bold">delete</span> your survey?
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" ng-click="vm.deleteSurvey()">Confirm</button>
-      </div>
-    </div>
+    <table class="table table-striped table-hover" ng-repeat = "survey in hc.surveys">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Analyze</th>
+          <th>Share</th>
+          <th>More</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="label" style = "font-size: 14px; padding: 0;">{{survey.name}}</span><br>
+            {{survey.creationDate | date:"medium"}}
+          </td>
+          <td class = "option">
+            <button class = "btn btn-primary" type = "button">
+              <span class="glyphicon glyphicon-signal"></span>
+            </button>
+          </td>
+          <td class = "option">
+            <button class = "btn btn-primary" type = "button">
+              <span class="glyphicon glyphicon-share"></span>
+            </button>
+          </td>
+          <td class = "option">
+            <button class = "btn btn-primary" type = "button">
+              <span class="glyphicon glyphicon-list"></span>
+            </button>
+          </td>
+          <td class="option">
+            <button class="btn btn-primary" type="button">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </td>
+        </tr>
+    </table>
   </div>
 </div>

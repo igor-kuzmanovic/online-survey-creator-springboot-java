@@ -28,8 +28,6 @@
         });
         return def.promise;
     }
-    
-    var surveysList = [];
     	
 		function getSurveys() {
         var def = $q.defer();
@@ -37,17 +35,16 @@
             method: 'GET',
             url: "survey"
         }
-        return $http(req).success(function (response) {
-            return surveysList = response.data;
-        }).error(function () {
-            return def.reject("Failed to get surveys");
+        $http(req).success(function (data) {
+          def.resolve(data);
+        })
+          .error(function () {
+          def.reject("Failed to get all surveys!");
         });
+        return def.promise;
     }
+    
     return service;
 
-    
-
-    
-    
   }
 } ());

@@ -5,16 +5,16 @@
   HomeController.$inject = ['SurveyService', 'UserService', '$location'];
 
   function HomeController(SurveyService, UserService, $location) {
-
+    
+    var hc = this;
+    
     init();
+    getSurveys();
 
     function init(){
       var user = UserService.getUser();
       if(!user) {
         $location.url('/');
-      }
-      else {
-        getSurveys();
       }
     }
 
@@ -23,7 +23,7 @@
     }
 
     function handleSuccessSurveys(data, status) {
-      this.surveys = data;
+      hc.surveys = data;
     }
 
   };
