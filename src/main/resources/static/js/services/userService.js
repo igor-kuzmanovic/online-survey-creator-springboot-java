@@ -11,7 +11,8 @@
         var service = {
             login: login,
             getUser: getUser,
-            saveUser: saveUser
+            saveUser: saveUser,
+            removeUser: removeUser
         };
 
         function login(credentials) {
@@ -50,7 +51,11 @@
                 });
             return def.promise;
         }
-        
+
+        function removeUser() {
+            user = null;
+        }
+
         function getUser() {
             return user;
         }
