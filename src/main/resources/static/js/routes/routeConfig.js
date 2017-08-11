@@ -6,23 +6,31 @@
 
   function config($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: '/views/main.html',
-        controller: 'MainController',
-        controllerAs: 'mc'
-    })
       .when('/home', {
         templateUrl: '/views/home.html',
         controller: 'HomeController',
         controllerAs: 'hc'
     })
-      .when('/survey/create/:hashedId', {
+			.when('/survey/new', {
         templateUrl: '/views/surveyCreation.html',
         controller: 'SurveyCreationController',
         controllerAs: 'scc'
     })
+      .when('/survey/new/:hashedId', {
+        templateUrl: '/views/surveyCustomization.html',
+        controller: 'SurveyCustomizationController',
+        controllerAs: 'scc'
+    })
+      .when('/survey/new/finish/:hashedId', {
+        templateUrl: '/views/surveyCustomizationFinish.html',
+        controller: 'SurveyCustomizationFinishController',
+        controllerAs: 'scfc'
+    })
+			.when('/user/notifications', {
+        templateUrl: '/views/notifications.html',
+    })
       .otherwise({
-        redirectTo:'/'
+        redirectTo:'/home'
     });
 
     $locationProvider.html5Mode(true);

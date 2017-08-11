@@ -1,8 +1,6 @@
 package com.example.tech9_survey.service;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
-
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,14 +22,8 @@ public class SurveyService {
         return surveyRepository.findAll();
     }
     
-    public Survey save(Survey newSurvey) {
-    	Survey generatedSurvey = surveyRepository.save(newSurvey);
-    	try {
-    		generatedSurvey.generateHashedId();
-    	} catch (NoSuchAlgorithmException e) {
-    		e.printStackTrace();
-    	}
-    	return surveyRepository.save(generatedSurvey);
+    public Survey save(Survey survey) {
+    	return surveyRepository.save(survey);
     }
 
 }

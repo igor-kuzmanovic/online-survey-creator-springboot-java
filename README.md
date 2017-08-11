@@ -6,7 +6,9 @@
 ```
 /home/
 /survey/{survey_hash}/
-/survey/create/{survey_hash}/
+/survey/new/
+/survey/new/{survey_hash}/
+/survey/new/finish/{survey_hash}/
 /survey/results/{survey_hash}/
 /survey/finish/{survey_hash}/
 /user/activate/{email_hash}/

@@ -1,0 +1,42 @@
+<div class="col-md-offset-2 col-md-8">
+  <div class="jumbotron">
+    <form class="form-horizontal" novalidate>
+      <legend>
+        <h2>Customize your survey</h2>
+      </legend>
+
+      <div ng-repeat="question in scc.questionList">
+        <div class="form-group">
+          <label  class="control-label col-md-3" for="question{{question.positionInSurvey}}">Question {{question.positionInSurvey}}</label>
+          <div class="col-md-7">
+            <input id="question{{question.positionInSurvey}}" type="text" class="form-control" name="question{{question.positionInSurvey}}" placeholder="Question {{question.positionInSurvey}}" ng-model="question.content">
+          </div>
+        </div>
+
+        <div class="form-group" ng-repeat="answer in scc.questionList[question.positionInSurvey - 1].answerList">
+          <label  class="control-label col-md-3" for="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}">Answer option {{answer.positionInQuestion}}</label>
+          <div class="col-md-7">
+            <input id="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}" type="text" class="form-control" name="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}" placeholder="Answer option {{answer.positionInQuestion}}" ng-model="answer.content">
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <div class="col-md-offset-3 col-md-3">
+            <button type="input" class="btn btn-default btn-primary btn-block" ng-hide="scc.questionList[question.positionInSurvey - 1].answerList.length >= 10" ng-click="scc.createNewAnswer(question.positionInSurvey - 1)">New answer</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-offset-3 col-md-3">
+          <button type="input" class="btn btn-default btn-primary btn-block" ng-hide="scc.questionList.length >= 10" ng-click="scc.createNewQuestion()">New question</button>
+        </div>
+      </div>
+
+      <div class="col-md-offset-10 col-md-3">
+        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="scc.saveQuestionsAnswers()" >Save survey</button>
+      </div>
+    </form> 
+  </div>
+</div>
