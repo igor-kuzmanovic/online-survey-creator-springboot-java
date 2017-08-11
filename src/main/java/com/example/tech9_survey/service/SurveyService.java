@@ -17,6 +17,10 @@ public class SurveyService {
     public SurveyService(SurveyRepository surveyRepository) {
         this.surveyRepository = surveyRepository;
     }
+    
+    public Survey findByHashedId(String hashedId) {
+    	return surveyRepository.findByHashedId(hashedId);
+    }
    
     public List<Survey> findAll() {
         return surveyRepository.findAll();

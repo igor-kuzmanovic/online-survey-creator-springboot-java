@@ -9,7 +9,7 @@
 		this.$location = $location;
   
     this.themes = [
-       { name: 'Basic', url: 'cosmo' },
+      { name: 'Basic', url: 'cosmo' },
       { name: 'Cerulean', url: 'cerulean' },
       { name: 'Cosmo', url: 'cosmo' },
       { name: 'Cyborg', url: 'cyborg' },

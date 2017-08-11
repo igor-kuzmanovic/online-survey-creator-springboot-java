@@ -36,4 +36,12 @@ public class Question extends BaseEntity {
 		this.content = content;
 	}
 
+	public Survey getSurveyId() {
+		return surveyId;
+	}
+
+	public void setSurveyId(Survey surveyId) {
+		this.surveyId = surveyId;
+	}
+
 }

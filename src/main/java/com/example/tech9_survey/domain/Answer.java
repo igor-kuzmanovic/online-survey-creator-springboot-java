@@ -35,5 +35,13 @@ public class Answer extends BaseEntity {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	public Question getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(Question questionId) {
+		this.questionId = questionId;
+	}
 	
 }

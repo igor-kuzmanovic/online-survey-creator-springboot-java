@@ -6,7 +6,8 @@
 
   function SurveyCreationController(SurveyService, $location) {
 
-    this.generateSurvey = generateSurvey;
+    var scc = this;
+    scc.generateSurvey = generateSurvey;
 
     function generateSurvey(survey) {
       SurveyService.generateSurvey(survey)

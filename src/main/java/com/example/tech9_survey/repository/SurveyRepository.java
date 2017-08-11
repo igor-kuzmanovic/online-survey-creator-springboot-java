@@ -7,4 +7,6 @@ import com.example.tech9_survey.domain.Survey;
 @Repository
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
 
+	Survey findByHashedId(String hashedId);
+	
 }

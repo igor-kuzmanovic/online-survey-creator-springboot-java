@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,12 @@ public class SurveyController {
     	Survey newSurvey = surveyService.save(survey);
     	return new ResponseEntity<>(newSurvey, HttpStatus.OK);
     }
+	
+	@GetMapping(path = "/{hashedId}")
+	public ResponseEntity<Survey> findByHashedId(@PathVariable(value="hashedId") String hashedId) {
+		Survey survey = surveyService.findByHashedId(hashedId);
+		return new ResponseEntity<>(survey, HttpStatus.OK);
+	}
     
     @GetMapping
     public ResponseEntity<List<Survey>> findAll() {
