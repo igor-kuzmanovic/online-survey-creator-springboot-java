@@ -29,8 +29,8 @@
           SurveyService.getSurveys().then(handleSuccessSurveys);
       }
     
-function handleSuccessSurveys(data, status) {
-	 vm.surveys = data;
+	 function handleSuccessSurveys(data, status) {
+	 this.surveys = data;
 	 
 }
     

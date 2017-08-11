@@ -27,16 +27,14 @@
         });
         return def.promise;
     }
-
-    return service;
-
+    
     var surveysList = [];
-
-    this.getSurveys = function () {
+    	
+		function getSurveys() {
         var def = $q.defer();
         var req = {
             method: 'GET',
-            url: "surveys"
+            url: "survey"
         }
         return $http(req).success(function (response) {
             return surveysList = response.data;
@@ -44,6 +42,11 @@
             return def.reject("Failed to get surveys");
         });
     }
+    return service;
+
+    
+
+    
     
   }
 } ());
