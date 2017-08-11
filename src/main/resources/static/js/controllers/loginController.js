@@ -21,7 +21,7 @@
 
       function handleSuccessCredentials(data, status){
           lc.user = data;
-          $location.url('/home');
+          $location.path('/home');
       }
   };
 })();
