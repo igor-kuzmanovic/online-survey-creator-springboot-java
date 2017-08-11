@@ -4,8 +4,13 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -16,6 +21,9 @@ public class Survey extends BaseEntity {
 	@Column(nullable = false)
 	private String name;
 	
+	@Column(name = "user_id")
+	private Long userId;
+	
 	@Column(name = "hashed_id")
 	private String hashedId;
 	
@@ -23,10 +31,12 @@ public class Survey extends BaseEntity {
 	@Column(nullable = false, name = "creation_date")
 	private Date creationDate;
 	
-	@Column(nullable = false, name = "publication_date")
+	@Future
+	@Column(name = "publication_date")
 	private Date publicationDate;
 	
-	@Column(nullable = false, name = "expiration_date")
+	@Future
+	@Column(name = "expiration_date")
 	private Date expirationDate;
 	
 	@Size(max = 240)
@@ -37,18 +47,38 @@ public class Survey extends BaseEntity {
 	@Column(name = "exit_message")
 	private String exitMessage;
 	
+	@Size(max = 240)
 	private String description;
 	
-	@Column(nullable = false, name = "is_active")
+	@Column(name = "is_active")
 	private Boolean isActive;
 	
-	public void generateHashedId() throws NoSuchAlgorithmException {
-		String idString = this.getId().toString();
-		byte[] idBytes = idString.getBytes();
+	public void generateHash() throws NoSuchAlgorithmException {
+		String userIdString = this.getUserId().toString();
+		String dateString = getCreationDate().toString();
+		String nameString = getName();
+		String hashString = userIdString + nameString + dateString;
+		byte[] hashBytes = hashString.getBytes();
 		MessageDigest m = MessageDigest.getInstance("MD5");
-		byte[] hashedId = m.digest(idBytes);
+		byte[] hashedId = m.digest(hashBytes);
 		String hashedIdString = new BigInteger(1, hashedId).toString(16);  
 		this.setHashedId(hashedIdString);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getHashedId() {
@@ -65,22 +95,6 @@ public class Survey extends BaseEntity {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String title) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public Date getPublicationDate() {
@@ -115,6 +129,14 @@ public class Survey extends BaseEntity {
 		this.exitMessage = exitMessage;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Boolean getIsActive() {
 		return isActive;
 	}
@@ -122,7 +144,5 @@ public class Survey extends BaseEntity {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
-	
-	
 
 }

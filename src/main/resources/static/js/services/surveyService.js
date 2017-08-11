@@ -7,16 +7,18 @@
   function SurveyService($http, $q, $filter) {
 
     var service = {
-      generateSurvey: generateSurvey
+      generateSurvey: generateSurvey,
+      getSurveys: getSurveys
     }
     
-    function generateSurvey(newSurvey) {
-    	newSurvey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd");
+    function generateSurvey(survey) {
+    	survey.userId = 0;
+			survey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss.sssZ");
     	var def = $q.defer();
         var req = {
           method: 'POST',
           url: "survey",
-          data: newSurvey
+          data: survey
         }
         $http(req).success(function (data) {
           def.resolve(data);
@@ -26,8 +28,26 @@
         });
         return def.promise;
     }
-
+    
+    var surveysList = [];
+    	
+		function getSurveys() {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "survey"
+        }
+        return $http(req).success(function (response) {
+            return surveysList = response.data;
+        }).error(function () {
+            return def.reject("Failed to get surveys");
+        });
+    }
     return service;
 
+    
+
+    
+    
   }
 } ());
