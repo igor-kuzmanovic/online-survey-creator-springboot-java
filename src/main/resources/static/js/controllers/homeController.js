@@ -2,7 +2,6 @@
   angular.module('app')
     .controller('HomeController', HomeController);
 
-  <<<<<<< HEAD
   HomeController.$inject = ['SurveyService', 'UserService', '$location'];
 
   function HomeController(SurveyService, UserService, $location) {
