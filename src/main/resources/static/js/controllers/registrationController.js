@@ -25,7 +25,7 @@
 
         function handleSuccessUser() {
             console.log("User created");
-            $location.path('/login');
+            $location.path('/');
         }
 
     };

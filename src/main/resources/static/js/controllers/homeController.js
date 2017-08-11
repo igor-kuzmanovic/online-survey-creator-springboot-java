@@ -16,6 +16,7 @@
       if(!user) {
         $location.url('/');
       }
+      getSurveys();
     }
 
     function getSurveys(){
