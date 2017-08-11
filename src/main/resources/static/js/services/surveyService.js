@@ -8,7 +8,8 @@
 
     var service = {
       generateSurvey: generateSurvey,
-      getSurveys: getSurveys
+      getSurveys: getSurveys,
+      deleteSurvey: deleteSurvey
     }
     
     function generateSurvey(survey) {
@@ -42,6 +43,21 @@
           def.reject("Failed to get all surveys!");
         });
         return def.promise;
+    }
+    
+    function deleteSurvey(id) {
+      var def = $q.defer();
+      var req = {
+        method: 'DELETE',
+        url: "survey/" + id
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to delete a survey");
+      });
+      return def.promise;
     }
     
     return service;
