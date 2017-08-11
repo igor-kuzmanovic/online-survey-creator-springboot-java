@@ -24,6 +24,7 @@ public class SurveyController {
 		this.surveyService = surveyService;
 	}
   
+	@PostMapping
     public ResponseEntity<Survey> save(@RequestBody Survey survey) {
     	try {
 			survey.generateHash();

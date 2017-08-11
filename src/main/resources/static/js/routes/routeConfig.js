@@ -40,7 +40,7 @@
       templateUrl: '/views/notifications.html',
     })
       .otherwise({
-      redirectTo:'/home'
+      redirectTo:'/'
     });
 
     $locationProvider.html5Mode(true);

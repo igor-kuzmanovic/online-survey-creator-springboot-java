@@ -3,7 +3,6 @@ package com.example.tech9_survey.service;
 import com.example.tech9_survey.domain.Role;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.repository.UserRepository;
-import org.jtransfo.JTransfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,12 +21,10 @@ import java.util.Set;
 public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
-    private JTransfo jTransfo;
 
     @Autowired
-    public UserService(UserRepository userRepository, JTransfo jTransfo) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.jTransfo = jTransfo;
     }
 
     public User findByUsername(String username) {
