@@ -10,13 +10,14 @@
       generateSurvey: generateSurvey
     }
     
-    function generateSurvey(newSurvey) {
-    	newSurvey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd");
+    function generateSurvey(survey) {
+    	survey.userId = 0;
+			survey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss.sssZ");
     	var def = $q.defer();
         var req = {
           method: 'POST',
           url: "survey",
-          data: newSurvey
+          data: survey
         }
         $http(req).success(function (data) {
           def.resolve(data);
