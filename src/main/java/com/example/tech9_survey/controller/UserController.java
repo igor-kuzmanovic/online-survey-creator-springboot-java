@@ -40,13 +40,12 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> save(@RequestBody User user) {
-        User savedUser = userService.save(user);
-
-        if (savedUser == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (userService.findByUsername(user.getUsername()) == null) {
+            User savedUser = userService.save(user);
+            return new ResponseEntity<>(savedUser, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(savedUser, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping("/login")

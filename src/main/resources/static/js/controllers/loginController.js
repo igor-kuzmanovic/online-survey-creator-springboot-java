@@ -12,7 +12,6 @@
       init();
 
       function init(){
-
       }
 
       function getCredentials(credentials) {

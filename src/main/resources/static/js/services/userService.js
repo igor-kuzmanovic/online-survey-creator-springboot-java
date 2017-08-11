@@ -10,7 +10,9 @@
 
         var service = {
             login: login,
-            getUser: getUser
+            getUser: getUser,
+            saveUser: saveUser,
+            removeUser: removeUser
         };
 
         function login(credentials) {
@@ -29,11 +31,31 @@
                     def.resolve(data);
                 })
                 .error(function () {
-                    def.reject("Failed to get all bookmarks");
+                    def.reject("Bad credentials");
                 });
             return def.promise;
         }
-        
+
+        function saveUser(savedUser) {
+            var def = $q.defer();
+            var req = {
+                method: 'POST',
+                url: "users",
+                data: savedUser
+            }
+            $http(req).success(function (data) {
+                def.resolve(data);
+            })
+                .error(function () {
+                    def.reject("Failed to save a user");
+                });
+            return def.promise;
+        }
+
+        function removeUser() {
+            user = null;
+        }
+
         function getUser() {
             return user;
         }

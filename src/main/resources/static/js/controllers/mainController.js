@@ -2,14 +2,22 @@
   angular.module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['$location'];
+  MainController.$inject = ['$location', 'UserService'];
 
-  function MainController($location) {
-		
+  function MainController($location, UserService) {
+
+        var mc = this;
 		this.$location = $location;
+		mc.removeUser = removeUser;
+		mc.getUser = getUser;
+
+		init();
+
+		function init() {
+          mc.getUser();
+        }
   
     this.themes = [
-      { name: 'Basic', url: 'cosmo' },
       { name: 'Cerulean', url: 'cerulean' },
       { name: 'Cosmo', url: 'cosmo' },
       { name: 'Cyborg', url: 'cyborg' },
@@ -26,11 +34,23 @@
       { name: 'Spacelab', url: 'spacelab' },
       { name: 'Superhero', url: 'superhero' },
       { name: 'United', url: 'united' },
-      { name: 'Yeti', url: 'yeti' },
+      { name: 'Yeti', url: 'yeti' }
     ];
     
-    this.theme = this.themes[0];
+    this.theme = this.themes[7];
     
+    function removeUser() {
+        UserService.removeUser();
+        $location.path('/');
+    }
+    
+    function getUser() {
+      var user = UserService.getUser();
+      if(!user) {
+        return null;
+      }
+        return user.name;
+    }
     
   };
 })();
