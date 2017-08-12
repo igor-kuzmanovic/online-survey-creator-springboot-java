@@ -25,7 +25,7 @@ public class SurveyService {
     public Survey save(Survey survey) {
     	return surveyRepository.save(survey);
     }
-    public void deleteSurvey(Long id) {
+    public void delete(Long id) {
       surveyRepository.delete(id);
     }
 
