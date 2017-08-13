@@ -1,11 +1,11 @@
 (function(){
-  angular.module('app')
-    .controller('SurveyCustomizationFinishController', SurveyCustomizationFinishController);
+	angular.module('app')
+		.controller('SurveyCustomizationFinishController', SurveyCustomizationFinishController);
 
-  SurveyCustomizationFinishController.$inject = ['SurveyService'];
+	SurveyCustomizationFinishController.$inject = ['SurveyService'];
 
-  function SurveyCustomizationFinishController(SurveyService) {
+	function SurveyCustomizationFinishController(SurveyService) {
 
 
-  };
+	};
 })();

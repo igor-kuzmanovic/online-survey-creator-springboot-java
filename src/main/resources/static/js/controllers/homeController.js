@@ -1,31 +1,31 @@
 (function () {
-  angular.module('app')
-    .controller('HomeController', HomeController);
+	angular.module('app')
+		.controller('HomeController', HomeController);
 
-  HomeController.$inject = ['SurveyService', 'UserService', '$location'];
+	HomeController.$inject = ['SurveyService', 'UserService', '$location'];
 
-  function HomeController(SurveyService, UserService, $location) {
-    
-    var hc = this;
-    
-    init();
-    getSurveys();
+	function HomeController(SurveyService, UserService, $location) {
 
-    function init(){
-      var user = UserService.getUser();
-      if(!user) {
-        $location.url('/');
-      }
-      getSurveys();
-    }
+		var self = this;
 
-    function getSurveys(){
-      SurveyService.getSurveys().then(handleSuccessSurveys);
-    }
+		init();
+		getSurveys();
 
-    function handleSuccessSurveys(data, status) {
-      hc.surveys = data;
-    }
+		function init(){
+			var user = UserService.getUser();
+			if(!user) {
+				$location.url('/');
+			}
+			getSurveys();
+		}
 
-  };
+		function getSurveys(){
+			SurveyService.getSurveys().then(handleSuccessSurveys);
+		}
+
+		function handleSuccessSurveys(data, status) {
+			self.surveys = data;
+		}
+
+	};
 })();
