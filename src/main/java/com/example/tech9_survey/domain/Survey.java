@@ -151,4 +151,12 @@ public class Survey extends BaseEntity {
 		this.isActive = isActive;
 	}
 
+	public Set<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(Set<Question> questions) {
+		this.questions = questions;
+	}
+
 }

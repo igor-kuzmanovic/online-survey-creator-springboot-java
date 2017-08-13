@@ -1,5 +1,7 @@
 package com.example.tech9_survey.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,21 @@ public class QuestionService {
 		this.questionRepository = questionRepository;
 	}
 	
+    public List<Question> findAll() {
+    	return questionRepository.findAll();
+    }
+    
+    public Question findOne(Long questionId) {
+    	return questionRepository.findOne(questionId);
+    }
+    
     public Question save(Question question) {
     	return questionRepository.save(question);
     }
+    
+    public void delete(Long questionId) {
+    	questionRepository.delete(questionId);
+    }
+    
 	
 }

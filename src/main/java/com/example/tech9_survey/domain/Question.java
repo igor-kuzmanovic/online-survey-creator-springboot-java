@@ -41,12 +41,12 @@ public class Question extends BaseEntity {
 		this.content = content;
 	}
 
-	public Survey getSurveyId() {
-		return surveyId;
+	public Set<Answer> getAnswers() {
+		return answers;
 	}
 
-	public void setSurveyId(Survey surveyId) {
-		this.surveyId = surveyId;
+	public void setAnswers(Set<Answer> answers) {
+		this.answers = answers;
 	}
 
 }

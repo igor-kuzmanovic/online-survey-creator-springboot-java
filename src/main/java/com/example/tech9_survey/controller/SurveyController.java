@@ -24,6 +24,18 @@ public class SurveyController {
 	public SurveyController(SurveyService surveyService) {
 		this.surveyService = surveyService;
 	}
+	
+	@GetMapping
+    public ResponseEntity<List<Survey>> findAll() {
+    	List<Survey> allSurveys = surveyService.findAll();
+        return new ResponseEntity<>(allSurveys, HttpStatus.OK);
+    }
+	
+	@GetMapping(path = "/{hashedId}")
+	public ResponseEntity<Survey> findByHashedId(@PathVariable(value="hashedId") String hashedId) {
+		Survey survey = surveyService.findByHashedId(hashedId);
+		return new ResponseEntity<>(survey, HttpStatus.OK);
+	}
   
 	@PostMapping
     public ResponseEntity<Survey> save(@RequestBody Survey survey) {
@@ -35,16 +47,5 @@ public class SurveyController {
     	Survey newSurvey = surveyService.save(survey);
     	return new ResponseEntity<>(newSurvey, HttpStatus.OK);
     }
-	
-	@GetMapping(path = "/{hashedId}")
-	public ResponseEntity<Survey> findByHashedId(@PathVariable(value="hashedId") String hashedId) {
-		Survey survey = surveyService.findByHashedId(hashedId);
-		return new ResponseEntity<>(survey, HttpStatus.OK);
-	}
     
-    @GetMapping
-    public ResponseEntity<List<Survey>> findAll() {
-    	List<Survey> allSurveys = surveyService.findAll();
-        return new ResponseEntity<>(allSurveys, HttpStatus.OK);
-    }
 }

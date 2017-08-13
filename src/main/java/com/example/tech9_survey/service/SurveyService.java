@@ -18,16 +18,24 @@ public class SurveyService {
         this.surveyRepository = surveyRepository;
     }
     
-    public Survey findByHashedId(String hashedId) {
-    	return surveyRepository.findByHashedId(hashedId);
-    }
-   
     public List<Survey> findAll() {
         return surveyRepository.findAll();
     }
     
+    public Survey findOne(Long surveyId) {
+    	return surveyRepository.findOne(surveyId);
+    }
+    
+    public Survey findByHashedId(String hashedId) {
+    	return surveyRepository.findByHashedId(hashedId);
+    }
+    
     public Survey save(Survey survey) {
     	return surveyRepository.save(survey);
+    }
+    
+    public void delete(Long surveyId) {
+    	surveyRepository.delete(surveyId);
     }
 
 }
