@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class SurveyController {
     }
 	
 	@GetMapping(path = "/{hashedId}")
-	public ResponseEntity<Survey> findByHashedId(@PathVariable(value="hashedId") String hashedId) {
+	public ResponseEntity<Survey> findByHashedId(@PathVariable String hashedId) {
 		Survey survey = surveyService.findByHashedId(hashedId);
 		return new ResponseEntity<>(survey, HttpStatus.OK);
 	}
@@ -47,5 +48,11 @@ public class SurveyController {
     	Survey newSurvey = surveyService.save(survey);
     	return new ResponseEntity<>(newSurvey, HttpStatus.OK);
     }
+	
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<Survey> delete(@PathVariable Long id) {
+		surveyService.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
     
 }
