@@ -12,6 +12,7 @@
     }
 
     function saveAnswer(questionId, answer) {
+      console.log(questionId + "_" + answer);
       var def = $q.defer();
       var req = {
         method: 'POST',

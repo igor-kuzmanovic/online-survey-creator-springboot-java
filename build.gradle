@@ -23,6 +23,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-devtools')
     compile('mysql:mysql-connector-java:5.1.39')
     compile group: 'javax.mail', name: 'javax.mail-api', version: '1.5.6'
     compile group: 'com.sun.mail', name: 'javax.mail', version: '1.5.6'

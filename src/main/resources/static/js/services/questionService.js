@@ -12,6 +12,7 @@
     }
 
     function saveQuestion(surveyId, question) {
+      console.log(surveyId + "_" + question);
       var def = $q.defer();
       var req = {
         method: 'POST',

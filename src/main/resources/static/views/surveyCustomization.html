@@ -5,7 +5,7 @@
         <h2>Customize your survey</h2>
       </legend>
 
-      <div ng-repeat="question in scc.questions">
+      <div ng-repeat="question in scc.survey.questions">
         <div class="form-group">
           <label  class="control-label col-md-2" for="question{{question.positionInSurvey}}">Question {{question.positionInSurvey}}</label>
           <div class="col-md-8">
@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <div class="form-group" ng-repeat="answer in scc.questions[question.positionInSurvey - 1].answers">
+        <div class="form-group" ng-repeat="answer in scc.survey.questions[question.positionInSurvey - 1].answers">
           <label  class="control-label col-md-2" for="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}">Answer option {{answer.positionInQuestion}}</label>
           <div class="col-md-8">
             <input id="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}" type="text" class="form-control" name="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}" placeholder="Answer option {{answer.positionInQuestion}}" ng-model="answer.content">
@@ -46,7 +46,7 @@
 
         <div class="form-group">
           <div class="col-md-offset-2 col-md-2">
-            <button type="input" class="btn btn-default btn-success" ng-hide="scc.questions[question.positionInSurvey - 1].answers.length >= 10" ng-click="scc.createAnswer(question.positionInSurvey - 1, question.id)">Answer <span class="glyphicon glyphicon-plus"></span>
+            <button type="input" class="btn btn-default btn-success" ng-hide="scc.survey.questions[question.positionInSurvey - 1].answers.length >= 10" ng-click="scc.createAnswer(question.positionInSurvey - 1, question.id)">Answer <span class="glyphicon glyphicon-plus"></span>
             </button>
           </div>
         </div>
@@ -54,7 +54,7 @@
 
       <div class="form-group">
         <div class="col-md-offset-2 col-md-2">
-          <button type="input" class="btn btn-default btn-success" ng-hide="scc.questions.length >= 10" ng-click="scc.createQuestion(scc.survey.id)">Question <span class="glyphicon glyphicon-plus"></span>
+          <button type="input" class="btn btn-default btn-success" ng-hide="scc.survey.questions.length >= 10" ng-click="scc.createQuestion(scc.survey.id)">Question <span class="glyphicon glyphicon-plus"></span>
           </button>
         </div>
       </div>

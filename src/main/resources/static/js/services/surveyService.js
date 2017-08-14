@@ -7,9 +7,26 @@
   function SurveyService($http, $q, $filter) {
 
     var service = {
+      saveSurvey: saveSurvey,
       generateSurvey: generateSurvey,
       getSurveys: getSurveys,
       getCurrentSurvey: getCurrentSurvey
+    }
+
+    function saveSurvey(survey) {
+      var def = $q.defer();
+      var req = {
+        method: 'POST',
+        url: "survey",
+        data: survey
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to save a survey!");
+      });
+      return def.promise;
     }
 
     function generateSurvey(survey) {
@@ -29,7 +46,7 @@
       });
       return def.promise;
     }
-    
+
     function getCurrentSurvey(hashedId) {
       var def = $q.defer();
       var req = {
@@ -59,7 +76,7 @@
       });
       return def.promise;
     }
-    
+
     return service;
 
   }

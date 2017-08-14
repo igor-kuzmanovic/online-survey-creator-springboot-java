@@ -19,8 +19,10 @@
 
     function init() {
       self.surveyHashedId = $routeParams.hashedId;
-      self.questions = [];
+      getCurrentSurvey();
+    }
 
+    function getCurrentSurvey() {
       SurveyService.getCurrentSurvey(self.surveyHashedId)
         .then(
         function(response){
@@ -29,17 +31,30 @@
     }
 
     function saveSurvey() {
+      SurveyService.saveSurvey(self.survey)
+        .then(
+        function(response){
+          self.survey = response;
+        }, 
+        function(error){
+          console.log(error);
+        })
+      
       var location = $location.path().replace("new", "new/finish");
       $location.path(location);
     }
 
     function createQuestion(surveyId) {
-      if (self.questions.length < 10) {
+      if (!self.survey.questions) {
+        self.survey.questions = [];
+      }
+
+      if (self.survey.questions.length < 10) {
         var newQuestion = {
           answers: []
         };
         newQuestion = self.saveQuestion(surveyId, newQuestion);
-        self.questions.push(newQuestion);
+        self.survey.questions.push(newQuestion);
       }
     }
 
@@ -62,7 +77,7 @@
       QuestionService.deleteQuestion(question.id)
         .then(
         function(response){
-
+          getCurrentSurvey();
         }, 
         function(error){
           console.log(error);
@@ -70,10 +85,13 @@
     }
 
     function createAnswer(questionPositionInSurvey, questionId) {
-      console.log(self.questions[questionPositionInSurvey]);
-      if (self.questions[questionPositionInSurvey].answers.length < 10) {
+      if (!self.survey.questions[questionPositionInSurvey].answers) {
+        self.survey.questions[questionPositionInSurvey].answers = [];
+      }
+
+      if (self.survey.questions[questionPositionInSurvey].answers.length < 10) {
         var newAnswer = self.saveAnswer(questionId, {});
-        self.questions[questionPositionInSurvey].answers.push(newAnswer);
+        self.survey.questions[questionPositionInSurvey].answers.push(newAnswer);
       }
     }
 
@@ -84,6 +102,7 @@
         .then(
         function(response){
           angular.copy(response, returnAnswer);
+
         }, 
         function(error){
           console.log(error);
@@ -96,7 +115,7 @@
       AnswerService.deleteAnswer(answer.id)
         .then(
         function(response){
-
+          getCurrentSurvey();
         }, 
         function(error){
           console.log(error);
