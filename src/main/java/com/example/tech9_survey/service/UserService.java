@@ -39,9 +39,19 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username);
+
+        if (!user.isEnabled()) {
+            return org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword())
+                    .disabled(true).roles(getAuthorities(user).toString())
+                    .build();
+        }
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found!");

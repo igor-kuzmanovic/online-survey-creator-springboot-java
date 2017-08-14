@@ -14,14 +14,14 @@
 
 		}
 
-		function saveUser(savedUser) {
-			savedUser.userStatus = {id: 1, type:"STATUS_ACTIVE"};
-			savedUser.roles = [{id: 2, type:"ROLE_USER"}];
-			UserService.saveUser(savedUser).then(handleSuccessUser,
-																					 function(error){
-
-			});
-		}
+    function saveUser(savedUser) {
+        savedUser.userStatus = {id: 1, type:"STATUS_ACTIVE"};
+        savedUser.roles = [{id: 2, type:"ROLE_USER"}];
+        UserService.saveUser(savedUser).then(handleSuccessUser,
+            function(error){
+                console.log(error);
+            });
+        }
 
 		function handleSuccessUser() {
 			console.log("User created");
