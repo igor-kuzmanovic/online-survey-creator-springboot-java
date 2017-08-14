@@ -11,7 +11,7 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String username;
-    
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
@@ -20,6 +20,9 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(name = "is_enabled", nullable = false)
+    private boolean isEnabled;
+
     @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -27,6 +30,14 @@ public class User extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private UserStatus userStatus;
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
 
     public UserStatus getUserStatus() {
         return userStatus;
