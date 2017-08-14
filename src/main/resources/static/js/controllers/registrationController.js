@@ -19,7 +19,7 @@
             savedUser.roles = [{id: 2, type:"ROLE_USER"}];
             UserService.saveUser(savedUser).then(handleSuccessUser,
                 function(error){
-
+                    console.log(error);
                 });
         }
 

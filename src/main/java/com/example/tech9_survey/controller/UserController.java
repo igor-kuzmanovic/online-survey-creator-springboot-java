@@ -3,6 +3,7 @@ package com.example.tech9_survey.controller;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -39,13 +40,19 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<User> save(@RequestBody User user) {
+    public ResponseEntity<Object> save(@RequestBody User user) {
         if (userService.findByUsername(user.getUsername()) == null) {
-            User savedUser = userService.save(user);
-            return new ResponseEntity<>(savedUser, HttpStatus.OK);
+            if (userService.findByEmail(user.getEmail()) == null) {
+                User savedUser = userService.save(user);
+                return new ResponseEntity<>(savedUser, HttpStatus.OK);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body("email");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body("username");
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
 
     @RequestMapping("/login")

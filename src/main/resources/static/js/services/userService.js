@@ -42,12 +42,12 @@
                 method: 'POST',
                 url: "users",
                 data: savedUser
-            }
+            };
             $http(req).success(function (data) {
                 def.resolve(data);
             })
-                .error(function () {
-                    def.reject("Failed to save a user");
+                .error(function (response) {
+                    def.reject(response);
                 });
             return def.promise;
         }

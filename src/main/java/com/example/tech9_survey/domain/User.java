@@ -1,6 +1,8 @@
 package com.example.tech9_survey.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -9,11 +11,12 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String username;
-
+    
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
 
+    @Email
     @Column(nullable = false)
     private String email;
 
