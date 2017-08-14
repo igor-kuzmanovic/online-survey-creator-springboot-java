@@ -1,5 +1,6 @@
 package com.example.tech9_survey.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,13 @@ public class SurveyService {
     }
     
     public Survey save(Survey survey) {
+    	if(survey.getId() == null) {
+    		try {
+    			survey.generateHash();
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+    	}
     	return surveyRepository.save(survey);
     }
     

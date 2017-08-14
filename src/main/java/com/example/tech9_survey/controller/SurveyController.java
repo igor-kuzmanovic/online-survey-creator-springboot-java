@@ -1,7 +1,6 @@
 package com.example.tech9_survey.controller;
 
 import java.util.List;
-import java.security.NoSuchAlgorithmException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,13 +39,8 @@ public class SurveyController {
   
 	@PostMapping
     public ResponseEntity<Survey> save(@RequestBody Survey survey) {
-    	try {
-			survey.generateHash();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-    	Survey newSurvey = surveyService.save(survey);
-    	return new ResponseEntity<>(newSurvey, HttpStatus.OK);
+    	Survey createdSurvey = surveyService.save(survey);
+    	return new ResponseEntity<>(createdSurvey, HttpStatus.OK);
     }
 	
 	@DeleteMapping(path = "/{id}")

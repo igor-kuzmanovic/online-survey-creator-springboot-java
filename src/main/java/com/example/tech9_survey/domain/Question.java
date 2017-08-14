@@ -1,6 +1,6 @@
 package com.example.tech9_survey.domain;
 
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -13,17 +13,16 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 public class Question extends BaseEntity {
 	
-	@Column(nullable = false, name = "position_in_survey")
+	@Column(name = "position_in_survey", nullable = false)
 	private Long positionInSurvey;
 	
-	@Size(min=1, max=240)
-	@Column(nullable = false)
+	@Size(max=240)
 	private String content;
 
 	@Cascade(CascadeType.ALL)
 	@OneToMany
 	@JoinColumn(name = "question_id", nullable = false)
-	private Set<Answer> answers;
+	private List<Answer> answers;
 
 	public Long getPositionInSurvey() {
 		return positionInSurvey;
@@ -41,11 +40,11 @@ public class Question extends BaseEntity {
 		this.content = content;
 	}
 
-	public Set<Answer> getAnswers() {
+	public List<Answer> getAnswers() {
 		return answers;
 	}
 
-	public void setAnswers(Set<Answer> answers) {
+	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
 

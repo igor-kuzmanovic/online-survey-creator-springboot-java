@@ -1,7 +1,6 @@
 package com.example.tech9_survey.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.tech9_survey.domain.Question;
+import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.service.QuestionService;
 import com.example.tech9_survey.service.SurveyService;
 
@@ -21,10 +21,12 @@ import com.example.tech9_survey.service.SurveyService;
 public class QuestionController {
 
 	private QuestionService questionService;
+	private SurveyService surveyService;
 	
 	@Autowired
 	public QuestionController(QuestionService questionService, SurveyService surveyService) {
 		this.questionService = questionService;
+		this.surveyService = surveyService;
 	}
 
 	@GetMapping
@@ -39,10 +41,29 @@ public class QuestionController {
 		return new ResponseEntity<>(question, HttpStatus.OK);
 	}
 	
-	@PostMapping
-	public ResponseEntity<Question> save(@RequestBody Question question) {
-    	Question newQuestion = questionService.save(question);
-    	return new ResponseEntity<>(newQuestion, HttpStatus.OK);
+	@PostMapping(path = "/{surveyId}")
+	public ResponseEntity<Question> save(@PathVariable Long surveyId, @RequestBody Question question) {
+		Question savedQuestion = null;
+		
+		if(question.getId() == null) {
+			Survey survey = surveyService.findOne(surveyId);
+			Long questionPosition = (long) survey.getQuestions().size() + 1;
+			question.setPositionInSurvey(questionPosition);
+			survey.getQuestions().add(question);
+			Survey updatedSurvey = surveyService.save(survey);
+			List<Question> questionList = updatedSurvey.getQuestions();
+			
+			for(int i = 0; i < questionList.size(); i++) {
+				if (questionList.get(i).getContent() == question.getContent()) {
+					savedQuestion = questionList.get(i);
+				}
+			}
+		}
+		else {
+			savedQuestion = questionService.save(question);
+		}
+		
+    	return new ResponseEntity<>(savedQuestion, HttpStatus.OK);
     }
 	
 	@DeleteMapping(path = "/{id}")
