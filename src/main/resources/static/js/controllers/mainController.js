@@ -1,57 +1,55 @@
 (function(){
-  angular.module('app')
-    .controller('MainController', MainController);
+	angular.module('app')
+		.controller('MainController', MainController);
 
-  MainController.$inject = ['$location', 'UserService'];
+	MainController.$inject = ['$location', 'UserService'];
 
-  function MainController($location, UserService) {
+	function MainController($location, UserService) {
 
-        var mc = this;
-		this.$location = $location;
-		mc.removeUser = removeUser;
-		mc.getUser = getUser;
+		var self = this;
+		self.$location = $location;
+		self.removeUser = removeUser;
+		self.getUser = getUser;
+
+		this.themes = [
+			{ name: 'Cerulean', url: 'cerulean' },
+			{ name: 'Cosmo', url: 'cosmo' },
+			{ name: 'Cyborg', url: 'cyborg' },
+			{ name: 'Darkly', url: 'darkly' },
+			{ name: 'Flatly', url: 'flatly' },
+			{ name: 'Journal', url: 'journal' },
+			{ name: 'Lumen', url: 'lumen' },
+			{ name: 'Paper', url: 'paper' },
+			{ name: 'Readable', url: 'readable' },
+			{ name: 'Sandstone', url: 'sandstone' },
+			{ name: 'Simplex', url: 'simplex' },
+			{ name: 'Slate', url: 'slate' },
+			{ name: 'Solar', url: 'solar' },
+			{ name: 'Spacelab', url: 'spacelab' },
+			{ name: 'Superhero', url: 'superhero' },
+			{ name: 'United', url: 'united' },
+			{ name: 'Yeti', url: 'yeti' }
+		];
+
+		self.theme = self.themes[7];
 
 		init();
 
 		function init() {
-          mc.getUser();
-        }
-  
-    this.themes = [
-      { name: 'Paper', url: 'paper' },
-      { name: 'Cerulean', url: 'cerulean' },
-      { name: 'Cosmo', url: 'cosmo' },
-      { name: 'Cyborg', url: 'cyborg' },
-      { name: 'Darkly', url: 'darkly' },
-      { name: 'Flatly', url: 'flatly' },
-      { name: 'Journal', url: 'journal' },
-      { name: 'Lumen', url: 'lumen' },
-      { name: 'Basic', url: 'cosmo' },
-      { name: 'Readable', url: 'readable' },
-      { name: 'Sandstone', url: 'sandstone' },
-      { name: 'Simplex', url: 'simplex' },
-      { name: 'Slate', url: 'slate' },
-      { name: 'Solar', url: 'solar' },
-      { name: 'Spacelab', url: 'spacelab' },
-      { name: 'Superhero', url: 'superhero' },
-      { name: 'United', url: 'united' },
-      { name: 'Yeti', url: 'yeti' }
-    ];
-    
-    this.theme = this.themes[0];
-    
-    function removeUser() {
-        UserService.removeUser();
-        $location.path('/');
-    }
-    
-    function getUser() {
-      var user = UserService.getUser();
-      if(!user) {
-        return null;
-      }
-        return user.name;
-    }
-    
-  };
+			self.getUser();
+		}
+
+		function getUser() {
+			var user = UserService.getUser();
+			if(!user) {
+				return null;
+			}
+			return user.name;
+		}
+
+		function removeUser() {
+			UserService.removeUser();
+			$location.path('/');
+		}
+	};
 })();

@@ -4,11 +4,13 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -29,7 +31,8 @@ public class Survey extends BaseEntity {
 	private String hashedId;
 	
 	@Past
-	@Column(nullable = false, name = "creation_date")
+	@Column(name = "creation_date")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 	
 	@Future
@@ -57,13 +60,11 @@ public class Survey extends BaseEntity {
 	@Cascade(CascadeType.ALL)
 	@OneToMany
 	@JoinColumn(name = "survey_id", nullable = false)
-	private Set<Question> questions;
+	private List<Question> questions;
 	
 	public void generateHash() throws NoSuchAlgorithmException {
-		String userIdString = this.getUserId().toString();
 		String dateString = getCreationDate().toString();
-		String nameString = getName();
-		String hashString = userIdString + nameString + dateString;
+		String hashString = dateString;
 		byte[] hashBytes = hashString.getBytes();
 		MessageDigest m = MessageDigest.getInstance("MD5");
 		byte[] hashedId = m.digest(hashBytes);
@@ -149,6 +150,14 @@ public class Survey extends BaseEntity {
 
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
 	}
 
 }

@@ -1,41 +1,66 @@
-<div class="col-md-offset-2 col-md-8">
+<div class="col-md-12">
   <div class="jumbotron">
     <form class="form-horizontal" novalidate>
       <legend>
         <h2>Customize your survey</h2>
       </legend>
 
-      <div ng-repeat="question in scc.questionList">
+      <div ng-repeat="question in scc.questions">
         <div class="form-group">
-          <label  class="control-label col-md-3" for="question{{question.positionInSurvey}}">Question {{question.positionInSurvey}}</label>
-          <div class="col-md-7">
+          <label  class="control-label col-md-2" for="question{{question.positionInSurvey}}">Question {{question.positionInSurvey}}</label>
+          <div class="col-md-8">
             <input id="question{{question.positionInSurvey}}" type="text" class="form-control" name="question{{question.positionInSurvey}}" placeholder="Question {{question.positionInSurvey}}" ng-model="question.content">
           </div>
-        </div>
 
-        <div class="form-group" ng-repeat="answer in scc.questionList[question.positionInSurvey - 1].answerList">
-          <label  class="control-label col-md-3" for="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}">Answer option {{answer.positionInQuestion}}</label>
-          <div class="col-md-7">
-            <input id="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}" type="text" class="form-control" name="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}" placeholder="Answer option {{answer.positionInQuestion}}" ng-model="answer.content">
+          <div class="col-md-2">
+            <div class="btn-group btn-group-sm" role="group">
+              <button type="input" class="btn btn-default btn-success" ng-click="scc.saveQuestion(scc.survey.id, question)">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+
+              <button type="input" class="btn btn-default btn-danger" ng-click="scc.deleteQuestion(question)">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </div>
           </div>
         </div>
 
+        <div class="form-group" ng-repeat="answer in scc.questions[question.positionInSurvey - 1].answers">
+          <label  class="control-label col-md-2" for="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}">Answer option {{answer.positionInQuestion}}</label>
+          <div class="col-md-8">
+            <input id="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}" type="text" class="form-control" name="question{{question.positionInSurvey}}answer{{answer.positionInQuestion}}" placeholder="Answer option {{answer.positionInQuestion}}" ng-model="answer.content">
+          </div>
+
+          <div class="col-md-2">
+            <div class="btn-group btn-group-sm" role="group">
+              <button type="input" class="btn btn-default btn-success" ng-click="scc.saveAnswer(question.id, answer)">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+
+              <button type="input" class="btn btn-default btn-danger" ng-click="scc.deleteAnswer(answer)">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </div>
+          </div>
+        </div>
 
         <div class="form-group">
-          <div class="col-md-offset-3 col-md-3">
-            <button type="input" class="btn btn-default btn-primary btn-block" ng-hide="scc.questionList[question.positionInSurvey - 1].answerList.length >= 10" ng-click="scc.createNewAnswer(question.positionInSurvey - 1)">New answer</button>
+          <div class="col-md-offset-2 col-md-2">
+            <button type="input" class="btn btn-default btn-success" ng-hide="scc.questions[question.positionInSurvey - 1].answers.length >= 10" ng-click="scc.createAnswer(question.positionInSurvey - 1, question.id)">Answer <span class="glyphicon glyphicon-plus"></span>
+            </button>
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <div class="col-md-offset-3 col-md-3">
-          <button type="input" class="btn btn-default btn-primary btn-block" ng-hide="scc.questionList.length >= 10" ng-click="scc.createNewQuestion()">New question</button>
+        <div class="col-md-offset-2 col-md-2">
+          <button type="input" class="btn btn-default btn-success" ng-hide="scc.questions.length >= 10" ng-click="scc.createQuestion(scc.survey.id)">Question <span class="glyphicon glyphicon-plus"></span>
+          </button>
         </div>
       </div>
 
       <div class="col-md-offset-10 col-md-3">
-        <button type="submit" class="btn btn-default btn-primary btn-block" ng-click="scc.saveQuestionsAnswers()" >Save survey</button>
+        <button type="submit" class="btn btn-default btn-success btn-large" ng-click="scc.saveSurvey()">Save survey</button>
       </div>
     </form> 
   </div>

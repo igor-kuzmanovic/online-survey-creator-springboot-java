@@ -7,11 +7,10 @@ import javax.validation.constraints.Size;
 @Entity
 public class Answer extends BaseEntity {
 
-	@Column(nullable = false, name = "position_in_question")
+	@Column(name = "position_in_question", nullable = false)
 	private Long positionInQuestion;
 	
-	@Size(min=1, max=240)
-	@Column(nullable = false)
+	@Size(max=240)
 	private String content;
 
 	public Long getPositionInQuestion() {
