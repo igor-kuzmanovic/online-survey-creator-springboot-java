@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 authorizeRequests().
-                antMatchers("/", "/users", "/users/activate/*", "/bower_components/**", "/css/**", "/js/**", "/views/**", "/images/**")
+                antMatchers("/**", "/users", "/users/activate/*", "/bower_components/**", "/css/**", "/js/**", "/views/**", "/images/**")
                 .permitAll().anyRequest().fullyAuthenticated().and()
                 .httpBasic().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
