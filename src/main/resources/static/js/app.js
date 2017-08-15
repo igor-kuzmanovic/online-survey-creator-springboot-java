@@ -8,6 +8,7 @@
     function($httpProvider) {
       $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     } ])
+  
     .animation('.view-animate', function() {
     return {
       enter: function(element, done) {
