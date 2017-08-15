@@ -74,7 +74,6 @@ public class UserController {
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.save(user);
-        verificationTokenService.delete(verificationToken.getId());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
     }
 
