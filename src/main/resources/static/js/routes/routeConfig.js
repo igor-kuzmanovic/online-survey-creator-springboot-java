@@ -36,6 +36,11 @@
       controller: 'SurveyCustomizationFinishController',
       controllerAs: 'scfc'
     })
+      .when('/survey/details/:hashedId', {
+      templateUrl: '/views/surveyDetails.html',
+      controller: 'SurveyDetailsController',
+      controllerAs: 'sdc'
+    })
       .when('/user/notifications', {
       templateUrl: '/views/notifications.html',
     })
