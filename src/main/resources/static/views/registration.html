@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <h3 align="center">Sign up</h3>
+    <br/>
+    <form>
+      <div class="form-group">
+        <label>Username:</label>
+        <input class="form-control" ng-model="rc.savedUser.username">
+        <br/>
+        <label>Password:</label>
+        <input type="password" class="form-control" ng-model="rc.savedUser.password">
+        <br/>
+        <label>Email:</label>
+        <input type="email" class="form-control" ng-model="rc.savedUser.email">
+        <br/>
+        <div align="center">
+          <button class="btn btn-default btn-primary" ng-click="rc.saveUser(rc.savedUser)">Submit</button> <br/> <br/>
+          <span class="label label-primary">Already have an account?</span>
+          <a ng-href="/#/">Log In!</a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-4"></div>
+</div>
