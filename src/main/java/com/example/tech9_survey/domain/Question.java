@@ -1,24 +1,28 @@
 package com.example.tech9_survey.domain;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class Question extends BaseEntity {
 	
-	@Column(nullable = false, name = "position_in_survey")
+	@Column(name = "position_in_survey", nullable = false)
 	private Long positionInSurvey;
 	
-	@Size(min=1, max=240)
-	@Column(nullable = false)
+	@Size(max=240)
 	private String content;
 
-	@ManyToOne
-	@JoinColumn(name = "survey_id", nullable=false)
-	private Survey surveyId;
+	@Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "question_id", nullable = false)
+	private List<Answer> answers;
 
 	public Long getPositionInSurvey() {
 		return positionInSurvey;
@@ -34,6 +38,14 @@ public class Question extends BaseEntity {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
 	}
 
 }

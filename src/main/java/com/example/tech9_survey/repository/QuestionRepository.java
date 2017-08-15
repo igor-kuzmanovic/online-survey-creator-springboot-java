@@ -6,5 +6,5 @@ import com.example.tech9_survey.domain.Question;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-
+	
 }

@@ -2,80 +2,125 @@
   angular.module('app')
     .controller('SurveyCustomizationController', SurveyCustomizationController);
 
-  SurveyCustomizationController.$inject = ['QuestionService', 'AnswerService', '$location', '$routeParams'];
+  SurveyCustomizationController.$inject = ['SurveyService', 'QuestionService', 'AnswerService', '$location', '$routeParams'];
 
-  function SurveyCustomizationController(QuestionService, AnswerService, $location, $routeParams) {
+  function SurveyCustomizationController(SurveyService, QuestionService, AnswerService, $location, $routeParams) {
 
-    this.saveQuestionsAnswers = saveQuestionsAnswers;
-    this.createNewQuestion = createNewQuestion;
-    this.createNewAnswer = createNewAnswer;
-    
-    this.surveyHashedId = $routeParams.hashedId;   
+    var self = this;
+    self.saveSurvey = saveSurvey;
+    self.createQuestion = createQuestion;
+    self.saveQuestion = saveQuestion;
+    self.deleteQuestion = deleteQuestion;
+    self.createAnswer = createAnswer;
+    self.saveAnswer = saveAnswer;
+    self.deleteAnswer = deleteAnswer;
 
-    function saveQuestionsAnswers() {
-      if(this.questionList) {
-        for(i = 0; i < this.questionList.length; i++) {
-          if(this.questionList[i].answerList) {
-            for(j = 0; j < this.questionList[i].answerList.length; j++) {
-              AnswerService.saveAnswer(this.questionList[i].answerList[j])
-                .then(
-                function(response){
+    init();
 
-                }, 
-                function(error){
-                  console.log(error);
-                })
-            };
+    function init() {
+      self.surveyHashedId = $routeParams.hashedId;
+      getCurrentSurvey();
+    }
 
-            QuestionService.saveQuestion(this.questionList[i])
-              .then(
-              function(response){
-                
-              }, 
-              function(error){
-                console.log(error);
-              })
-          };
-        };
-        
-        var location = $location.path().replace("new", "new/finish");
-        $location.path(location);
-      };
-    };
+    function getCurrentSurvey() {
+      SurveyService.getCurrentSurvey(self.surveyHashedId)
+        .then(
+        function(response){
+          self.survey = response;
+        });
+    }
 
-    function createNewQuestion() {
-      if (!this.questionList) {
-        this.questionList = [];
+    function saveSurvey() {
+      SurveyService.saveSurvey(self.survey)
+        .then(
+        function(response){
+          self.survey = response;
+        }, 
+        function(error){
+          console.log(error);
+        })
+      
+      var location = $location.path().replace("new", "new/finish");
+      $location.path(location);
+    }
+
+    function createQuestion(surveyId) {
+      if (!self.survey.questions) {
+        self.survey.questions = [];
       }
 
-      if (this.questionList.length < 10) {
-        var newQuestionPosition = this.questionList.length + 1;
+      if (self.survey.questions.length < 10) {
         var newQuestion = {
-          hashed_id: this.surveyHashedId,
-          content: "",
-          positionInSurvey: newQuestionPosition
+          answers: []
         };
+        newQuestion = self.saveQuestion(surveyId, newQuestion);
+        self.survey.questions.push(newQuestion);
+      }
+    }
 
-        this.questionList.push(newQuestion);
-      };
-    };
+    function saveQuestion(surveyId, question) {
+      var returnQuestion = {};
 
-    function createNewAnswer(questionId) {
-      if (!this.questionList[questionId].answerList) {
-        this.questionList[questionId].answerList = [];
-      };
+      QuestionService.saveQuestion(surveyId, question)
+        .then(
+        function(response){
+          angular.copy(response, returnQuestion);
+        }, 
+        function(error){
+          console.log(error);
+        })
 
-      if (this.questionList[questionId].answerList.length < 10) {
-        var newAnswerPosition = this.questionList[questionId].answerList.length + 1;
-        var newAnswer = {
-          question_id: questionId,
-          content: "",
-          positionInQuestion: newAnswerPosition
-        };
+      return returnQuestion;
+    }
 
-        this.questionList[questionId].answerList.push(newAnswer);
-      };
-    };
+    function deleteQuestion(question) {
+      QuestionService.deleteQuestion(question.id)
+        .then(
+        function(response){
+          getCurrentSurvey();
+        }, 
+        function(error){
+          console.log(error);
+        })
+    }
+
+    function createAnswer(questionPositionInSurvey, questionId) {
+      if (!self.survey.questions[questionPositionInSurvey].answers) {
+        self.survey.questions[questionPositionInSurvey].answers = [];
+      }
+
+      if (self.survey.questions[questionPositionInSurvey].answers.length < 10) {
+        var newAnswer = self.saveAnswer(questionId, {});
+        self.survey.questions[questionPositionInSurvey].answers.push(newAnswer);
+      }
+    }
+
+    function saveAnswer(questionPosition, answer) {
+      var returnAnswer = {};
+
+      AnswerService.saveAnswer(questionPosition, answer)
+        .then(
+        function(response){
+          angular.copy(response, returnAnswer);
+
+        }, 
+        function(error){
+          console.log(error);
+        })
+
+      return returnAnswer;
+    }
+
+    function deleteAnswer(answer) {
+      AnswerService.deleteAnswer(answer.id)
+        .then(
+        function(response){
+          getCurrentSurvey();
+        }, 
+        function(error){
+          console.log(error);
+        })
+    }
 
   };
 })();
