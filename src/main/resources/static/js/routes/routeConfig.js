@@ -21,6 +21,11 @@
 			controller: 'HomeController',
 			controllerAs: 'hc'
 		})
+      .when('/survey/details/:hashedId', {
+      templateUrl: '/views/surveyDetails.html',
+      controller: 'SurveyDetailsController',
+      controllerAs: 'sdc'
+    })
 			.when('/survey/new', {
 			templateUrl: '/views/surveyCreation.html',
 			controller: 'SurveyCreationController',

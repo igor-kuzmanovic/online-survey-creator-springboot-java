@@ -8,6 +8,7 @@
 
     var service = {
       saveSurvey: saveSurvey,
+      deleteSurvey: deleteSurvey,
       generateSurvey: generateSurvey,
       getSurveys: getSurveys,
       getCurrentSurvey: getCurrentSurvey
@@ -25,6 +26,21 @@
       })
         .error(function () {
         def.reject("Failed to save a survey!");
+      });
+      return def.promise;
+    }
+    
+    function deleteSurvey(id) {
+      var def = $q.defer();
+      var req = {
+        method: 'DELETE',
+        url: "survey/" + id
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to delete a survey");
       });
       return def.promise;
     }
@@ -76,7 +92,7 @@
       });
       return def.promise;
     }
-
+    
     return service;
 
   }
