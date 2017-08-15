@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -23,6 +24,9 @@ public class User extends BaseEntity {
     @Column(name = "is_enabled", nullable = false)
     private boolean isEnabled;
 
+    @Column(name = "registration_date")
+    private Date registrationDate;
+
     @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -30,6 +34,14 @@ public class User extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private UserStatus userStatus;
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
 
     public boolean isEnabled() {
         return isEnabled;

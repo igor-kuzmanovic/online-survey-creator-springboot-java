@@ -1,5 +1,8 @@
 package com.example.tech9_survey.domain;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.MapsId;
@@ -11,7 +14,7 @@ public class VerificationToken extends BaseEntity {
 
     private String token;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval=true)
     @MapsId
     private User user;
 
