@@ -1,7 +1,6 @@
 package com.example.tech9_survey.domain;
 
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -13,9 +12,6 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 public class Question extends BaseEntity {
 	
-	@Column(name = "position_in_survey", nullable = false)
-	private Long positionInSurvey;
-	
 	@Size(max=240)
 	private String content;
 
@@ -23,14 +19,6 @@ public class Question extends BaseEntity {
 	@OneToMany
 	@JoinColumn(name = "question_id", nullable = false)
 	private List<Answer> answers;
-
-	public Long getPositionInSurvey() {
-		return positionInSurvey;
-	}
-
-	public void setPositionInSurvey(Long positionInSurvey) {
-		this.positionInSurvey = positionInSurvey;
-	}
 
 	public String getContent() {
 		return content;
