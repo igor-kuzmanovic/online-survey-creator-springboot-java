@@ -1,4 +1,8 @@
 body { 
-	padding-top: 70px;
-	padding-bottom: 70px; 
+	padding-top: 87px;
+	padding-bottom: 87px; 
+}
+
+.breadcrumb-item {
+  font-size: 15px;
 }

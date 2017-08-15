@@ -12,7 +12,6 @@
     }
 
     function saveAnswer(questionId, answer) {
-      console.log(questionId + "_" + answer);
       var def = $q.defer();
       var req = {
         method: 'POST',
@@ -28,11 +27,11 @@
       return def.promise;
     }
 
-    function deleteAnswer(answerId) {
+    function deleteAnswer(questionId, answerId) {
       var def = $q.defer();
       var req = {
         method: 'DELETE',
-        url: "answer/" + answerId
+        url: "answer/" + questionId + "/" + answerId
       }
       $http(req).success(function (data) {
         def.resolve(data);

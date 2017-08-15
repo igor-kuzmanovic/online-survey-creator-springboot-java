@@ -43,32 +43,48 @@ public class QuestionController {
 	
 	@PostMapping(path = "/{surveyId}")
 	public ResponseEntity<Question> save(@PathVariable Long surveyId, @RequestBody Question question) {
-		Question savedQuestion = null;
+		Question savedQuestion = question;
+		Survey survey = surveyService.findOne(surveyId);
 		
 		if(question.getId() == null) {
-			Survey survey = surveyService.findOne(surveyId);
 			Long questionPosition = (long) survey.getQuestions().size() + 1;
 			question.setPositionInSurvey(questionPosition);
 			survey.getQuestions().add(question);
-			Survey updatedSurvey = surveyService.save(survey);
-			List<Question> questionList = updatedSurvey.getQuestions();
+			List<Question> questionList = survey.getQuestions();
 			
 			for(int i = 0; i < questionList.size(); i++) {
-				if (questionList.get(i).getContent() == question.getContent()) {
+				if(questionList.get(i).getContent() == question.getContent()) {
 					savedQuestion = questionList.get(i);
 				}
 			}
 		}
-		else {
-			savedQuestion = questionService.save(question);
-		}
 		
+		questionService.save(savedQuestion);
     	return new ResponseEntity<>(savedQuestion, HttpStatus.OK);
     }
 	
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Object> delete(@PathVariable Long id) {
-		questionService.delete(id);
+	@DeleteMapping(path = "/{surveyId}/{questionId}")
+	public ResponseEntity<Object> delete(@PathVariable Long surveyId, @PathVariable Long questionId) {
+		Survey survey = surveyService.findOne(surveyId);
+		List<Question> questionList = survey.getQuestions();
+		int questionDeletePosition = 0;
+		
+		for(int i = 0; i < questionList.size(); i++) {			
+			if(questionList.get(i).getId() == questionId) {
+				questionDeletePosition = i;
+				break;
+			}
+		}
+		
+		for(int i = questionList.size() - 1; i > questionDeletePosition; i--) {
+			Long positionInSurvey = questionList.get(i).getPositionInSurvey() - 1;
+			Question question = questionList.get(i);
+			question.setPositionInSurvey(positionInSurvey);
+			questionService.save(question);
+		}
+		
+		survey.getQuestions().remove(questionDeletePosition);
+		questionService.delete(questionId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

@@ -7,6 +7,8 @@
   function SurveyCustomizationController(SurveyService, QuestionService, AnswerService, $location, $routeParams) {
 
     var self = this;
+    self.getCurrentSurvey = getCurrentSurvey;
+    self.finishCustomization = finishCustomization;
     self.saveSurvey = saveSurvey;
     self.createQuestion = createQuestion;
     self.saveQuestion = saveQuestion;
@@ -29,19 +31,23 @@
           self.survey = response;
         });
     }
+    
+    function finishCustomization() {
+      self.saveSurvey();
+      var location = $location.path().replace("new", "new/finish");
+      $location.path(location);      
+    }
 
     function saveSurvey() {
       SurveyService.saveSurvey(self.survey)
         .then(
         function(response){
           self.survey = response;
+          console.log(self.survey);
         }, 
         function(error){
           console.log(error);
         })
-      
-      var location = $location.path().replace("new", "new/finish");
-      $location.path(location);
     }
 
     function createQuestion(surveyId) {
@@ -50,34 +56,34 @@
       }
 
       if (self.survey.questions.length < 10) {
-        var newQuestion = {
+        var question = {
           answers: []
         };
-        newQuestion = self.saveQuestion(surveyId, newQuestion);
-        self.survey.questions.push(newQuestion);
+        
+        self.saveQuestion(surveyId, question);
       }
     }
 
     function saveQuestion(surveyId, question) {
-      var returnQuestion = {};
-
+      self.saveSurvey();
+      
       QuestionService.saveQuestion(surveyId, question)
         .then(
         function(response){
-          angular.copy(response, returnQuestion);
+          self.getCurrentSurvey();
         }, 
         function(error){
           console.log(error);
         })
-
-      return returnQuestion;
     }
 
-    function deleteQuestion(question) {
-      QuestionService.deleteQuestion(question.id)
+    function deleteQuestion(surveyId, question) {
+      self.saveSurvey();
+      
+      QuestionService.deleteQuestion(surveyId, question.id)
         .then(
         function(response){
-          getCurrentSurvey();
+          self.getCurrentSurvey();
         }, 
         function(error){
           console.log(error);
@@ -90,32 +96,35 @@
       }
 
       if (self.survey.questions[questionPositionInSurvey].answers.length < 10) {
-        var newAnswer = self.saveAnswer(questionId, {});
-        self.survey.questions[questionPositionInSurvey].answers.push(newAnswer);
+        var answer = {
+          
+        };
+        
+        self.saveAnswer(questionId, answer);
       }
     }
 
     function saveAnswer(questionPosition, answer) {
-      var returnAnswer = {};
-
+      self.saveSurvey();
+      
       AnswerService.saveAnswer(questionPosition, answer)
         .then(
         function(response){
-          angular.copy(response, returnAnswer);
+          self.getCurrentSurvey();
 
         }, 
         function(error){
           console.log(error);
         })
-
-      return returnAnswer;
     }
 
-    function deleteAnswer(answer) {
-      AnswerService.deleteAnswer(answer.id)
+    function deleteAnswer(questionId, answer) {
+      self.saveSurvey();
+      
+      AnswerService.deleteAnswer(questionId, answer.id)
         .then(
         function(response){
-          getCurrentSurvey();
+          self.getCurrentSurvey();
         }, 
         function(error){
           console.log(error);

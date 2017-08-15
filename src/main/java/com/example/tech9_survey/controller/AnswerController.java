@@ -43,32 +43,48 @@ public class AnswerController {
 	
 	@PostMapping(path = "/{questionId}")
 	public ResponseEntity<Answer> save(@PathVariable Long questionId, @RequestBody Answer answer) {
-		Answer savedAnswer = null;
+		Answer savedAnswer = answer;
+		Question question = questionService.findOne(questionId);
 		
 		if(answer.getId() == null) {
-			Question question = questionService.findOne(questionId);
 			Long answerPosition = (long) question.getAnswers().size() + 1;
 			answer.setPositionInQuestion(answerPosition);
 			question.getAnswers().add(answer);
-			Question updatedQuestion = questionService.save(question);
-			List<Answer> answerList = updatedQuestion.getAnswers();
+			List<Answer> answerList = question.getAnswers();
 			
 			for(int i = 0; i < answerList.size(); i++) {
-				if (answerList.get(i).getContent() == answer.getContent()) {
+				if(answerList.get(i).getContent() == answer.getContent()) {
 					savedAnswer = answerList.get(i);
 				}
 			}
 		}
-		else {
-			savedAnswer = answerService.save(answer);
-		}
-		
+
+		answerService.save(answer);
     	return new ResponseEntity<>(savedAnswer, HttpStatus.OK);
     }
 	
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Object> delete(@PathVariable Long id) {
-		answerService.delete(id);
+	@DeleteMapping(path = "/{questionId}/{answerId}")
+	public ResponseEntity<Object> delete(@PathVariable Long questionId, @PathVariable Long answerId) {
+		Question question = questionService.findOne(questionId);
+		List<Answer> answerList = question.getAnswers();
+		int answerDeletePosition = 0;
+		
+		for(int i = 0; i < answerList.size(); i++) {			
+			if(answerList.get(i).getId() == answerId) {
+				answerDeletePosition = i;
+				break;
+			}
+		}
+		
+		for(int i = answerList.size() - 1; i > answerDeletePosition; i--) {
+			Long positionInQuestion = answerList.get(i).getPositionInQuestion() - 1;
+			Answer answer = answerList.get(i);
+			answer.setPositionInQuestion(positionInQuestion);
+			answerService.save(answer);
+		}
+		
+		question.getAnswers().remove(answerDeletePosition);
+		answerService.delete(answerId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
