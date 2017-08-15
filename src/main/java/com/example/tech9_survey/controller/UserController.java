@@ -8,16 +8,16 @@ import com.example.tech9_survey.service.VerificationTokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
+@EnableScheduling
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -51,6 +51,7 @@ public class UserController {
         if (userService.findByUsername(user.getUsername()) == null) {
             if (userService.findByEmail(user.getEmail()) == null) {
                 user.setEnabled(false);
+                user.setRegistrationDate(new Date());
                 token.setUser(user);
                 verificationTokenService.save(token);
                 User savedUser = userService.save(user);
@@ -77,6 +78,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
     }
 
+    @Scheduled(fixedDelay = 43200)
+    public void scheduleFixedDelayTask() {
+        for (VerificationToken t : verificationTokenService.findAll()) {
+            if (addDay(t.getUser().getRegistrationDate(), 1).before(addDay(new Date(), 0)) && !t.getUser().isEnabled()) {
+                verificationTokenService.delete(t.getId());
+            }
+        }
+    }
+
     @RequestMapping("/login")
     public Map<String, Object> user(Authentication authentication) {
         Map<String, Object> map = new LinkedHashMap<>();
@@ -85,5 +95,13 @@ public class UserController {
         map.put("roles", AuthorityUtils.authorityListToSet((authentication).getAuthorities()));
 
         return map;
+    }
+
+    private Date addDay(Date date, int days)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
     }
 }

@@ -14,7 +14,8 @@
       <tbody>
         <tr ng-repeat = "survey in hc.surveys">
           <td>
-            <span class="label" style = "font-size: 14px; padding: 0;">{{survey.name}}</span><br>
+           {{survey.name}}<br>
+            Created:
             {{survey.creationDate | date:"medium"}}
           </td>
           <td class = "option">
@@ -28,16 +29,39 @@
             </button>
           </td>
           <td class = "option">
+          <div ng-class="{active: $location.path('/survey/details'+response.hashedId)}"><a href="/survey/details/:hashedId">
             <button class = "btn btn-primary" type = "button">
               <span class="glyphicon glyphicon-list"></span>
             </button>
+            </a>
           </td>
           <td class="option">
-            <button class="btn btn-primary" type="button">
+            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#deleteSurveyModal" ng-click="hc.setCurrentSurvey(survey)">
               <span class="glyphicon glyphicon-trash"></span>
             </button>
           </td>
         </tr>
     </table>
+  </div>
+</div>
+                                                                                                                  
+
+<div class="modal fade" id="deleteSurveyModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <div class="panel-body" style="font-size: 125%">
+          Are you sure you want to <span style="color: red; font-weight: bold">delete</span> your survey?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" ng-click="hc.deleteSurvey()">Confirm</button>
+      </div>
+    </div>
   </div>
 </div>

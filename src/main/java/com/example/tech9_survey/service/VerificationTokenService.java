@@ -5,6 +5,7 @@ import com.example.tech9_survey.repository.VerificationTokenRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -27,5 +28,9 @@ public class VerificationTokenService {
 
     public void delete(Long id) {
         verificationTokenRepository.delete(id);
+    }
+
+    public List<VerificationToken> findAll() {
+        return verificationTokenRepository.findAll();
     }
 }

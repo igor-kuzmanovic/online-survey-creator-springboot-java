@@ -4,8 +4,8 @@ INSERT INTO `tech9survey`.`role`(`type`) VALUES ('ROLE_USER');
 INSERT INTO `tech9survey`.`user_status`(`type`) VALUES ('STATUS_ACTIVE');
 INSERT INTO `tech9survey`.`user_status`(`type`) VALUES ('STATUS_INACTIVE');
 
-INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `is_enabled`, `status_id`) VALUES ('admin','admin','admin@tech9survey.com', TRUE, 1);
-INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `is_enabled`, `status_id`) VALUES ('user','user','user@tech9survey.com', FALSE, 1);
+INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `registration_date`, `is_enabled`, `status_id`) VALUES ('admin','admin','admin@tech9survey.com', '2026-02-02', TRUE, 1);
+INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `registration_date`, `is_enabled`, `status_id`) VALUES ('user','user','user@tech9survey.com', '2026-02-02', FALSE, 1);
 
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 1);
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 2);
