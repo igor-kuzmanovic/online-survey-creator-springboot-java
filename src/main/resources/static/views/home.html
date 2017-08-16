@@ -12,29 +12,28 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat = "survey in hc.surveys">
+        <tr ng-repeat="survey in hc.surveys track by $index">
           <td>
             {{survey.name}}<br>
             Created:
             {{survey.creationDate | date:"medium"}}
           </td>
-          <td class = "option">
+          <td class="option">
             <button class="btn btn-primary" type="button">
               <span class="glyphicon glyphicon-signal"></span>
             </button>
           </td>
-          <td class = "option">
+          <td class="option">
             <button class="btn btn-primary" type="button">
               <span class="glyphicon glyphicon-share"></span>
             </button>
           </td>
-          <td class = "option">
-            <div ng-class="{active: $location.path('/survey/details'+response.hashedId)}"><a href="/survey/details/:hashedId">
+          <td class="option">
+            <a href="/survey/details/{{survey.hashedId}}">
               <button class="btn btn-primary" type="button">
                 <span class="glyphicon glyphicon-list"></span>
               </button>
-              </a>
-            </div>
+            </a>
           </td>
           <td class="option">
             <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#deleteSurveyModal" ng-click="hc.setCurrentSurvey(survey)">
