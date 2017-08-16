@@ -15,16 +15,14 @@
         <input type="password" class="form-control" ng-model="lc.credentials.password">
       </div>
 
-      <div align="center">
-        <div class="form-group">
-          <button type="submit" class="btn btn-default btn-success" ng-click="lc.getCredentials(lc.credentials)">Submit</button>
-        </div>
-
-        <div class="form-group">
-          <span class="label label-primary">Don't have an account?</span>
-          <a ng-href="/#/registration">Sign up!</a>
-        </div>
+      <div align="center" class="form-group">
+        <button type="submit" class="btn btn-default btn-success" ng-click="lc.getCredentials(lc.credentials)">Submit</button>
       </div>
     </form>
+
+    <div align="center" class="form-group">
+      <span class="label label-primary">Don't have an account?</span>
+      <a ng-href="/#/registration">Sign up!</a>
+    </div>
   </div>
 </div>
