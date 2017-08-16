@@ -7,3 +7,7 @@ body {
 .breadcrumb-item {
   font-size: 15px;
 }
+
+textarea {
+  resize: none;
+}

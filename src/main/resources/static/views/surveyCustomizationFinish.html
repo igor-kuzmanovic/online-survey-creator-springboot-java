@@ -1,13 +1,28 @@
-<div class="col-md-offset-3 col-md-6">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">Create</li>
-    <li class="breadcrumb-item">Customize</li>
-    <li class="breadcrumb-item active">Finish</li>
-  </ol>
-</div>
+<div class="row">
+  <div class="col-md-offset-3 col-md-6">
+    <div class="col-md-offset-3 col-md-6">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">Create</li>
+        <li class="breadcrumb-item">Customize</li>
+        <li class="breadcrumb-item active">Finish</li>
+      </ol>
+    </div>
 
-<div class="col-md-offset-2 col-md-8">
-  <div class="jumbotron">
-    <p>Finished customizing the survey!</p>
+    <form class="form-horizontal" ng-init="survey = scfc.survey" novalidate>
+      <legend align="center">
+        <h3>Finish up your survey</h3>
+      </legend>  
+
+      <div class="form-group">
+        <label  class="control-label col-md-3" for="exitMsg">Exit message</label>
+        <div class="col-md-9">
+          <textarea id="exitMsg" type="text" class="form-control" name="exitMsg" rows="4" placeholder="Write an exit message you want to display to the user after completing the survey" ng-model="survey.exitMessage"></textarea>
+        </div>
+      </div>
+
+      <div class="col-md-offset-3 col-md-6">
+        <button type="submit" class="btn btn-default btn-success btn-block" ng-click="scfc.saveSurvey(survey)">Finish</button>
+      </div>
+    </form> 
   </div>
 </div>
