@@ -12,7 +12,10 @@
       login: login,
       getUser: getUser,
       saveUser: saveUser,
-      removeUser: removeUser
+      removeUser: removeUser,
+      findUser: findUser,
+      editUser: editUser,
+      setUser: setUser
     };
 
     function login(credentials) {
@@ -52,12 +55,47 @@
       return def.promise;
     }
 
+      function findUser(username) {
+          var def = $q.defer();
+          var req = {
+              method: 'GET',
+              url: "users/" + username
+          };
+          $http(req).success(function (data) {
+              def.resolve(data);
+          })
+              .error(function (response) {
+                  def.reject(response);
+              });
+          return def.promise;
+      }
+
+      function editUser(user) {
+          var def = $q.defer();
+          var req = {
+              method: 'PUT',
+              url: "users/",
+              data: user
+          };
+          $http(req).success(function (data) {
+              def.resolve(data);
+          })
+              .error(function (response) {
+                  def.reject(response);
+              });
+          return def.promise;
+      }
+
     function removeUser() {
       user = null;
     }
 
     function getUser() {
       return user;
+    }
+
+    function setUser(editedUser) {
+        user = editedUser;
     }
 
     return service;

@@ -13,7 +13,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String username;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
 
