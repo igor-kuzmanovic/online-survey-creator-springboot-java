@@ -41,7 +41,7 @@
 
         <div class="form-group">
           <div class="col-md-offset-2 col-md-2">
-            <button type="input" class="btn btn-default btn-success" ng-hide="scc.survey.questions[$parent.$index].answers.length >= 10" ng-click="scc.createAnswer($index)">Answer <span class="glyphicon glyphicon-plus"></span>
+            <button type="input" class="btn btn-default btn-primary" ng-hide="scc.survey.questions[$parent.$index].answers.length >= 10" ng-click="scc.createAnswer($index)">Answer <span class="glyphicon glyphicon-plus"></span>
             </button>
           </div>
         </div>
@@ -49,13 +49,13 @@
 
       <div class="form-group">
         <div class="col-md-offset-2 col-md-2">
-          <button type="input" class="btn btn-default btn-success" ng-hide="scc.survey.questions.length >= 10" ng-click="scc.createQuestion()">Question <span class="glyphicon glyphicon-plus"></span>
+          <button type="input" class="btn btn-default btn-primary" ng-hide="scc.survey.questions.length >= 10" ng-click="scc.createQuestion()">Question <span class="glyphicon glyphicon-plus"></span>
           </button>
         </div>
       </div>
 
       <div class="col-md-offset-10 col-md-3">
-        <button type="submit" class="btn btn-default btn-success btn-large" ng-click="scc.finishCustomization()">Finish <span class="glyphicon glyphicon-check"></span></button>
+        <button type="submit" class="btn btn-default btn-success btn-lg" ng-click="scc.finishCustomization()">Finish <span class="glyphicon glyphicon-check"></span></button>
           </div>
         </form> 
       </div>
