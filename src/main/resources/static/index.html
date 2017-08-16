@@ -10,9 +10,10 @@
     <meta name="author" content="Dunja Ajdukovic, Igor Kuzmanovic, Sasa Dobrilovic">
 
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" ng-href="https://bootswatch.com/{{mc.theme.url}}/bootstrap.min.css">
+    <link onload="showBody()" rel="stylesheet" ng-href="https://bootswatch.com/{{mc.theme.url}}/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
@@ -37,9 +38,15 @@
     <script src="js/services/questionService.js" type="text/javascript"></script>
     <script src="js/directives/autofocusDirective.js" type="text/javascript"></script>
     <script src="js/routes/routeConfig.js" type="text/javascript"></script>
+
+    <script>
+      function showBody() {
+        $('body').show();
+      };
+    </script>
   </head>
 
-  <body>
+  <body ng-cloak>
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -99,13 +106,5 @@
         </div>
       </div>
     </nav>
-    
-    <script>
-      function show() {
-        $('body').fadeIn(0);
-      };
-
-      setTimeout(show, 80);
-    </script>
   </body>
 </html>

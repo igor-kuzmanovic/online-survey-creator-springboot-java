@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.tech9_survey.domain.Answer;
 import com.example.tech9_survey.domain.Question;
-import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.service.AnswerService;
 import com.example.tech9_survey.service.QuestionService;
 

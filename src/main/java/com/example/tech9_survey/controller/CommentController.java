@@ -1,8 +1,6 @@
 package com.example.tech9_survey.controller;
 
-import java.util.Date;
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.tech9_survey.domain.Comment;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.domain.User;
