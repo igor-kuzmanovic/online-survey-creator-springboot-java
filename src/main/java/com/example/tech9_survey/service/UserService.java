@@ -68,11 +68,21 @@ public class UserService implements UserDetailsService {
 
     private Set<GrantedAuthority> getAuthorities(User user){
         Set<GrantedAuthority> authorities = new HashSet<>();
+        
         for(Role role : user.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getType().toString());
             authorities.add(grantedAuthority);
         }
+        
         return authorities;
+    }
+    
+    public User getLoggedInUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUserUsername = auth.getName();
+        User user = findByUsername(loggedInUserUsername);
+        
+        return user;
     }
     
 }

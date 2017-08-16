@@ -174,7 +174,5 @@ public class Survey extends BaseEntity {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	
-	
 
 }

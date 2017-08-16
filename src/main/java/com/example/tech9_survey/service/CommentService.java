@@ -32,7 +32,7 @@ public class CommentService {
 	        return commentRepository.findOne(id);
 	    }
 
-	 public List<Comment> findAllCommentsByUser(User user) {
-	        return commentRepository.findAllByUser(user);
-	    }
+	public List<Comment> findAll() {
+		return commentRepository.findAll();
+	}
 }
