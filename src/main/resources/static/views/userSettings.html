@@ -1,6 +1,9 @@
 <div class="row">
-    <div class="col-md-offset-2 col-md-10">
-        <h2 style="text-transform: capitalize">{{usc.user.username}} Settings Page</h2> <br/>
+    <div class="col-md-2">
+        <img ng-src="{{usc.wholeUser.imageUrl}}" class="img-rounded" width="100%" height="100">
+    </div>
+    <div class="col-md-10" align="center">
+        <h2 style="text-transform: capitalize">{{usc.wholeUser.username}}'s Settings Page</h2> <br/>
     </div>
 </div>
 <div class="row">
@@ -15,22 +18,22 @@
     <div class="col-md-8">
         <form>
             <div class="form-group">
-                <label>Username:</label>
-                <input class="form-control" value="{{usc.user.username}}" ng-model="usc.user.username">
-            </div>
-
-            <div class="form-group">
                 <label>Password:</label>
-                <input type="password" value="{{usc.user.password}}" class="form-control" ng-model="usc.user.password">
+                <input type="password" value="{{usc.wholeUser.password}}" class="form-control" ng-model="usc.wholeUser.password">
             </div>
 
             <div class="form-group">
                 <label>Email:</label>
-                <input type="email" value="{{usc.user.email}}" class="form-control" ng-model="usc.user.email">
+                <input type="email" value="{{usc.wholeUser.email}}" class="form-control" ng-model="usc.wholeUser.email">
+            </div>
+
+            <div class="form-group">
+                <label>Image url:</label>
+                <input class="form-control" value="{{usc.wholeUser.imageUrl}}" ng-model="usc.wholeUser.imageUrl">
             </div>
 
             <div align="center" class="form-group">
-                <button class="btn btn-default btn-success" ng-click="usc.editUser(usc.user)">Edit</button>
+                <button class="btn btn-default btn-success" ng-click="usc.editUser(usc.wholeUser)">Edit</button>
             </div>
         </form>
     </div>

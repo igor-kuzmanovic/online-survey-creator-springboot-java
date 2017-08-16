@@ -44,8 +44,16 @@
 			if(!user) {
 				return null;
 			}
-			return user.name;
+			return user.username;
 		}
+
+        // function getWholeUser(username) {
+        //     UserService.findUser(username).then(handleSuccessWholeUser);
+        // }
+        //
+        // function handleSuccessWholeUser(data, status){
+        //     self.wholeUser = data;
+        // }
 
 		function removeUser() {
 			UserService.removeUser();

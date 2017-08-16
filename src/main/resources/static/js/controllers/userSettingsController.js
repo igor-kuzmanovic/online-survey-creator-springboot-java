@@ -13,15 +13,15 @@
         init();
 
         function init(){
-            getLoggedUser(UserService.getUser().name);
+            getWholeUser(UserService.getUser().username);
         }
 
-        function getLoggedUser(username) {
-            UserService.findUser(username).then(handleSuccessLoggedUser);
+        function getWholeUser(username) {
+            UserService.findUser(username).then(handleSuccessWholeUser);
         }
 
-        function handleSuccessLoggedUser(data, status){
-            self.user = data;
+        function handleSuccessWholeUser(data, status){
+            self.wholeUser = data;
         }
 
         function editUser(user) {

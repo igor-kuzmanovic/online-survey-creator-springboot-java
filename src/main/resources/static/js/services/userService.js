@@ -7,6 +7,7 @@
   function UserService($http, $q, $filter) {
 
     var user;
+    var loggedUser;
 
     var service = {
       login: login,
@@ -31,6 +32,7 @@
       $http(req)
         .success(function (data) {
         user = data;
+        console.log(user);
         def.resolve(data);
       })
         .error(function () {

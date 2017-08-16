@@ -100,13 +100,11 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public Map<String, Object> user(Authentication authentication) {
-        Map<String, Object> map = new LinkedHashMap<>();
+    public User user(Authentication authentication) {
+        User user = userService.findByUsername(authentication.getName());
+        user.setPassword(null);
 
-        map.put("name", authentication.getName());
-        map.put("roles", AuthorityUtils.authorityListToSet((authentication).getAuthorities()));
-
-        return map;
+        return user;
     }
 
     @Scheduled(fixedDelay = 43200)
