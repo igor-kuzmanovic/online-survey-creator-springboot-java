@@ -37,10 +37,12 @@ public class Survey extends BaseEntity {
 	
 	@Future
 	@Column(name = "publication_date")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date publicationDate;
 	
 	@Future
 	@Column(name = "expiration_date")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date expirationDate;
 	
 	@Size(max = 240)
