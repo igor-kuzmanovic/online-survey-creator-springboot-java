@@ -6,17 +6,20 @@
 
   function HomeController(SurveyService, UserService, $location) {
 
-    var hc = this;
-    hc.deleteSurvey = deleteSurvey;
-    hc.setCurrentSurvey = setCurrentSurvey;
+    var self = this;
+    self.deleteSurvey = deleteSurvey;
+    self.setCurrentSurvey = setCurrentSurvey;
 
     init();
-    getSurveys();
 
     function init(){
       var user = UserService.getUser();
+      
       if(!user) {
         $location.url('/');
+      }
+      else {
+        getSurveys();
       }
     }
 
@@ -25,19 +28,19 @@
     }
 
     function handleSuccessSurveys(data, status) {
-      hc.surveys = data;
+      self.surveys = data;
     }
     
     function setCurrentSurvey(survey) {
-      hc.currentSurvey = survey;
+      self.currentSurvey = survey;
     }
 
     function deleteSurvey() {
-      SurveyService.deleteSurvey(hc.currentSurvey.id).then(function(response) {
+      SurveyService.deleteSurvey(self.currentSurvey.id).then(function(response) {
         $('#deleteSurveyModal').modal('hide');
         getSurveys();
       }, function(error){
-        hc.error = error;
+        self.error = error;
       })
     }
 

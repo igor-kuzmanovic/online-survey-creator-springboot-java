@@ -6,6 +6,8 @@
 
   function SurveyDetailsController(SurveyService, UserService, $location) {
 
-	  this.$location = $location;
-};
+    var self = this;
+    self.$location = $location;
+    
+  };
 })();

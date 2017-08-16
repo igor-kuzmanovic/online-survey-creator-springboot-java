@@ -5,6 +5,7 @@
   RegistrationController.$inject = ['UserService', '$location'];
 
   function RegistrationController(UserService, $location) {
+    
     var self = this;
     self.saveUser = saveUser;
 

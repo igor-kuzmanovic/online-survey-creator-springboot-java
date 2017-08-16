@@ -61,8 +61,6 @@
           } 
         }
       }
-
-      console.log(self.survey);
       
       SurveyService.saveSurvey(self.survey)
         .then(

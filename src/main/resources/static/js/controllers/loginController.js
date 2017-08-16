@@ -5,6 +5,7 @@
 	LoginController.$inject = ['UserService', '$location'];
 
 	function LoginController(UserService, $location) {
+    
 		var self = this;
 		self.getCredentials = getCredentials;
 
