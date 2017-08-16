@@ -64,6 +64,11 @@ public class Survey extends BaseEntity {
 	@JoinColumn(name = "survey_id", nullable = false)
 	private List<Question> questions;
 	
+	@Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "survey_id", nullable = false)
+	private List<Comment> comments;
+	
 	public void generateHash() throws NoSuchAlgorithmException {
 		String dateString = getCreationDate().toString();
 		String hashString = dateString;
@@ -160,6 +165,14 @@ public class Survey extends BaseEntity {
 
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 }

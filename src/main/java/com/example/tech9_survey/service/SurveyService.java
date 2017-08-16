@@ -46,4 +46,8 @@ public class SurveyService {
     	surveyRepository.delete(surveyId);
     }
 
+	public Survey findSurveyByCommentsId(Long id) {
+		 return surveyRepository.findSurveyByCommentsId(id);
+	}
+
 }
