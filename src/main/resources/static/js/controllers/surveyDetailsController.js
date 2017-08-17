@@ -2,12 +2,11 @@
   angular.module('app')
     .controller('SurveyDetailsController', SurveyDetailsController);
 
-  SurveyDetailsController.$inject = ['SurveyService', 'UserService', '$location'];
+  SurveyDetailsController.$inject = ['SurveyService'];
 
-  function SurveyDetailsController(SurveyService, UserService, $location) {
+  function SurveyDetailsController(SurveyService) {
 
     var self = this;
-    self.$location = $location;
     
   };
 })();
