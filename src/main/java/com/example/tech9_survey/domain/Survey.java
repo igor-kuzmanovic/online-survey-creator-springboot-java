@@ -62,6 +62,11 @@ public class Survey extends BaseEntity {
 	@Cascade(CascadeType.ALL)
 	@OneToMany
 	@JoinColumn(name = "survey_id", nullable = false)
+	private List<SurveyResult> results;
+	
+	@Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "survey_id", nullable = false)
 	private List<Comment> comments;
 	
 	public void generateHash() throws NoSuchAlgorithmException {
