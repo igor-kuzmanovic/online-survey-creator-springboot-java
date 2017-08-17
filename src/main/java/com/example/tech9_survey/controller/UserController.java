@@ -42,6 +42,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
@@ -65,8 +66,9 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<User> editUser(@RequestBody User user) {
+    public ResponseEntity<Object> editUser(@RequestBody User user) {
         User editedUser = userService.save(user);
 
         if (editedUser == null) {
@@ -88,6 +90,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public ResponseEntity<User> findLoggedUser(@PathVariable("username") String username) {
         User loggedUser = userService.findByUsername(username);

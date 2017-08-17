@@ -29,10 +29,7 @@
         }
 
         function handleSuccessEditedUser(data, status){
-            var editedUser = {};
-            editedUser.name = data.username;
-            editedUser.roles = data.roles;
-            UserService.setUser(editedUser);
+            UserService.setUser(data);
         }
 
     };

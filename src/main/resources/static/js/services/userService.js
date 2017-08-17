@@ -7,7 +7,7 @@
   function UserService($http, $q, $filter) {
 
     var user;
-    var loggedUser;
+      var base64Credential;
 
     var service = {
       login: login,
@@ -21,7 +21,7 @@
 
     function login(credentials) {
       var def = $q.defer();
-      var base64Credential = btoa(credentials.username + ':' + credentials.password);
+      base64Credential = btoa(credentials.username + ':' + credentials.password);
       var req = {
         method: 'GET',
         url: "users/login",
@@ -31,8 +31,8 @@
       };
       $http(req)
         .success(function (data) {
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
         user = data;
-        console.log(user);
         def.resolve(data);
       })
         .error(function () {
@@ -89,6 +89,7 @@
       }
 
     function removeUser() {
+        $http.defaults.headers.common['Authorization'] = null;
       user = null;
     }
 
@@ -97,6 +98,8 @@
     }
 
     function setUser(editedUser) {
+        base64Credential = btoa(editedUser.username + ':' + editedUser.password);
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
         user = editedUser;
     }
 

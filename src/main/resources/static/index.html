@@ -49,7 +49,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/home">Online Survey Creator</a>
+          <a class="navbar-brand">Online Survey Creator</a>
         </div>
         <div ng-show="mc.getUser()">
           <div class="collapse navbar-collapse" id="myNavbar">
@@ -62,7 +62,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="text-transform: capitalize">{{mc.getUser()}} <span class="caret"></span></a>
+                <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><img class="img img-circle" style="width: 20px; height: 20px" ng-src="{{mc.getUser().imageUrl}}">
+                  <span class="glyphicon glyphicon-chevron-down"></span></a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a ng-href="/user/settings">Settings</a></li>
                   <li class="divider"></li>
