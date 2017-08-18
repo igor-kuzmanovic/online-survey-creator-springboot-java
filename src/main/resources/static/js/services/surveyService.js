@@ -11,7 +11,8 @@
       deleteSurvey: deleteSurvey,
       generateSurvey: generateSurvey,
       getSurveys: getSurveys,
-      getCurrentSurvey: getCurrentSurvey
+      getCurrentSurvey: getCurrentSurvey,
+      getSurveyComments: getSurveyComments
     }
 
     function saveSurvey(survey) {
@@ -91,6 +92,22 @@
       })
         .error(function () {
         def.reject("Failed to get all surveys!");
+      });
+      return def.promise;
+    }
+    
+    function getSurveyComments(survey) {
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "survey/" + survey.id + "/comment"
+      }
+      $http(req)
+        .success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to get comments for selected survey");
       });
       return def.promise;
     }

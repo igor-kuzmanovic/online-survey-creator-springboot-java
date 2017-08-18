@@ -34,6 +34,7 @@
             $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
         user = data;
         def.resolve(data);
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
       })
         .error(function () {
         def.reject("Bad credentials");
@@ -89,7 +90,7 @@
       }
 
     function removeUser() {
-        $http.defaults.headers.common['Authorization'] = null;
+      $http.defaults.headers.common['Authorization'] = null;
       user = null;
     }
 
