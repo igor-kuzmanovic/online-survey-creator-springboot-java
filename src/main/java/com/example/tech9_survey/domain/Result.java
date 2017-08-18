@@ -8,11 +8,11 @@ import javax.persistence.ManyToOne;
 public class Result extends BaseEntity {
 	
 	@ManyToOne
-	@JoinColumn(name = "question_id", nullable = false)
+	@JoinColumn(name = "question_id")
 	private Question questionId;
 	
 	@ManyToOne
-	@JoinColumn(name = "answer_id", nullable = false)
+	@JoinColumn(name = "answer_id")
 	private Answer answerId;
 
 	public Question getQuestionId() {

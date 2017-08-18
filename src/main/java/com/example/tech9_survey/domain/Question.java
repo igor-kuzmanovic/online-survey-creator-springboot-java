@@ -17,7 +17,7 @@ public class Question extends BaseEntity {
 
 	@Cascade(CascadeType.ALL)
 	@OneToMany
-	@JoinColumn(name = "question_id", nullable = false)
+	@JoinColumn(name = "question_id")
 	private List<Answer> answers;
 
 	public String getContent() {

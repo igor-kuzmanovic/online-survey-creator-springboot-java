@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-offset-4 col-md-4">
-    <form ng-submit="loading = !loading" novalidate>
+    <form novalidate>
       <div class="form-group">
         <h3 align="center">Sign up</h3>
       </div>
@@ -27,7 +27,6 @@
       <div align="center" class="form-group">
         <button class="btn btn-default btn-success" ng-click="rc.saveUser(rc.savedUser)">
           <span>Submit</span>
-          <span ng-show="loading" class="fa fa-circle-o-notch fa-spin"></span>
         </button>
       </div>
     </form>

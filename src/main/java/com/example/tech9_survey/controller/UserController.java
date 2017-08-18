@@ -5,7 +5,6 @@ import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.domain.VerificationToken;
 import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -42,7 +41,6 @@ public class UserController {
         
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> save(@RequestBody User user) {
@@ -104,7 +102,7 @@ public class UserController {
     }
 
     @RequestMapping(path = "/captchaResponse/{response}", method = RequestMethod.POST)
-    public ResponseEntity responseCaptcha(@PathVariable("response") String response) {
+    public ResponseEntity<Object> responseCaptcha(@PathVariable("response") String response) {
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://www.google.com/recaptcha/api/siteverify";
@@ -119,11 +117,11 @@ public class UserController {
         ResponseEntity<String> postResponse = restTemplate.postForEntity( url, request , String.class );
 
         if (postResponse.toString().contains("\"success\": true")) {
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
 
 
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping("/login")
@@ -141,10 +139,6 @@ public class UserController {
                 verificationTokenService.delete(t.getId());
             }
         }
-    }
-
-    public String parseResponse(JSONPObject response) {
-        return null;
     }
 
     private Date addDay(Date date, int days)

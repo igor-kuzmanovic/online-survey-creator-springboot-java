@@ -11,3 +11,8 @@ body {
 textarea {
   resize: none;
 }
+
+.img-nav {
+  width: 20px; 
+  height: 20px;
+}

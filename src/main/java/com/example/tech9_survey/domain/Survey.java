@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,7 +20,6 @@ import org.hibernate.annotations.CascadeType;
 public class Survey extends BaseEntity {
 	
 	@Size(min=1, max=240)
-	@Column(nullable = false)
 	private String name;
 	
 	@Column(name = "user_id")
@@ -54,19 +54,23 @@ public class Survey extends BaseEntity {
 	@Column(name = "is_active")
 	private Boolean isActive;
 	
+	@ManyToOne
+	@JoinColumn(name = "survey_privacy")
+	private SurveyPrivacy surveyPrivacy;
+	
 	@Cascade(CascadeType.ALL)
 	@OneToMany
-	@JoinColumn(name = "survey_id", nullable = false)
+	@JoinColumn(name = "survey_id")
 	private List<Question> questions;
 	
 	@Cascade(CascadeType.ALL)
 	@OneToMany
-	@JoinColumn(name = "survey_id", nullable = false)
+	@JoinColumn(name = "survey_id")
 	private List<SurveyResult> results;
 	
 	@Cascade(CascadeType.ALL)
 	@OneToMany
-	@JoinColumn(name = "survey_id", nullable = false)
+	@JoinColumn(name = "survey_id")
 	private List<Comment> comments;
 	
 	public void generateHash() throws NoSuchAlgorithmException {
@@ -183,4 +187,12 @@ public class Survey extends BaseEntity {
 		this.results = results;
 	}
 
+	public SurveyPrivacy getSurveyPrivacy() {
+		return surveyPrivacy;
+	}
+
+	public void setSurveyPrivacy(SurveyPrivacy surveyPrivacy) {
+		this.surveyPrivacy = surveyPrivacy;
+	}
+	
 }
