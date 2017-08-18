@@ -43,9 +43,9 @@ public class QuestionController {
 	
 	@PostMapping(path = "/{surveyId}")
 	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Question question) {
-		Survey SurveyWithQuestion = surveyService.findOne(surveyId);
-    	SurveyWithQuestion.getQuestions().add(question);
-        surveyService.save(SurveyWithQuestion);
+		Survey survey = surveyService.findOne(surveyId);
+    	survey.getQuestions().add(question);
+        surveyService.save(survey);
     	return new ResponseEntity<>(HttpStatus.OK);
     }
 	

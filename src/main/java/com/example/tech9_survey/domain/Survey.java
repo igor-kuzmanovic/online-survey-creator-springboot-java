@@ -175,4 +175,12 @@ public class Survey extends BaseEntity {
 		this.comments = comments;
 	}
 
+	public List<SurveyResult> getResults() {
+		return results;
+	}
+
+	public void setResults(List<SurveyResult> results) {
+		this.results = results;
+	}
+
 }

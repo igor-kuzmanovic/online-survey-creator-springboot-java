@@ -17,12 +17,10 @@ public class Comment extends BaseEntity {
 	@Size(max=240)
 	private String content;
 	
-	@Past
 	@Column(name = "creation_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 	
-	@Past
 	@Column(name = "update_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;

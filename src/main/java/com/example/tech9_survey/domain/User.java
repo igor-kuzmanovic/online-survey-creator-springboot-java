@@ -1,8 +1,6 @@
 package com.example.tech9_survey.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
