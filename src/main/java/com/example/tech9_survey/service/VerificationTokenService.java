@@ -3,10 +3,8 @@ package com.example.tech9_survey.service;
 import com.example.tech9_survey.domain.VerificationToken;
 import com.example.tech9_survey.repository.VerificationTokenRepository;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional

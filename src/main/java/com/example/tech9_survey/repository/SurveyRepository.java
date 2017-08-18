@@ -8,5 +8,7 @@ import com.example.tech9_survey.domain.Survey;
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
 
 	Survey findByHashedId(String hashedId);
+
+	Survey findSurveyByCommentsId(Long id);
 	
 }

@@ -8,17 +8,20 @@
     function($httpProvider) {
       $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     }])
-  
+
     .animation('.view-animate', function() {
-      return {
-        enter: function(element, done) {
-          element.css('display', 'none');
-          element.fadeIn(400, done);
-          return function() {
-            element.stop();
-          }
-        }
+    return {
+      enter: function(element, done) {
+        element.css('display', 'none');
+        element.fadeIn(400, done);
       }
-    });
-  
+    }})
+
+    .animation('.table-animate', function() {
+    return {
+      leave: function(element, done) {
+        element.fadeOut(400, done);
+      }
+    }})
+
 })();

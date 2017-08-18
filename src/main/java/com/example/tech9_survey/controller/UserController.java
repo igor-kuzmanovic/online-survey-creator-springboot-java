@@ -79,7 +79,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/activate/{token}", method = RequestMethod.GET)
-    public ResponseEntity activateAccount(@PathVariable("token") String token) {
+    public ResponseEntity<Object> activateAccount(@PathVariable("token") String token) {
         VerificationToken verificationToken = verificationTokenService.findByToken(token);
         if (verificationToken == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body("Account already activated!");

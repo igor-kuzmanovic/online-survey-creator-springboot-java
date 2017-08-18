@@ -1,19 +1,27 @@
 <div class="row">
   <div class="col-md-offset-4 col-md-4">
-    <form ng-init="survey = scfc.survey" novalidate>
-      <legend align="center">
+    <form novalidate>
+      <div align="center" class="form-group">
         <h3>Finish up your survey</h3>
-      </legend>  
-
-      <div class="form-group">
-        <label  class="control-label col-md-3" for="exitMsg">Exit message</label>
-        <div class="col-md-9">
-          <textarea id="exitMsg" type="text" class="form-control" name="exitMsg" rows="4" placeholder="Write an exit message you want to display to the user after completing the survey" ng-model="survey.exitMessage"></textarea>
-        </div>
       </div>
 
-      <div class="col-md-offset-3 col-md-6">
-        <button type="submit" class="btn btn-default btn-success btn-block" ng-click="scfc.saveSurvey(survey)">Finish</button>
+      <div class="form-group">
+        <label for="exitMsg">Exit message</label>
+        <textarea id="exitMsg" type="text" class="form-control" name="exitMsg" rows="4" placeholder="Write an exit message you want to display to the user after completing the survey" ng-model="scfc.surveyInput.exitMessage"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="publicationDate">Publication date</label>
+        <input id="publicationDate" type="date" class="form-control" name="publicationDate" min="{{scfc.surveyInput.creationDate | date:'yyyy-MM-dd'}}" placeholder="yyyy-MM-dd" ng-model="scfc.surveyInput.publicationDate">
+      </div>
+
+      <div class="form-group">
+        <label for="expirationDate">Expiration date</label>
+        <input id="expirationDate" type="date" class="form-control" name="expirationDate" min="{{scfc.surveyInput.publicationDate | date:'yyyy-MM-dd'}}" placeholder="yyyy-MM-dd" ng-model="scfc.surveyInput.expirationDate">
+      </div>
+
+      <div align="center" class="form-group">
+        <button type="submit" class="btn btn-default btn-success" ng-click="scfc.saveSurvey(scfc.surveyInput)">Finish</button>
       </div>
     </form> 
   </div>

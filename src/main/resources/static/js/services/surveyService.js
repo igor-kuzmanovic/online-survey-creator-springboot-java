@@ -15,6 +15,8 @@
     }
 
     function saveSurvey(survey) {
+      survey.publicationDate = $filter('date')(survey.publicationDate, "yyyy-MM-dd");
+      survey.expirationDate = $filter('date')(survey.expirationDate, "yyyy-MM-dd");
       var def = $q.defer();
       var req = {
         method: 'POST',
@@ -46,8 +48,8 @@
     }
 
     function generateSurvey(survey) {
-      survey.userId = 0;
-      survey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss.sssZ");
+      survey.userId = 1;
+      survey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
       var def = $q.defer();
       var req = {
         method: 'POST',

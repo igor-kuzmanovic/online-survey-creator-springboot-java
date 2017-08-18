@@ -2,15 +2,14 @@
 <html lang="en" ng-app="app" ng-controller="MainController as mc">
   <head>
     <title>Online Survey Creator</title>
-    <base href="/" >
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Online Survey Creator is a web application that allows users to create, share, and review results from custom surveys">
     <meta name="author" content="Dunja Ajdukovic, Igor Kuzmanovic, Sasa Dobrilovic">
 
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" ng-href="https://bootswatch.com/{{mc.theme.url}}/bootstrap.min.css">
+    <link onload="showBody()" rel="stylesheet" ng-href="https://bootswatch.com/{{mc.theme.url}}/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -38,9 +37,15 @@
     <script src="js/services/questionService.js" type="text/javascript"></script>
     <script src="js/directives/autofocusDirective.js" type="text/javascript"></script>
     <script src="js/routes/routeConfig.js" type="text/javascript"></script>
+
+    <script>
+      function showBody() {
+        $('body').show();
+      };
+    </script>
   </head>
 
-  <body>
+  <body ng-cloak>
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -54,11 +59,11 @@
         <div ng-show="mc.getUser()">
           <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-              <li ng-class="{active: mc.$location.path().includes('/home')}"><a href="/home">Home </a></li>
-              <li ng-class="{active: mc.$location.path().includes('/survey')}">
-                <a href="/survey/new" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Survey <span class="glyphicon glyphicon-plus"></span></a>
+              <li ng-class="{active: mc.$location.path().includes('#/home')}"><a href="#/home">Home </a></li>
+              <li ng-class="{active: mc.$location.path().includes('#/survey')}">
+                <a href="#/survey/new" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Survey <span class="glyphicon glyphicon-plus"></span></a>
               </li>
-              <li ng-class="{active: mc.$location.path().includes('/user/notifications')}"><a href="/user/notifications">Notifications <span class="badge">0</span></a></li>
+              <li ng-class="{active: mc.$location.path().includes('#/user/notifications')}"><a href="#/user/notifications">Notifications <span class="badge">0</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
@@ -101,13 +106,5 @@
         </div>
       </div>
     </nav>
-    
-    <script>
-      function show() {
-        $('body').fadeIn(0);
-      };
-
-      setTimeout(show, 80);
-    </script>
   </body>
 </html>

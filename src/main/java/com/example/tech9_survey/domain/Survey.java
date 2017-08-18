@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -30,19 +28,16 @@ public class Survey extends BaseEntity {
 	@Column(name = "hashed_id")
 	private String hashedId;
 	
-	@Past
 	@Column(name = "creation_date")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date creationDate;
 	
-	@Future
 	@Column(name = "publication_date")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date publicationDate;
 	
-	@Future
 	@Column(name = "expiration_date")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date expirationDate;
 	
 	@Size(max = 240)
@@ -63,6 +58,16 @@ public class Survey extends BaseEntity {
 	@OneToMany
 	@JoinColumn(name = "survey_id", nullable = false)
 	private List<Question> questions;
+	
+	@Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "survey_id", nullable = false)
+	private List<SurveyResult> results;
+	
+	@Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "survey_id", nullable = false)
+	private List<Comment> comments;
 	
 	public void generateHash() throws NoSuchAlgorithmException {
 		String dateString = getCreationDate().toString();
@@ -160,6 +165,14 @@ public class Survey extends BaseEntity {
 
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 }

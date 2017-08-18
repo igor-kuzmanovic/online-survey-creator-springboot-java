@@ -12,17 +12,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.tech9_survey.domain.Question;
+import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.service.QuestionService;
+import com.example.tech9_survey.service.SurveyService;
 
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
 
 	private QuestionService questionService;
+	private SurveyService surveyService;
 	
 	@Autowired
-	public QuestionController(QuestionService questionService) {
+	public QuestionController(QuestionService questionService, SurveyService surveyService) {
 		this.questionService = questionService;
+		this.surveyService = surveyService;
 	}
 
 	@GetMapping
@@ -38,9 +42,11 @@ public class QuestionController {
 	}
 	
 	@PostMapping(path = "/{surveyId}")
-	public ResponseEntity<Question> save(@PathVariable Long surveyId, @RequestBody Question question) {
-		Question savedQuestion = questionService.save(question);
-    	return new ResponseEntity<>(savedQuestion, HttpStatus.OK);
+	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Question question) {
+		Survey SurveyWithQuestion = surveyService.findOne(surveyId);
+    	SurveyWithQuestion.getQuestions().add(question);
+        surveyService.save(SurveyWithQuestion);
+    	return new ResponseEntity<>(HttpStatus.OK);
     }
 	
 	@DeleteMapping(path = "/{questionId}")
