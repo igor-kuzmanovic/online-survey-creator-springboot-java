@@ -24,8 +24,8 @@
             self.wholeUser = data;
         }
 
-        function editUser(user) {
-            UserService.editUser(user).then(handleSuccessEditedUser);
+        function editUser() {
+            UserService.editUser(self.wholeUser).then(handleSuccessEditedUser);
         }
 
         function handleSuccessEditedUser(data, status){
