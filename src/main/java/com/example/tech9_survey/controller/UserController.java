@@ -118,8 +118,6 @@ public class UserController {
 
         ResponseEntity<String> postResponse = restTemplate.postForEntity( url, request , String.class );
 
-        System.out.println(postResponse.toString());
-
         if (postResponse.toString().contains("\"success\": true")) {
             return new ResponseEntity(HttpStatus.OK);
         }
