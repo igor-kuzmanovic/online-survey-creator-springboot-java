@@ -16,7 +16,8 @@
       removeUser: removeUser,
       findUser: findUser,
       editUser: editUser,
-      setUser: setUser
+      setUser: setUser,
+        sendCaptchaResponse: sendCaptchaResponse
     };
 
     function login(credentials) {
@@ -79,6 +80,21 @@
               method: 'PUT',
               url: "users/",
               data: user
+          };
+          $http(req).success(function (data) {
+              def.resolve(data);
+          })
+              .error(function (response) {
+                  def.reject(response);
+              });
+          return def.promise;
+      }
+      
+      function sendCaptchaResponse(response) {
+          var def = $q.defer();
+          var req = {
+              method: 'POST',
+              url: "users/captchaResponse/" + response,
           };
           $http(req).success(function (data) {
               def.resolve(data);
