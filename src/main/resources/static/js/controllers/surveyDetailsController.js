@@ -2,20 +2,21 @@
   angular.module('app')
    .controller('SurveyDetailsController', SurveyDetailsController);
   
-  SurveyDetailsController.$inject = ['CommentService'];
+  SurveyDetailsController.$inject = ['SurveyService', 'CommentService', '$routeParams'];
   
-  function SurveyDetailsController(CommentService) {
+  function SurveyDetailsController(SurveyService, CommentService, $routeParams) {
     
     var self = this;
     self.postComment = postComment;
     self.deleteComment = deleteComment;
     self.getCurrentSurvey = getCurrentSurvey;
-    self.saveSurvey = saveSurvey;
+    self.getSurveyComments = getSurveyComments;
     
     init();
 
     function init() {
       self.surveyHashedId = $routeParams.hashedId;
+      self.comment = {};
       getCurrentSurvey();
     }
 
@@ -24,24 +25,34 @@
         .then(
         function(response){
           self.survey = response;
-        });
-    }
-    
-    function deleteComment(surveyId, commentId) {
-      CommentService.deleteComment(commentId);
-      self.saveSurvey;
-    }
-    
-    function saveSurvey() {
-      SurveyService.saveSurvey(self.survey)
-        .then(
-        function(response){
-          self.survey = response;
-        }, 
-        function(error){
-          console.log(error);
+          getSurveyComments();
         })
     }
     
+    function postComment() {
+      CommentService.postComment(self.survey, self.comment).then(function(response) {
+        getSurveyComments();
+        self.comment = {};
+      }, function(error){
+        console.log(error);
+      })
+    }
+    
+    function getSurveyComments() {
+      SurveyService.getSurveyComments(self.survey).then(handleSuccessSurveyComments);
+    }
+    
+    function handleSuccessSurveyComments(data, status) {
+      self.comments = data;
+    }
+    
+    function deleteComment(commentId){
+      CommentService.deleteComment(commentId).then(function(response){
+        getSurveyComments();
+      }, function(error){
+        console.log(error);
+      })
+    }
+    
   }
-})
+})();

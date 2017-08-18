@@ -11,7 +11,8 @@
       deleteSurvey: deleteSurvey,
       generateSurvey: generateSurvey,
       getSurveys: getSurveys,
-      getCurrentSurvey: getCurrentSurvey
+      getCurrentSurvey: getCurrentSurvey,
+      getSurveyComments: getSurveyComments
     }
 
     function saveSurvey(survey) {

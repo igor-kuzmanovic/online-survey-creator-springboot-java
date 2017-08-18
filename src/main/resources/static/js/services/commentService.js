@@ -2,9 +2,9 @@
   angular.module('app')
    .factory('CommentService', CommentService);
   
-  CommentService.$inject = ['$http', '$q'];
+  CommentService.$inject = ['$http', '$q', '$filter'];
   
-  function CommentService($http, $q) {
+  function CommentService($http, $q, $filter) {
     
     var service = {
       postComment: postComment,
@@ -12,12 +12,13 @@
     }
     return service;
     
- function postComment(surveys, comment) {
+ function postComment(survey, comment) {
+      comment.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
       var def = $q.defer();
       var req = {
         method: 'POST',
-        url: "comments/" + survey.id,
-        data: {"content": comment}
+        url: "comment/" + survey.id,
+        data: comment
       }
       $http(req).success(function (data) {
         def.resolve(data);
@@ -32,7 +33,7 @@
       var def = $q.defer();
       var req = {
         method: 'DELETE',
-        url: "comments/" + id
+        url: "comment/" + id
       }
       $http(req).success(function (data) {
         def.resolve(data);
