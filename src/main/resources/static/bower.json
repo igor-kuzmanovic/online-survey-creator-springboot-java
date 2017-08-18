@@ -23,6 +23,6 @@
     "angular-recaptcha": "^4.1.0"
   },
   "resolutions": {
-    "angular-ui-router": "^0.3.1"
+    
   }
 }

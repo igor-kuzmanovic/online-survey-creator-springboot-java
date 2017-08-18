@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('SurveyController', SurveyController);
 
-  SurveyController.$inject = ['SurveyService'];
+  SurveyController.$inject = ['SurveyService', 'ResultService', '$routeParams', '$location'];
 
-  function SurveyController(SurveyService) {
+  function SurveyController(SurveyService, ResultService, $routeParams, $location) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -22,14 +22,30 @@
         .then(
         function(response){
           self.survey = response;
+          initiateSurveyResult();
         });
     }
+    
+    function initiateSurveyResult() {
+      self.surveyResult = [];
+      self.surveyResult = {
+        submitedBy: "user",
+        results: []
+      };
+      
+      for(i = 0; i < self.survey.questions.length; i++) {
+        self.surveyResult.results.push({
+          questionId: self.survey.questions[i],
+          answerId: {}
+        })
+      }
+    }
 
-    function submitSurvey() {
-      SurveyService.saveSurvey(angular.copy(self.survey))
+    function submitSurvey() { 
+      ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
         .then(
         function(response){
-          $location.path('/survey/finish/' + response.hashedId);
+          $location.path('/survey/finish/' + self.surveyHashedId);
         }, 
         function(error){
           console.log(error);
