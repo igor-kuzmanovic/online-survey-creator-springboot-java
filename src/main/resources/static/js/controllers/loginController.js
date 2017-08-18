@@ -15,7 +15,7 @@
 		}
 
 		function getCredentials(credentials) {
-			UserService.login(credentials).then(handleSuccessCredentials);
+            UserService.login(credentials).then(handleSuccessCredentials);
 		}
 
 		function handleSuccessCredentials(data, status){

@@ -21,11 +21,6 @@
       controller: 'HomeController',
       controllerAs: 'hc'
     })
-      .when('/survey/:hashedId', {
-      templateUrl: '/views/survey.html',
-      controller: 'SurveyController',
-      controllerAs: 'sc'
-    })
       .when('/survey/finish/:hashedId', {
       templateUrl: '/views/surveyFinish.html',
       controller: 'SurveyFinishController',
@@ -51,10 +46,15 @@
       controller: 'SurveyCustomizationFinishController',
       controllerAs: 'scfc'
     })
+      .when('/survey/:hashedId', {
+      templateUrl: '/views/survey.html',
+      controller: 'SurveyController',
+      controllerAs: 'sc'
+      })
       .when('/user/settings', {
-			templateUrl: '/views/userSettings.html',
-			controller: 'UserSettingsController',
-			controllerAs: 'usc'
+      templateUrl: '/views/userSettings.html',
+      controller: 'UserSettingsController',
+      controllerAs: 'usc'
 		})
       .when('/user/notifications', {
       templateUrl: '/views/notifications.html',

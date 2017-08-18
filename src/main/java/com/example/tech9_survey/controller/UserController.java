@@ -5,15 +5,16 @@ import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.domain.VerificationToken;
 import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -91,7 +92,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    @RequestMapping(path = "/{username}", method = RequestMethod.GET)
     public ResponseEntity<User> findLoggedUser(@PathVariable("username") String username) {
         User loggedUser = userService.findByUsername(username);
 
@@ -100,6 +101,31 @@ public class UserController {
         }
 
         return new ResponseEntity<>(loggedUser, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/captchaResponse/{response}", method = RequestMethod.POST)
+    public ResponseEntity responseCaptcha(@PathVariable("response") String response) {
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        map.add("secret", "6LfO0SwUAAAAAPHqyQ8FxQXRRedhdl58oCp-nNz4");
+        map.add("response", response);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+        ResponseEntity<String> postResponse = restTemplate.postForEntity( url, request , String.class );
+
+        System.out.println(postResponse.toString());
+
+        if (postResponse.toString().contains("\"success\": true")) {
+            return new ResponseEntity(HttpStatus.OK);
+        }
+
+
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping("/login")
@@ -117,6 +143,10 @@ public class UserController {
                 verificationTokenService.delete(t.getId());
             }
         }
+    }
+
+    public String parseResponse(JSONPObject response) {
+        return null;
     }
 
     private Date addDay(Date date, int days)
