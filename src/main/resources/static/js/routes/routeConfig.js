@@ -51,12 +51,17 @@
       controller: 'SurveyCustomizationFinishController',
       controllerAs: 'scfc'
     })
+      .when('/user/settings', {
+			templateUrl: '/views/userSettings.html',
+			controller: 'UserSettingsController',
+			controllerAs: 'usc'
+		})
       .when('/user/notifications', {
       templateUrl: '/views/notifications.html',
     })
       .otherwise({
       redirectTo:'/'
     });
+    
   }
-
 }());

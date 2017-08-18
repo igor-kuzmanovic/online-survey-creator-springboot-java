@@ -72,6 +72,11 @@ public class UserService implements UserDetailsService {
         
         return authorities;
     }
+
+    public String getLoggedUserName() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
+    }
     
     public User getLoggedInUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -80,5 +85,4 @@ public class UserService implements UserDetailsService {
         
         return user;
     }
-    
 }
