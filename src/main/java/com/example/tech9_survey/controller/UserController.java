@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -42,6 +41,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
@@ -65,6 +65,18 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<Object> editUser(@RequestBody User user) {
+        User editedUser = userService.save(user);
+
+        if (editedUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(editedUser, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/activate/{token}", method = RequestMethod.GET)
     public ResponseEntity<Object> activateAccount(@PathVariable("token") String token) {
         VerificationToken verificationToken = verificationTokenService.findByToken(token);
@@ -77,6 +89,26 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    public ResponseEntity<User> findLoggedUser(@PathVariable("username") String username) {
+        User loggedUser = userService.findByUsername(username);
+
+        if (loggedUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(loggedUser, HttpStatus.OK);
+    }
+
+    @RequestMapping("/login")
+    public User user(Authentication authentication) {
+        User user = userService.findByUsername(authentication.getName());
+        user.setPassword(null);
+
+        return user;
+    }
+
     @Scheduled(fixedDelay = 43200)
     public void scheduleFixedDelayTask() {
         for (VerificationToken t : verificationTokenService.findAll()) {
@@ -86,21 +118,11 @@ public class UserController {
         }
     }
 
-    @RequestMapping("/login")
-    public Map<String, Object> user(Authentication authentication) {
-        Map<String, Object> map = new LinkedHashMap<>();
-
-        map.put("name", authentication.getName());
-        map.put("roles", AuthorityUtils.authorityListToSet((authentication).getAuthorities()));
-
-        return map;
-    }
-
     private Date addDay(Date date, int days)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        cal.add(Calendar.DATE, days);
         return cal.getTime();
     }
 }

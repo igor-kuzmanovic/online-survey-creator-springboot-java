@@ -13,7 +13,7 @@
     init();
 
     function init(){
-      var user = UserService.getUser();
+      var user = UserService.getUser().username;
       
       if(!user) {
         $location.url('/');

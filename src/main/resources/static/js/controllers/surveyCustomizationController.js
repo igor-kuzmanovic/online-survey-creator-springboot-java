@@ -31,7 +31,7 @@
     }
 
     function saveSurvey() {
-      SurveyService.saveSurvey(self.survey)
+      SurveyService.saveSurvey(angular.copy(self.survey))
         .then(
         function(response){
           self.survey = response;
@@ -42,31 +42,32 @@
     }
 
     function finishCustomization() {
-      if(self.survey.questions) {
-        for(i = 0; i < self.survey.questions.length; i++){
-          if(!(self.survey.questions[i].content && self.survey.questions[i].content.length > 0)){
-            QuestionService.deleteQuestion(self.survey.questions[i].id);
-            self.survey.questions.splice(i, 1);
+      var survey = angular.copy(self.survey);
+      
+      if(survey.questions) {
+        for(i = 0; i < survey.questions.length; i++){
+          if(!(survey.questions[i].content && survey.questions[i].content.length > 0)){
+            QuestionService.deleteQuestion(survey.questions[i].id);
+            survey.questions.splice(i, 1);
           }
         }
 
-        for(i = 0; i < self.survey.questions.length; i++){
-          if(self.survey.questions[i].answers) {
-            for(j = 0; j < self.survey.questions[i].answers.length; j++) {
-              if(!(self.survey.questions[i].answers[j].content && self.survey.questions[i].answers[j].content.length > 0)) {
-                AnswerService.deleteAnswer(self.survey.questions[i].answers[j].id);
-                self.survey.questions[i].answers.splice(j, 1);
+        for(i = 0; i < survey.questions.length; i++){
+          if(survey.questions[i].answers) {
+            for(j = 0; j < survey.questions[i].answers.length; j++) {
+              if(!(survey.questions[i].answers[j].content && survey.questions[i].answers[j].content.length > 0)) {
+                AnswerService.deleteAnswer(survey.questions[i].answers[j].id);
+                survey.questions[i].answers.splice(j, 1);
               }
             }
           } 
         }
       }
       
-      SurveyService.saveSurvey(self.survey)
+      SurveyService.saveSurvey(angular.copy(survey))
         .then(
-        function(response){
-          var location = $location.path().replace("new", "new/finish");
-          $location.path(location);  
+        function(response){ 
+          $location.path('/survey/new/finish/' + self.surveyHashedId);
         }, 
         function(error){
           console.log(error);

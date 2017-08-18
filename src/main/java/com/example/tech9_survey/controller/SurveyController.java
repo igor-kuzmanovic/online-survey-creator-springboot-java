@@ -28,8 +28,8 @@ public class SurveyController {
 	public SurveyController(SurveyService surveyService) {
 		this.surveyService = surveyService;
 	}
-	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping
     public ResponseEntity<List<Survey>> findAll() {
     	List<Survey> allSurveys = surveyService.findAll();

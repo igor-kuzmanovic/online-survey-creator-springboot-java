@@ -43,9 +43,9 @@ public class AnswerController {
 	
 	@PostMapping(path = "/{questionId}")
 	public ResponseEntity<Object> save(@PathVariable Long questionId, @RequestBody Answer answer) {
-		Question AnswerOnQuestion = questionService.findOne(questionId);
-		AnswerOnQuestion.getAnswers().add(answer);
-        questionService.save(AnswerOnQuestion);
+		Question question = questionService.findOne(questionId);
+		question.getAnswers().add(answer);
+        questionService.save(question);
     	return new ResponseEntity<>(HttpStatus.OK);
     }
 	
