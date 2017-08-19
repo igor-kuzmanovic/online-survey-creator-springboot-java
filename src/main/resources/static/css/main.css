@@ -1,9 +1,18 @@
-body { 
-  	display: none;
-	padding-top: 87px;
-	padding-bottom: 87px; 
+body {
+  display: none;
+  padding-top: 87px;
+  padding-bottom: 87px;
 }
 
 .breadcrumb-item {
   font-size: 15px;
+}
+
+textarea {
+  resize: none;
+}
+
+.img-nav {
+  width: 20px; 
+  height: 20px;
 }

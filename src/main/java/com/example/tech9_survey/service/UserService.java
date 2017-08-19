@@ -4,8 +4,10 @@ import com.example.tech9_survey.domain.Role;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -57,19 +59,30 @@ public class UserService implements UserDetailsService {
                     .build();
         }
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found!");
-        }
-
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
     }
 
     private Set<GrantedAuthority> getAuthorities(User user){
         Set<GrantedAuthority> authorities = new HashSet<>();
+        
         for(Role role : user.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getType().toString());
             authorities.add(grantedAuthority);
         }
+        
         return authorities;
+    }
+
+    public String getLoggedUserName() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
+    }
+    
+    public User getLoggedInUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUserUsername = auth.getName();
+        User user = findByUsername(loggedInUserUsername);
+        
+        return user;
     }
 }

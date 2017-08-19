@@ -1,11 +1,58 @@
-(function () {
+(function(){
   angular.module('app')
-    .controller('SurveyDetailsController', SurveyDetailsController);
+   .controller('SurveyDetailsController', SurveyDetailsController);
+  
+  SurveyDetailsController.$inject = ['SurveyService', 'CommentService', '$routeParams'];
+  
+  function SurveyDetailsController(SurveyService, CommentService, $routeParams) {
+    
+    var self = this;
+    self.postComment = postComment;
+    self.deleteComment = deleteComment;
+    self.getCurrentSurvey = getCurrentSurvey;
+    self.getSurveyComments = getSurveyComments;
+    
+    init();
 
-  SurveyDetailsController.$inject = ['SurveyService', 'UserService', '$location'];
+    function init() {
+      self.surveyHashedId = $routeParams.hashedId;
+      self.comment = {};
+      getCurrentSurvey();
+    }
 
-  function SurveyDetailsController(SurveyService, UserService, $location) {
-
-	  this.$location = $location;
-};
+    function getCurrentSurvey() {
+      SurveyService.getCurrentSurvey(self.surveyHashedId)
+        .then(
+        function(response){
+          self.survey = response;
+          getSurveyComments();
+        })
+    }
+    
+    function postComment() {
+      CommentService.postComment(self.survey, self.comment).then(function(response) {
+        getSurveyComments();
+        self.comment = {};
+      }, function(error){
+        console.log(error);
+      })
+    }
+    
+    function getSurveyComments() {
+      SurveyService.getSurveyComments(self.survey).then(handleSuccessSurveyComments);
+    }
+    
+    function handleSuccessSurveyComments(data, status) {
+      self.comments = data;
+    }
+    
+    function deleteComment(commentId){
+      CommentService.deleteComment(commentId).then(function(response){
+        getSurveyComments();
+      }, function(error){
+        console.log(error);
+      })
+    }
+    
+  }
 })();

@@ -1,13 +1,9 @@
 package com.example.tech9_survey.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
-import java.util.UUID;
 
 @Entity
 public class VerificationToken extends BaseEntity {

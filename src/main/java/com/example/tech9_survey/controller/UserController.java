@@ -5,15 +5,15 @@ import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.domain.VerificationToken;
 import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -65,8 +65,20 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<Object> editUser(@RequestBody User user) {
+        User editedUser = userService.save(user);
+
+        if (editedUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(editedUser, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/activate/{token}", method = RequestMethod.GET)
-    public ResponseEntity activateAccount(@PathVariable("token") String token) {
+    public ResponseEntity<Object> activateAccount(@PathVariable("token") String token) {
         VerificationToken verificationToken = verificationTokenService.findByToken(token);
         if (verificationToken == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body("Account already activated!");
@@ -75,6 +87,49 @@ public class UserController {
         user.setEnabled(true);
         userService.save(user);
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @RequestMapping(path = "/{username}", method = RequestMethod.GET)
+    public ResponseEntity<User> findLoggedUser(@PathVariable("username") String username) {
+        User loggedUser = userService.findByUsername(username);
+
+        if (loggedUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(loggedUser, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/captchaResponse/{response}", method = RequestMethod.POST)
+    public ResponseEntity<Object> responseCaptcha(@PathVariable("response") String response) {
+        HttpHeaders headers = new HttpHeaders();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        map.add("secret", "6LfO0SwUAAAAAPHqyQ8FxQXRRedhdl58oCp-nNz4");
+        map.add("response", response);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+        ResponseEntity<String> postResponse = restTemplate.postForEntity( url, request , String.class );
+
+        if (postResponse.toString().contains("\"success\": true")) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping("/login")
+    public User user(Authentication authentication) {
+        User user = userService.findByUsername(authentication.getName());
+        user.setPassword(null);
+
+        return user;
     }
 
     @Scheduled(fixedDelay = 43200)
@@ -86,21 +141,11 @@ public class UserController {
         }
     }
 
-    @RequestMapping("/login")
-    public Map<String, Object> user(Authentication authentication) {
-        Map<String, Object> map = new LinkedHashMap<>();
-
-        map.put("name", authentication.getName());
-        map.put("roles", AuthorityUtils.authorityListToSet((authentication).getAuthorities()));
-
-        return map;
-    }
-
     private Date addDay(Date date, int days)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        cal.add(Calendar.DATE, days);
         return cal.getTime();
     }
 }

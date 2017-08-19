@@ -5,6 +5,7 @@
 	LoginController.$inject = ['UserService', '$location'];
 
 	function LoginController(UserService, $location) {
+    
 		var self = this;
 		self.getCredentials = getCredentials;
 
@@ -14,7 +15,7 @@
 		}
 
 		function getCredentials(credentials) {
-			UserService.login(credentials).then(handleSuccessCredentials);
+            UserService.login(credentials).then(handleSuccessCredentials);
 		}
 
 		function handleSuccessCredentials(data, status){

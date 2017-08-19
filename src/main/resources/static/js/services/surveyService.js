@@ -11,10 +11,13 @@
       deleteSurvey: deleteSurvey,
       generateSurvey: generateSurvey,
       getSurveys: getSurveys,
-      getCurrentSurvey: getCurrentSurvey
+      getCurrentSurvey: getCurrentSurvey,
+      getSurveyComments: getSurveyComments
     }
 
     function saveSurvey(survey) {
+      survey.publicationDate = $filter('date')(survey.publicationDate, "yyyy-MM-dd");
+      survey.expirationDate = $filter('date')(survey.expirationDate, "yyyy-MM-dd");
       var def = $q.defer();
       var req = {
         method: 'POST',
@@ -46,8 +49,8 @@
     }
 
     function generateSurvey(survey) {
-      survey.userId = 0;
-      survey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss.sssZ");
+      survey.userId = 1;
+      survey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
       var def = $q.defer();
       var req = {
         method: 'POST',
@@ -89,6 +92,22 @@
       })
         .error(function () {
         def.reject("Failed to get all surveys!");
+      });
+      return def.promise;
+    }
+    
+    function getSurveyComments(survey) {
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "survey/" + survey.id + "/comment"
+      }
+      $http(req)
+        .success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to get comments for selected survey");
       });
       return def.promise;
     }

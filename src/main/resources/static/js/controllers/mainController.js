@@ -44,7 +44,7 @@
 			if(!user) {
 				return null;
 			}
-			return user.name;
+			return user;
 		}
 
 		function removeUser() {

@@ -1,8 +1,6 @@
 package com.example.tech9_survey.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -13,7 +11,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String username;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
 
@@ -27,6 +25,9 @@ public class User extends BaseEntity {
     @Column(name = "registration_date")
     private Date registrationDate;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -34,6 +35,14 @@ public class User extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private UserStatus userStatus;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public Date getRegistrationDate() {
         return registrationDate;

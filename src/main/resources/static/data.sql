@@ -1,1 +1,0 @@
-INSERT INTO `survey` (`name`, `description`, `creationDate`, `publicationDate`, `expirationDate`, `isActive`) VALUES ('Test', 'Test1', '2007-01-01', '2007-01-01', '2007-01-01', true);

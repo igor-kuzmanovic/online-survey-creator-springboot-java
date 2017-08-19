@@ -10,7 +10,7 @@
 		self.generateSurvey = generateSurvey;
 
 		function generateSurvey(survey) {
-			SurveyService.generateSurvey(survey)
+			SurveyService.generateSurvey(angular.copy(survey))
 				.then(
 				function(response){
 					$location.path('/survey/new/' + response.hashedId);

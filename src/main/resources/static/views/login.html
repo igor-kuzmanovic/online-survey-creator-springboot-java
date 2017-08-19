@@ -1,24 +1,28 @@
 <div class="row">
-  <div class="col-md-4"></div>
-  <div class="col-md-4">
-    <h3 align="center">Login</h3>
-    <br/>
-    <form>
+  <div class="col-md-offset-4 col-md-4">
+    <form novalidate>
+      <div class="form-group">
+        <h3 align="center">Login</h3>
+      </div>
+
       <div class="form-group">
         <label>Username:</label>
         <input class="form-control" ng-model="lc.credentials.username">
-        <br/>
+      </div>
+
+      <div class="form-group">
         <label>Password:</label>
         <input type="password" class="form-control" ng-model="lc.credentials.password">
-        <br/>
-        <div align="center">
-          <button class="btn btn-default btn-primary" ng-click="lc.getCredentials(lc.credentials)">Submit</button>
-          <br/><br/>
-          <span class="label label-primary">Don't have an account?</span>
-          <a ng-href="/#/registration">Sign up!</a>
-        </div>
+      </div>
+
+      <div align="center" class="form-group">
+        <button type="submit" class="btn btn-default btn-success" ng-click="lc.getCredentials(lc.credentials)">Submit</button>
       </div>
     </form>
+
+    <div align="center" class="form-group">
+      <span class="label label-primary">Don't have an account?</span>
+      <a ng-href="#/registration"> Sign up!</a>
+    </div>
   </div>
-  <div class="col-md-4"></div>
 </div>
