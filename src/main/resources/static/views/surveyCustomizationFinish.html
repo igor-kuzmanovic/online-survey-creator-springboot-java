@@ -9,7 +9,7 @@
         <label for="exitMsg">Exit message</label>
         <textarea id="exitMsg" type="text" class="form-control" name="exitMsg" rows="4" placeholder="Write an exit message you want to display to the user after completing the survey" ng-model="scfc.surveyInput.exitMessage"></textarea>
       </div>
-      
+
       <div class="form-group">
         <label for="publicationDate">Publication date</label>
         <input id="publicationDate" type="date" class="form-control" name="publicationDate" min="{{scfc.surveyInput.creationDate | date:'yyyy-MM-dd'}}" placeholder="yyyy-MM-dd" ng-model="scfc.surveyInput.publicationDate">
@@ -18,6 +18,16 @@
       <div class="form-group">
         <label for="expirationDate">Expiration date</label>
         <input id="expirationDate" type="date" class="form-control" name="expirationDate" min="{{scfc.surveyInput.publicationDate | date:'yyyy-MM-dd'}}" placeholder="yyyy-MM-dd" ng-model="scfc.surveyInput.expirationDate">
+      </div>
+
+      <div class="form-group">
+        <label for="surveyPrivacy">Survey privacy options</label>
+        <div class="radio">
+          <label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" ng-value="1" ng-model="scfc.surveyInput.surveyPrivacy.id">Available to everyone</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" ng-value="2" ng-model="scfc.surveyInput.surveyPrivacy.id">Available to registered users only</label> 
+        </div>
       </div>
 
       <div align="center" class="form-group">

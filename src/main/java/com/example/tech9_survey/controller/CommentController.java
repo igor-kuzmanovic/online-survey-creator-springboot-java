@@ -1,5 +1,6 @@
 package com.example.tech9_survey.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class CommentController {
     }
     
     @PostMapping(path = "/{surveyId}")
-    public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Comment comment) {
+    public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Comment comment) throws NoSuchAlgorithmException {
     	Survey commentedSurvey = surveyService.findOne(surveyId);
     	User user = userService.getLoggedInUser();
     	comment.setUser(user);

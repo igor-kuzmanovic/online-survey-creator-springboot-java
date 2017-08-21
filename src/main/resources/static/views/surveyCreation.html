@@ -15,11 +15,6 @@
         <input id="description" type="text" class="form-control" name="description" placeholder="Describe your survey" ng-model="survey.description">
       </div>
 
-      <div class="form-group">
-        <label for="welcomeMsg">Welcome message</label>
-        <textarea id="welcomeMsg" type="text" class="form-control" name="welcomeMsg" rows="4" placeholder="Write a welcome message you want to display to the user when he opens the survey" ng-model="survey.welcomeMessage"></textarea>
-      </div>
-
       <div align="center" class="form-group">
         <button type="submit" class="btn btn-default btn-success" ng-click="scc.generateSurvey(survey)">Submit</button>
       </div>
