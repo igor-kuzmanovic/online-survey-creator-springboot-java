@@ -1,9 +1,8 @@
-<div class="container">
-  <div class = "row">
+<div class = "row">
     <div class="col-md-offset-4 col-md-4">
       <form novalidate>
         <div align="center" class="form-group">
-          <h3>Write a comment</h3>
+          <h3 class="typewriter">Write a comment</h3>
         </div>
         <div class="panel panel-primary" ng-repeat = "comment in sdc.comments | orderBy: 'date':true">
           <button type="button" class="close" aria-hidden="true" ng-click="sdc.deleteComment(comment.id)" style="padding: 5px 5px 0 0">&times;</button>
