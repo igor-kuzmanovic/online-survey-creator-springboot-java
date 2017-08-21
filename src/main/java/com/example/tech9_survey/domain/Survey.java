@@ -41,10 +41,6 @@ public class Survey extends BaseEntity {
 	private Date expirationDate;
 	
 	@Size(max = 240)
-	@Column(name = "welcome_message")
-	private String welcomeMessage;
-	
-	@Size(max = 240)
 	@Column(name = "exit_message")
 	private String exitMessage;
 	
@@ -129,14 +125,6 @@ public class Survey extends BaseEntity {
 
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
-	}
-
-	public String getWelcomeMessage() {
-		return welcomeMessage;
-	}
-
-	public void setWelcomeMessage(String welcomeMessage) {
-		this.welcomeMessage = welcomeMessage;
 	}
 
 	public String getExitMessage() {

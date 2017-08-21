@@ -1,5 +1,6 @@
 package com.example.tech9_survey.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class ResultController {
 	}
 	
 	@PostMapping(path = "/{surveyId}")
-	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody SurveyResult surveyResult) {
+	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody SurveyResult surveyResult) throws NoSuchAlgorithmException {
 		Survey survey = surveyService.findOne(surveyId);
 		survey.getResults().add(surveyResult);
 		surveyService.save(survey);

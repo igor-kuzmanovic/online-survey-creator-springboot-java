@@ -77,7 +77,7 @@
       var def = $q.defer();
       var req = {
         method: 'PUT',
-        url: "/api/users/",
+        url: "/api/users",
         data: user
       };
       $http(req).success(function (data) {

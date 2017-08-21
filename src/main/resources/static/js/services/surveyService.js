@@ -51,6 +51,7 @@
     function generateSurvey(survey) {
       survey.userId = 1;
       survey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
+      survey.surveyPrivacy = { id: 1 };
       var def = $q.defer();
       var req = {
         method: 'POST',

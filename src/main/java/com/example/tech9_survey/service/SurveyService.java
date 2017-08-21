@@ -31,14 +31,11 @@ public class SurveyService {
     	return surveyRepository.findByHashedId(hashedId);
     }
     
-    public Survey save(Survey survey) {
+    public Survey save(Survey survey) throws NoSuchAlgorithmException {
     	if(survey.getId() == null) {
-    		try {
-    			survey.generateHash();
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			}
+    		survey.generateHash();
     	}
+    	
     	return surveyRepository.save(survey);
     }
   

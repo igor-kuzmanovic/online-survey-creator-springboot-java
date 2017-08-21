@@ -2,12 +2,11 @@
     angular.module('app')
         .controller('UserSettingsController', UserSettingsController);
 
-    UserSettingsController.$inject = ['UserService', '$location'];
+    UserSettingsController.$inject = ['UserService'];
 
-    function UserSettingsController(UserService, $location) {
+    function UserSettingsController(UserService) {
 
         var self = this;
-        self.$location = $location;
         self.editUser = editUser;
 
         init();

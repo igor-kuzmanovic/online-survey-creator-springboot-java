@@ -19,7 +19,7 @@ public class SurveyPrivacy extends BaseEntity {
     }
 
     public enum SurveyPrivacyType {
-        SURVEY_ALL, SURVEY_REGISTERED
+        VISIBILITY_ALL, VISIBILITY_REGISTERED
     }
 	
 }
