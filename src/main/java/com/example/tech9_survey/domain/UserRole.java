@@ -5,7 +5,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Entity
-public class Role extends BaseEntity {
+public class UserRole extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private RoleType type;

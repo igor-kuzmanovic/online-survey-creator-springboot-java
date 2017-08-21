@@ -19,7 +19,7 @@ import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.service.SurveyService;
 
 @RestController
-@RequestMapping("/survey")
+@RequestMapping("/api/survey")
 public class SurveyController {
 	
 	private SurveyService surveyService;

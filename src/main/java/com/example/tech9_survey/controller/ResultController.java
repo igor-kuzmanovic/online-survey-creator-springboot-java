@@ -19,7 +19,7 @@ import com.example.tech9_survey.service.ResultService;
 import com.example.tech9_survey.service.SurveyService;
 
 @RestController
-@RequestMapping("/result")
+@RequestMapping("/api/result")
 public class ResultController {
 	
 	private ResultService resultService;

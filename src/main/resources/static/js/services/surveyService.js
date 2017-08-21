@@ -21,7 +21,7 @@
       var def = $q.defer();
       var req = {
         method: 'POST',
-        url: "survey",
+        url: "/api/survey",
         data: survey
       }
       $http(req).success(function (data) {
@@ -37,7 +37,7 @@
       var def = $q.defer();
       var req = {
         method: 'DELETE',
-        url: "survey/" + id
+        url: "/api/survey/" + id
       }
       $http(req).success(function (data) {
         def.resolve(data);
@@ -54,7 +54,7 @@
       var def = $q.defer();
       var req = {
         method: 'POST',
-        url: "survey",
+        url: "/api/survey",
         data: survey
       }
       $http(req).success(function (data) {
@@ -70,7 +70,7 @@
       var def = $q.defer();
       var req = {
         method: 'GET',
-        url: "survey/" + hashedId
+        url: "/api/survey/" + hashedId
       }
       $http(req).success(function (data) {
         def.resolve(data);
@@ -85,7 +85,7 @@
       var def = $q.defer();
       var req = {
         method: 'GET',
-        url: "survey"
+        url: "/api/survey"
       }
       $http(req).success(function (data) {
         def.resolve(data);
@@ -100,7 +100,7 @@
       var def = $q.defer();
       var req = {
         method: 'GET',
-        url: "survey/" + survey.id + "/comment"
+        url: "/api/survey/" + survey.id + "/comment"
       }
       $http(req)
         .success(function (data) {

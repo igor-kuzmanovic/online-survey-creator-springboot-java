@@ -1,27 +1,23 @@
 (function(){
-	angular.module('app')
-		.controller('LoginController', LoginController);
+  angular.module('app')
+    .controller('LoginController', LoginController);
 
-	LoginController.$inject = ['UserService', '$location'];
+  LoginController.$inject = ['UserService', '$location', '$scope'];
 
-	function LoginController(UserService, $location) {
-    
-		var self = this;
-		self.getCredentials = getCredentials;
+  function LoginController(UserService, $location, $scope) {
 
-		init();
+    var self = this;
+    self.getCredentials = getCredentials;
 
-		function init(){
-		}
+    function getCredentials(credentials) {
+      UserService.login(credentials).then(handleSuccessCredentials);
+    }
 
-		function getCredentials(credentials) {
-            UserService.login(credentials).then(handleSuccessCredentials);
-		}
+    function handleSuccessCredentials(data, status){
+      self.user = data;
+      $scope.mc.init();
+      $location.path('/home');
+    }
 
-		function handleSuccessCredentials(data, status){
-			self.user = data;
-			$location.path('/home');
-		}
-
-	};
+  };
 })();

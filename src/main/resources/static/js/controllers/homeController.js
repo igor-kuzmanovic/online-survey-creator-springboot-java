@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['SurveyService', 'UserService', '$location'];
+  HomeController.$inject = ['SurveyService'];
 
-  function HomeController(SurveyService, UserService, $location) {
+  function HomeController(SurveyService) {
 
     var self = this;
     self.deleteSurvey = deleteSurvey;
@@ -13,14 +13,7 @@
     init();
 
     function init(){
-      var user = UserService.getUser().username;
-      
-      if(!user) {
-        $location.url('/');
-      }
-      else {
-        getSurveys();
-      }
+      getSurveys();
     }
 
     function getSurveys(){

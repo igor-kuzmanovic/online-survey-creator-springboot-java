@@ -17,7 +17,7 @@ import com.example.tech9_survey.service.AnswerService;
 import com.example.tech9_survey.service.QuestionService;
 
 @RestController
-@RequestMapping("/answer")
+@RequestMapping("/api/answer")
 public class AnswerController {
 
 	private AnswerService answerService;

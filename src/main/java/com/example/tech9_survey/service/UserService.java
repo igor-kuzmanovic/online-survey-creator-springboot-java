@@ -1,6 +1,6 @@
 package com.example.tech9_survey.service;
 
-import com.example.tech9_survey.domain.Role;
+import com.example.tech9_survey.domain.UserRole;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +65,7 @@ public class UserService implements UserDetailsService {
     private Set<GrantedAuthority> getAuthorities(User user){
         Set<GrantedAuthority> authorities = new HashSet<>();
         
-        for(Role role : user.getRoles()) {
+        for(UserRole role : user.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getType().toString());
             authorities.add(grantedAuthority);
         }

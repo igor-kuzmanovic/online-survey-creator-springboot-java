@@ -2,14 +2,14 @@
 	angular.module('app')
 		.controller('MainController', MainController);
 
-	MainController.$inject = ['$location', 'UserService'];
+	MainController.$inject = ['UserService', '$location'];
 
-	function MainController($location, UserService) {
+	function MainController(UserService, $location) {
 
 		var self = this;
-		self.$location = $location;
 		self.removeUser = removeUser;
 		self.getUser = getUser;
+    self.init = init;
 
 		this.themes = [
 			{ name: 'Cerulean', url: 'cerulean' },
@@ -40,15 +40,16 @@
 		}
 
 		function getUser() {
-			var user = UserService.getUser();
-			if(!user) {
-				return null;
-			}
-			return user;
+			self.user = UserService.getUser();
+      
+      if(!self.user && !$location.path().includes('/survey/submit') && !$location.path().includes('/users/activate')) {
+        $location.path('/');
+      }
 		}
 
 		function removeUser() {
 			UserService.removeUser();
+      delete self.user;
 			$location.path('/');
 		}
 	};

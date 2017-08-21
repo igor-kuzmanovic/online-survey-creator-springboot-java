@@ -1,5 +1,5 @@
-INSERT INTO `tech9survey`.`role`(`type`) VALUES ('ROLE_ADMIN');
-INSERT INTO `tech9survey`.`role`(`type`) VALUES ('ROLE_USER');
+INSERT INTO `tech9survey`.`user_role`(`type`) VALUES ('ROLE_ADMIN');
+INSERT INTO `tech9survey`.`user_role`(`type`) VALUES ('ROLE_USER');
 
 INSERT INTO `tech9survey`.`user_status`(`type`) VALUES ('STATUS_ACTIVE');
 INSERT INTO `tech9survey`.`user_status`(`type`) VALUES ('STATUS_INACTIVE');

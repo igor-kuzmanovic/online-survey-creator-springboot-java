@@ -46,7 +46,7 @@
       controller: 'SurveyDetailsController',
       controllerAs: 'sdc'
     })
-      .when('/survey/:hashedId', {
+      .when('/survey/submit/:hashedId', {
       templateUrl: '/views/survey.html',
       controller: 'SurveyController',
       controllerAs: 'sc'
@@ -62,6 +62,5 @@
       .otherwise({
       redirectTo:'/'
     });
-
   }
 }());
