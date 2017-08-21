@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('SurveyCustomizationFinishController', SurveyCustomizationFinishController);
 
-  SurveyCustomizationFinishController.$inject = ['SurveyService', '$location', '$routeParams', '$filter'];
+  SurveyCustomizationFinishController.$inject = ['SurveyService', '$location', '$routeParams', '$filter', '$scope'];
 
-  function SurveyCustomizationFinishController(SurveyService, $location, $routeParams, $filter) {
+  function SurveyCustomizationFinishController(SurveyService, $location, $routeParams, $filter, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -13,6 +13,7 @@
     init()
     
     function init() {
+      $scope.mc.checkUser();
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
     }

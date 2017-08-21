@@ -7,7 +7,7 @@
 
       <div class="form-group">
         <label for="exitMsg">Exit message</label>
-        <textarea id="exitMsg" type="text" class="form-control" name="exitMsg" rows="4" placeholder="Write an exit message you want to display to the user after completing the survey" ng-model="scfc.surveyInput.exitMessage"></textarea>
+        <textarea id="exitMsg" type="text" class="form-control" name="exitMsg" rows="3" placeholder="Write an exit message you want to display to the user after completing the survey" ng-model="scfc.surveyInput.exitMessage"></textarea>
       </div>
 
       <div class="form-group">
@@ -31,7 +31,7 @@
       </div>
 
       <div align="center" class="form-group">
-        <button type="submit" class="btn btn-default btn-success" ng-click="scfc.saveSurvey(scfc.surveyInput)">Finish</button>
+        <button type="submit" class="btn btn-default btn-success" ng-click="scfc.saveSurvey(scfc.surveyInput)">Finish <span class="glyphicon glyphicon-check"></span></button>
       </div>
     </form> 
   </div>

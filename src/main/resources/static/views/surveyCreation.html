@@ -1,22 +1,28 @@
 <div class="row">
   <div class="col-md-offset-4 col-md-4">
-    <form novalidate>
+    <form name="surveyForm" ng-submit="scc.generateSurvey(survey)" novalidate>
       <div align="center" class="form-group">
         <h3>Create a new survey</h3>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-class="{'has-feedback': surveyForm.name.$dirty, 'has-error': surveyForm.name.$dirty && surveyForm.name.$invalid, 'has-success': surveyForm.name.$dirty && surveyForm.name.$valid}">
         <label for="name">Name</label>
-        <input id="name" type="text" class="form-control" name="name" placeholder="Give a name to your survey" ng-model="survey.name" auto-focus="true">
+        <input id="name" type="text" class="form-control" name="name" placeholder="Give a name to your survey" ng-model="survey.name" auto-focus="true" required>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.name.$dirty && surveyForm.name.$valid"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.name.$dirty && surveyForm.name.$invalid"></span>
+        <label class="text-danger" ng-show="surveyForm.name.$dirty && surveyForm.name.$invalid">Please enter a survey name!</label>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-class="{'has-feedback': surveyForm.description.$dirty, 'has-error': surveyForm.description.$dirty && surveyForm.description.$invalid, 'has-success': surveyForm.description.$dirty && surveyForm.description.$valid}">
         <label for="description">Description</label>
-        <input id="description" type="text" class="form-control" name="description" placeholder="Describe your survey" ng-model="survey.description">
+        <textarea id="description" type="text" class="form-control" name="description" rows="3" placeholder="Describe your survey" ng-model="survey.description" required></textarea>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.description.$dirty && surveyForm.description.$valid"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.description.$dirty && surveyForm.description.$invalid"></span>
+        <label class="text-danger" ng-show="surveyForm.description.$dirty && surveyForm.description.$invalid">Please enter a survey description!</label>
       </div>
 
       <div align="center" class="form-group">
-        <button type="submit" class="btn btn-default btn-success" ng-click="scc.generateSurvey(survey)">Submit</button>
+        <button type="submit" class="btn btn-default btn-success">Create <span class="glyphicon glyphicon-check"></span></button>
       </div>
     </form> 
   </div>
