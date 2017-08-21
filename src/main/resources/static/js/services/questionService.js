@@ -14,7 +14,7 @@
       var def = $q.defer();
       var req = {
         method: 'DELETE',
-        url: "question/" + questionId
+        url: "/api/question/" + questionId
       }
       $http(req).success(function (data) {
         def.resolve(data);

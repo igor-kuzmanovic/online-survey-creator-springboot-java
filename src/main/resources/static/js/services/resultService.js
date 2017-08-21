@@ -15,7 +15,7 @@
       var def = $q.defer();
       var req = {
         method: 'POST',
-        url: "result/" + surveyId,
+        url: "/api/result/" + surveyId,
         data: surveyResult
       }
       $http(req).success(function (data) {

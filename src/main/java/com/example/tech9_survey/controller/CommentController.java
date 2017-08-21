@@ -18,7 +18,7 @@ import com.example.tech9_survey.service.SurveyService;
 import com.example.tech9_survey.service.UserService;
 
 @RestController
-@RequestMapping("/comment")
+@RequestMapping("/api/comment")
 public class CommentController {
 
 	private CommentService commentService;

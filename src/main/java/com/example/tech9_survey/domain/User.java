@@ -30,7 +30,7 @@ public class User extends BaseEntity {
 
     @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Set<UserRole> roles;
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
@@ -92,11 +92,11 @@ public class User extends BaseEntity {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
+    public Set<UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
     }
 }

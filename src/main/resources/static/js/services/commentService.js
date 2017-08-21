@@ -17,7 +17,7 @@
       var def = $q.defer();
       var req = {
         method: 'POST',
-        url: "comment/" + survey.id,
+        url: "/api/comment/" + survey.id,
         data: comment
       }
       $http(req).success(function (data) {
@@ -33,7 +33,7 @@
       var def = $q.defer();
       var req = {
         method: 'DELETE',
-        url: "comment/" + id
+        url: "/api/comment/" + id
       }
       $http(req).success(function (data) {
         def.resolve(data);

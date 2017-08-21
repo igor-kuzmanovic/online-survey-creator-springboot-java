@@ -19,7 +19,7 @@ import java.util.*;
 
 @EnableScheduling
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     private UserService userService;
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<List<User>> findAll() {
         List<User> users = userService.findAll();
 
@@ -42,7 +42,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
         EmailSender emailSender = new EmailSender();
@@ -66,7 +66,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping
     public ResponseEntity<Object> editUser(@RequestBody User user) {
         User editedUser = userService.save(user);
 
@@ -77,7 +77,7 @@ public class UserController {
         return new ResponseEntity<>(editedUser, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/activate/{token}", method = RequestMethod.GET)
+    @GetMapping(value = "/activate/{token}")
     public ResponseEntity<Object> activateAccount(@PathVariable("token") String token) {
         VerificationToken verificationToken = verificationTokenService.findByToken(token);
         if (verificationToken == null) {
@@ -90,7 +90,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @RequestMapping(path = "/{username}", method = RequestMethod.GET)
+    @GetMapping(path = "/{username}")
     public ResponseEntity<User> findLoggedUser(@PathVariable("username") String username) {
         User loggedUser = userService.findByUsername(username);
 
@@ -101,7 +101,7 @@ public class UserController {
         return new ResponseEntity<>(loggedUser, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/captchaResponse/{response}", method = RequestMethod.POST)
+    @PostMapping(path = "/captchaResponse/{response}")
     public ResponseEntity<Object> responseCaptcha(@PathVariable("response") String response) {
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();

@@ -7,7 +7,7 @@
   function UserService($http, $q, $filter) {
 
     var user;
-      var base64Credential;
+    var base64Credential;
 
     var service = {
       login: login,
@@ -17,25 +17,24 @@
       findUser: findUser,
       editUser: editUser,
       setUser: setUser,
-        sendCaptchaResponse: sendCaptchaResponse
+      sendCaptchaResponse: sendCaptchaResponse
     };
 
     function login(credentials) {
-      var def = $q.defer();
       base64Credential = btoa(credentials.username + ':' + credentials.password);
+      var def = $q.defer();      
       var req = {
         method: 'GET',
-        url: "users/login",
+        url: "/api/users/login",
         headers: {
           'Authorization': 'Basic ' + base64Credential
         }
       };
       $http(req)
         .success(function (data) {
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
         user = data;
         def.resolve(data);
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
       })
         .error(function () {
         def.reject("Bad credentials");
@@ -47,7 +46,7 @@
       var def = $q.defer();
       var req = {
         method: 'POST',
-        url: "users",
+        url: "/api/users",
         data: savedUser
       };
       $http(req).success(function (data) {
@@ -59,55 +58,55 @@
       return def.promise;
     }
 
-      function findUser(username) {
-          var def = $q.defer();
-          var req = {
-              method: 'GET',
-              url: "users/" + username
-          };
-          $http(req).success(function (data) {
-              def.resolve(data);
-          })
-              .error(function (response) {
-                  def.reject(response);
-              });
-          return def.promise;
-      }
+    function findUser(username) {
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "/api/users/" + username
+      };
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function (response) {
+        def.reject(response);
+      });
+      return def.promise;
+    }
 
-      function editUser(user) {
-          var def = $q.defer();
-          var req = {
-              method: 'PUT',
-              url: "users/",
-              data: user
-          };
-          $http(req).success(function (data) {
-              def.resolve(data);
-          })
-              .error(function (response) {
-                  def.reject(response);
-              });
-          return def.promise;
-      }
-      
-      function sendCaptchaResponse(response) {
-          var def = $q.defer();
-          var req = {
-              method: 'POST',
-              url: "users/captchaResponse/" + response,
-          };
-          $http(req).success(function (data) {
-              def.resolve(data);
-          })
-              .error(function (response) {
-                  def.reject(response);
-              });
-          return def.promise;
-      }
+    function editUser(user) {
+      var def = $q.defer();
+      var req = {
+        method: 'PUT',
+        url: "/api/users/",
+        data: user
+      };
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function (response) {
+        def.reject(response);
+      });
+      return def.promise;
+    }
+
+    function sendCaptchaResponse(response) {
+      var def = $q.defer();
+      var req = {
+        method: 'POST',
+        url: "/api/users/captchaResponse/" + response,
+      };
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function (response) {
+        def.reject(response);
+      });
+      return def.promise;
+    }
 
     function removeUser() {
       $http.defaults.headers.common['Authorization'] = null;
-      user = null;
+      delete user;
     }
 
     function getUser() {
@@ -115,9 +114,9 @@
     }
 
     function setUser(editedUser) {
-        base64Credential = btoa(editedUser.username + ':' + editedUser.password);
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
-        user = editedUser;
+      base64Credential = btoa(editedUser.username + ':' + editedUser.password);
+      $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
+      user = editedUser;
     }
 
     return service;
