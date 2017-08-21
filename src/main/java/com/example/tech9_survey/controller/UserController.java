@@ -55,7 +55,7 @@ public class UserController {
                 token.setUser(user);
                 verificationTokenService.save(token);
                 User savedUser = userService.save(user);
-                emailSender.sendEmail(user.getEmail(), "http://localhost:8080/users/activate/" + token.getToken());
+                emailSender.sendEmail(user.getEmail(), "http://localhost:8080/api/users/activate/" + token.getToken());
                 return new ResponseEntity<>(savedUser, HttpStatus.OK);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body("email");
@@ -86,6 +86,7 @@ public class UserController {
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.save(user);
+        verificationTokenService.delete(verificationToken.getId());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
     }
 

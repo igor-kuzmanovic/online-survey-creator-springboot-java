@@ -53,7 +53,7 @@
         def.resolve(data);
       })
         .error(function (response) {
-        def.reject(response);
+        def.reject("Failed to save a user");
       });
       return def.promise;
     }
@@ -68,7 +68,7 @@
         def.resolve(data);
       })
         .error(function (response) {
-        def.reject(response);
+        def.reject("Failed to find a user");
       });
       return def.promise;
     }
@@ -84,7 +84,7 @@
         def.resolve(data);
       })
         .error(function (response) {
-        def.reject(response);
+        def.reject("Failed to edit a user");
       });
       return def.promise;
     }
