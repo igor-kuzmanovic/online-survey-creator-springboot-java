@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['SurveyService'];
+  HomeController.$inject = ['SurveyService', '$scope'];
 
-  function HomeController(SurveyService) {
+  function HomeController(SurveyService, $scope) {
 
     var self = this;
     self.deleteSurvey = deleteSurvey;
@@ -13,6 +13,7 @@
     init();
 
     function init(){
+      $scope.mc.checkUser();
       getSurveys();
     }
 
