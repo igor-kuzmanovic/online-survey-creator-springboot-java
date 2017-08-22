@@ -19,6 +19,12 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "second_name")
+    private String secondName;
+
     @Column(name = "is_enabled", nullable = false)
     private boolean isEnabled;
 
@@ -35,6 +41,22 @@ public class User extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private UserStatus userStatus;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
 
     public String getImageUrl() {
         return imageUrl;

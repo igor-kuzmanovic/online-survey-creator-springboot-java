@@ -8,10 +8,15 @@
 
         var self = this;
         self.editUser = editUser;
-
+        self.onSuccess = onSuccess;
+        
         init();
 
         function init(){
+            getWholeUser(UserService.getUser().username);
+        }
+        
+        function onSuccess(response) {
             getWholeUser(UserService.getUser().username);
         }
 
