@@ -1,30 +1,23 @@
-<div class="container">
-  <div class = "row">
-    <div class="col-md-offset-4 col-md-4">
-      <form novalidate>
+<div class="row">
+  <div class="col-md-offset-2 col-md-8">
+    <span class="glyphicon glyphicon-edit" style="float: right; font-size: 24px; padding: 5px; cursor: pointer;"></span>
+    <div class="jumbotron">
+      <form class="form-horizontal" novalidate>
         <div align="center" class="form-group">
-          <h3>Write a comment</h3>
+          <h2>{{sdc.survey.name}}</h2>
+          <h3>{{sdc.survey.description}}</h3>
         </div>
-        <div class="panel panel-primary" ng-repeat = "comment in sdc.comments | orderBy: 'date':true">
-          <button type="button" class="close" aria-hidden="true" ng-click="sdc.deleteComment(comment.id)" style="padding: 5px 5px 0 0">&times;</button>
-          <div class="panel-body">
-            <span style="font-weight: bold">{{comment.user.username}}</span> | <span style="font-style: italic; font-size: 80%">{{comment.creationDate | date:'medium'}}</span>
-            <br>
-            {{comment.content}}
-            <span style="font-style: italic" ng-if="!sdc.comments">
-              There are no comments for this bookmark, be the first to add one...
 
-            </span>
+        <div ng-repeat="question in sdc.survey.questions track by $index">
+          <div class="form-group">
+            <label for="question{{$index + 1}}">{{$index + 1}}. {{question.content}}</label>
+            <div class="radio" ng-repeat="answer in question.answers track by $index">
+              <label>
+                <input type="radio" name="question{{$parent.$index + 1}}answer{{$index + 1}}" id="question{{$parent.$index + 1}}answer{{$index + 1}}" ng-value="answer" ng-model="sdc.surveyResult.results[$parent.$index].answerId">
+                {{answer.content}}
+              </label>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <textarea type="text" name="comment" class="form-control" placeholder="Write a comment..." ng-model = "sdc.comment.content" rows = "2"></textarea>
-        </div>
-        <div align="center" class="form-group">
-          <button type = "submit" class="btn btn-default btn-success" type="button" ng-click="sdc.postComment()">Post</button>
-        </div>
-        <div align="center" class="form-group">
-          <button type = "submit" class="btn btn-default btn-primary" type="button" ng-click="">Cancel</button>
         </div>
       </form>
     </div>

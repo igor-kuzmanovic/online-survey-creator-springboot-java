@@ -18,9 +18,11 @@
           {{survey.creationDate | date:'mediumDate'}}
         </td>
         <td class="option">
-          <button class="btn btn-primary" type="button">
-            <span class="glyphicon glyphicon-signal"></span>
-          </button>
+           <a href="#/survey/analyze/{{survey.hashedId}}">
+            <button class="btn btn-primary" type="button">
+              <span class="glyphicon glyphicon-signal"></span>
+            </button>
+          </a>
         </td>
         <td class="option">
           <button class="btn btn-primary" type="button">
@@ -42,6 +44,7 @@
       </tr>
   </table>
 </div>
+<a class = "btn btn-primary btn-md" href="#/survey/new" role="button"><span class="glyphicon glyphicon-plus"></span> new survey</a>
 
 <div class="modal fade" id="deleteSurveyModal" role="dialog">
   <div class="modal-dialog">
