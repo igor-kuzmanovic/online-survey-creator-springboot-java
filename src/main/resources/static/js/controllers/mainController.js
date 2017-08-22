@@ -43,9 +43,10 @@
     }
 
     function checkUser() {
-      if(!self.user && !$location.path().includes('/survey/submit') && !$location.path().includes('/users/activate')) {
-        $location.path('/');
-      }
+//    Uncomment and set which pages are public and which pages are for logged in users
+//      if(!self.user && !$location.path().includes('/survey/submit') && !$location.path().includes('/users/activate')) {
+//        $location.path('/');
+//      }
     }
 
     function getUser() {

@@ -62,7 +62,7 @@
       controllerAs: 'usc'
     })
       .when('/user/notifications', {
-      templateUrl: '/views/notifications.html',
+      templateUrl: '/views/userNotifications.html',
       controller: 'UserNotificationsController',
       controllerAs: 'unc'
     })
@@ -72,7 +72,7 @@
       controllerAs: 'apc'
     })
       .otherwise({
-      redirectTo:'/'
+      redirectTo:'/home'
     });
   }
 }());

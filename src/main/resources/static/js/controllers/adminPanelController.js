@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('AdminPanelController', AdminPanelController);
 
-  AdminPanelController.$inject = ['UserService', '$scope'];
+  AdminPanelController.$inject = ['$scope'];
 
-  function AdminPanelController(UserService, $scope) {
+  function AdminPanelController($scope) {
 
     var self = this;
 

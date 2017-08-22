@@ -7,32 +7,27 @@
     <meta name="description" content="Online Survey Creator is a web application that allows users to create, share, and review results from custom surveys">
     <meta name="author" content="Dunja Ajdukovic, Igor Kuzmanovic, Sasa Dobrilovic">
 
-<!-- Will be needed for Facebook sharing
-    <meta property="og:url"           content="http://www.your-domain.com/your-page.html" />
-    <meta property="og:type"          content="website" />
-    <meta property="og:title"         content="Your Website Title" />
-    <meta property="og:description"   content="Your description" />
-    <meta property="og:image"         content="http://www.your-domain.com/path/image.jpg" />
+    <!-- Will be needed for Facebook sharing
+<meta property="og:url"           content="http://www.your-domain.com/your-page.html" />
+<meta property="og:type"          content="website" />
+<meta property="og:title"         content="Your Website Title" />
+<meta property="og:description"   content="Your description" />
+<meta property="og:image"         content="http://www.your-domain.com/path/image.jpg" />
 -->
 
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link onload="showBody()" rel="stylesheet" ng-href="https://bootswatch.com/{{mc.theme.url}}/bootstrap.min.css">
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    
+    <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="js/app.js" type="text/javascript"></script>
+    <script src="js/controllers//adminPanelController.js" type="text/javascript"></script>
     <script src="js/controllers/registrationController.js" type="text/javascript"></script>
     <script src="js/controllers/loginController.js" type="text/javascript"></script>
     <script src="js/controllers/mainController.js" type="text/javascript"></script>
@@ -43,8 +38,9 @@
     <script src="js/controllers/surveyCustomizationController.js" type="text/javascript"></script>
     <script src="js/controllers/surveyCustomizationFinishController.js" type="text/javascript"></script>
     <script src="js/controllers/surveyDetailsController.js" type="text/javascript"></script>
-    <script src="js/controllers/surveyResponsesController.js" type="text/javascript"></script>
+    <script src="js/controllers/surveyResultsController.js" type="text/javascript"></script>
     <script src="js/controllers/userSettingsController.js" type="text/javascript"></script>
+    <script src="js/controllers/userNotificatonsController.js" type="text/javascript"></script>
     <script src="js/services/surveyService.js" type="text/javascript"></script>
     <script src="js/services/resultService.js" type="text/javascript"></script>
     <script src="js/services/userService.js" type="text/javascript"></script>

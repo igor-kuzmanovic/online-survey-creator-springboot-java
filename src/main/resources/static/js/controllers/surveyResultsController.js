@@ -4,7 +4,7 @@
 
   SurveyResultsController.$inject = ['SurveyService', '$routeParams', '$scope'];
 
-  function SurveyResultsController(SurveyService, $routeParams, '$scope') {
+  function SurveyResultsController(SurveyService, $routeParams, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;

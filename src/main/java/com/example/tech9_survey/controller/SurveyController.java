@@ -41,31 +41,39 @@ public class SurveyController {
 	@GetMapping
     public ResponseEntity<List<Survey>> findAll() {
     	List<Survey> allSurveys = surveyService.findAll();	
+    	
     	if(allSurveys.isEmpty()) {
     		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    	}	
+    	}
+    	
         return new ResponseEntity<>(allSurveys, HttpStatus.OK);
     }
 	
 	@GetMapping(path = "/{hashedId}")
 	public ResponseEntity<Survey> findByHashedId(@PathVariable String hashedId) {
 		Survey survey = surveyService.findByHashedId(hashedId);	
+		
 		if(survey == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}		
+		}
+		
 		return new ResponseEntity<>(survey, HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/{id}/comment")
 	public ResponseEntity<List<Comment>> findAllCommentsFromSurvey(@PathVariable Long id) {
-		Survey survey = surveyService.findOne(id);		
+		Survey survey = surveyService.findOne(id);
+		
 		if (survey == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }		
+		
 		List<Comment> comments = survey.getComments();
+		
 		if(comments.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
+		
 		return new ResponseEntity<>(comments, HttpStatus.OK);
 	}
   
@@ -73,20 +81,26 @@ public class SurveyController {
 	@PostMapping
     public ResponseEntity<Survey> save(@RequestBody Survey survey) {
 		User user = userService.getLoggedInUser();
+		
 		if(user == null) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
+		
 		survey.setUser(user);
 		survey.setCreationDate(new Date());
+		
     	try {
 			survey.generateHash();
 		} catch (NoSuchAlgorithmException e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}    		
+		}  
+    	
 		Survey duplicateSurvey = surveyService.findByHashedId(survey.getHashedId());	
+		
 		if(duplicateSurvey != null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
-		}	
+		}
+		
 		survey.setPublicationDate(new Date());
 		survey.setExpirationDate(new Date());
 		survey.setExitMessage(new String());
@@ -96,6 +110,7 @@ public class SurveyController {
 		surveyPrivacy.setId(1L);
 		survey.setSurveyPrivacy(surveyPrivacy);
 		Survey createdSurvey = surveyService.save(survey);
+		
     	return new ResponseEntity<>(createdSurvey, HttpStatus.CREATED);
     }
 	
@@ -103,10 +118,13 @@ public class SurveyController {
 	@PutMapping
     public ResponseEntity<Survey> update(@RequestBody Survey survey) {
 		Survey findSurvey = surveyService.findByHashedId(survey.getHashedId());
+		
 		if(findSurvey == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		
     	Survey updatedSurvey = surveyService.save(survey);
+    	
     	return new ResponseEntity<>(updatedSurvey, HttpStatus.OK);
     }
 	
@@ -114,10 +132,13 @@ public class SurveyController {
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Survey> delete(@PathVariable Long id) {
 		Survey findSurvey = surveyService.findOne(id);
+		
 		if(findSurvey == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		
 		surveyService.delete(id);
+		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
