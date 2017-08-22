@@ -1,0 +1,33 @@
+<div class = "row">
+    <div class="col-md-offset-2 col-md-8">
+      <form novalidate>
+        <div align="center" class="form-group">
+          <h3>Write a comment</h3>
+        </div>
+        
+        <div class="media" ng-repeat = "comment in sfc.comments | orderBy: 'date':true">
+          <div class="media-left">
+             <span class="glyphicon glyphicon-user" style = "font-size: 50px"></span>
+          </div>
+          <div class="media-body">
+            <button type="button" class="close" aria-hidden="true" ng-click="sfc.deleteComment(comment.id)" style="padding: 5px 5px 0 0">&times;</button>
+            <h4 class="media-heading">
+              <span style="font-weight: bold">{{comment.user.username}}</span> | <span style="font-style: italic; font-size: 80%">{{comment.creationDate | date:'medium'}}</span>
+            </h4>
+            <p style="font-size: 15px">{{comment.content}}</p>
+          </div>
+        </div>
+        <hr>
+        
+        <div class="form-group">
+          <textarea type="text" name="comment" class="form-control" placeholder="Write a comment..." ng-model = "sfc.comment.content" rows = "2"></textarea>
+        </div>
+        <div align="center" class="form-group">
+          <button type = "submit" class="btn btn-default btn-success" type="button" ng-click="sfc.postComment()">Post</button>
+        </div>
+        <div align="center" class="form-group">
+          <a type = "submit" class="btn btn-default btn-primary" role="button" href = "#/home">Close</a>
+        </div>
+      </form>
+    </div>
+  </div>
