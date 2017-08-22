@@ -36,25 +36,25 @@
       controller: 'SurveyCustomizationFinishController',
       controllerAs: 'scfc'
     })
-      .when('/survey/finish/:hashedId', {
-      templateUrl: '/views/surveyFinish.html',
-      controller: 'SurveyFinishController',
-      controllerAs: 'sfc'
-    })
       .when('/survey/details/:hashedId', {
       templateUrl: '/views/surveyDetails.html',
       controller: 'SurveyDetailsController',
       controllerAs: 'sdc'
+    })
+      .when('/survey/results/:hashedId', {
+      templateUrl: '/views/surveyResults.html',
+      controller: 'SurveyResultsController',
+      controllerAs: 'src'
     })
       .when('/survey/submit/:hashedId', {
       templateUrl: '/views/survey.html',
       controller: 'SurveyController',
       controllerAs: 'sc'
     })
-      .when('/survey/analyze/:hashedId', {
-      templateUrl: '/views/surveyResponses.html',
-      controller: 'SurveyResponsesController',
-      controllerAs: 'src'
+      .when('/survey/finish/:hashedId', {
+      templateUrl: '/views/surveyFinish.html',
+      controller: 'SurveyFinishController',
+      controllerAs: 'sfc'
     })
       .when('/user/settings', {
       templateUrl: '/views/userSettings.html',
@@ -63,6 +63,13 @@
     })
       .when('/user/notifications', {
       templateUrl: '/views/notifications.html',
+      controller: 'UserNotificationsController',
+      controllerAs: 'unc'
+    })
+      .when('/admin', {
+      templateUrl: '/views/adminPanel.html',
+      controller: 'AdminPanelController',
+      controllerAs: 'apc'
     })
       .otherwise({
       redirectTo:'/'

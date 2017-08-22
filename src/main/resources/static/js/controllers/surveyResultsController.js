@@ -1,10 +1,10 @@
 (function () {
   angular.module('app')
-    .controller('SurveyResponsesController', SurveyResponsesController);
+    .controller('SurveyResultsController', SurveyResultsController);
 
-  SurveyResponsesController.$inject = ['SurveyService', '$routeParams'];
+  SurveyResultsController.$inject = ['SurveyService', '$routeParams', '$scope'];
 
-  function SurveyResponsesController(SurveyService, $routeParams) {
+  function SurveyResultsController(SurveyService, $routeParams, '$scope') {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -13,6 +13,7 @@
     init();
 
     function init() {
+      $scope.mc.checkUser();
       self.surveyHashedId = $routeParams.hashedId;
       self.comment = {};
       getCurrentSurvey();
@@ -34,5 +35,5 @@
       self.comments = data;
     }
     
-  };
+  }
 })();
