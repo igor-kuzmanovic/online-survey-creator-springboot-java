@@ -51,6 +51,11 @@
       controller: 'SurveyController',
       controllerAs: 'sc'
     })
+      .when('/survey/analyze/:hashedId', {
+      templateUrl: '/views/surveyResponses.html',
+      controller: 'SurveyResponsesController',
+      controllerAs: 'src'
+    })
       .when('/user/settings', {
       templateUrl: '/views/userSettings.html',
       controller: 'UserSettingsController',
