@@ -46,7 +46,7 @@
     }
 
     function handleSuccessUser() {
-      $location.path('/');
+      $location.path('/user/verify');
     }
 
   };

@@ -7,6 +7,7 @@
   function UserService($http, $q, $filter) {
 
     var user;
+    var registeredUser;
     var base64Credential;
 
     var service = {
@@ -17,7 +18,8 @@
       findUser: findUser,
       editUser: editUser,
       setUser: setUser,
-      sendCaptchaResponse: sendCaptchaResponse
+      sendCaptchaResponse: sendCaptchaResponse,
+      getRegisteredUser: getRegisteredUser
     };
 
     function login(credentials) {
@@ -50,6 +52,7 @@
         data: savedUser
       };
       $http(req).success(function (data) {
+        registeredUser = data;
         def.resolve(data);
       })
         .error(function (response) {
@@ -108,7 +111,11 @@
       $http.defaults.headers.common['Authorization'] = null;
       delete user;
     }
-
+    
+    function getRegisteredUser() {
+        return registeredUser;
+    }
+    
     function getUser() {
       return user;
     }

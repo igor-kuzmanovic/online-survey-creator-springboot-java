@@ -56,6 +56,16 @@
       controller: 'UserSettingsController',
       controllerAs: 'usc'
     })
+      .when('/user/verify', {
+      templateUrl: '/views/verifyUser.html',
+      controller: 'VerifyUserController',
+      controllerAs: 'vuc'
+      })
+      .when('/api/users/activate/:token', {
+          redirectTo:'/',
+          controller: 'ActivateController',
+          controllerAs: 'ac'
+      })
       .when('/user/notifications', {
       templateUrl: '/views/notifications.html',
     })
