@@ -32,7 +32,7 @@
       { name: 'United', url: 'united' },
       { name: 'Yeti', url: 'yeti' }
     ];
-    self.theme = self.themes[7];
+    self.theme = self.themes[9];
 
     init();
 

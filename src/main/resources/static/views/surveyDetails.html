@@ -1,21 +1,24 @@
 <div class = "row">
-    <div class="col-md-offset-4 col-md-4">
+    <div class="col-md-offset-2 col-md-8">
       <form novalidate>
         <div align="center" class="form-group">
-          <h3 class="typewriter">Write a comment</h3>
+          <h3>Write a comment</h3>
         </div>
-        <div class="panel panel-primary" ng-repeat = "comment in sdc.comments | orderBy: 'date':true">
-          <button type="button" class="close" aria-hidden="true" ng-click="sdc.deleteComment(comment.id)" style="padding: 5px 5px 0 0">&times;</button>
-          <div class="panel-body">
-            <span style="font-weight: bold">{{comment.user.username}}</span> | <span style="font-style: italic; font-size: 80%">{{comment.creationDate | date:'medium'}}</span>
-            <br>
-            {{comment.content}}
-            <span style="font-style: italic" ng-if="!sdc.comments">
-              There are no comments for this bookmark, be the first to add one...
-
-            </span>
+        
+        <div class="media" ng-repeat = "comment in sdc.comments | orderBy: 'date':true">
+          <div class="media-left">
+             <span class="glyphicon glyphicon-user" style = "font-size: 50px"></span>
+          </div>
+          <div class="media-body">
+            <button type="button" class="close" aria-hidden="true" ng-click="sdc.deleteComment(comment.id)" style="padding: 5px 5px 0 0">&times;</button>
+            <h4 class="media-heading">
+              <span style="font-weight: bold">{{comment.user.username}}</span> | <span style="font-style: italic; font-size: 80%">{{comment.creationDate | date:'medium'}}</span>
+            </h4>
+            <p style="font-size: 15px">{{comment.content}}</p>
           </div>
         </div>
+        <hr>
+        
         <div class="form-group">
           <textarea type="text" name="comment" class="form-control" placeholder="Write a comment..." ng-model = "sdc.comment.content" rows = "2"></textarea>
         </div>
@@ -28,4 +31,3 @@
       </form>
     </div>
   </div>
-</div>
