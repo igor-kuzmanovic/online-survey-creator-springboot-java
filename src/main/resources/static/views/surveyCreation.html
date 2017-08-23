@@ -7,15 +7,15 @@
 
       <div class="form-group" ng-class="{'has-feedback': surveyForm.name.$dirty, 'has-error': surveyForm.name.$dirty && surveyForm.name.$invalid, 'has-success': surveyForm.name.$dirty && surveyForm.name.$valid}">
         <label for="name">Name</label>
-        <input id="name" type="text" class="form-control" name="name" placeholder="Give a name to your survey" ng-model="survey.name" auto-focus="true" required>
+        <input id="name" type="text" class="form-control" name="name" placeholder="Survey title" ng-model="survey.name" auto-focus="true" required>
         <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.name.$dirty && surveyForm.name.$valid"></span>
         <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.name.$dirty && surveyForm.name.$invalid"></span>
-        <label class="text-danger" ng-show="surveyForm.name.$dirty && surveyForm.name.$invalid">Please enter a survey name!</label>
+        <label class="text-danger" ng-show="surveyForm.name.$dirty && surveyForm.name.$invalid">Please enter a survey title!</label>
       </div>
 
       <div class="form-group" ng-class="{'has-feedback': surveyForm.description.$dirty, 'has-error': surveyForm.description.$dirty && surveyForm.description.$invalid, 'has-success': surveyForm.description.$dirty && surveyForm.description.$valid}">
         <label for="description">Description</label>
-        <textarea id="description" type="text" class="form-control" name="description" rows="3" placeholder="Describe your survey" ng-model="survey.description" required></textarea>
+        <textarea id="description" type="text" class="form-control" name="description" rows="3" placeholder="Survey description" ng-model="survey.description" required></textarea>
         <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.description.$dirty && surveyForm.description.$valid"></span>
         <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.description.$dirty && surveyForm.description.$invalid"></span>
         <label class="text-danger" ng-show="surveyForm.description.$dirty && surveyForm.description.$invalid">Please enter a survey description!</label>

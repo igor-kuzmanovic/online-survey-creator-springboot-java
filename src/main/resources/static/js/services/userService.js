@@ -20,7 +20,8 @@
       setUser: setUser,
       sendCaptchaResponse: sendCaptchaResponse,
       getRegisteredUser: getRegisteredUser,
-      getImageFromUrl: getImageFromUrl
+      getImageFromUrl: getImageFromUrl,
+      getUserNotifications: getUserNotifications
     };
 
     function login(credentials) {
@@ -154,6 +155,22 @@
       base64Credential = btoa(editedUser.username + ':' + editedUser.password);
       $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
       user = editedUser;
+    }
+    
+    function getUserNotifications(user) {
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "/api/user/" + user.id + "/notifications"
+      }
+      $http(req)
+        .success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to get notifications for selected user");
+      });
+      return def.promise;
     }
 
     return service;

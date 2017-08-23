@@ -2,17 +2,19 @@
   angular.module('app')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['SurveyService'];
+  HomeController.$inject = ['SurveyService', '$scope', '$sce'];
 
-  function HomeController(SurveyService) {
+  function HomeController(SurveyService, $scope, $sce) {
 
     var self = this;
     self.deleteSurvey = deleteSurvey;
     self.setCurrentSurvey = setCurrentSurvey;
+    self.$sce = $sce;
 
     init();
 
     function init(){
+      $scope.mc.checkUser();
       getSurveys();
     }
 
@@ -23,7 +25,7 @@
     function handleSuccessSurveys(data, status) {
       self.surveys = data;
     }
-    
+
     function setCurrentSurvey(survey) {
       self.currentSurvey = survey;
     }

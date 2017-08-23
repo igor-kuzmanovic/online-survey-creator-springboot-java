@@ -8,6 +8,7 @@
 
     var service = {
       submitSurvey: submitSurvey,
+      getSurveyResults: getSurveyResults
     }
 
     function submitSurvey(surveyId, surveyResult) {
@@ -23,6 +24,21 @@
       })
         .error(function () {
         def.reject("Failed to submit a survey!");
+      });
+      return def.promise;
+    }
+    
+    function getSurveyResults(surveyId) {
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "/api/result/" + surveyId,
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to get survey results!");
       });
       return def.promise;
     }

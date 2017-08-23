@@ -18,9 +18,10 @@
     function saveSurvey(survey) {
       survey.publicationDate = $filter('date')(survey.publicationDate, "yyyy-MM-dd");
       survey.expirationDate = $filter('date')(survey.expirationDate, "yyyy-MM-dd");
+
       var def = $q.defer();
       var req = {
-        method: 'POST',
+        method: 'PUT',
         url: "/api/survey",
         data: survey
       }
@@ -32,7 +33,7 @@
       });
       return def.promise;
     }
-    
+
     function deleteSurvey(id) {
       var def = $q.defer();
       var req = {
@@ -49,9 +50,6 @@
     }
 
     function generateSurvey(survey) {
-      survey.userId = 1;
-      survey.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
-      survey.surveyPrivacy = { id: 1 };
       var def = $q.defer();
       var req = {
         method: 'POST',
@@ -96,7 +94,7 @@
       });
       return def.promise;
     }
-    
+
     function getSurveyComments(survey) {
       var def = $q.defer();
       var req = {
@@ -112,7 +110,7 @@
       });
       return def.promise;
     }
-    
+
     return service;
 
   }

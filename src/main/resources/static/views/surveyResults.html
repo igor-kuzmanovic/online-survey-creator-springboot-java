@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-offset-2 col-md-8">
+    <div align="center" class="form-group">
+      <h3>Comments</h3>
+    </div>
+    <div class="media" ng-repeat = "comment in src.comments | orderBy: 'date':true">
+        <div class="media-left">
+          <span class="glyphicon glyphicon-user" style = "font-size: 50px"></span>
+        </div>
+        <div class="media-body">
+          <button type="button" class="close" aria-hidden="true" ng-click="src.deleteComment(comment.id)" style="padding: 5px 5px 0 0">&times;</button>
+          <h4 class="media-heading">
+            <span style="font-weight: bold">{{comment.user.username}}</span>
+          </h4>
+          <p style="font-size: 15px; margin: 0">{{comment.content}}</p>
+            <b><span style="font-style: italic; font-size: 80%">{{comment.creationDate | date:'medium'}}</span></b>
+        </div>
+      </div>
+      <hr>
+    </div>  
+</div>

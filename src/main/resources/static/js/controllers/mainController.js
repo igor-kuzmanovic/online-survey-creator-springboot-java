@@ -33,7 +33,8 @@
       { name: 'United', url: 'united' },
       { name: 'Yeti', url: 'yeti' }
     ];
-    self.theme = self.themes[7];
+
+    self.theme = self.themes[0];
 
     init();
 
@@ -44,8 +45,8 @@
     }
 
     function checkUser() {
-      if(!self.user && !$location.path().includes('/survey/submit') && !$location.path().includes('/users/activate')) {
-        $location.path('/');
+      if(self.user) {
+        return self.user;
       }
     }
 

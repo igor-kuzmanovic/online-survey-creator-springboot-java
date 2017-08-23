@@ -16,42 +16,48 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class Survey extends BaseEntity {
 	
-	@Size(min=1, max=240)
+	@Size(max = 512)
+	@Column(nullable = false)
 	private String name;
 	
-	@Column(name = "user_id")
-	private Long userId;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@ManyToOne
+	@JoinColumn(name = "user_id", updatable = false, nullable = false)
+	private User user;
 	
-	@Column(name = "hashed_id")
+	@Column(name = "hashed_id", unique = true, updatable = false, nullable = false)
 	private String hashedId;
 	
-	@Column(name = "creation_date")
+	@Column(name = "creation_date", updatable = false, nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date creationDate;
 	
-	@Column(name = "publication_date")
+	@Column(name = "publication_date", updatable = false, nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date publicationDate;
 	
-	@Column(name = "expiration_date")
+	@Column(name = "expiration_date", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date expirationDate;
 	
-	@Size(max = 240)
-	@Column(name = "exit_message")
+	@Size(max = 512)
+	@Column(name = "exit_message", nullable = false)
 	private String exitMessage;
 	
-	@Size(max = 240)
+	@Size(max = 512)
+	@Column(nullable = false)
 	private String description;
 	
-	@Column(name = "is_active")
+	@Column(name = "is_active", nullable = false)
 	private Boolean isActive;
 	
 	@ManyToOne
-	@JoinColumn(name = "survey_privacy")
+	@JoinColumn(name = "survey_privacy_id", nullable = false)
 	private SurveyPrivacy surveyPrivacy;
 	
 	@Cascade(CascadeType.ALL)
@@ -71,7 +77,8 @@ public class Survey extends BaseEntity {
 	
 	public void generateHash() throws NoSuchAlgorithmException {
 		String dateString = getCreationDate().toString();
-		String hashString = dateString;
+		String userString = getUser().getId().toString();
+		String hashString = userString + dateString;
 		byte[] hashBytes = hashString.getBytes();
 		MessageDigest m = MessageDigest.getInstance("MD5");
 		byte[] hashedId = m.digest(hashBytes);
@@ -86,13 +93,13 @@ public class Survey extends BaseEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Long getUserId() {
-		return userId;
+	
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getHashedId() {

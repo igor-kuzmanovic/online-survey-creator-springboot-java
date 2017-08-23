@@ -2,21 +2,18 @@
   angular.module('app')
    .controller('SurveyDetailsController', SurveyDetailsController);
   
-  SurveyDetailsController.$inject = ['SurveyService', 'CommentService', '$routeParams'];
+  SurveyDetailsController.$inject = ['SurveyService', '$routeParams', '$scope'];
   
-  function SurveyDetailsController(SurveyService, CommentService, $routeParams) {
+  function SurveyDetailsController(SurveyService, $routeParams, $scope) {
     
     var self = this;
-    self.postComment = postComment;
-    self.deleteComment = deleteComment;
     self.getCurrentSurvey = getCurrentSurvey;
-    self.getSurveyComments = getSurveyComments;
-    
+
     init();
 
     function init() {
+      $scope.mc.checkUser();
       self.surveyHashedId = $routeParams.hashedId;
-      self.comment = {};
       getCurrentSurvey();
     }
 
@@ -25,33 +22,7 @@
         .then(
         function(response){
           self.survey = response;
-          getSurveyComments();
-        })
-    }
-    
-    function postComment() {
-      CommentService.postComment(self.survey, self.comment).then(function(response) {
-        getSurveyComments();
-        self.comment = {};
-      }, function(error){
-        console.log(error);
-      })
-    }
-    
-    function getSurveyComments() {
-      SurveyService.getSurveyComments(self.survey).then(handleSuccessSurveyComments);
-    }
-    
-    function handleSuccessSurveyComments(data, status) {
-      self.comments = data;
-    }
-    
-    function deleteComment(commentId){
-      CommentService.deleteComment(commentId).then(function(response){
-        getSurveyComments();
-      }, function(error){
-        console.log(error);
-      })
+        });
     }
     
   }
