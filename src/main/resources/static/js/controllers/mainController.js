@@ -11,6 +11,7 @@
     self.checkUser = checkUser;
     self.removeUser = removeUser;
     self.getUser = getUser;
+    self.getImage = getImage;
     
     self.$location = $location;
     self.themes = [
@@ -39,12 +40,24 @@
     function init() {
       self.getUser();
       self.checkUser();
+      self.getImage();
     }
 
     function checkUser() {
       if(!self.user && !$location.path().includes('/survey/submit') && !$location.path().includes('/users/activate')) {
         $location.path('/');
       }
+    }
+
+    function getImage() {
+      if(!self.user) {
+        return;
+      }
+      UserService.getImageFromUrl().then(handleSuccessImage);
+    }
+
+    function handleSuccessImage(data, status) {
+        self.img = data;
     }
 
     function getUser() {
