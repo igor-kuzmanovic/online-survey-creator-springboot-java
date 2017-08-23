@@ -2,17 +2,33 @@
     angular.module('app')
         .controller('UserSettingsController', UserSettingsController);
 
-    UserSettingsController.$inject = ['UserService'];
+    UserSettingsController.$inject = ['UserService', '$scope'];
 
-    function UserSettingsController(UserService) {
+    function UserSettingsController(UserService, $scope) {
 
         var self = this;
         self.editUser = editUser;
-
+        self.onSuccess = onSuccess;
+        self.getImage = getImage;
+        
         init();
 
         function init(){
             getWholeUser(UserService.getUser().username);
+            getImage();
+        }
+        
+        function onSuccess(response) {
+            getImage();
+            $scope.mc.getImage();
+        }
+        
+        function getImage() {
+            UserService.getImageFromUrl().then(handleSuccessImage);
+        }
+        
+        function handleSuccessImage(data, status) {
+            self.img = data;
         }
 
         function getWholeUser(username) {

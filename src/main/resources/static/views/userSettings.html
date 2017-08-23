@@ -1,6 +1,9 @@
 <div class="row">
     <div class="col-md-2">
-        <img class="img-cicle" ng-src="{{usc.wholeUser.imageUrl}}" width="100%" height="100%">
+        <div class="thumbnail">
+            <img ng-src="{{'data:image/jpg;base64,'+ usc.img}}">
+        </div>
+        <!--<img class="img-cicle" ng-src="{{usc.wholeUser.imageUrl}}" width="100%" height="100%">-->
     </div>
     <div class="col-md-10" align="center">
         <h2 style="text-transform: capitalize">{{usc.wholeUser.username}}'s Settings Page</h2> <br/>
@@ -18,17 +21,26 @@
     <div class="col-md-8">
         <form>
             <div class="form-group">
+                <label>First name:</label>
+                <input type="text" value="{{usc.wholeUser.firstName}}" class="form-control" ng-model="usc.wholeUser.firstName">
+            </div>
+
+            <div class="form-group">
+                <label>Last name:</label>
+                <input type="text" value="{{usc.wholeUser.secondName}}" class="form-control" ng-model="usc.wholeUser.secondName">
+            </div>
+
+            <div class="form-group">
                 <label>Password:</label>
                 <input type="password" value="{{usc.wholeUser.password}}" class="form-control" ng-model="usc.wholeUser.password">
             </div>
 
             <div class="form-group">
-                <label>Image url:</label>
-                <input class="form-control" value="{{usc.wholeUser.imageUrl}}" ng-model="usc.wholeUser.imageUrl">
+                <div class="btn btn-primary btn-upload" upload-button url="/upload" on-success="usc.onSuccess(response)">Select image</div>
             </div>
 
             <div align="center" class="form-group">
-                <button class="btn btn-default btn-success" ng-click="usc.editUser()">Edit</button>
+                <button class="btn btn-default btn-success" ng-click="usc.editUser()">Confirm Edit</button>
             </div>
         </form>
     </div>

@@ -7,6 +7,7 @@
   function UserService($http, $q, $filter) {
 
     var user;
+    var registeredUser;
     var base64Credential;
 
     var service = {
@@ -18,6 +19,8 @@
       editUser: editUser,
       setUser: setUser,
       sendCaptchaResponse: sendCaptchaResponse,
+      getRegisteredUser: getRegisteredUser,
+      getImageFromUrl: getImageFromUrl,
       getUserNotifications: getUserNotifications
     };
 
@@ -51,6 +54,7 @@
         data: savedUser
       };
       $http(req).success(function (data) {
+        registeredUser = data;
         def.resolve(data);
       })
         .error(function (response) {
@@ -105,11 +109,44 @@
       return def.promise;
     }
 
+    function getImageFromUrl() {
+        var def = $q.defer();
+        var req = {
+          method: 'GET',
+          url: "/upload/image",
+          responseType: 'arraybuffer'
+        };
+        $http(req).success(function (data) {
+          data = arrayBufferToBase64(data);
+          def.resolve(data);
+        })
+          .error(function (response) {
+            def.reject(response);
+        });
+        return def.promise;
+    }
+
+    function arrayBufferToBase64(buffer) {
+      var binary = '';
+      var bytes = new Uint8Array(buffer);
+      var len = bytes.byteLength;
+
+      for (var i = 0; i < len; i++) {
+          binary += String.fromCharCode(bytes[i]);
+      }
+
+      return window.btoa(binary);
+    }
+
     function removeUser() {
       $http.defaults.headers.common['Authorization'] = null;
       delete user;
     }
-
+    
+    function getRegisteredUser() {
+        return registeredUser;
+    }
+    
     function getUser() {
       return user;
     }
