@@ -47,17 +47,16 @@ public class UserController {
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
         EmailSender emailSender = new EmailSender();
+
         token.setToken(UUID.randomUUID().toString());
 
         if (userService.findByUsername(user.getUsername()) == null) {
             if (userService.findByEmail(user.getEmail()) == null) {
-                String filename = "default_user.jpg";
-                String directory = "D:\\user_images";
-                String filePath = Paths.get(directory, filename).toString();
+                String imagePath = Paths.get("D:\\user_images", "default_user.jpg").toString();
 
                 user.setEnabled(false);
                 user.setRegistrationDate(new Date());
-                user.setImageUrl(filePath);
+                user.setImageUrl(imagePath);
 
                 token.setUser(user);
                 verificationTokenService.save(token);
@@ -90,12 +89,15 @@ public class UserController {
     @GetMapping(value = "/activate/{token}")
     public ResponseEntity<Object> activateAccount(@PathVariable("token") String token) {
         VerificationToken verificationToken = verificationTokenService.findByToken(token);
+
         if (verificationToken == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body("Account already activated!");
         }
+
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.save(user);
+
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
     }
 
@@ -116,8 +118,8 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://www.google.com/recaptcha/api/siteverify";
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
         map.add("secret", "6LfO0SwUAAAAAPHqyQ8FxQXRRedhdl58oCp-nNz4");
         map.add("response", response);
@@ -129,7 +131,6 @@ public class UserController {
         if (postResponse.toString().contains("\"success\": true")) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
-
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
