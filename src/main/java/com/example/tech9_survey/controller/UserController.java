@@ -15,6 +15,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.file.Paths;
 import java.util.*;
 
 @EnableScheduling
@@ -50,12 +51,21 @@ public class UserController {
 
         if (userService.findByUsername(user.getUsername()) == null) {
             if (userService.findByEmail(user.getEmail()) == null) {
+                String filename = "default_user.jpg";
+                String directory = "D:\\user_images";
+                String filePath = Paths.get(directory, filename).toString();
+
                 user.setEnabled(false);
                 user.setRegistrationDate(new Date());
+                user.setImageUrl(filePath);
+
                 token.setUser(user);
                 verificationTokenService.save(token);
+
                 User savedUser = userService.save(user);
+
                 emailSender.sendEmail(user.getEmail(), "http://localhost:8080/api/users/activate/" + token.getToken());
+
                 return new ResponseEntity<>(savedUser, HttpStatus.OK);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body("email");
