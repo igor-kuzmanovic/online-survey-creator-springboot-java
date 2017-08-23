@@ -12,9 +12,10 @@
           <div class="media-body">
             <button type="button" class="close" aria-hidden="true" ng-click="sfc.deleteComment(comment.id)" style="padding: 5px 5px 0 0">&times;</button>
             <h4 class="media-heading">
-              <span style="font-weight: bold">{{comment.user.username}}</span> | <span style="font-style: italic; font-size: 80%">{{comment.creationDate | date:'medium'}}</span>
+              <span style="font-weight: bold">{{comment.user.username}}</span>
             </h4>
-            <p style="font-size: 15px">{{comment.content}}</p>
+            <p style="font-size: 15px; margin: 0">{{comment.content}}<br>
+            <b><span style="font-style: italic; font-size: 80%">{{comment.creationDate | date:'medium'}}</span></b></p>
           </div>
         </div>
         <hr>

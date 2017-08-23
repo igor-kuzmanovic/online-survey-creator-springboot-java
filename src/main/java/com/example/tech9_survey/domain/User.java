@@ -1,8 +1,11 @@
 package com.example.tech9_survey.domain;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,7 +38,12 @@ public class User extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private UserStatus userStatus;
-
+    
+    @Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "user_id")
+	private List<Notification> notifications;
+ 
     public String getImageUrl() {
         return imageUrl;
     }
@@ -99,4 +107,13 @@ public class User extends BaseEntity {
     public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
     }
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
+	}
+    
 }
