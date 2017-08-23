@@ -1,4 +1,4 @@
-<h1>Surveys</h1>
+<h1>Surveys <a class="btn btn-primary btn-success btn-md pull-right" href="#/survey/new" role="button"><span class="glyphicon glyphicon-plus"></span> New Survey</a></h1>
 <div class="table-responsive">
   <table class="table table-striped table-hover">
     <thead>
@@ -18,13 +18,13 @@
           {{survey.creationDate | date:'mediumDate'}}
         </td>
         <td class="option">
-          <div ng-if="survey">
-            <iframe name="f3d39a88222a548" width="1000px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:share_button Facebook Social Plugin" ng-src="{{hc.$sce.trustAsResourceUrl('https://www.facebook.com/v2.10/plugins/share_button.php?app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2F0sTQzbapM8j.js%3Fversion%3D42%23cb%3Df25bd73a9d5bbc4%26domain%3Dtech9survey.github.io%26origin%3Dhttps%253A%252F%252Ftech9survey.github.io%252Ff407683ee4f77c%26relation%3Dparent.parent&amp;container_width=1904&amp;href=https://tech9survey.github.io/'+survey.hashedId+'&amp;layout=button&amp;locale=en_US&amp;mobile_iframe=false&amp;sdk=joey&amp;size=small')}}" style="border: none; visibility: visible; width: 59px; height: 20px;" class="fb-share-button fb_iframe_widget">
+          <div>
+            <iframe name="f3d39a88222a548" width="1000px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:share_button Facebook Social Plugin" ng-src="{{hc.$sce.trustAsResourceUrl('https://www.facebook.com/v2.10/plugins/share_button.php?app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2F0sTQzbapM8j.js%3Fversion%3D42%23cb%3Df25bd73a9d5bbc4%26domain%3Dtech9survey.github.io%26origin%3Dhttps%253A%252F%252Ftech9survey.github.io%252Ff407683ee4f77c%26relation%3Dparent.parent&amp;container_width=1904&amp;href=https://tech9survey.github.io/'+survey.hashedId+'&amp;layout=button&amp;locale=en_US&amp;mobile_iframe=false&amp;sdk=joey&amp;size=small')}}" style="border: none; visibility: visible; width: 60px; height: 20px;" class="fb-share-button fb_iframe_widget">
             </iframe>
           </div>
           
-          <div ng-if="survey">
-            <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 60px; height: 20px;" title="Twitter Tweet Button" ng-src="{{hc.$sce.trustAsResourceUrl('https://platform.twitter.com/widgets/tweet_button.c2fee4cea2b1b8626df3db7d9a85b72d.en.html#dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=https%3A%2F%2Ftech9survey.github.io%2F&amp;size=m&amp;text=Check%20out%20my%20survey%20&amp;time=1503481389763&amp;type=share&amp;url=https%3A%2F%2Ftech9survey.github.io/'+survey.hashedId+'/')}}" data-url="https://tech9survey.github.io">
+          <div>
+            <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 60px; height: 20px;" title="Twitter Tweet Button" ng-src="{{hc.$sce.trustAsResourceUrl('https://platform.twitter.com/widgets/tweet_button.c2fee4cea2b1b8626df3db7d9a85b72d.en.html#dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=https%3A%2F%2Ftech9survey.github.io%2F&amp;size=m&amp;text=Check%20out%20my%20survey%20&amp;time=1503481389763&amp;type=share&amp;url=https%3A%2F%2Ftech9survey.github.io/'+survey.hashedId+'/')}}" data-url="https://tech9survey.github.io/">
             </iframe>
           </div>
         </td>
@@ -51,8 +51,6 @@
     </tbody>
   </table>
 </div>
-
-<a class = "btn btn-primary btn-md" href="#/survey/new" role="button"><span class="glyphicon glyphicon-plus"></span> New Survey</a>
 
 <div class="modal fade" id="deleteSurveyModal" role="dialog">
   <div class="modal-dialog">

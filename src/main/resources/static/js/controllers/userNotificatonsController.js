@@ -13,8 +13,7 @@
     init();
 
     function init() {
-      $scope.mc.checkUser();
-      
+      $scope.mc.checkUser();   
     }
     
      function getUserNotifications() {

@@ -15,7 +15,6 @@
     function init() {
       $scope.mc.checkUser();
       self.surveyHashedId = $routeParams.hashedId;
-      self.comment = {};
       getCurrentSurvey();
     }
 

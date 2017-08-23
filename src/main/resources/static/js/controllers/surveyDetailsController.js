@@ -2,9 +2,9 @@
   angular.module('app')
    .controller('SurveyDetailsController', SurveyDetailsController);
   
-  SurveyDetailsController.$inject = ['SurveyService','ResultService', '$routeParams', '$location', '$scope'];
+  SurveyDetailsController.$inject = ['SurveyService', '$routeParams', '$scope'];
   
-  function SurveyDetailsController(SurveyService, ResultService, $routeParams, $location, $scope) {
+  function SurveyDetailsController(SurveyService, $routeParams, $scope) {
     
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -22,24 +22,8 @@
         .then(
         function(response){
           self.survey = response;
-          initiateSurveyResult();
         });
     }
-    
-    function initiateSurveyResult() {
-      self.surveyResult = [];
-      self.surveyResult = {
-        submitedBy: "user",
-        results: []
-      };
-      
-      for(i = 0; i < self.survey.questions.length; i++) {
-        self.surveyResult.results.push({
-          questionId: self.survey.questions[i],
-          answerId: {}
-        })
-      }
-    }   
     
   }
 })();

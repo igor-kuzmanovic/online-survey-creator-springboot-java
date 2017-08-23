@@ -73,16 +73,14 @@
           <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
               <li ng-class="{active: mc.$location.path().includes('/home')}"><a href="#/home">Home </a></li>
-              <li ng-class="{active: mc.$location.path().includes('/survey')}">
-                <a href="#/survey/new" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">New Survey </a>
-              </li>
+              <li ng-class="{active: mc.$location.path().includes('/survey')}"><a href="">Survey </a></li>
               <li ng-class="{active: mc.$location.path().includes('/user/notifications')}"><a href="#/user/notifications">Notifications <span class="badge">0</span></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
                 <a href="" type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><img class="img img-circle img-nav" ng-src="{{mc.user.imageUrl}}"> <span class="glyphicon glyphicon-chevron-down"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a ng-href="#/user/settings">Settings</a></li>
+                  <li><a href="#/user/settings">Settings</a></li>
                   <li class="divider"></li>
                   <li><a href="#/" ng-click="mc.removeUser()">Log out</a></li>
                 </ul>
