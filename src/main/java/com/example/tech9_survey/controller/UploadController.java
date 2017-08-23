@@ -2,7 +2,6 @@ package com.example.tech9_survey.controller;
 
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.UserService;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
