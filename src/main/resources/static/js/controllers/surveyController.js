@@ -9,6 +9,7 @@
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.submitSurvey = submitSurvey;
+    self.submitter = "";
 
     init();
 
@@ -23,17 +24,41 @@
         .then(
         function(response){
           self.survey = response;
+          checkSubmitter();
+        });
+    }
+
+    function checkSubmitter() {
+      ResultService.getSurveyResults(self.survey.id)
+        .then(
+        function(response){
+          var user = $scope.mc.checkUser()
+
+          if(user) {
+            for(i = 0; i < response.length; i++) {
+              console.log(response[i].submitedBy + "_" + user.username);
+              if(response[i].submitedBy === user.username) {
+                $location.path('/home');
+              }
+            }
+            
+            self.submitter = user.username;
+          }
+          else {
+            self.submitter = "anonymous";
+          }
+          
           initiateSurveyResult();
         });
     }
-    
+
     function initiateSurveyResult() {
       self.surveyResult = [];
       self.surveyResult = {
-        submitedBy: "user",
+        submitedBy: self.submitter,
         results: []
       };
-      
+      console.log(self.surveyResult);
       for(i = 0; i < self.survey.questions.length; i++) {
         self.surveyResult.results.push({
           questionId: self.survey.questions[i],
