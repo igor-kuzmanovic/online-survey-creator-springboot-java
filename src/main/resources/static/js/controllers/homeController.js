@@ -2,14 +2,13 @@
 	angular.module('app')
 		.controller('HomeController', HomeController);
 
-	HomeController.$inject = ['SurveyService', '$scope', '$sce', '$timeout'];
+	HomeController.$inject = ['SurveyService', '$scope', '$sce'];
 
-	function HomeController(SurveyService, $scope, $sce, $timeout) {
+	function HomeController(SurveyService, $scope, $sce) {
 
 		var self = this;
 		self.deleteSurvey = deleteSurvey;
 		self.setCurrentSurvey = setCurrentSurvey;
-		self.loadWidgets = window.loadWidgets;
 
 		self.facebookLink = [];
 		self.twitterLink = [];
