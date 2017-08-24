@@ -15,6 +15,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.file.Paths;
 import java.util.*;
 
 @EnableScheduling
@@ -46,16 +47,24 @@ public class UserController {
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
         EmailSender emailSender = new EmailSender();
+
         token.setToken(UUID.randomUUID().toString());
 
         if (userService.findByUsername(user.getUsername()) == null) {
             if (userService.findByEmail(user.getEmail()) == null) {
+                String imagePath = Paths.get("D:\\user_images", "default_user.jpg").toString();
+
                 user.setEnabled(false);
                 user.setRegistrationDate(new Date());
+                user.setImageUrl(imagePath);
+
                 token.setUser(user);
                 verificationTokenService.save(token);
+
                 User savedUser = userService.save(user);
+
                 emailSender.sendEmail(user.getEmail(), "http://localhost:8080/api/users/activate/" + token.getToken());
+
                 return new ResponseEntity<>(savedUser, HttpStatus.OK);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body("email");
@@ -80,12 +89,15 @@ public class UserController {
     @GetMapping(value = "/activate/{token}")
     public ResponseEntity<Object> activateAccount(@PathVariable("token") String token) {
         VerificationToken verificationToken = verificationTokenService.findByToken(token);
+
         if (verificationToken == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body("Account already activated!");
         }
+
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.save(user);
+
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
     }
 
@@ -106,8 +118,8 @@ public class UserController {
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://www.google.com/recaptcha/api/siteverify";
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
         map.add("secret", "6LfO0SwUAAAAAPHqyQ8FxQXRRedhdl58oCp-nNz4");
         map.add("response", response);
@@ -119,7 +131,6 @@ public class UserController {
         if (postResponse.toString().contains("\"success\": true")) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
-
 
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

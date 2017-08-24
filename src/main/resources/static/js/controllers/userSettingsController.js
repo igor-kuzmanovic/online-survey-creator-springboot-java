@@ -19,7 +19,7 @@
         }
         
         function onSuccess(response) {
-            getImage();
+            init();
             $scope.mc.getImage();
         }
         
