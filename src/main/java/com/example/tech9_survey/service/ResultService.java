@@ -29,6 +29,10 @@ public class ResultService {
 		return resultRepository.findOne(id);
 	}
 	
+	public List<SurveyResult> findBySurveyId(Long surveyId) {
+		return resultRepository.findBySurveyId(surveyId);
+	}
+	
 	public SurveyResult save(SurveyResult surveyResult) {
 		return resultRepository.save(surveyResult);
 	}

@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
@@ -24,9 +22,8 @@ public class Comment extends BaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateDate;
 	
-	@ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private String poster;
 
 	public String getContent() {
 		return content;
@@ -52,12 +49,12 @@ public class Comment extends BaseEntity {
 		this.updateDate = updateDate;
 	}
 
-	public User getUser() {
-		return user;
+	public String getPoster() {
+		return poster;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setPoster(String poster) {
+		this.poster = poster;
 	}
 	
 }

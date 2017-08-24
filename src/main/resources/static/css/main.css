@@ -17,23 +17,24 @@ textarea {
   height: 20px;
 }
 
-.typewriter {
-  overflow: hidden;
-  border-right: .15em solid orange;
-  white-space: nowrap;
-  margin: 0 auto;
-  letter-spacing: .15em;
-  animation: 
-    typing 3s steps(40, end),
-    blink-caret .75s infinite;
+.comment-user {
+  font-size: 50px;
 }
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+.comment-delete {
+  padding: 5px 5px 0 0;
 }
 
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: orange; }
+.comment-date {
+  font-style: italic;
+  font-size: 80%;
+}
+
+.commnet-content {
+  font-size: 15px; 
+  margin: 0;
+}
+
+.comment-poster {
+  font-weight: bold;
 }

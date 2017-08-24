@@ -47,8 +47,13 @@ public class CommentController {
     @PostMapping(path = "/{surveyId}")
     public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Comment comment) throws NoSuchAlgorithmException {
     	Survey commentedSurvey = surveyService.findOne(surveyId);
-    	User user = userService.getLoggedInUser();
-    	comment.setUser(user);
+	    User user = userService.getLoggedInUser();
+	    if(user == null) {
+	    	comment.setPoster("anonymous");
+	    }
+	    else{
+	    	comment.setPoster(user.getUsername());
+	    }
     	commentedSurvey.getComments().add(comment);
         surveyService.save(commentedSurvey);
     	return new ResponseEntity<>(HttpStatus.OK);

@@ -1,11 +1,11 @@
 (function(){
   angular.module('app')
-   .controller('SurveyDetailsController', SurveyDetailsController);
-  
+    .controller('SurveyDetailsController', SurveyDetailsController);
+
   SurveyDetailsController.$inject = ['SurveyService', '$routeParams', '$scope'];
-  
+
   function SurveyDetailsController(SurveyService, $routeParams, $scope) {
-    
+
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
 
@@ -24,6 +24,6 @@
           self.survey = response;
         });
     }
-    
+
   }
 })();

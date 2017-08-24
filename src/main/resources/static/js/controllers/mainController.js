@@ -12,7 +12,7 @@
     self.removeUser = removeUser;
     self.getUser = getUser;
     self.getImage = getImage;
-    
+
     self.$location = $location;
     self.themes = [
       { name: 'Cerulean', url: 'cerulean' },
@@ -58,7 +58,7 @@
     }
 
     function handleSuccessImage(data, status) {
-        self.img = data;
+      self.img = data;
     }
 
     function getUser() {

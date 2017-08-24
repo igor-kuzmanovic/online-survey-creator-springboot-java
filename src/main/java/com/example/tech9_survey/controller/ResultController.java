@@ -44,9 +44,20 @@ public class ResultController {
 		return new ResponseEntity<>(surveyResult, HttpStatus.OK);
 	}
 	
+	@GetMapping(path = "/survey/{surveyId}")
+	public ResponseEntity<List<SurveyResult>> findBySurveyId(@PathVariable Long surveyId) {
+		Survey survey = surveyService.findOne(surveyId);
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		List<SurveyResult> surveyResult = resultService.findBySurveyId(surveyId);
+		return new ResponseEntity<>(surveyResult, HttpStatus.OK);
+	}
+	
 	@PostMapping(path = "/{surveyId}")
 	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody SurveyResult surveyResult) throws NoSuchAlgorithmException {
 		Survey survey = surveyService.findOne(surveyId);
+		surveyResult.setSurvey(survey);
 		survey.getResults().add(surveyResult);
 		surveyService.save(survey);
 		return new ResponseEntity<>(HttpStatus.OK);

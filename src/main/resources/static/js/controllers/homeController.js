@@ -9,7 +9,12 @@
     var self = this;
     self.deleteSurvey = deleteSurvey;
     self.setCurrentSurvey = setCurrentSurvey;
+    self.generateFacebookLink = generateFacebookLink;
+    self.generateTwitterLink = generateTwitterLink;
+
     self.$sce = $sce;
+    self.fbLink = [];
+    self.twitterLink = [];
 
     init();
 
@@ -37,6 +42,14 @@
       }, function(error){
         self.error = error;
       })
+    }
+
+    function generateFacebookLink(id) {
+      self.fbLink.push($sce.trustAsResourceUrl('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftech9survey.github.io%2F' + id + '&amp;src=sdkpreparse'));
+    }
+
+    function generateTwitterLink(name, id) {
+      self.twitterLink.push($sce.trustAsResourceUrl('https://twitter.com/intent/tweet?text=' + name + '&url=https%3A%2F%2Ftech9survey.github.io%2F' + id));
     }
 
   };

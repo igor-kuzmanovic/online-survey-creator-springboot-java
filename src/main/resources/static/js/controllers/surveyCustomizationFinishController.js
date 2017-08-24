@@ -63,7 +63,7 @@
 
     function setExpirationDate() {
       if(self.survey.publicationDate) {
-        self.survey.expirationDate = self.survey.publicationDate;
+        self.survey.expirationDate = null;
       }
       else {
         self.survey.expirationDate = new Date();

@@ -2,20 +2,22 @@
   angular.module('app')
     .controller('SurveyFinishController', SurveyFinishController);
 
-  SurveyFinishController.$inject = ['SurveyService', 'CommentService', '$routeParams', '$scope'];
+  SurveyFinishController.$inject = ['SurveyService', 'CommentService', '$location', '$routeParams', '$scope'];
 
-  function SurveyFinishController(SurveyService, CommentService, $routeParams, $scope) {
+  function SurveyFinishController(SurveyService, CommentService, $location, $routeParams, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.getSurveyComments = getSurveyComments;
     self.postComment = postComment;
     self.deleteComment = deleteComment;
+    
+    self.user = {};
 
     init();
 
     function init() {
-      $scope.mc.checkUser();
+      self.user = $scope.mc.checkUser();
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
     }

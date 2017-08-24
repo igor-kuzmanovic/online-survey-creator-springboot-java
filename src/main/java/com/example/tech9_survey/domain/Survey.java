@@ -16,8 +16,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
 public class Survey extends BaseEntity {
 	
@@ -25,10 +23,8 @@ public class Survey extends BaseEntity {
 	@Column(nullable = false)
 	private String name;
 	
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@ManyToOne
-	@JoinColumn(name = "user_id", updatable = false, nullable = false)
-	private User user;
+	@Column(nullable = false)
+	private String creator;
 	
 	@Column(name = "hashed_id", unique = true, updatable = false, nullable = false)
 	private String hashedId;
@@ -37,11 +33,11 @@ public class Survey extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private Date creationDate;
 	
-	@Column(name = "publication_date", updatable = false, nullable = false)
+	@Column(name = "publication_date")
 	@Temporal(TemporalType.DATE)
 	private Date publicationDate;
 	
-	@Column(name = "expiration_date", nullable = false)
+	@Column(name = "expiration_date")
 	@Temporal(TemporalType.DATE)
 	private Date expirationDate;
 	
@@ -66,8 +62,7 @@ public class Survey extends BaseEntity {
 	private List<Question> questions;
 	
 	@Cascade(CascadeType.ALL)
-	@OneToMany
-	@JoinColumn(name = "survey_id")
+	@OneToMany(mappedBy = "survey")
 	private List<SurveyResult> results;
 	
 	@Cascade(CascadeType.ALL)
@@ -77,7 +72,7 @@ public class Survey extends BaseEntity {
 	
 	public void generateHash() throws NoSuchAlgorithmException {
 		String dateString = getCreationDate().toString();
-		String userString = getUser().getId().toString();
+		String userString = getCreator().toString();
 		String hashString = userString + dateString;
 		byte[] hashBytes = hashString.getBytes();
 		MessageDigest m = MessageDigest.getInstance("MD5");
@@ -93,13 +88,13 @@ public class Survey extends BaseEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public User getUser() {
-		return user;
+
+	public String getCreator() {
+		return creator;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
 
 	public String getHashedId() {

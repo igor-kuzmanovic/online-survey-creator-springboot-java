@@ -32,7 +32,7 @@
       var def = $q.defer();
       var req = {
         method: 'GET',
-        url: "/api/result/" + surveyId,
+        url: "/api/result/survey/" + surveyId,
       }
       $http(req).success(function (data) {
         def.resolve(data);

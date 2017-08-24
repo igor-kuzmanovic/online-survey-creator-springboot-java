@@ -17,8 +17,10 @@
 
     function saveSurvey(survey) {
       survey.publicationDate = $filter('date')(survey.publicationDate, "yyyy-MM-dd");
-      survey.expirationDate = $filter('date')(survey.expirationDate, "yyyy-MM-dd");
-
+      if(survey.expirationDate) {
+        survey.expirationDate = $filter('date')(survey.expirationDate, "yyyy-MM-dd");
+      }
+      console.log(survey);
       var def = $q.defer();
       var req = {
         method: 'PUT',

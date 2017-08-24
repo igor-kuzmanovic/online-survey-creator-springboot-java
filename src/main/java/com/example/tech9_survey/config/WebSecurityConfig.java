@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http       	
-        	.authorizeRequests().antMatchers("/", "/api/users", "/api/users/captchaResponse/*", "/api/users/activate/*", "/api/survey/*", "/api/result/*", "/bower_components/**", "/css/**", "/js/**", "/views/**", "/images/**").permitAll().and()
+        	.authorizeRequests().antMatchers("/", "/api/users", "/api/users/captchaResponse/*", "/api/users/activate/*", "/api/survey/**", "/api/result/*", "/api/comment/*", "/bower_components/**", "/css/**", "/js/**", "/views/**", "/images/**").permitAll().and()
         	.authorizeRequests().antMatchers("/**").authenticated().and()
 	        .httpBasic().and()	
 	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()        	

@@ -9,12 +9,13 @@
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.submitSurvey = submitSurvey;
-    self.submitter = "";
-
+    
+    self.user = {};
+    
     init();
 
     function init() {
-      $scope.mc.checkUser();
+      self.user = $scope.mc.checkUser();
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
     }
@@ -24,41 +25,51 @@
         .then(
         function(response){
           self.survey = response;
-          checkSubmitter();
+          checkSurvey();
         });
+    }
+    
+    function checkSurvey() {
+      if(self.survey.isActive) {
+        if(self.user && self.survey.creator === self.user.username) {
+          window.alert("You cannot complete your own survey!");
+          $location.path('/home');
+        }
+        checkSubmitter();
+      }
+      else {
+        window.alert("This survey is not active!");
+        $location.path('/home');
+      }
     }
 
     function checkSubmitter() {
-      ResultService.getSurveyResults(self.survey.id)
-        .then(
-        function(response){
-          var user = $scope.mc.checkUser()
-
-          if(user) {
+      if(self.user) {
+        ResultService.getSurveyResults(self.survey.id)
+          .then(
+          function(response){
             for(i = 0; i < response.length; i++) {
-              console.log(response[i].submitedBy + "_" + user.username);
-              if(response[i].submitedBy === user.username) {
+              if(response[i].submitedBy === self.user.username) {
+                window.alert("You have already completed this survey!");
                 $location.path('/home');
-              }
+              }           
             }
             
-            self.submitter = user.username;
-          }
-          else {
-            self.submitter = "anonymous";
-          }
-          
-          initiateSurveyResult();
-        });
+            initiateSurveyResult(self.user.username);
+          });
+      }
+      else {
+        initiateSurveyResult();
+      }
     }
 
-    function initiateSurveyResult() {
+    function initiateSurveyResult(submitter) {
       self.surveyResult = [];
       self.surveyResult = {
-        submitedBy: self.submitter,
+        submitedBy: submitter || "anonymous",
         results: []
       };
-      console.log(self.surveyResult);
+
       for(i = 0; i < self.survey.questions.length; i++) {
         self.surveyResult.results.push({
           questionId: self.survey.questions[i],
