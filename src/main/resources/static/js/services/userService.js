@@ -161,7 +161,7 @@
       var def = $q.defer();
       var req = {
         method: 'GET',
-        url: "/api/user/" + user.id + "/notifications"
+        url: "/api/users/" + user.id + "/notifications"
       }
       $http(req)
         .success(function (data) {

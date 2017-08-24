@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('UserNotificationsController', UserNotificationsController);
 
-  UserNotificationsController.$inject = ['NotificationService', '$scope'];
+  UserNotificationsController.$inject = ['NotificationService', 'UserService', '$scope'];
 
-  function UserNotificationsController(NotificationService, $scope) {
+  function UserNotificationsController(NotificationService, UserService, $scope) {
 
     var self = this;
     self.getUserNotifications = getUserNotifications;
@@ -13,11 +13,13 @@
     init();
 
     function init() {
-      $scope.mc.checkUser();   
+      $scope.mc.checkUser();
+      getUserNotifications();
     }
     
      function getUserNotifications() {
-      UserService.getUserNotifications(self.user).then(handleSuccessUserNotifications);
+      var user = $scope.mc.checkUser()
+      UserService.getUserNotifications(user).then(handleSuccessUserNotifications);
     }
 
     function handleSuccessUserNotifications(data, status) {
@@ -32,5 +34,5 @@
       })
     }
 
-  }
+  };
 })();
