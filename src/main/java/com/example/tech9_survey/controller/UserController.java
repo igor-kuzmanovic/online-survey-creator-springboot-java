@@ -97,6 +97,7 @@ public class UserController {
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.save(user);
+        verificationTokenService.delete(verificationToken.getId());
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
     }
@@ -143,11 +144,12 @@ public class UserController {
         return user;
     }
 
-    @Scheduled(fixedDelay = 43200)
+    @Scheduled(fixedDelay = 60000)
     public void scheduleFixedDelayTask() {
         for (VerificationToken t : verificationTokenService.findAll()) {
             if (addDay(t.getUser().getRegistrationDate(), 1).before(addDay(new Date(), 0)) && !t.getUser().isEnabled()) {
                 verificationTokenService.delete(t.getId());
+                userService.delete(t.getUser().getId());
             }
         }
     }

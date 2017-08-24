@@ -46,9 +46,9 @@ public class User extends BaseEntity {
     private UserStatus userStatus;
 
     @Cascade(CascadeType.ALL)
-	  @OneToMany
-	  @JoinColumn(name = "user_id")
-	  private List<Notification> notifications;
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Notification> notifications;
   
     public String getFirstName() {
         return firstName;
