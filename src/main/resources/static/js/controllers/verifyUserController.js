@@ -2,18 +2,16 @@
     angular.module('app')
         .controller('VerifyUserController', VerifyUserController);
 
-    VerifyUserController.$inject = ['UserService', '$location'];
+    VerifyUserController.$inject = ['$location'];
 
-    function VerifyUserController(UserService, $location) {
+    function VerifyUserController($location) {
 
         var self = this;
         self.goToLogin = goToLogin;
 
         init();
 
-        function init(){
-            self.user = UserService.getRegisteredUser();
-        }
+        function init(){}
     
         function goToLogin() {
             $location.path('/');

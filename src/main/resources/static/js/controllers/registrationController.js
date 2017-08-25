@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('RegistrationController', RegistrationController);
 
-  RegistrationController.$inject = ['UserService', '$location'];
+  RegistrationController.$inject = ['UserService', '$location', '$window'];
 
-  function RegistrationController(UserService, $location) {
+  function RegistrationController(UserService, $location, $window) {
 
     var self = this;
     self.saveUser = saveUser;
@@ -13,6 +13,7 @@
     init();
 
     function init(){
+
       renderCaptcha();
     }
 
@@ -46,7 +47,9 @@
     }
 
     function handleSuccessUser() {
+        $window.location.reload();
       $location.path('/user/verify');
+
     }
 
   };

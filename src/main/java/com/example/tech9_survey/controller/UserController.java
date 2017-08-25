@@ -1,11 +1,12 @@
 package com.example.tech9_survey.controller;
 
-import com.example.tech9_survey.config.EmailSender;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.domain.VerificationToken;
 import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
 import org.springframework.http.*;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,10 +26,12 @@ public class UserController {
 
     private UserService userService;
     private VerificationTokenService verificationTokenService;
+    private JavaMailSender javaMailSender;
 
-    public UserController(UserService userService, VerificationTokenService verificationTokenService) {
+    public UserController(UserService userService, VerificationTokenService verificationTokenService, JavaMailSender javaMailSender) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
+        this.javaMailSender = javaMailSender;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -46,7 +49,6 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
-        EmailSender emailSender = new EmailSender();
 
         token.setToken(UUID.randomUUID().toString());
 
@@ -63,7 +65,7 @@ public class UserController {
 
                 User savedUser = userService.save(user);
 
-                emailSender.sendEmail(user.getEmail(), "http://localhost:8080/api/users/activate/" + token.getToken());
+                sendMail(user.getEmail(), "http://localhost:8080/api/users/activate/" + token.getToken());
 
                 return new ResponseEntity<>(savedUser, HttpStatus.OK);
             } else {
@@ -160,5 +162,15 @@ public class UserController {
         cal.setTime(date);
         cal.add(Calendar.DATE, days);
         return cal.getTime();
+    }
+
+    private void sendMail(String recipient, String activationLink) {
+        SimpleMailMessage mail = new SimpleMailMessage();
+
+        mail.setTo(recipient);
+        mail.setSubject("Account verification for tech9 survey");
+        mail.setText("Click on this link to activate your account: " + activationLink + "\n \n" + "This is an automatically generated email, please do not reply!");
+
+        javaMailSender.send(mail);
     }
 }

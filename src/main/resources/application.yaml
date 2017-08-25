@@ -7,3 +7,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tech9survey@gmail.com
+    password: tech9surveymail
+    properties.mail.smtp:
+            auth: true
+            starttls.enable: true
