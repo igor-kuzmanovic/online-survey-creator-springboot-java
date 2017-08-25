@@ -40,6 +40,19 @@
         return;
       }
 
+      if(self.surveyActivation === 1) {
+        self.survey.publicationDate = new Date();
+        self.survey.isActive = true;
+      }
+      
+      if(self.surveyDeactivation === 2) {
+        self.survey.isActive = false;
+      }
+
+      if(self.surveyDeactivation === 1) {
+        self.survey.expirationDate = null;
+      }
+
       SurveyService.saveSurvey(angular.copy(self.survey))
         .then(
         function(response){
@@ -52,22 +65,10 @@
 
     function setPublicationDate() {
       self.survey.publicationDate = new Date();
-      
-      if(self.surveyActivation === 1) {
-        self.survey.isActive = true;
-      }
-      else if(self.surveyActivation === 2) {
-        self.survey.isActive = false;
-      }
     }
 
     function setExpirationDate() {
-      if(self.survey.publicationDate) {
-        self.survey.expirationDate = null;
-      }
-      else {
-        self.survey.expirationDate = new Date();
-      }
+      self.survey.expirationDate = new Date();
     }
 
     function checkForm() {

@@ -40,13 +40,13 @@ public class SurveyController {
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping
     public ResponseEntity<List<Survey>> findAll() {
-    	List<Survey> allSurveys = surveyService.findAll();	
+    	List<Survey> surveys = surveyService.findAll();	
     	
-    	if(allSurveys.isEmpty()) {
+    	if(surveys.isEmpty()) {
     		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     	}
     	
-        return new ResponseEntity<>(allSurveys, HttpStatus.OK);
+        return new ResponseEntity<>(surveys, HttpStatus.OK);
     }
 	
 	@GetMapping(path = "/{hashedId}")

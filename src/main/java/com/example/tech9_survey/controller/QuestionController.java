@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.domain.Survey;
+import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.QuestionService;
 import com.example.tech9_survey.service.SurveyService;
+import com.example.tech9_survey.service.UserService;
 
 @RestController
 @RequestMapping("/api/question")
@@ -23,36 +25,67 @@ public class QuestionController {
 
 	private QuestionService questionService;
 	private SurveyService surveyService;
+	private UserService userService;
 	
 	@Autowired
-	public QuestionController(QuestionService questionService, SurveyService surveyService) {
+	public QuestionController(QuestionService questionService, SurveyService surveyService, UserService userService) {
 		this.questionService = questionService;
 		this.surveyService = surveyService;
+		this.userService = userService;
 	}
 
 	@GetMapping
 	public ResponseEntity<List<Question>> findAll() {
-		List<Question> allQuestions = questionService.findAll();
-		return new ResponseEntity<>(allQuestions, HttpStatus.OK);
+		List<Question> questions = questionService.findAll();
+		
+		if(questions.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<>(questions, HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Question> findOne(@PathVariable Long id) {
 		Question question = questionService.findOne(id);
+		
+		if(question == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 		return new ResponseEntity<>(question, HttpStatus.OK);
 	}
 	
 	@PostMapping(path = "/{surveyId}")
-	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Question question) throws NoSuchAlgorithmException {
+	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Question question) throws NoSuchAlgorithmException {		
 		Survey survey = surveyService.findOne(surveyId);
+		
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		User user = userService.getLoggedInUser();
+		
+		if(user == null || user.getUsername() != survey.getCreator()) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
     	survey.getQuestions().add(question);
         surveyService.save(survey);
+        
     	return new ResponseEntity<>(HttpStatus.OK);
     }
 	
 	@DeleteMapping(path = "/{questionId}")
 	public ResponseEntity<Object> delete(@PathVariable Long questionId) {
+		Question question = questionService.findOne(questionId);
+		
+		if(question == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 		questionService.delete(questionId);
-		return new ResponseEntity<>(HttpStatus.OK);
+		
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

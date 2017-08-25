@@ -8,7 +8,7 @@
     <tbody>
       <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate">
         <td>
-          {{survey.name}}
+          {{survey.name}} - {{survey.description}}
 
           <div class="btn-group pull-right" role="group" aria-label="...">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="modal" data-target="#shareSurveyModal{{$index}}" onclick="loadWidgets()">
@@ -66,11 +66,6 @@
             <div class="form-group">
               <div class="fb-share-button" data-href="https://tech9survey.github.io/#/{{survey.hashedId}}" data-layout="button" data-size="small" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://tech9survey.github.io/#/{{survey.hashedId}}&amp;src=sdkpreparse">Share</a></div>
             </div>
-            <!--
-<div class="form-group">
-<div class="fb-like" data-href="https://tech9survey.github.io/#/{{survey.hashedId}}" data-layout="standard" data-action="recommend" data-size="small" data-show-faces="true" data-share="true"></div>
-</div>
--->
             <div class="form-group">
               <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text={{survey.name}}&url=https://tech9survey.github.io/#/{{survey.hashedId}}">Tweet</a>
             </div>
