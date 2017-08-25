@@ -1,16 +1,13 @@
 package com.example.tech9_survey.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class VerificationToken extends BaseEntity {
 
     private String token;
 
-    @OneToOne(fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @MapsId
     private User user;
 

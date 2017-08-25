@@ -1,11 +1,12 @@
 package com.example.tech9_survey.controller;
 
-import com.example.tech9_survey.config.EmailSender;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.domain.VerificationToken;
 import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
 import org.springframework.http.*;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,10 +26,12 @@ public class UserController {
 
     private UserService userService;
     private VerificationTokenService verificationTokenService;
+    private JavaMailSender javaMailSender;
 
-    public UserController(UserService userService, VerificationTokenService verificationTokenService) {
+    public UserController(UserService userService, VerificationTokenService verificationTokenService, JavaMailSender javaMailSender) {
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
+        this.javaMailSender = javaMailSender;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -46,7 +49,6 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
-        EmailSender emailSender = new EmailSender();
 
         token.setToken(UUID.randomUUID().toString());
 
@@ -63,7 +65,7 @@ public class UserController {
 
                 User savedUser = userService.save(user);
 
-                emailSender.sendEmail(user.getEmail(), "http://localhost:8080/api/users/activate/" + token.getToken());
+                sendMail(user.getEmail(), "http://localhost:8080/api/users/activate/" + token.getToken());
 
                 return new ResponseEntity<>(savedUser, HttpStatus.OK);
             } else {
@@ -97,6 +99,7 @@ public class UserController {
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.save(user);
+        verificationTokenService.delete(verificationToken.getId());
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("Account activated!");
     }
@@ -143,11 +146,12 @@ public class UserController {
         return user;
     }
 
-    @Scheduled(fixedDelay = 43200)
+    @Scheduled(fixedDelay = 60000)
     public void scheduleFixedDelayTask() {
         for (VerificationToken t : verificationTokenService.findAll()) {
             if (addDay(t.getUser().getRegistrationDate(), 1).before(addDay(new Date(), 0)) && !t.getUser().isEnabled()) {
                 verificationTokenService.delete(t.getId());
+                userService.delete(t.getUser().getId());
             }
         }
     }
@@ -158,5 +162,15 @@ public class UserController {
         cal.setTime(date);
         cal.add(Calendar.DATE, days);
         return cal.getTime();
+    }
+
+    private void sendMail(String recipient, String activationLink) {
+        SimpleMailMessage mail = new SimpleMailMessage();
+
+        mail.setTo(recipient);
+        mail.setSubject("Account verification for tech9 survey");
+        mail.setText("Click on this link to activate your account: " + activationLink + "\n \n" + "This is an automatically generated email, please do not reply!");
+
+        javaMailSender.send(mail);
     }
 }

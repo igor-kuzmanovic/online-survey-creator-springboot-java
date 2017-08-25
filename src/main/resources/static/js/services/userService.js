@@ -19,7 +19,6 @@
       editUser: editUser,
       setUser: setUser,
       sendCaptchaResponse: sendCaptchaResponse,
-      getRegisteredUser: getRegisteredUser,
       getImageFromUrl: getImageFromUrl,
       getUserNotifications: getUserNotifications
     };
@@ -141,10 +140,6 @@
     function removeUser() {
       $http.defaults.headers.common['Authorization'] = null;
       delete user;
-    }
-    
-    function getRegisteredUser() {
-        return registeredUser;
     }
     
     function getUser() {
