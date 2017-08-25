@@ -10,7 +10,6 @@
     self.getCurrentSurvey = getCurrentSurvey;
     self.generateBarChart = generateBarChart;
     self.generatePieChart = generatePieChart;
-    self.getSurveyComments = getSurveyComments;
 
     init();
 
@@ -29,7 +28,6 @@
             window.alert("This survey isn't active and has no results!");
             $location.path('/home');
           }
-          getSurveyComments();
         })
     }
 
@@ -91,14 +89,6 @@
         var chart = new google.visualization.PieChart(document.getElementById('chart' + questionIndex));
         chart.draw(data, options);
       }
-    }
-
-    function getSurveyComments() {
-      SurveyService.getSurveyComments(self.survey).then(handleSuccessSurveyComments);
-    }
-
-    function handleSuccessSurveyComments(data, status) {
-      self.comments = data;
     }
 
   }

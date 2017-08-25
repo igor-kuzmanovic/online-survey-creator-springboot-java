@@ -8,12 +8,16 @@
     <div ng-if="src.survey.results.length" ng-repeat="question in src.survey.questions track by $index">
       <div ng-init="src.generatePieChart($index, question.id)" id="chart{{$index}}"></div>    
     </div>
+  </div>  
+</div>
 
+<div class="row">
+  <div class="col-md-offset-3 col-md-6">
     <div align="center">
       <h3>Comments</h3>
       <hr>
     </div>
-    <div class="media" ng-repeat = "comment in src.comments | orderBy: 'creationDate':true">
+    <div class="media" ng-repeat = "comment in src.survey.comments | orderBy: 'creationDate':true">
       <div class="media-left media-middle">
         <span class="glyphicon glyphicon-user comment-user"></span>
       </div>

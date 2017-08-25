@@ -60,7 +60,7 @@ public class AnswerController {
 	}
 	
 	@PostMapping(path = "/{questionId}")
-	public ResponseEntity<Object> save(@PathVariable Long questionId, @RequestBody Answer answer) {
+	public ResponseEntity<Answer> save(@PathVariable Long questionId, @RequestBody Answer answer) {
 		Question question = questionService.findOne(questionId);
 		
 		if(question == null) {
@@ -75,14 +75,15 @@ public class AnswerController {
 		
 		User user = userService.getLoggedInUser();
 		
-		if(user == null || user.getUsername() != question.getSurvey().getCreator()) {
+		if(user == null || !user.getUsername().equals(question.getSurvey().getCreator())) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 		
-		question.getAnswers().add(answer);
+		answer.setQuestion(question);
+		question.getAnswers().add(answer);	
         questionService.save(question);
         
-    	return new ResponseEntity<>(HttpStatus.OK);
+    	return new ResponseEntity<>(answer, HttpStatus.OK);
     }
 	
 	@DeleteMapping(path = "/{answerId}")

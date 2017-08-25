@@ -23,7 +23,7 @@ public class Question extends BaseEntity {
 	@Size(max=240)
 	private String content;
 
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.DELETE)
 	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
 

@@ -9,7 +9,7 @@
     var service = {
       deleteQuestion: deleteQuestion
     }
-
+    
     function deleteQuestion(questionId) {
       var def = $q.defer();
       var req = {

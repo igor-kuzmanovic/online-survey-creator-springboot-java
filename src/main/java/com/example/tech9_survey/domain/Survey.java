@@ -56,7 +56,7 @@ public class Survey extends BaseEntity {
 	@JoinColumn(name = "survey_privacy_id", nullable = false)
 	private SurveyPrivacy surveyPrivacy;
 	
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.DELETE)
 	@OneToMany(mappedBy = "survey")
 	private List<Question> questions;
 	

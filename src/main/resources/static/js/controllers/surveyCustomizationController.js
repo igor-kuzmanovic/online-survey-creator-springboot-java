@@ -44,7 +44,7 @@
 
     function finishCustomization() {
       var survey = angular.copy(self.survey);
-      
+
       if(survey.questions) {
         for(i = 0; i < survey.questions.length; i++){
           if(!(survey.questions[i].content && survey.questions[i].content.length > 0)){
@@ -64,7 +64,7 @@
           } 
         }
       }
-      
+
       SurveyService.saveSurvey(angular.copy(survey))
         .then(
         function(response){ 

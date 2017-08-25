@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.tech9_survey.domain.Answer;
 import com.example.tech9_survey.domain.Comment;
+import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.domain.SurveyPrivacy;
 import com.example.tech9_survey.domain.User;
+import com.example.tech9_survey.service.AnswerService;
+import com.example.tech9_survey.service.QuestionService;
 import com.example.tech9_survey.service.SurveyService;
 import com.example.tech9_survey.service.UserService;
 
@@ -30,11 +34,15 @@ public class SurveyController {
 	
 	private SurveyService surveyService;
 	private UserService userService;
+	private QuestionService questionService;
+	private AnswerService answerService;
 	
 	@Autowired
-	public SurveyController(SurveyService surveyService, UserService userService) {
+	public SurveyController(SurveyService surveyService, UserService userService, QuestionService questionService, AnswerService answerService) {
 		this.surveyService = surveyService;
 		this.userService = userService;
+		this.questionService = questionService;
+		this.answerService = answerService;
 	}
 
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
@@ -122,6 +130,33 @@ public class SurveyController {
 		
 		if(findSurvey == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<Question> questions = survey.getQuestions();
+		
+		if(!questions.isEmpty()) {
+			for(int i = 0; i < questions.size(); i++) {
+				Question question = questions.get(i);
+				question.setSurvey(survey);
+				Question savedQuestion = questionService.save(question);
+
+				List<Answer> answers = questions.get(i).getAnswers();
+				
+				if(!answers.isEmpty()) {
+					for(int j = 0; j < answers.size(); j++) {
+						Answer answer = answers.get(j);
+						answer.setQuestion(savedQuestion);
+						Answer savedAnswer = answerService.save(answer);
+						answers.set(j, savedAnswer);
+					}
+					
+					savedQuestion.setAnswers(answers);
+				}
+				
+				questions.set(i, savedQuestion);
+			}
+			
+			survey.setQuestions(questions);
 		}
 		
     	Survey updatedSurvey = surveyService.save(survey);

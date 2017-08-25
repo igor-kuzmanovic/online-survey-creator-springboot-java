@@ -57,7 +57,7 @@ public class QuestionController {
 	}
 	
 	@PostMapping(path = "/{surveyId}")
-	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Question question) throws NoSuchAlgorithmException {		
+	public ResponseEntity<Question> save(@PathVariable Long surveyId, @RequestBody Question question) throws NoSuchAlgorithmException {		
 		Survey survey = surveyService.findOne(surveyId);
 		
 		if(survey == null) {
@@ -66,14 +66,15 @@ public class QuestionController {
 		
 		User user = userService.getLoggedInUser();
 		
-		if(user == null || user.getUsername() != survey.getCreator()) {
+		if(user == null || !user.getUsername().equals(survey.getCreator())) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 		
-    	survey.getQuestions().add(question);
+		question.setSurvey(survey);
+    	survey.getQuestions().add(question);  	
         surveyService.save(survey);
         
-    	return new ResponseEntity<>(HttpStatus.OK);
+    	return new ResponseEntity<>(question, HttpStatus.OK);
     }
 	
 	@DeleteMapping(path = "/{questionId}")
