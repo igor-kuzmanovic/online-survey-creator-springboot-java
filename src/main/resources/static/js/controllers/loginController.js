@@ -15,7 +15,7 @@
     }
 
     function handleSuccessCredentials(data, status){
-      self.user = data;
+      //self.user = data;
       $scope.mc.init();
       $location.path('/home');
     }

@@ -2,9 +2,9 @@
   angular.module("app")
     .factory('UserService', UserService);
 
-  UserService.$inject = ['$http', '$q', '$filter'];
+  UserService.$inject = ['$http', '$q', '$filter', '$cookies'];
 
-  function UserService($http, $q, $filter) {
+  function UserService($http, $q, $filter, $cookies) {
 
     var user;
     var registeredUser;
@@ -18,6 +18,8 @@
       findUser: findUser,
       editUser: editUser,
       setUser: setUser,
+      checkCookies: checkCookies,
+      getCredentialsFromCookies: getCredentialsFromCookies,
       sendCaptchaResponse: sendCaptchaResponse,
       getImageFromUrl: getImageFromUrl,
       getUserNotifications: getUserNotifications
@@ -37,6 +39,7 @@
         .success(function (data) {
         $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
         user = data;
+        createCookies(credentials);
         def.resolve(data);
       })
         .error(function () {
@@ -109,20 +112,20 @@
     }
 
     function getImageFromUrl() {
-        var def = $q.defer();
-        var req = {
-          method: 'GET',
-          url: "/upload/image",
-          responseType: 'arraybuffer'
-        };
-        $http(req).success(function (data) {
-          data = arrayBufferToBase64(data);
-          def.resolve(data);
-        })
-          .error(function (response) {
-            def.reject(response);
-        });
-        return def.promise;
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "/upload/image",
+        responseType: 'arraybuffer'
+      };
+      $http(req).success(function (data) {
+        data = arrayBufferToBase64(data);
+        def.resolve(data);
+      })
+        .error(function (response) {
+        def.reject(response);
+      });
+      return def.promise;
     }
 
     function arrayBufferToBase64(buffer) {
@@ -131,7 +134,7 @@
       var len = bytes.byteLength;
 
       for (var i = 0; i < len; i++) {
-          binary += String.fromCharCode(bytes[i]);
+        binary += String.fromCharCode(bytes[i]);
       }
 
       return window.btoa(binary);
@@ -139,9 +142,10 @@
 
     function removeUser() {
       $http.defaults.headers.common['Authorization'] = null;
+      deleteCookies();
       delete user;
     }
-    
+
     function getUser() {
       return user;
     }
@@ -149,9 +153,13 @@
     function setUser(editedUser) {
       base64Credential = btoa(editedUser.username + ':' + editedUser.password);
       $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
+      var credentials = {};
+      credentials.username = editedUser.username;
+      credentials.password = editedUser.password;
+      createCookies(credentials);
       user = editedUser;
     }
-    
+
     function getUserNotifications(user) {
       var def = $q.defer();
       var req = {
@@ -168,6 +176,52 @@
       return def.promise;
     }
 
+    function createCookies(credentials) {
+      if($cookies.get('username')) {
+        $cookies.remove('username');
+      }
+
+      $cookies.put('username', credentials.username);
+      console.log('Set username cookie');
+
+      if($cookies.get('password')) {
+        $cookies.remove('password');     
+      }
+
+      $cookies.put('password', credentials.password);
+      console.log('Set password cookie');
+    }
+
+    function deleteCookies() {
+      if($cookies.get('username')) {
+        $cookies.remove('username');
+        console.log('Removed username cookie');
+      }
+
+      if($cookies.get('password')) {
+        $cookies.remove('password');
+        console.log('Removed password cookie');
+      }
+    }
+
+    function checkCookies() {
+      if($cookies.get('username') && $cookies.get('password')) {
+        console.log('Cookies found');
+        return true;
+      }
+
+      console.log('Cookies not found');
+      return false;
+    }
+
+    function getCredentialsFromCookies() {
+      var credentials = {};
+      credentials.username = $cookies.get('username');
+      credentials.password = $cookies.get('password');
+      console.log('Got credentials ' + credentials.username + '_' + credentials.password);
+      return credentials;  
+    }
+
     return service;
   }
-} ());
+}());

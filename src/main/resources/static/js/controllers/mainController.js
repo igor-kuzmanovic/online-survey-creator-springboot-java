@@ -39,9 +39,9 @@
     init();
 
     function init() {
-      self.getUser();
-      self.checkUser();
-      self.getImage();
+      getUser();
+      checkUser();
+      getImage();
     }
 
     function checkUser() {
@@ -63,6 +63,17 @@
 
     function getUser() {
       self.user = UserService.getUser();
+
+      if(!self.user && UserService.checkCookies()) {
+        var credentials = UserService.getCredentialsFromCookies();
+        UserService.login(credentials).then(
+          function(response){
+          self.user = response;
+          getImage();
+          console.log('Welcome ' + self.user.username);
+          $location.path('/home');
+        });
+      }
     }
 
     function removeUser() {
