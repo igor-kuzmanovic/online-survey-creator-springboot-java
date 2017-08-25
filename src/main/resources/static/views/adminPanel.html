@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-offset-2 col-md-8" align="center">
+        <h2>Admin Panel</h2>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-md-2">
+        <div class="list-group">
+            <a href="" class="list-group-item list-group-item-action" ng-click="apc.usersSelected()" ng-class="{active: apc.active === 'users'}">Users</a>
+            <a href="" class="list-group-item list-group-item-action" ng-click="apc.surveysSelected()" ng-class="{active: apc.active === 'surveys'}">Surveys</a>
+            <a href="" class="list-group-item list-group-item-action" ng-click="apc.questionsSelected()">Questions</a>
+            <a href="" class="list-group-item list-group-item-action" ng-click="apc.answersSelected()">Answers</a>
+        </div>
+    </div>
+    <div class="col-md-8" ng-if="apc.active === 'surveys'">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Privacy</th>
+                        <th>Active</th>
+                        <th>Created by</th>
+                        <th>Expiration date</th>
+                        <th></th>
+                        <th>Details</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="survey in apc.surveys track by $index">
+                        <td>{{survey.name}}</td>
+                        <td>{{survey.surveyPrivacy.id === 1 ? 'All' : 'Registered'}}</td>
+                        <td>{{survey.isActive}}</td>
+                        <td>{{survey.creator}}</td>
+                        <td>{{survey.expirationDate}}</td>
+                        <td></td>
+                        <td align="center"><span class="glyphicon glyphicon-modal-window" style="cursor: pointer"></span></td>
+                        <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

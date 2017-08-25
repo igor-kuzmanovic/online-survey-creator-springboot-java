@@ -27,7 +27,7 @@
 		<link rel="stylesheet" href="css/main.css">
 	</head>
 
-	<body ng-cloak>
+	<body ng-cloak style="background-color: ghostwhite">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
@@ -51,6 +51,7 @@
 									<img class="img img-circle img-nav" ng-src="{{'data:image/jpg;base64,'+ mc.img}}"> <span class="glyphicon glyphicon-chevron-down"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="#/user/settings">Settings</a></li>
+									<li><a href="#/admin">Admin panel</a></li>
 									<li class="divider"></li>
 									<li><a href="#/" ng-click="mc.removeUser()">Log out</a></li>
 								</ul>
@@ -111,8 +112,8 @@
 		<script src="js/controllers/surveyDetailsController.js" type="text/javascript"></script>
 		<script src="js/controllers/surveyResultsController.js" type="text/javascript"></script>
 		<script src="js/controllers/userSettingsController.js" type="text/javascript"></script>
-		<script src="js/controllers/userNotificatonsController.js" type="text/javascript"></script>
-		<script src="js/controllers//adminPanelController.js" type="text/javascript"></script>
+		<script src="js/controllers/userNotificationsController.js" type="text/javascript"></script>
+		<script src="js/controllers/adminPanelController.js" type="text/javascript"></script>
 		<script src="js/services/surveyService.js" type="text/javascript"></script>
 		<script src="js/services/resultService.js" type="text/javascript"></script>
 		<script src="js/services/userService.js" type="text/javascript"></script>
