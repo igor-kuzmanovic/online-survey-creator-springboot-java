@@ -1,45 +1,56 @@
 (function () {
-	angular.module('app')
-		.controller('HomeController', HomeController);
+  angular.module('app')
+    .controller('HomeController', HomeController);
 
-	HomeController.$inject = ['SurveyService', '$scope', '$sce'];
+  HomeController.$inject = ['SurveyService', '$scope', '$sce'];
 
-	function HomeController(SurveyService, $scope, $sce) {
+  function HomeController(SurveyService, $scope, $sce) {
 
-		var self = this;
-		self.deleteSurvey = deleteSurvey;
-		self.setCurrentSurvey = setCurrentSurvey;
+    var self = this;
+    self.deleteSurvey = deleteSurvey;
+    self.setCurrentSurvey = setCurrentSurvey;
+    self.facebookShare = facebookShare;
 
-		self.facebookLink = [];
-		self.twitterLink = [];
-		self.googleLink = [];
+    self.facebookLink = [];
+    self.twitterLink = [];
+    self.googleLink = [];
 
-		init();
+    init();
 
-		function init(){
-			$scope.mc.checkUser();
-			getSurveys();			
-		}
+    function init(){
+      $scope.mc.checkUser();
+      getSurveys();			
+    }
 
-		function getSurveys(){
-			SurveyService.getSurveys().then(handleSuccessSurveys);
-		}
+    function getSurveys(){
+      SurveyService.getSurveys().then(handleSuccessSurveys);
+    }
 
-		function handleSuccessSurveys(data, status) {
-			self.surveys = data;
-		}
+    function handleSuccessSurveys(data, status) {
+      self.surveys = data;
+    }
 
-		function setCurrentSurvey(survey) {
-			self.currentSurvey = survey;
-		}
+    function setCurrentSurvey(survey) {
+      self.currentSurvey = survey;
+    }
 
-		function deleteSurvey() {
-			SurveyService.deleteSurvey(self.currentSurvey.id).then(function(response) {
-				$('#deleteSurveyModal').modal('hide');
-				getSurveys();
-			}, function(error){
-				self.error = error;
-			})
-		}
-	};
+    function deleteSurvey() {
+      SurveyService.deleteSurvey(self.currentSurvey.id).then(function(response) {
+        $('#deleteSurveyModal').modal('hide');
+        getSurveys();
+      }, function(error){
+        self.error = error;
+      })
+    }
+
+    function facebookShare(id) {
+      var facebookHref = 'https://tech9survey.github.io/#/' + id + '/';
+      
+      FB.ui({
+        method: 'share',
+        display: 'popup',
+        href: facebookHref,
+      }, function(response){});
+    }
+  };
 })();

@@ -53,4 +53,3 @@ loadWidgets = function() {
 function showBody() {
   $('body').show();
 };
-

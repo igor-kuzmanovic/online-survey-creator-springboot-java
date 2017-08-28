@@ -11,9 +11,14 @@
           {{survey.name}} - {{survey.description}}
 
           <div class="btn-group pull-right" role="group" aria-label="...">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="modal" data-target="#shareSurveyModal{{$index}}" onclick="loadWidgets()">
-              <span class="glyphicon glyphicon-share"></span>
-            </button>
+            <div class="btn btn-primary" ng-click="hc.facebookShare(survey.hashedId)"><img src="images/social-facebook-icon.png" style="width:17px;height:17px" alt="Share on Facebook"></div>
+            <div class="btn btn-primary"><a href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2F&amp;ref_src=twsrc%5Etfw&amp;text=Test%20survey&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}&amp;via=tech9survey"><img src="images/social-twitter-icon.png" style="width:17px;height:17px" alt="Share on Twitter"></a></div>
+            <div class="btn btn-primary"><a href="https://plus.google.com/share?url=https://tech9survey.github.io/#/{{survey.hashedId}}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><img src="images/social-google-plus-icon.png" style="width:17px;height:17px" alt="Share on Google+"/></a></div>
+            <!-- Uncomment if individual buttons don't work
+<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="modal" data-target="#shareSurveyModal{{$index}}" onclick="loadWidgets()">
+<span class="glyphicon glyphicon-share"></span>
+</button>
+-->
             <a href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button">
               <span class="glyphicon glyphicon-signal"></span>
             </a>
@@ -62,14 +67,14 @@
           <h4 class="modal-title">Share</h4>
         </div>
         <div class="modal-body">
-          <div class="panel-body">
-            <div class="form-group">
+          <div class="media">
+            <div class="media-left">
               <div class="fb-share-button" data-href="https://tech9survey.github.io/#/{{survey.hashedId}}" data-layout="button" data-size="small" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://tech9survey.github.io/#/{{survey.hashedId}}&amp;src=sdkpreparse">Share</a></div>
             </div>
-            <div class="form-group">
+            <div class="media-left">
               <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text={{survey.name}}&url=https://tech9survey.github.io/#/{{survey.hashedId}}">Tweet</a>
             </div>
-            <div class="form-group">
+            <div class="media-left">
               <div class="g-plus" data-action="share" data-href="https://tech9survey.github.io/#/{{survey.hashedId}}"></div>
             </div>
           </div>
