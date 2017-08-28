@@ -9,16 +9,20 @@
       <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate">
         <td>
           {{survey.name}} - {{survey.description}}
-
+          <br>Created:
+          {{survey.creationDate | date:'mediumDate'}}
+        </td>
+        <td>
           <div class="btn-group pull-right" role="group" aria-label="...">
-            <div class="btn btn-primary" ng-click="hc.facebookShare(survey.hashedId)"><img src="images/social-facebook-icon.png" style="width:17px;height:17px" alt="Share on Facebook"></div>
-            <div class="btn btn-primary"><a href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2F&amp;ref_src=twsrc%5Etfw&amp;text=Test%20survey&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}&amp;via=tech9survey"><img src="images/social-twitter-icon.png" style="width:17px;height:17px" alt="Share on Twitter"></a></div>
-            <div class="btn btn-primary"><a href="https://plus.google.com/share?url=https://tech9survey.github.io/#/{{survey.hashedId}}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><img src="images/social-google-plus-icon.png" style="width:17px;height:17px" alt="Share on Google+"/></a></div>
             <!-- Uncomment if individual buttons don't work
 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="modal" data-target="#shareSurveyModal{{$index}}" onclick="loadWidgets()">
 <span class="glyphicon glyphicon-share"></span>
 </button>
 -->
+            <div class="btn btn-primary" ng-click="hc.facebookShare(survey.hashedId)"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
+            </div>
+            <div class="btn btn-primary"><a href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2F&amp;ref_src=twsrc%5Etfw&amp;text=Test%20survey&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}&amp;via=tech9survey"><i class="fa fa-twitter-square" aria-hidden="true" style="color:white"></i></a></div>
+            <div class="btn btn-primary"><a href="https://plus.google.com/share?url=https://tech9survey.github.io/#/{{survey.hashedId}}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-google-plus-square" aria-hidden="true" style="color:white"></i></a></div>
             <a href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button">
               <span class="glyphicon glyphicon-signal"></span>
             </a>
@@ -28,10 +32,7 @@
             <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#deleteSurveyModal" ng-click="hc.setCurrentSurvey(survey)">
               <span class="glyphicon glyphicon-trash"></span>
             </button>
-          </div>
-
-          <br>Created:
-          {{survey.creationDate | date:'mediumDate'}}
+          </div>       
         </td>
       </tr>
     </tbody>
