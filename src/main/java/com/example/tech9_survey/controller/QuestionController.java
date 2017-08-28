@@ -21,38 +21,49 @@ import com.example.tech9_survey.service.SurveyService;
 @RequestMapping("/api/question")
 public class QuestionController {
 
-	private QuestionService questionService;
-	private SurveyService surveyService;
-	
-	@Autowired
-	public QuestionController(QuestionService questionService, SurveyService surveyService) {
-		this.questionService = questionService;
-		this.surveyService = surveyService;
-	}
+    private QuestionService questionService;
+    private SurveyService surveyService;
 
-	@GetMapping
-	public ResponseEntity<List<Question>> findAll() {
-		List<Question> allQuestions = questionService.findAll();
-		return new ResponseEntity<>(allQuestions, HttpStatus.OK);
-	}
-	
-	@GetMapping(path = "/{id}")
-	public ResponseEntity<Question> findOne(@PathVariable Long id) {
-		Question question = questionService.findOne(id);
-		return new ResponseEntity<>(question, HttpStatus.OK);
-	}
-	
-	@PostMapping(path = "/{surveyId}")
-	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Question question) throws NoSuchAlgorithmException {
-		Survey survey = surveyService.findOne(surveyId);
-    	survey.getQuestions().add(question);
-        surveyService.save(survey);
-    	return new ResponseEntity<>(HttpStatus.OK);
+    @Autowired
+    public QuestionController(QuestionService questionService, SurveyService surveyService) {
+        this.questionService = questionService;
+        this.surveyService = surveyService;
     }
-	
-	@DeleteMapping(path = "/{questionId}")
-	public ResponseEntity<Object> delete(@PathVariable Long questionId) {
-		questionService.delete(questionId);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
+
+    @GetMapping
+    public ResponseEntity<List<Question>> findAll() {
+        List<Question> allQuestions = questionService.findAll();
+        return new ResponseEntity<>(allQuestions, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Question> findOne(@PathVariable Long id) {
+        Question question = questionService.findOne(id);
+        return new ResponseEntity<>(question, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/{surveyId}")
+    public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Question question) throws NoSuchAlgorithmException {
+        Survey survey = surveyService.findOne(surveyId);
+        survey.getQuestions().add(question);
+        surveyService.save(survey);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{questionId}")
+    public ResponseEntity<Object> delete(@PathVariable Long questionId) {
+        questionService.delete(questionId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/answer/{id}")
+    public ResponseEntity<Question> findQuestionByAnswer(@PathVariable Long id) {
+        Question question = questionService.findQuestionByAnswerId(id);
+
+        if (question == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(question, HttpStatus.OK);
+    }
 }

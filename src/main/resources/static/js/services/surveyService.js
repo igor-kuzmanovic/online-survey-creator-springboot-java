@@ -13,7 +13,7 @@
       getSurveys: getSurveys,
       getCurrentSurvey: getCurrentSurvey,
       getSurveyComments: getSurveyComments
-    }
+    };
 
     function saveSurvey(survey) {
       survey.publicationDate = $filter('date')(survey.publicationDate, "yyyy-MM-dd");
@@ -25,7 +25,7 @@
         method: 'PUT',
         url: "/api/survey",
         data: survey
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -40,7 +40,7 @@
       var req = {
         method: 'DELETE',
         url: "/api/survey/" + id
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -56,7 +56,7 @@
         method: 'POST',
         url: "/api/survey",
         data: survey
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -71,7 +71,7 @@
       var req = {
         method: 'GET',
         url: "/api/survey/" + hashedId
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -86,7 +86,7 @@
       var req = {
         method: 'GET',
         url: "/api/survey"
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -101,7 +101,7 @@
       var req = {
         method: 'GET',
         url: "/api/survey/" + survey.id + "/comment"
-      }
+      };
       $http(req)
         .success(function (data) {
         def.resolve(data);

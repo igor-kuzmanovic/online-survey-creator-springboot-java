@@ -18,6 +18,7 @@
       findUser: findUser,
       editUser: editUser,
       setUser: setUser,
+      findAllUsers: findAllUsers,
       sendCaptchaResponse: sendCaptchaResponse,
       getImageFromUrl: getImageFromUrl,
       getUserNotifications: getUserNotifications
@@ -157,7 +158,7 @@
       var req = {
         method: 'GET',
         url: "/api/user/" + user.id + "/notifications"
-      }
+      };
       $http(req)
         .success(function (data) {
         def.resolve(data);
@@ -168,6 +169,23 @@
       return def.promise;
     }
 
+      function findAllUsers() {
+          var def = $q.defer();
+          var req = {
+              method: 'GET',
+              url: "/api/users/"
+          };
+          $http(req)
+              .success(function (data) {
+                  def.resolve(data);
+              })
+              .error(function () {
+                  def.reject("Failed to get all users!");
+              });
+          return def.promise;
+      }
+
     return service;
+
   }
 } ());

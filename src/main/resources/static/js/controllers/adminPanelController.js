@@ -2,22 +2,21 @@
   angular.module('app')
     .controller('AdminPanelController', AdminPanelController);
 
-  AdminPanelController.$inject = ['SurveyService', '$scope'];
+  AdminPanelController.$inject = ['SurveyService', 'UserService', 'CommentService', 'QuestionService', '$scope'];
 
-  function AdminPanelController(SurveyService, $scope) {
+  function AdminPanelController(SurveyService, UserService, CommentService, QuestionService, $scope) {
 
     var self = this;
     self.active = "users";
-    self.getAllSurveys = getAllSurveys;
-    self.usersSelected = usersSelected;
-    self.surveysSelected = surveysSelected;
-    self.answersSelected = answersSelected;
-    self.questionsSelected = questionsSelected;
+    self.menuSelected = menuSelected;
 
     init();
     
     function init() {
       getAllSurveys();
+      getAllUsers();
+      getAllComments();
+      getAllQuestions();
     }
     
     function getAllSurveys() {
@@ -28,20 +27,48 @@
         self.surveys = data;
     }
     
-    function usersSelected() {
-        self.active = "users";
+    function getAllUsers() {
+        UserService.findAllUsers().then(handleSuccessUsers);
     }
     
-    function surveysSelected() {
-        self.active = "surveys";
+    function handleSuccessUsers(data, status) {
+        self.users = data;
     }
     
-    function answersSelected() {
-        self.active = "answers";
+    function getAllComments() {
+        CommentService.findAllComments().then(handleSuccessComments);
     }
     
-    function questionsSelected() {
-        self.active = "questions"
+    function handleSuccessComments(data, status) {
+        self.comments = data;
+    }
+    
+    function getAllQuestions() {
+        QuestionService.findAllQuestions().then(handleSuccessQuestions)
+    }
+    
+    function handleSuccessQuestions(data, status) {
+        self.questions = data;
+    }
+    
+    function menuSelected(menu) {
+        switch(menu) {
+            case 'users':
+                self.active = 'users';
+                break;
+            case 'surveys':
+                self.active = 'surveys';
+                break;
+            case 'answers':
+                self.active = 'answers';
+                break;
+            case 'questions':
+                self.active = 'questions';
+                break;
+            case 'comments':
+                self.active = 'comments';
+                break;
+        }
     }
 
   }

@@ -34,7 +34,7 @@
       { name: 'Yeti', url: 'yeti' }
     ];
 
-    self.theme = self.themes[6];
+    self.theme = self.themes[4];
 
     init();
 
