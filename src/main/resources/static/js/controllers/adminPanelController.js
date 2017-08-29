@@ -49,6 +49,11 @@
     
     function handleSuccessQuestions(data, status) {
         self.questions = data;
+        for(var i = 0; i < self.questions.length; i++) {
+            SurveyService.getSurveyByQuestion(self.questions[i].id).then(function(response){
+
+            })
+        }
     }
     
     function menuSelected(menu) {
