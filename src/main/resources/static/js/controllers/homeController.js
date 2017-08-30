@@ -58,10 +58,7 @@
     }
 
     function deactivateSurvey() {
-      self.currentSurvey.expirationDate = new Date();
-      self.currentSurvey.isActive = false;
-
-      SurveyService.saveSurvey(angular.copy(self.currentSurvey))
+      SurveyService.deactivateSurvey(angular.copy(self.currentSurvey))
         .then(
         function(response){
           getSurveys();
