@@ -56,7 +56,7 @@
       SurveyService.saveSurvey(angular.copy(self.survey))
         .then(
         function(response){
-          $location.path('/survey/submit/' + response.hashedId);
+          $location.path('/survey/details/' + response.hashedId);
         }, 
         function(error){
           console.log(error);
