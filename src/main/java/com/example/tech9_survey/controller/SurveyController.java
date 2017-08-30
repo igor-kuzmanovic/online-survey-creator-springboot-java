@@ -54,6 +54,12 @@ public class SurveyController {
     		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     	}
     	
+    	for(int i = 0; i < surveys.size(); i++) {
+    		Survey survey = surveys.get(i);
+    		survey = surveyIsActiveCheck(survey);
+    		surveys.set(i, survey);
+    	}
+    	
         return new ResponseEntity<>(surveys, HttpStatus.OK);
     }
 	
@@ -162,6 +168,22 @@ public class SurveyController {
     	
     	return new ResponseEntity<>(updatedSurvey, HttpStatus.OK);
     }
+	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@PutMapping(path = "/deactivate/{id}")
+	public ResponseEntity<Survey> deactivate(@PathVariable Long id) {
+		Survey survey = surveyService.findOne(id);
+		
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		survey.setExpirationDate(new Date());
+		survey.setIsActive(false);
+		surveyService.save(survey);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping(path = "/{id}")

@@ -21,6 +21,11 @@
       controller: 'HomeController',
       controllerAs: 'hc'
     })
+      .when('/search', {
+      templateUrl: '/views/search.html',
+      controller: 'SearchController',
+      controllerAs: 'sc'
+    })
       .when('/survey/new', {
       templateUrl: '/views/surveyCreation.html',
       controller: 'SurveyCreationController',
@@ -65,12 +70,12 @@
       templateUrl: '/views/verifyUser.html',
       controller: 'VerifyUserController',
       controllerAs: 'vuc'
-      })
+    })
       .when('/api/users/activate/:token', {
-          redirectTo:'/',
-          controller: 'ActivateController',
-          controllerAs: 'ac'
-      })
+      redirectTo:'/',
+      controller: 'ActivateController',
+      controllerAs: 'ac'
+    })
       .when('/user/notifications', {
       templateUrl: '/views/userNotifications.html',
       controller: 'UserNotificationsController',

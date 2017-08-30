@@ -39,7 +39,7 @@
       }
       else {
         window.alert("This survey is not active!");
-        $location.path('/home');
+        $location.path('/survey/details/' + self.surveyHashedId);
       }
     }
 

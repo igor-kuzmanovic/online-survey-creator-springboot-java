@@ -10,8 +10,10 @@
     self.getCurrentSurvey = getCurrentSurvey;
     self.postComment = postComment;
     self.deleteComment = deleteComment;
-    
+    self.reportComment = reportComment;
+
     self.user = {};
+    self.comment = {};
 
     init();
 
@@ -26,13 +28,28 @@
         .then(
         function(response){
           self.survey = response;
+          checkSurvey();
         })
+    }
+
+    function checkSurvey() {
+      if(self.survey.isActive) {
+        if(self.user && self.survey.creator === self.user.username) {
+          window.alert("You cannot complete your own survey!");
+          $location.path('/home');
+        }
+        checkSubmitter();
+      }
+      else {
+        window.alert("This survey is not active!");
+        $location.path('/survey/details/' + self.surveyHashedId);
+      }
     }
 
     function postComment() {
       CommentService.postComment(self.survey, self.comment).then(function(response) {
         getCurrentSurvey();
-        self.comment = '';
+        self.comment = {};
       }, function(error){
         console.log(error);
       })
@@ -46,5 +63,8 @@
       })
     }
 
+    function reportComment(commentId) {
+      // Insert reporting logic
+    }
   }
 })();

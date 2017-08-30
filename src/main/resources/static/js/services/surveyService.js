@@ -8,6 +8,7 @@
 
     var service = {
       saveSurvey: saveSurvey,
+      deactivateSurvey: deactivateSurvey,
       deleteSurvey: deleteSurvey,
       generateSurvey: generateSurvey,
       getSurveys: getSurveys,
@@ -31,6 +32,21 @@
       })
         .error(function () {
         def.reject("Failed to save a survey!");
+      });
+      return def.promise;
+    }
+    
+    function deactivateSurvey(surveyId) {
+      var def = $q.defer();
+      var req = {
+        method: 'PUT',
+        url: "/api/survey/deactivate/" + surveyId
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to deactivate a survey!");
       });
       return def.promise;
     }
