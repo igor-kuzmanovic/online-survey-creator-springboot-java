@@ -2,6 +2,7 @@ package com.example.tech9_survey.service;
 
 import com.example.tech9_survey.domain.UserRole;
 import com.example.tech9_survey.domain.User;
+import com.example.tech9_survey.domain.UserStatus;
 import com.example.tech9_survey.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    public User findOne(Long id) {
+        return userRepository.findOne(id);
+    }
+
     public User save(User user) {
         return userRepository.save(user);
     }
@@ -56,6 +61,12 @@ public class UserService implements UserDetailsService {
         if (!user.isEnabled()) {
             return org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword())
                     .disabled(true).roles(getAuthorities(user).toString())
+                    .build();
+        }
+
+        if (user.getUserStatus().getType().equals(UserStatus.UserStatusType.STATUS_INACTIVE)) {
+            return org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword())
+                    .accountLocked(true).roles(getAuthorities(user).toString())
                     .build();
         }
 

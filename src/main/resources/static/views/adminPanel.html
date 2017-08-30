@@ -14,6 +14,40 @@
             <a href="" class="list-group-item list-group-item-action" ng-click="apc.menuSelected('answers')" ng-class="{active: apc.active === 'answers'}">Answers</a>
         </div>
     </div>
+    <div class="col-md-10" ng-if="apc.active === 'users'">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th>Registration date</th>
+                    <th></th>
+                    <th>Block/Unblock</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in apc.users track by $index">
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.firstName}}</td>
+                    <td>{{user.secondName}}</td>
+                    <td>{{user.userStatus.id === 1 ? 'Active' : 'Blocked'}}</td>
+                    <td>{{user.roles.id === 1 ? 'Admin' : 'Regular user'}}</td>
+                    <td>{{user.registrationDate | date:'yyyy-MM-dd'}}</td>
+                    <td></td>
+                    <td align="center"><span class="glyphicon glyphicon-lock" style="cursor: pointer" ng-click="apc.blockUser(user.id)"></span></td>
+                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeUser(user.id)"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="col-md-10" ng-if="apc.active === 'surveys'">
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped">
@@ -36,40 +70,30 @@
                         <td>{{survey.creator}}</td>
                         <td>{{survey.expirationDate}}</td>
                         <td></td>
-                        <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer"></span></td>
+                        <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeSurvey(survey.id)"></span></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="col-md-10" ng-if="apc.active === 'users'">
+    <div class="col-md-10" ng-if="apc.active === 'comments'">
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped">
                 <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>First name</th>
-                    <th>Last name</th>
-                    <th>Status</th>
-                    <th>Role</th>
-                    <th>Registration date</th>
+                    <th>Content</th>
+                    <th>Created by</th>
+                    <th>Belongs to</th>
                     <th></th>
-                    <th>Block</th>
                     <th>Remove</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="user in apc.users track by $index">
-                    <td>{{user.username}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.firstName}}</td>
-                    <td>{{user.secondName}}</td>
-                    <td>{{user.userStatus.id === 1 ? 'Active' : 'Blocked'}}</td>
-                    <td>{{user.roles.id === 1 ? 'Admin' : 'Regular user'}}</td>
-                    <td>{{user.registrationDate | date:'yyyy-MM-dd'}}</td>
+                <tr ng-repeat="comment in apc.comments track by $index">
+                    <td>{{comment.content}}</td>
+                    <td>{{comment.poster}}</td>
+                    <td>{{comment.survey}}</td>
                     <td></td>
-                    <td align="center"><span class="glyphicon glyphicon-lock" style="cursor: pointer"></span></td>
                     <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer"></span></td>
                 </tr>
                 </tbody>
@@ -98,7 +122,7 @@
             </table>
         </div>
     </div>
-    <div class="col-md-10" ng-if="apc.active === 'comments'">
+    <div class="col-md-8" ng-if="apc.active === 'answers'">
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped">
                 <thead>
@@ -110,40 +134,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="question in apc.questions track by $index">
-                    <td>{{question.content}}</td>
-                    <td>{{question.survey}}</td>
+                <tr ng-repeat="answer in apc.answers track by $index">
+                    <td>{{answer.content}}</td>
+                    <td>{{answer.question}}</td>
                     <td></td>
-                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer"></span></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="col-md-8" ng-if="apc.active === 'answers'">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped">
-                <thead>
-                <tr>
-                    <th>Answers</th>
-                    <th>Privacy</th>
-                    <th>Active</th>
-                    <th>Created by</th>
-                    <th>Expiration date</th>
-                    <th></th>
-                    <th>Details</th>
-                    <th>Remove</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="survey in apc.surveys track by $index">
-                    <td>{{survey.name}}</td>
-                    <td>{{survey.surveyPrivacy.id === 1 ? 'All' : 'Registered'}}</td>
-                    <td>{{survey.isActive}}</td>
-                    <td>{{survey.creator}}</td>
-                    <td>{{survey.expirationDate}}</td>
-                    <td></td>
-                    <td align="center"><span class="glyphicon glyphicon-modal-window" style="cursor: pointer"></span></td>
                     <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer"></span></td>
                 </tr>
                 </tbody>

@@ -8,7 +8,8 @@
 
     var service = {
       deleteQuestion: deleteQuestion,
-      findAllQuestions: findAllQuestions
+      findAllQuestions: findAllQuestions,
+        getQuestionByAnswer: getQuestionByAnswer
     };
 
     function deleteQuestion(questionId) {
@@ -38,6 +39,22 @@
             })
             .error(function () {
                 def.reject("Failed to get all questions!");
+            });
+        return def.promise;
+    }
+    
+    function getQuestionByAnswer(id) {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "/api/question/answer/" + id
+        };
+        $http(req)
+            .success(function (data) {
+                def.resolve(data);
+            })
+            .error(function () {
+                def.reject("Failed to get question for given answer!");
             });
         return def.promise;
     }

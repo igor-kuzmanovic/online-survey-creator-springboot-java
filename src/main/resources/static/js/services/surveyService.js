@@ -13,7 +13,8 @@
       getSurveys: getSurveys,
       getCurrentSurvey: getCurrentSurvey,
       getSurveyComments: getSurveyComments,
-        getSurveyByQuestion: getSurveyByQuestion
+        getSurveyByQuestion: getSurveyByQuestion,
+        getSurveyByComment: getSurveyByComment
     };
 
     function saveSurvey(survey) {
@@ -128,7 +129,23 @@
             });
         return def.promise;
     }
-
+    
+    function getSurveyByComment(id) {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "/api/survey/comment/" + id
+        };
+        $http(req)
+            .success(function (data) {
+                def.resolve(data);
+            })
+            .error(function () {
+                def.reject("Failed to get survey for given comment!");
+            });
+        return def.promise;
+    }
+    
     return service;
 
   }

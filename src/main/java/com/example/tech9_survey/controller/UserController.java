@@ -1,7 +1,10 @@
 package com.example.tech9_survey.controller;
 
 import com.example.tech9_survey.domain.User;
+import com.example.tech9_survey.domain.UserRole;
+import com.example.tech9_survey.domain.UserStatus;
 import com.example.tech9_survey.domain.VerificationToken;
+import com.example.tech9_survey.service.CommentService;
 import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
 import org.springframework.http.*;
@@ -25,10 +28,13 @@ import java.util.*;
 public class UserController {
 
     private UserService userService;
+    private CommentService commentService;
     private VerificationTokenService verificationTokenService;
     private JavaMailSender javaMailSender;
 
-    public UserController(UserService userService, VerificationTokenService verificationTokenService, JavaMailSender javaMailSender) {
+    public UserController(UserService userService, VerificationTokenService verificationTokenService,
+                          CommentService commentService, JavaMailSender javaMailSender) {
+        this.commentService = commentService;
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
         this.javaMailSender = javaMailSender;
@@ -44,6 +50,23 @@ public class UserController {
         }
         
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity deleteUser(@PathVariable Long id) {
+        User foundUser = userService.findOne(id);
+
+        for (UserRole role : foundUser.getRoles()) {
+            if (role.getType().equals(UserRole.RoleType.ROLE_ADMIN)) {
+                return new ResponseEntity(HttpStatus.FORBIDDEN);
+            }
+        }
+
+        commentService.deleteByUser(foundUser.getUsername());
+        userService.delete(id);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping
@@ -138,6 +161,28 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping(path = "/block/{user_id}")
+    public ResponseEntity changeStatus(@PathVariable("user_id") Long userId) {
+        User foundUser = userService.findOne(userId);
+
+        if (foundUser == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        foundUser.setUserStatus(resolveStatus(foundUser));
+
+        for (UserRole role : foundUser.getRoles()) {
+            if (role.getType().equals(UserRole.RoleType.ROLE_ADMIN)) {
+                return new ResponseEntity(HttpStatus.FORBIDDEN);
+            }
+        }
+
+        userService.save(foundUser);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @RequestMapping("/login")
     public User user(Authentication authentication) {
         User user = userService.findByUsername(authentication.getName());
@@ -154,6 +199,18 @@ public class UserController {
                 userService.delete(t.getUser().getId());
             }
         }
+    }
+
+    private UserStatus resolveStatus(User foundUser) {
+        UserStatus userStatus = new UserStatus();
+        if (foundUser.getUserStatus().getType().equals(UserStatus.UserStatusType.STATUS_ACTIVE)) {
+            userStatus.setType(UserStatus.UserStatusType.STATUS_INACTIVE);
+            userStatus.setId(2L);
+        } else {
+            userStatus.setType(UserStatus.UserStatusType.STATUS_ACTIVE);
+            userStatus.setId(1L);
+        }
+        return userStatus;
     }
 
     private Date addDay(Date date, int days)

@@ -155,6 +155,18 @@ public class SurveyController {
         return new ResponseEntity<>(survey, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping(path = "/comment/{id}")
+	public ResponseEntity<Survey> findSurveyByCommentId(@PathVariable Long id) {
+		Survey survey = surveyService.findSurveyByCommentsId(id);
+
+		if (survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(survey, HttpStatus.OK);
+	}
+
 	private Survey surveyIsActiveCheck(Survey survey) {
 		Date currentDate = new Date();
 		

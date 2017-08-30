@@ -5,5 +5,5 @@ import com.example.tech9_survey.domain.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-
+    void deleteByPoster(String poster);
 }

@@ -18,10 +18,12 @@
       findUser: findUser,
       editUser: editUser,
       setUser: setUser,
+        deleteUser: deleteUser,
       findAllUsers: findAllUsers,
       sendCaptchaResponse: sendCaptchaResponse,
       getImageFromUrl: getImageFromUrl,
-      getUserNotifications: getUserNotifications
+      getUserNotifications: getUserNotifications,
+        toggleUserBlock: toggleUserBlock
     };
 
     function login(credentials) {
@@ -125,6 +127,36 @@
         });
         return def.promise;
     }
+    
+    function deleteUser(id) {
+        var def = $q.defer();
+        var req = {
+            method: 'DELETE',
+            url: "/api/users/" + id
+        };
+        $http(req).success(function (data) {
+            def.resolve(data);
+        })
+            .error(function () {
+                def.reject("Failed to delete a user");
+            });
+        return def.promise;
+    }
+
+      function toggleUserBlock(id) {
+          var def = $q.defer();
+          var req = {
+              method: 'PUT',
+              url: "/api/users/block/" + id
+          };
+          $http(req).success(function (data) {
+              def.resolve(data);
+          })
+              .error(function () {
+                  def.reject("Failed to block/unblock a user");
+              });
+          return def.promise;
+      }
 
     function arrayBufferToBase64(buffer) {
       var binary = '';
