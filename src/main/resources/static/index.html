@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="css/main.css">
   </head>
 
-  <body ng-cloak>
+  <body ng-cloak style="background-image: url('https://cdn.elegantthemes.com/blog/wp-content/uploads/2013/09/bg-6-full.jpg')">
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -53,10 +53,11 @@
                 <a href="" type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   <img class="img img-circle img-nav" ng-src="{{'data:image/jpg;base64,'+ mc.img}}"> <span class="glyphicon glyphicon-chevron-down"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="#/user/settings">Settings</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#/" ng-click="mc.removeUser()">Log out</a></li>
-                </ul>
+									<li><a href="#/user/settings">Settings</a></li>
+									<li ng-if="mc.user.roles.length === 2"><a href="#/admin">Admin panel</a></li>
+									<li class="divider"></li>
+									<li><a href="#/" ng-click="mc.removeUser()">Log out</a></li>
+								</ul>
               </li>
             </ul>
           </div>
@@ -130,3 +131,5 @@
     <script src="js/services/cookieService.js" type="text/javascript"></script>
   </body>
 </html>
+<!--https://cdn.elegantthemes.com/blog/wp-content/uploads/2013/09/bg-9-full.jpg-->
+<!--https://cdn.elegantthemes.com/blog/wp-content/uploads/2013/09/bg-6-full.jpg-->

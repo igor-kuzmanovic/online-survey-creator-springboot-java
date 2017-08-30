@@ -13,8 +13,10 @@
       generateSurvey: generateSurvey,
       getSurveys: getSurveys,
       getCurrentSurvey: getCurrentSurvey,
-      getSurveyComments: getSurveyComments
-    }
+      getSurveyComments: getSurveyComments,
+        getSurveyByQuestion: getSurveyByQuestion,
+        getSurveyByComment: getSurveyByComment
+    };
 
     function saveSurvey(survey) {
       if(survey.expirationDate) {
@@ -26,7 +28,7 @@
         method: 'PUT',
         url: "/api/survey",
         data: survey
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -56,7 +58,7 @@
       var req = {
         method: 'DELETE',
         url: "/api/survey/" + id
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -72,7 +74,7 @@
         method: 'POST',
         url: "/api/survey",
         data: survey
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -87,7 +89,7 @@
       var req = {
         method: 'GET',
         url: "/api/survey/" + hashedId
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -102,7 +104,7 @@
       var req = {
         method: 'GET',
         url: "/api/survey"
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -117,7 +119,7 @@
       var req = {
         method: 'GET',
         url: "/api/survey/" + survey.id + "/comment"
-      }
+      };
       $http(req)
         .success(function (data) {
         def.resolve(data);
@@ -127,7 +129,39 @@
       });
       return def.promise;
     }
-
+    
+    function getSurveyByQuestion(id) {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "/api/survey/question/" + id
+        };
+        $http(req)
+            .success(function (data) {
+                def.resolve(data);
+            })
+            .error(function () {
+                def.reject("Failed to get survey for given question!");
+            });
+        return def.promise;
+    }
+    
+    function getSurveyByComment(id) {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "/api/survey/comment/" + id
+        };
+        $http(req)
+            .success(function (data) {
+                def.resolve(data);
+            })
+            .error(function () {
+                def.reject("Failed to get survey for given comment!");
+            });
+        return def.promise;
+    }
+    
     return service;
 
   }

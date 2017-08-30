@@ -18,9 +18,12 @@
       findUser: findUser,
       editUser: editUser,
       setUser: setUser,
+      deleteUser: deleteUser,
+      findAllUsers: findAllUsers,
       sendCaptchaResponse: sendCaptchaResponse,
       getImageFromUrl: getImageFromUrl,
       getUserNotifications: getUserNotifications,
+      toggleUserBlock: toggleUserBlock,
       checkUserCookies: checkUserCookies
     };
 
@@ -132,6 +135,36 @@
       });
       return def.promise;
     }
+    
+    function deleteUser(id) {
+        var def = $q.defer();
+        var req = {
+            method: 'DELETE',
+            url: "/api/users/" + id
+        };
+        $http(req).success(function (data) {
+            def.resolve(data);
+        })
+            .error(function () {
+                def.reject("Failed to delete a user");
+            });
+        return def.promise;
+    }
+
+      function toggleUserBlock(id) {
+          var def = $q.defer();
+          var req = {
+              method: 'PUT',
+              url: "/api/users/block/" + id
+          };
+          $http(req).success(function (data) {
+              def.resolve(data);
+          })
+              .error(function () {
+                  def.reject("Failed to block/unblock a user");
+              });
+          return def.promise;
+      }
 
     function arrayBufferToBase64(buffer) {
       var binary = '';
@@ -172,7 +205,7 @@
       var req = {
         method: 'GET',
         url: "/api/users/" + user.id + "/notifications"
-      }
+      };
       $http(req)
         .success(function (data) {
         def.resolve(data);
@@ -182,6 +215,22 @@
       });
       return def.promise;
     }
+
+      function findAllUsers() {
+          var def = $q.defer();
+          var req = {
+              method: 'GET',
+              url: "/api/users/"
+          };
+          $http(req)
+              .success(function (data) {
+                  def.resolve(data);
+              })
+              .error(function () {
+                  def.reject("Failed to get all users!");
+              });
+          return def.promise;
+      }
 
     function getCredentialsFromCookies() {
       var credentials = {}
@@ -194,6 +243,8 @@
       return CookieService.getCookie('username') && CookieService.getCookie('password');
     }
 
+
     return service;
+
   }
 }());

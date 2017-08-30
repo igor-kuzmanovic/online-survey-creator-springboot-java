@@ -32,4 +32,7 @@ public class CommentService {
 		commentRepository.delete(id);
 	}
 
+	public void deleteByUser(String user) {
+		commentRepository.deleteByPoster(user);
+	}
 }

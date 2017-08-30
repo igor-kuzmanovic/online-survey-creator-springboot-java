@@ -8,9 +8,27 @@
 
     var service = {
       postComment: postComment,
-      deleteComment: deleteComment
-    }
+      deleteComment: deleteComment,
+      findAllComments: findAllComments
+    };
+
     return service;
+    
+    function findAllComments() {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "/api/comment/"
+        };
+        $http(req)
+            .success(function (data) {
+                def.resolve(data);
+            })
+            .error(function () {
+                def.reject("Failed to get all comments!");
+            });
+        return def.promise;
+    }
 
     function postComment(survey, comment) {
       comment.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
@@ -19,7 +37,7 @@
         method: 'POST',
         url: "/api/comment/" + survey.id,
         data: comment
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -34,7 +52,7 @@
       var req = {
         method: 'DELETE',
         url: "/api/comment/" + id
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })

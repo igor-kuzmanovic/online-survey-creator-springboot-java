@@ -10,5 +10,6 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
 	Survey findByHashedId(String hashedId);
 
 	Survey findSurveyByCommentsId(Long id);
-	
+
+    Survey findSurveyByQuestionsId(Long id);
 }

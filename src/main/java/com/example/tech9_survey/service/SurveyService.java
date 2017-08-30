@@ -42,4 +42,8 @@ public class SurveyService {
 		 return surveyRepository.findSurveyByCommentsId(id);
 	}
 
+    public Survey findSurveyByQuestionId(Long id) {
+        return surveyRepository.findSurveyByQuestionsId(id);
+    }
+
 }
