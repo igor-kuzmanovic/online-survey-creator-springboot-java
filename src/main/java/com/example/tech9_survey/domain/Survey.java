@@ -33,10 +33,6 @@ public class Survey extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private Date creationDate;
 	
-	@Column(name = "publication_date")
-	@Temporal(TemporalType.DATE)
-	private Date publicationDate;
-	
 	@Column(name = "expiration_date")
 	@Temporal(TemporalType.DATE)
 	private Date expirationDate;
@@ -110,14 +106,6 @@ public class Survey extends BaseEntity {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
-	}
-
-	public Date getPublicationDate() {
-		return publicationDate;
-	}
-
-	public void setPublicationDate(Date publicationDate) {
-		this.publicationDate = publicationDate;
 	}
 
 	public Date getExpirationDate() {

@@ -24,24 +24,6 @@
       </div>
 
       <div class="form-group">
-        <label for="surveyPublication">Survey activation options</label>
-        <div class="radio">
-          <label><input type="radio" name="surveyPublication" id="surveyPublication" ng-value="1" ng-model="scfc.surveyActivation" ng-click="scfc.setPublicationDate()">Activate immediately</label>
-        </div>
-        <div class="radio">
-          <label><input type="radio" name="surveyPublication" id="surveyPublication" ng-value="2" ng-model="scfc.surveyActivation" ng-click="scfc.setPublicationDate()">Set activation date</label>
-          <div ng-if="scfc.surveyActivation === 2" ng-class="{'has-feedback': surveyForm.publicationDate.$dirty, 'has-error': surveyForm.publicationDate.$dirty && surveyForm.publicationDate.$invalid, 'has-success': surveyForm.publicationDate.$dirty && surveyForm.publicationDate.$valid}">
-            <input id="publicationDate" type="date" class="form-control" name="publicationDate" min="{{scfc.currentDate | date:'yyyy-MM-dd'}}" placeholder="yyyy-MM-dd" ng-model="scfc.survey.publicationDate" required>
-            <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.publicationDate.$dirty && surveyForm.publicationDate.$valid"></span>
-            <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.publicationDate.$dirty && surveyForm.publicationDate.$invalid"></span>
-          </div>
-        </div>
-        <div ng-show="scfc.surveyActivation === 2">
-          <label class="text-danger" ng-show="surveyForm.publicationDate.$dirty && surveyForm.publicationDate.$error.min">You cannot pick a date in the past!</label>
-        </div>
-      </div>
-
-      <div class="form-group">
         <label for="surveyExpiration">Survey expiration options</label>
         <div class="radio">
           <label><input type="radio" name="surveyExpiration" id="surveyExpiration" ng-value="1" ng-model="scfc.surveyDeactivation" ng-click="scfc.setExpirationDate()">Active indefinitely</label>
@@ -49,13 +31,13 @@
         <div class="radio">
           <label><input type="radio" name="surveyExpiration" id="surveyExpiration" ng-value="2" ng-model="scfc.surveyDeactivation" ng-click="scfc.setExpirationDate()">Set expiration date</label>
           <div ng-show="scfc.surveyDeactivation === 2" ng-class="{'has-feedback': surveyForm.expirationDate.$dirty, 'has-error': surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$invalid, 'has-success': surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$valid}">
-            <input ng-if="scfc.surveyDeactivation === 2" id="expirationDate" type="date" class="form-control" name="expirationDate" min="{{scfc.currentDate | date:'yyyy-MM-dd'}}" placeholder="yyyy-MM-dd" ng-model="scfc.survey.expirationDate" required>
+            <input ng-if="scfc.surveyDeactivation === 2" id="expirationDate" type="date" class="form-control" name="expirationDate" min="{{scfc.minDate | date:'yyyy-MM-dd'}}" placeholder="yyyy-MM-dd" ng-model="scfc.survey.expirationDate" required>
             <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$valid"></span>
             <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$invalid"></span>
           </div>
         </div>
         <div ng-show="scfc.surveyDeactivation === 2">
-          <label class="text-danger" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$error.min">You cannot pick a date in the past!</label>
+          <label class="text-danger" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$error.min">You cannot pick a current date or a date in the past!</label>
         </div>
       </div>
 

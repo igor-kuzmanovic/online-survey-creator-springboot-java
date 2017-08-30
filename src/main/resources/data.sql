@@ -16,8 +16,8 @@ INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 2);
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (2, 2);
 
 INSERT INTO tech9survey.survey
-(id, creation_date, description, exit_message, expiration_date, hashed_id, is_active, name, publication_date, survey_privacy_id, creator)
-VALUES(1, '2017-08-22', 'Test survey description', 'Test survey exit message', '2017-08-22', '23828029cea10d57429c68966cfacc8c', 1, 'Test survey', '2017-08-22', 2, 'admin');
+(id, creation_date, description, exit_message, hashed_id, is_active, name, expiration_date, survey_privacy_id, creator)
+VALUES(1, '2017-08-22', 'Test survey description', 'Test survey exit message', '23828029cea10d57429c68966cfacc8c', 1, 'Test survey', '2017-08-22', 2, 'admin');
 
 INSERT INTO tech9survey.question
 (id, content, survey_id)

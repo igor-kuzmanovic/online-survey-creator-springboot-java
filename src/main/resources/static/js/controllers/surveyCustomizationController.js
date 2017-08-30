@@ -18,7 +18,10 @@
     init();
 
     function init() {
-      $scope.mc.checkUser();
+      if (!$scope.mc.checkUser()) {
+        $location.path('/');
+      }
+
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
     }

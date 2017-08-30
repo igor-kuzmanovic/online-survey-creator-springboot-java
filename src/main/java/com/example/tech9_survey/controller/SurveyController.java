@@ -110,8 +110,7 @@ public class SurveyController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		
-		survey.setPublicationDate(null);
-		survey.setExpirationDate(null);
+		survey.setExpirationDate(new Date());
 		survey.setExitMessage(new String());
 		survey.setIsActive(false);
 		SurveyPrivacy surveyPrivacy = new SurveyPrivacy();
@@ -181,17 +180,12 @@ public class SurveyController {
 	private Survey surveyIsActiveCheck(Survey survey) {
 		Date currentDate = new Date();
 		
-		if(survey.getIsActive() == false && survey.getPublicationDate() != null && survey.getPublicationDate().compareTo(currentDate) <= 0) {
+		if(survey.getExpirationDate() == null || survey.getExpirationDate().compareTo(currentDate) > 0) {
 			survey.setIsActive(true);
 			survey = surveyService.save(survey);
 		}
 		
-		if(survey.getIsActive() == true && survey.getPublicationDate() != null && survey.getPublicationDate().compareTo(currentDate) > 0) {
-			survey.setIsActive(false);
-			survey = surveyService.save(survey);
-		}
-		
-		if(survey.getIsActive() == true && survey.getExpirationDate() != null && survey.getExpirationDate().compareTo(currentDate) <= 0) {
+		if(survey.getExpirationDate() != null && survey.getExpirationDate().compareTo(currentDate) <= 0) {
 			survey.setIsActive(false);
 			survey = surveyService.save(survey);
 		}

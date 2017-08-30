@@ -9,6 +9,14 @@
     var self = this;
     self.getCredentials = getCredentials;
     self.checkForm = checkForm;
+    
+    init();
+    
+    function init() {
+      if ($scope.mc.checkUser()) {
+        $location.path('/home');
+      }
+    }
 
     function getCredentials(credentials, rememberMe) {
       UserService.login(credentials, rememberMe).then(handleSuccessCredentials);

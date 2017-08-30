@@ -12,14 +12,16 @@
     init()
 
     function init() {
-      $scope.mc.checkUser();
+      if (!$scope.mc.checkUser()) {
+        $location.path('/');
+      }
     }
 
     function generateSurvey(survey) {
       if(!checkForm()){
         return;
       }
-      
+
       SurveyService.generateSurvey(angular.copy(survey))
         .then(
         function(response){
@@ -32,7 +34,7 @@
 
     function checkForm() {
       var focusedElement;
-      
+
       if($scope.surveyForm.$invalid) {
         if($scope.surveyForm.description.$invalid) {
           $scope.surveyForm.description.$setDirty();
@@ -48,7 +50,7 @@
 
         return false;
       }
-      
+
       return true;
     }
 

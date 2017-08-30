@@ -13,11 +13,14 @@
     init();
 
     function init() {
-      $scope.mc.checkUser();
+      if (!$scope.mc.checkUser()) {
+        $location.path('/');
+      }
+
       getUserNotifications();
     }
-    
-     function getUserNotifications() {
+
+    function getUserNotifications() {
       var user = $scope.mc.checkUser()
       UserService.getUserNotifications(user).then(handleSuccessUserNotifications);
     }
@@ -25,7 +28,7 @@
     function handleSuccessUserNotifications(data, status) {
       self.notifications = data;
     }
-                                         
+
     function deleteNotification(notificationId){
       NotificationService.deleteNotification(notificationId).then(function(response){
         getUserNotifications();

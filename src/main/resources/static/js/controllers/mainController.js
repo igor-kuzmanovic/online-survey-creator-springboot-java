@@ -78,7 +78,7 @@
         console.log('User not found, cookies not found');
         //$location.path('/');
       }
-      
+
       if(self.user) {
         console.log('User found');
         getImage();
