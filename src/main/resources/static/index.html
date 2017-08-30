@@ -51,7 +51,7 @@
 									<img class="img img-circle img-nav" ng-src="{{'data:image/jpg;base64,'+ mc.img}}"> <span class="glyphicon glyphicon-chevron-down"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="#/user/settings">Settings</a></li>
-									<li><a href="#/admin">Admin panel</a></li>
+									<li ng-if="mc.user.roles.length === 2"><a href="#/admin">Admin panel</a></li>
 									<li class="divider"></li>
 									<li><a href="#/" ng-click="mc.removeUser()">Log out</a></li>
 								</ul>

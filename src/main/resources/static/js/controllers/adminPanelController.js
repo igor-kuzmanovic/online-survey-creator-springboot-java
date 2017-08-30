@@ -12,18 +12,18 @@
     self.removeUser = removeUser;
     self.blockUser = blockUser;
     self.removeSurvey = removeSurvey;
-    var j = 0;
-    var k = 0;
-    var l = 0;
+    self.removeComment = removeComment;
+    self.removeAnswer = removeAnswer;
+    self.removeQuestion = removeQuestion;
+    self.allComments = [];
+    self.allQuestions = [];
+    self.allAnswers = [];
 
     init();
     
     function init() {
       getAllSurveys();
       getAllUsers();
-      getAllComments();
-      getAllQuestions();
-      getAllAnswers();
     }
     
     function getAllSurveys() {
@@ -32,6 +32,9 @@
     
     function handleSuccessSurveys(data, status) {
         self.surveys = data;
+        getAllComments();
+        getAllQuestions();
+        getAllAnswers();
     }
     
     function getAllUsers() {
@@ -43,56 +46,40 @@
     }
     
     function getAllComments() {
-        CommentService.findAllComments().then(handleSuccessComments);
-    }
-    
-    function handleSuccessComments(data, status) {
-        self.comments = data;
-        for(var i = 0; i < self.comments.length; i++) {
-            SurveyService.getSurveyByComment(self.comments[i].id).then(handleSuccessSurveyComments);
+        self.allComments = [];
+        for(var i = 0; i < self.surveys.length; i++) {
+            for(var j = 0; j < self.surveys[i].comments.length; j++) {
+                self.surveys[i].comments[j].survey = self.surveys[i].name;
+                self.allComments.push(self.surveys[i].comments[j]);
+            }
         }
-    }
-    
-    function handleSuccessSurveyComments(data, status) {
-        self.comments[k].survey = data.name;
-        k++;
     }
     
     function getAllQuestions() {
-        QuestionService.findAllQuestions().then(handleSuccessQuestions)
-    }
-    
-    function handleSuccessQuestions(data, status) {
-        self.questions = data;
-        for(var i = 0; i < self.questions.length; i++) {
-            SurveyService.getSurveyByQuestion(self.questions[i].id).then(handleSuccessSurveyByQuestion);
+        self.allQuestions = [];
+        for(var i = 0; i < self.surveys.length; i++) {
+            for(var j = 0; j < self.surveys[i].questions.length; j++) {
+                self.surveys[i].questions[j].survey = self.surveys[i].name;
+                self.allQuestions.push(self.surveys[i].questions[j]);
+            }
         }
-    }
-
-    function handleSuccessSurveyByQuestion(data, status) {
-        self.questions[j].survey = data.name;
-        j++;
     }
     
     function getAllAnswers() {
-        AnswerService.getAllAnswers().then(handleSuccessAnswers);
-    }
-    
-    function handleSuccessAnswers(data, status) {
-        self.answers = data;
-        for(var i = 0; i < self.answers.length; i++) {
-            QuestionService.getQuestionByAnswer(self.answers[i].id).then(handleSuccessQuestionByAnswer);
+        self.allAnswers = [];
+        for(var i = 0; i < self.surveys.length; i++) {
+            for(var j = 0; j < self.surveys[i].questions.length; j++) {
+                for(var k = 0; k < self.surveys[i].questions[j].answers.length; k++) {
+                    self.surveys[i].questions[j].answers[k].question = self.surveys[i].questions[j].content;
+                    self.allAnswers.push(self.surveys[i].questions[j].answers[k]);
+                }
+            }
         }
-    }
-    
-    function handleSuccessQuestionByAnswer(data, status) {
-        self.answers[l].question = data.content;
-        l++;
     }
     
     function blockUser(id) {
         UserService.toggleUserBlock(id).then(function (data, status) {
-            alert("User blocked");
+            alert("User blocked/unblocked");
         });
     }
     
@@ -107,7 +94,28 @@
         SurveyService.deleteSurvey(id).then(function (data, status) {
             alert("Survey removed");
             getAllSurveys();
-        })
+        });
+    }
+    
+    function removeComment(id) {
+        CommentService.deleteComment(id).then(function (data, status) {
+            alert("Comment removed");
+            getAllSurveys();
+        });
+    }
+    
+    function removeQuestion(id) {
+        QuestionService.deleteQuestion(id).then(function (data, status) {
+           alert("Question deleted!");
+           getAllSurveys();
+        });
+    }
+    
+    function removeAnswer(id) {
+        AnswerService.deleteAnswer(id).then(function (data, status) {
+            alert("Answer deleted");
+            getAllSurveys();
+        });
     }
     
     function menuSelected(menu) {

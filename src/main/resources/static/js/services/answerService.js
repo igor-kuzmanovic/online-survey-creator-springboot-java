@@ -8,7 +8,8 @@
 
     var service = {
       deleteAnswer: deleteAnswer,
-        getAllAnswers: getAllAnswers
+        getAllAnswers: getAllAnswers,
+        deleteAnswer: deleteAnswer
     };
 
     function deleteAnswer(answerId) {

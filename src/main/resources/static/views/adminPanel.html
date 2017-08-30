@@ -89,12 +89,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="comment in apc.comments track by $index">
+                <tr ng-repeat="comment in apc.allComments track by $index">
                     <td>{{comment.content}}</td>
                     <td>{{comment.poster}}</td>
                     <td>{{comment.survey}}</td>
                     <td></td>
-                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer"></span></td>
+                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeComment(comment.id)"></span></td>
                 </tr>
                 </tbody>
             </table>
@@ -112,11 +112,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="question in apc.questions track by $index">
+                <tr ng-repeat="question in apc.allQuestions track by $index">
                     <td>{{question.content}}</td>
                     <td>{{question.survey}}</td>
                     <td></td>
-                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer"></span></td>
+                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeQuestion(question.id)"></span></td>
                 </tr>
                 </tbody>
             </table>
@@ -134,11 +134,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="answer in apc.answers track by $index">
+                <tr ng-repeat="answer in apc.allAnswers track by $index">
                     <td>{{answer.content}}</td>
                     <td>{{answer.question}}</td>
                     <td></td>
-                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer"></span></td>
+                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeAnswer(answer.id)"></span></td>
                 </tr>
                 </tbody>
             </table>
