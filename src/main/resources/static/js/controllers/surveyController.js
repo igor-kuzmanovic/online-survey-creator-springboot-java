@@ -9,9 +9,9 @@
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.submitSurvey = submitSurvey;
-    
+
     self.user = {};
-    
+
     init();
 
     function init() {
@@ -28,7 +28,7 @@
           checkSurvey();
         });
     }
-    
+
     function checkSurvey() {
       if(self.survey.isActive) {
         if(self.user && self.survey.creator === self.user.username) {
@@ -54,7 +54,7 @@
                 $location.path('/home');
               }           
             }
-            
+
             initiateSurveyResult(self.user.username);
           });
       }

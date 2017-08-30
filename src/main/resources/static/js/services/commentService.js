@@ -1,11 +1,11 @@
 (function(){
   angular.module('app')
-   .factory('CommentService', CommentService);
-  
+    .factory('CommentService', CommentService);
+
   CommentService.$inject = ['$http', '$q', '$filter'];
-  
+
   function CommentService($http, $q, $filter) {
-    
+
     var service = {
       postComment: postComment,
       deleteComment: deleteComment,
@@ -46,7 +46,7 @@
       });
       return def.promise;
     }
-    
+
     function deleteComment(id) {
       var def = $q.defer();
       var req = {

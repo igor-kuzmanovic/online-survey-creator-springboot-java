@@ -9,13 +9,20 @@
     var self = this;
     self.getCredentials = getCredentials;
     self.checkForm = checkForm;
+    
+    init();
+    
+    function init() {
+      if ($scope.mc.checkUser()) {
+        $location.path('/home');
+      }
+    }
 
-    function getCredentials(credentials) {
-      UserService.login(credentials).then(handleSuccessCredentials);
+    function getCredentials(credentials, rememberMe) {
+      UserService.login(credentials, rememberMe).then(handleSuccessCredentials);
     }
 
     function handleSuccessCredentials(data, status){
-      self.user = data;
       $scope.mc.init();
       $location.path('/home');
     }

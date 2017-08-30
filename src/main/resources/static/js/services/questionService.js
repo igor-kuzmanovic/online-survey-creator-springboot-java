@@ -9,9 +9,9 @@
     var service = {
       deleteQuestion: deleteQuestion,
       findAllQuestions: findAllQuestions,
-        getQuestionByAnswer: getQuestionByAnswer
+      getQuestionByAnswer: getQuestionByAnswer
     };
-
+    
     function deleteQuestion(questionId) {
       var def = $q.defer();
       var req = {

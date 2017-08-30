@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.tech9_survey.domain.Answer;
 import com.example.tech9_survey.domain.Comment;
+import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.domain.SurveyPrivacy;
 import com.example.tech9_survey.domain.User;
+import com.example.tech9_survey.service.AnswerService;
+import com.example.tech9_survey.service.QuestionService;
 import com.example.tech9_survey.service.SurveyService;
 import com.example.tech9_survey.service.UserService;
 
@@ -30,23 +34,27 @@ public class SurveyController {
 	
 	private SurveyService surveyService;
 	private UserService userService;
+	private QuestionService questionService;
+	private AnswerService answerService;
 	
 	@Autowired
-	public SurveyController(SurveyService surveyService, UserService userService) {
+	public SurveyController(SurveyService surveyService, UserService userService, QuestionService questionService, AnswerService answerService) {
 		this.surveyService = surveyService;
 		this.userService = userService;
+		this.questionService = questionService;
+		this.answerService = answerService;
 	}
 
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping
     public ResponseEntity<List<Survey>> findAll() {
-    	List<Survey> allSurveys = surveyService.findAll();	
+    	List<Survey> surveys = surveyService.findAll();	
     	
-    	if(allSurveys.isEmpty()) {
+    	if(surveys.isEmpty()) {
     		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     	}
     	
-        return new ResponseEntity<>(allSurveys, HttpStatus.OK);
+        return new ResponseEntity<>(surveys, HttpStatus.OK);
     }
 	
 	@GetMapping(path = "/{hashedId}")
@@ -102,8 +110,7 @@ public class SurveyController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		
-		survey.setPublicationDate(null);
-		survey.setExpirationDate(null);
+		survey.setExpirationDate(new Date());
 		survey.setExitMessage(new String());
 		survey.setIsActive(false);
 		SurveyPrivacy surveyPrivacy = new SurveyPrivacy();
@@ -122,6 +129,33 @@ public class SurveyController {
 		
 		if(findSurvey == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<Question> questions = survey.getQuestions();
+		
+		if(!questions.isEmpty()) {
+			for(int i = 0; i < questions.size(); i++) {
+				Question question = questions.get(i);
+				question.setSurvey(survey);
+				Question savedQuestion = questionService.save(question);
+
+				List<Answer> answers = questions.get(i).getAnswers();
+				
+				if(!answers.isEmpty()) {
+					for(int j = 0; j < answers.size(); j++) {
+						Answer answer = answers.get(j);
+						answer.setQuestion(savedQuestion);
+						Answer savedAnswer = answerService.save(answer);
+						answers.set(j, savedAnswer);
+					}
+					
+					savedQuestion.setAnswers(answers);
+				}
+				
+				questions.set(i, savedQuestion);
+			}
+			
+			survey.setQuestions(questions);
 		}
 		
     	Survey updatedSurvey = surveyService.save(survey);
@@ -170,17 +204,12 @@ public class SurveyController {
 	private Survey surveyIsActiveCheck(Survey survey) {
 		Date currentDate = new Date();
 		
-		if(survey.getIsActive() == false && survey.getPublicationDate() != null && survey.getPublicationDate().compareTo(currentDate) <= 0) {
+		if(survey.getExpirationDate() == null || survey.getExpirationDate().compareTo(currentDate) > 0) {
 			survey.setIsActive(true);
 			survey = surveyService.save(survey);
 		}
 		
-		if(survey.getIsActive() == true && survey.getPublicationDate() != null && survey.getPublicationDate().compareTo(currentDate) > 0) {
-			survey.setIsActive(false);
-			survey = surveyService.save(survey);
-		}
-		
-		if(survey.getIsActive() == true && survey.getExpirationDate() != null && survey.getExpirationDate().compareTo(currentDate) <= 0) {
+		if(survey.getExpirationDate() != null && survey.getExpirationDate().compareTo(currentDate) <= 0) {
 			survey.setIsActive(false);
 			survey = surveyService.save(survey);
 		}

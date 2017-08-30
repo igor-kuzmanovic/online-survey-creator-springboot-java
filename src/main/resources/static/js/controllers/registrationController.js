@@ -2,18 +2,22 @@
   angular.module('app')
     .controller('RegistrationController', RegistrationController);
 
-  RegistrationController.$inject = ['UserService', '$location', '$window'];
+  RegistrationController.$inject = ['UserService', '$location', '$window', '$scope'];
 
-  function RegistrationController(UserService, $location, $window) {
+  function RegistrationController(UserService, $location, $window, $scope) {
 
     var self = this;
     self.saveUser = saveUser;
-    var registeredUser;
+    
+    self.registeredUser = {};
 
     init();
 
-    function init(){
-
+    function init() {
+      if ($scope.mc.checkUser()) {
+        $location.path('/home');
+      }
+      
       renderCaptcha();
     }
 
@@ -24,7 +28,7 @@
     };
 
     function saveUser(savedUser) {
-      registeredUser = savedUser;
+      self.registeredUser = savedUser;
       var response = grecaptcha.getResponse();
 
       if(response.length === 0) {
@@ -39,17 +43,17 @@
     }
 
     function handleSuccessCaptcha(data, status) {
-      registeredUser.userStatus = {id: 1, type:"STATUS_ACTIVE"};
-      registeredUser.roles = [{id: 2, type:"ROLE_USER"}];
-      UserService.saveUser(registeredUser).then(handleSuccessUser, function(error){
+      self.registeredUser.userStatus = {id: 1, type:"STATUS_ACTIVE"};
+      self.registeredUser.roles = [{id: 2, type:"ROLE_USER"}];
+      
+      UserService.saveUser(self.registeredUser).then(handleSuccessUser, function(error){
         console.log(error);
       });
     }
 
     function handleSuccessUser() {
-        $window.location.reload();
+      $window.location.reload();
       $location.path('/user/verify');
-
     }
 
   };

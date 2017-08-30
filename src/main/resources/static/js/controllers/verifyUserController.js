@@ -1,20 +1,24 @@
 (function(){
-    angular.module('app')
-        .controller('VerifyUserController', VerifyUserController);
+  angular.module('app')
+    .controller('VerifyUserController', VerifyUserController);
 
-    VerifyUserController.$inject = ['$location'];
+  VerifyUserController.$inject = ['$location', '$scope'];
 
-    function VerifyUserController($location) {
+  function VerifyUserController($location, $scope) {
 
-        var self = this;
-        self.goToLogin = goToLogin;
+    var self = this;
+    self.goToLogin = goToLogin;
 
-        init();
+    init();
 
-        function init(){}
-    
-        function goToLogin() {
-            $location.path('/');
-        }
-    };
+    function init() {
+      if ($scope.mc.checkUser()) {
+        $location.path('/home');
+      }
+    }
+
+    function goToLogin() {
+      $location.path('/');
+    }
+  };
 })();

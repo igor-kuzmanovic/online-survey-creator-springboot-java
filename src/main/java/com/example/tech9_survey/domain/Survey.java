@@ -33,10 +33,6 @@ public class Survey extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private Date creationDate;
 	
-	@Column(name = "publication_date")
-	@Temporal(TemporalType.DATE)
-	private Date publicationDate;
-	
 	@Column(name = "expiration_date")
 	@Temporal(TemporalType.DATE)
 	private Date expirationDate;
@@ -56,9 +52,8 @@ public class Survey extends BaseEntity {
 	@JoinColumn(name = "survey_privacy_id", nullable = false)
 	private SurveyPrivacy surveyPrivacy;
 	
-	@Cascade(CascadeType.ALL)
-	@OneToMany
-	@JoinColumn(name = "survey_id")
+	@Cascade(CascadeType.DELETE)
+	@OneToMany(mappedBy = "survey")
 	private List<Question> questions;
 	
 	@Cascade(CascadeType.ALL)
@@ -111,14 +106,6 @@ public class Survey extends BaseEntity {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
-	}
-
-	public Date getPublicationDate() {
-		return publicationDate;
-	}
-
-	public void setPublicationDate(Date publicationDate) {
-		this.publicationDate = publicationDate;
 	}
 
 	public Date getExpirationDate() {

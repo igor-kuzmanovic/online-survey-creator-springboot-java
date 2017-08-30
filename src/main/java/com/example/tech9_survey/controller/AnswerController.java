@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.tech9_survey.domain.Answer;
 import com.example.tech9_survey.domain.Question;
+import com.example.tech9_survey.domain.Survey;
+import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.AnswerService;
 import com.example.tech9_survey.service.QuestionService;
+import com.example.tech9_survey.service.SurveyService;
+import com.example.tech9_survey.service.UserService;
 
 @RestController
 @RequestMapping("/api/answer")
@@ -22,36 +26,76 @@ public class AnswerController {
 
 	private AnswerService answerService;
 	private QuestionService questionService;
+	private	UserService userService;
+	private SurveyService surveyService;
 	
 	@Autowired
-	public AnswerController(AnswerService answerService, QuestionService questionService) {
+	public AnswerController(AnswerService answerService, QuestionService questionService, UserService userService, SurveyService surveyService) {
 		this.answerService = answerService;
 		this.questionService = questionService;
+		this.userService = userService;
+		this.surveyService = surveyService;
 	}
 	
 	@GetMapping
 	public ResponseEntity<List<Answer>> findAll() {
-		List<Answer> allAnswers = answerService.findAll();
-		return new ResponseEntity<>(allAnswers, HttpStatus.OK);
+		List<Answer> answers = answerService.findAll();
+		
+		if(answers.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<>(answers, HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Answer> findOne(@PathVariable Long id) {
 		Answer answer = answerService.findOne(id);
+		
+		if(answer == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 		return new ResponseEntity<>(answer, HttpStatus.OK);
 	}
 	
 	@PostMapping(path = "/{questionId}")
-	public ResponseEntity<Object> save(@PathVariable Long questionId, @RequestBody Answer answer) {
+	public ResponseEntity<Answer> save(@PathVariable Long questionId, @RequestBody Answer answer) {
 		Question question = questionService.findOne(questionId);
-		question.getAnswers().add(answer);
+		
+		if(question == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		Survey survey = surveyService.findOne(question.getSurvey().getId());
+				
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		User user = userService.getLoggedInUser();
+		
+		if(user == null || !user.getUsername().equals(question.getSurvey().getCreator())) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
+		answer.setQuestion(question);
+		question.getAnswers().add(answer);	
         questionService.save(question);
-    	return new ResponseEntity<>(HttpStatus.OK);
+        
+    	return new ResponseEntity<>(answer, HttpStatus.OK);
     }
 	
 	@DeleteMapping(path = "/{answerId}")
 	public ResponseEntity<Object> delete(@PathVariable Long answerId) {
+		Answer answer = answerService.findOne(answerId);
+		
+		if(answer == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 		answerService.delete(answerId);
-		return new ResponseEntity<>(HttpStatus.OK);
+		
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -2,9 +2,9 @@
   angular.module("app")
     .factory('UserService', UserService);
 
-  UserService.$inject = ['$http', '$q', '$filter'];
+  UserService.$inject = ['$http', '$q', '$filter', 'CookieService'];
 
-  function UserService($http, $q, $filter) {
+  function UserService($http, $q, $filter, CookieService) {
 
     var user;
     var registeredUser;
@@ -18,16 +18,18 @@
       findUser: findUser,
       editUser: editUser,
       setUser: setUser,
-        deleteUser: deleteUser,
+      deleteUser: deleteUser,
       findAllUsers: findAllUsers,
       sendCaptchaResponse: sendCaptchaResponse,
       getImageFromUrl: getImageFromUrl,
       getUserNotifications: getUserNotifications,
-        toggleUserBlock: toggleUserBlock
+      toggleUserBlock: toggleUserBlock,
+      checkUserCookies: checkUserCookies
     };
 
-    function login(credentials) {
+    function login(credentials, rememberMe) {
       base64Credential = btoa(credentials.username + ':' + credentials.password);
+
       var def = $q.defer();      
       var req = {
         method: 'GET',
@@ -39,6 +41,12 @@
       $http(req)
         .success(function (data) {
         $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
+
+        if(rememberMe) {
+          CookieService.createCookie('username', credentials.username);
+          CookieService.createCookie('password', credentials.password);
+        }
+
         user = data;
         def.resolve(data);
       })
@@ -112,20 +120,20 @@
     }
 
     function getImageFromUrl() {
-        var def = $q.defer();
-        var req = {
-          method: 'GET',
-          url: "/upload/image",
-          responseType: 'arraybuffer'
-        };
-        $http(req).success(function (data) {
-          data = arrayBufferToBase64(data);
-          def.resolve(data);
-        })
-          .error(function (response) {
-            def.reject(response);
-        });
-        return def.promise;
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "/upload/image",
+        responseType: 'arraybuffer'
+      };
+      $http(req).success(function (data) {
+        data = arrayBufferToBase64(data);
+        def.resolve(data);
+      })
+        .error(function (response) {
+        def.reject(response);
+      });
+      return def.promise;
     }
     
     function deleteUser(id) {
@@ -164,7 +172,7 @@
       var len = bytes.byteLength;
 
       for (var i = 0; i < len; i++) {
-          binary += String.fromCharCode(bytes[i]);
+        binary += String.fromCharCode(bytes[i]);
       }
 
       return window.btoa(binary);
@@ -172,9 +180,11 @@
 
     function removeUser() {
       $http.defaults.headers.common['Authorization'] = null;
+      CookieService.deleteCookie('username');
+      CookieService.deleteCookie('password');
       delete user;
     }
-    
+
     function getUser() {
       return user;
     }
@@ -183,13 +193,18 @@
       base64Credential = btoa(editedUser.username + ':' + editedUser.password);
       $http.defaults.headers.common['Authorization'] = 'Basic ' + base64Credential;
       user = editedUser;
+
+      if(checkUserCookies()) {
+        CookieService.createCookie('username', user.username);
+        CookieService.createCookie('password', user.password);
+      }
     }
-    
+
     function getUserNotifications(user) {
       var def = $q.defer();
       var req = {
         method: 'GET',
-        url: "/api/user/" + user.id + "/notifications"
+        url: "/api/users/" + user.id + "/notifications"
       };
       $http(req)
         .success(function (data) {
@@ -217,7 +232,19 @@
           return def.promise;
       }
 
+    function getCredentialsFromCookies() {
+      var credentials = {}
+      credentials.username = CookieService.getCookie('username');
+      credentials.password = CookieService.getCookie('password');
+      return credentials;  
+    }
+
+    function checkUserCookies() {
+      return CookieService.getCookie('username') && CookieService.getCookie('password');
+    }
+
+
     return service;
 
   }
-} ());
+}());
