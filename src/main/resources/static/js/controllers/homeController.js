@@ -58,7 +58,7 @@
     }
 
     function deactivateSurvey() {
-      SurveyService.deactivateSurvey(angular.copy(self.currentSurvey))
+      SurveyService.deactivateSurvey(self.currentSurvey.id)
         .then(
         function(response){
           getSurveys();

@@ -54,19 +54,19 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteUser(@PathVariable Long id) {
         User foundUser = userService.findOne(id);
 
         for (UserRole role : foundUser.getRoles()) {
             if (role.getType().equals(UserRole.RoleType.ROLE_ADMIN)) {
-                return new ResponseEntity(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
 
         commentService.deleteByUser(foundUser.getUsername());
         userService.delete(id);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping
@@ -163,24 +163,24 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(path = "/block/{user_id}")
-    public ResponseEntity changeStatus(@PathVariable("user_id") Long userId) {
+    public ResponseEntity<Object> changeStatus(@PathVariable("user_id") Long userId) {
         User foundUser = userService.findOne(userId);
 
         if (foundUser == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         foundUser.setUserStatus(resolveStatus(foundUser));
 
         for (UserRole role : foundUser.getRoles()) {
             if (role.getType().equals(UserRole.RoleType.ROLE_ADMIN)) {
-                return new ResponseEntity(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
 
         userService.save(foundUser);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping("/login")
