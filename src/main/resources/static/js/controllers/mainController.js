@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['UserService', '$location'];
+  MainController.$inject = ['UserService', 'CookieService', '$location', '$route'];
 
-  function MainController(UserService, $location) {
+  function MainController(UserService, CookieService, $location, $route) {
 
     var self = this;
     self.init = init; 
@@ -34,14 +34,12 @@
       { name: 'Yeti', url: 'yeti' }
     ];
 
-    self.theme = self.themes[0];
+    self.theme = self.themes[4];
 
     init();
 
     function init() {
       getUser();
-      checkUser();
-      getImage();
     }
 
     function checkUser() {
@@ -51,10 +49,9 @@
     }
 
     function getImage() {
-      if(!self.user) {
-        return;
+      if(self.user) {
+        UserService.getImageFromUrl().then(handleSuccessImage);
       }
-      UserService.getImageFromUrl().then(handleSuccessImage);
     }
 
     function handleSuccessImage(data, status) {
@@ -64,15 +61,27 @@
     function getUser() {
       self.user = UserService.getUser();
 
-      if(!self.user && UserService.checkCookies()) {
-        var credentials = UserService.getCredentialsFromCookies();
-        UserService.login(credentials).then(
+      if(!self.user && UserService.checkUserCookies()) {
+        console.log('User not found, cookies found');
+        var credentials = {};
+        credentials.username = CookieService.getCookie('username');
+        credentials.password = CookieService.getCookie('password');
+
+        UserService.login(credentials, true).then(
           function(response){
-          self.user = response;
-          getImage();
-          console.log('Welcome ' + self.user.username);
-          $location.path('/home');
-        });
+            self.user = response;
+            console.log('Logged in ' + self.user.username + ' from cookies');
+            $route.reload();
+          });
+      }
+      else if(!self.user && !UserService.checkUserCookies()) {
+        console.log('User not found, cookies not found');
+        //$location.path('/');
+      }
+      
+      if(self.user) {
+        console.log('User found');
+        getImage();
       }
     }
 

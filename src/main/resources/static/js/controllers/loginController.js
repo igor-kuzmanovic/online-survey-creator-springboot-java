@@ -10,12 +10,11 @@
     self.getCredentials = getCredentials;
     self.checkForm = checkForm;
 
-    function getCredentials(credentials) {
-      UserService.login(credentials).then(handleSuccessCredentials);
+    function getCredentials(credentials, rememberMe) {
+      UserService.login(credentials, rememberMe).then(handleSuccessCredentials);
     }
 
     function handleSuccessCredentials(data, status){
-      //self.user = data;
       $scope.mc.init();
       $location.path('/home');
     }
