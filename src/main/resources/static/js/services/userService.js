@@ -68,7 +68,7 @@
         def.resolve(data);
       })
         .error(function (response) {
-        def.reject("Failed to save a user");
+        def.reject(response);
       });
       return def.promise;
     }
