@@ -10,11 +10,8 @@
 </div>
 <div class="row">
     <div class="col-md-2">
-        <div class="list-group">
-            <a href="" class="list-group-item list-group-item-action active">Edit user</a>
-            <a href="" class="list-group-item list-group-item-action">Placeholder</a>
-            <a href="" class="list-group-item list-group-item-action">Placeholder</a>
-            <a href="" class="list-group-item list-group-item-action">Placeholder</a>
+        <div class="form-group">
+            <div class="btn btn-primary btn-upload" upload-button url="/upload" on-success="usc.onSuccess(response)">Select new picture</div>
         </div>
     </div>
     <div class="col-md-8">
@@ -33,11 +30,7 @@
                 <label>Password:</label>
                 <input type="password" value="{{usc.wholeUser.password}}" class="form-control" ng-model="usc.wholeUser.password">
             </div>
-
-            <div class="form-group">
-                <div class="btn btn-primary btn-upload" upload-button url="/upload" on-success="usc.onSuccess(response)">Select image</div>
-            </div>
-
+            <br/>
             <div align="center" class="form-group">
                 <button class="btn btn-default btn-success" ng-click="usc.editUser()">Confirm Edit</button>
             </div>

@@ -28,7 +28,7 @@
     
     function findImage() {
         UserService.getImageFromUrl('sasa').then(function (data, status) {
-          console.log(data);
+
         });
     }
 

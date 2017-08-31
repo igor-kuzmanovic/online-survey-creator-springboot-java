@@ -60,7 +60,6 @@ public class UploadController {
             }
 
             String filePath = Paths.get(user.getImageUrl()).toString();
-            System.out.println(filePath);
 
             InputStream is = new FileInputStream(new File(filePath));
 
