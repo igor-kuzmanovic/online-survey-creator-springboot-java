@@ -15,6 +15,7 @@
     init();
 
     function init() {
+      $scope.mc.getImage();
       self.user = $scope.mc.checkUser();
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();

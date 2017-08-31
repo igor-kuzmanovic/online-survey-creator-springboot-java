@@ -17,7 +17,8 @@
 
     function init(){
       self.user = $scope.mc.checkUser();
-      
+      $scope.mc.getImage();
+
       if (!self.user) {
         $location.path('/');
       }

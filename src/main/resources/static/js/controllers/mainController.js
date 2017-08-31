@@ -40,6 +40,7 @@
 
     function init() {
       getUser();
+      getImage();
     }
 
     function checkUser() {

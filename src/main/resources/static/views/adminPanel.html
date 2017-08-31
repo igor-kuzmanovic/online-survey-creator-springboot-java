@@ -41,7 +41,8 @@
                     <td>{{user.roles.id === 1 ? 'Admin' : 'Regular user'}}</td>
                     <td>{{user.registrationDate | date:'yyyy-MM-dd'}}</td>
                     <td></td>
-                    <td align="center"><span class="glyphicon glyphicon-lock" style="cursor: pointer" ng-click="apc.blockUser(user.id)"></span></td>
+                    <td ng-if="user.userStatus.id === 1" align="center"><span class="fa fa-lock" style="cursor: pointer" ng-click="apc.blockUser(user.id)"></span></td>
+                    <td ng-if="user.userStatus.id === 2" align="center"><span class="fa fa-unlock" style="cursor: pointer" ng-click="apc.blockUser(user.id)"></span></td>
                     <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeUser(user.id)"></span></td>
                 </tr>
                 </tbody>

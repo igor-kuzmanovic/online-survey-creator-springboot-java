@@ -22,6 +22,7 @@
     init();
     
     function init() {
+      $scope.mc.getImage();
       getAllSurveys();
       getAllUsers();
     }
@@ -80,6 +81,7 @@
     function blockUser(id) {
         UserService.toggleUserBlock(id).then(function (data, status) {
             alert("User blocked/unblocked");
+            getAllUsers();
         });
     }
     
