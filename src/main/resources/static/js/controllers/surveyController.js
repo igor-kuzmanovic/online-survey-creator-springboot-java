@@ -2,7 +2,7 @@
   angular.module('app')
     .controller('SurveyController', SurveyController);
 
-  SurveyController.$inject = ['SurveyService', 'ResultService', '$routeParams', '$location', '$scope'];
+  SurveyController.$inject = ['SurveyService', 'ResultService', ''$routeParams', '$location', '$scope'];
 
   function SurveyController(SurveyService, ResultService, $routeParams, $location, $scope) {
 

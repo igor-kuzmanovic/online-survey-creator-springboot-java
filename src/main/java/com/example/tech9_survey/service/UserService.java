@@ -44,6 +44,10 @@ public class UserService implements UserDetailsService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+    
+    public User findOne(Long userId) {
+		return userRepository.findOne(userId);
+	}
 
     public void delete(Long id) {
         userRepository.delete(id);

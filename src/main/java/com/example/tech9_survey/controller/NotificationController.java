@@ -1,11 +1,11 @@
 package com.example.tech9_survey.controller;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.tech9_survey.domain.Comment;
 import com.example.tech9_survey.domain.Notification;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.domain.User;
@@ -30,59 +29,48 @@ public class NotificationController {
 	private UserService userService;
 	private SurveyService surveyService;
 	
-	public NotificationController(NotificationService notificationService, UserService userService) {
+	public NotificationController(NotificationService notificationService, UserService userService, SurveyService surveyService) {
 		this.notificationService = notificationService;
 		this.userService = userService;
 		this.surveyService = surveyService;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<Notification>> findAll() {
 		List<Notification> allNotifications = notificationService.findAll(); 
 		return new ResponseEntity<>(allNotifications, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Notification> findOne(@PathVariable Long id) {
 		Notification notification = notificationService.findOne(id);
 		return new ResponseEntity<>(notification, HttpStatus.OK);
 	}
 	
-	/*@PostMapping(path = "/{userId}")
-	public ResponseEntity<Object> save(@PathVariable Long userId, @RequestBody Notification notification) throws NoSuchAlgorithmException {
-		User sender = userService.getLoggedInUser();
-		sender.getNotifications().add(notification);
-		userService.save(sender);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}*/
-	
-	
-	@PostMapping(path = "/{userId}/{surveyId}")
-    public ResponseEntity<Notification> save(@PathVariable Long userId, @PathVariable Long surveyId, @RequestBody Notification notification) throws NoSuchAlgorithmException {
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@PostMapping(path = "/{survey_id}")
+    public ResponseEntity<Object> save(@PathVariable("survey_id") Long surveyId, @RequestBody Notification notification) {
         User sender = userService.getLoggedInUser();
         Survey completedSurvey = surveyService.findOne(surveyId);
-        User receiver = completedSurvey.getCreator();
+        User receiver = userService.findByUsername(completedSurvey.getCreator());
 
-        if (completedSurvey.getCreator().equals(sender)) {
+        if (completedSurvey.getCreator().equals(sender.getUsername())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         
-        completedSurvey.setTimesCompleted(completedSurvey.getTimesCompleted() + 1);
-        notification.setSender(sender);
-        notification.setReceiver(receiver);
+        notification.setSender(sender.getUsername());
+        notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
         
+        notificationService.save(notification);
         receiver.getNotifications().add(notification);
         
-        notificationService.save(notification);
-        surveyService.save(completedSurvey);
-        
-     
-        return new ResponseEntity<>(notification, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	
-	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping
 	public ResponseEntity<Object> delete(@PathVariable Long notificationId) {
 		notificationService.delete(notificationId);

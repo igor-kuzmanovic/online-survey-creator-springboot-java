@@ -7,7 +7,8 @@
   function NotificationService($http, $q, $filter) {
     
   var service = {
-    deleteNotification: deleteNotification
+    deleteNotification: deleteNotification,
+    postNotification: postNotification
   }
   return service;
     
@@ -26,6 +27,22 @@
       return def.promise;
     }
     
+  function postNotification(survey) {
+    notification.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
+      var def = $q.defer();
+      var req = {
+        method: 'POST',
+        url: "/api/notifications/" + survey.id,
+        data: notifications
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to post a notification");
+      });
+      return def.promise;
+    }
   }
   
 })();

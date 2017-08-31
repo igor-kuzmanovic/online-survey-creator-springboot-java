@@ -9,6 +9,7 @@
     var self = this;
     self.getUserNotifications = getUserNotifications;
     self.deleteNotification = deleteNotification;
+    self.postNotification = postNotification;
 
     init();
 
@@ -29,6 +30,14 @@
     function deleteNotification(notificationId){
       NotificationService.deleteNotification(notificationId).then(function(response){
         getUserNotifications();
+      }, function(error){
+        console.log(error);
+      })
+    }
+    
+    function postNotification() {
+      NotificationService.postNotification(self.survey).then(function(response) {
+        console.log("success");
       }, function(error){
         console.log(error);
       })
