@@ -2,26 +2,34 @@
   angular.module('app')
     .controller('SurveyResultsController', SurveyResultsController);
 
-  SurveyResultsController.$inject = ['SurveyService', '$routeParams', '$location', '$scope'];
+  SurveyResultsController.$inject = ['SurveyService', 'UserService', '$routeParams', '$location', '$scope'];
 
-  function SurveyResultsController(SurveyService, $routeParams, $location, $scope) {
+  function SurveyResultsController(SurveyService, UserService, $routeParams, $location, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.generateBarChart = generateBarChart;
     self.generatePieChart = generatePieChart;
     self.reportComment = reportComment;
+    self.findImage = findImage;
 
     init();
 
     function init() {
       $scope.mc.getImage();
+      findImage();
       if (!$scope.mc.checkUser()) {
         $location.path('/');
       }
 
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
+    }
+    
+    function findImage() {
+        UserService.getImageFromUrl('sasa').then(function (data, status) {
+          console.log(data);
+        });
     }
 
     function getCurrentSurvey() {

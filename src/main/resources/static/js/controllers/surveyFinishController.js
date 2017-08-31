@@ -39,7 +39,6 @@
           window.alert("You cannot complete your own survey!");
           $location.path('/home');
         }
-        checkSubmitter();
       }
       else {
         window.alert("This survey is not active!");

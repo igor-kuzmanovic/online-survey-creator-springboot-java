@@ -19,7 +19,7 @@
     </div>
     <div class="media" ng-repeat = "comment in src.survey.comments | orderBy: 'creationDate':true">
       <div class="media-left media-middle">
-        <span class="glyphicon glyphicon-user comment-user"></span>
+        <!--<img ng-src="{{'data:image/jpg;base64,'+ src.findImage(comment.poster)}}">-->
       </div>
       <div class="media-body">
         <h4 class="media-heading">

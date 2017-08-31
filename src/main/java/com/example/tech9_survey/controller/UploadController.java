@@ -48,12 +48,21 @@ public class UploadController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/image", produces = "image/jpg")
-    public @ResponseBody byte[] getFile()  {
+    @GetMapping(value = "/image/{username}", produces = "image/jpg")
+    public @ResponseBody byte[] getFile(@PathVariable("username") String username)  {
         try {
-            User user = userService.getLoggedInUser();
+            User user;
 
-            InputStream is = new FileInputStream(new File(user.getImageUrl()));
+            if (username.equals("false")) {
+                user = userService.getLoggedInUser();
+            } else {
+                user = userService.findByUsername(username);
+            }
+
+            String filePath = Paths.get(user.getImageUrl()).toString();
+            System.out.println(filePath);
+
+            InputStream is = new FileInputStream(new File(filePath));
 
             BufferedImage img = ImageIO.read(is);
 

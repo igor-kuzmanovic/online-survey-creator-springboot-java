@@ -119,11 +119,18 @@
       return def.promise;
     }
 
-    function getImageFromUrl() {
+    function getImageFromUrl(username) {
+      var url;
+
+      if(!username) {
+        url = "/upload/image/false";
+      } else {
+        url = "/upload/image/" + username;
+      }
       var def = $q.defer();
       var req = {
         method: 'GET',
-        url: "/upload/image",
+        url: url,
         responseType: 'arraybuffer'
       };
       $http(req).success(function (data) {

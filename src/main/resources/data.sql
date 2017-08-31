@@ -8,7 +8,7 @@ INSERT INTO `tech9survey`.`survey_privacy`(`type`) VALUES ('VISIBILITY_ALL');
 INSERT INTO `tech9survey`.`survey_privacy`(`type`) VALUES ('VISIBILITY_REGISTERED');
 
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `registration_date`, `image_url`, `is_enabled`, `status_id`)
-  VALUES ('admin','admin','admin@tech9survey.com', '2026-02-02', 'C:/Users/kurs/git/tech9_survey/src/main/resources/static/images/default_user.jpg', TRUE, 1);
+  VALUES ('admin','admin','admin@tech9survey.com', '2026-02-02', 'D:\user_images\default_user.jpg', TRUE, 1);
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `registration_date`, `is_enabled`, `status_id`) VALUES ('user','user','user@tech9survey.com', '2026-02-02', TRUE, 1);
 
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 1);
