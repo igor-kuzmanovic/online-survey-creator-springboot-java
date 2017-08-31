@@ -9,7 +9,7 @@
     var self = this;
     self.generateSurvey = generateSurvey;
 
-    init()
+    init();
 
     function init() {
       $scope.mc.getImage();
@@ -55,5 +55,5 @@
       return true;
     }
 
-  };
+  }
 })();

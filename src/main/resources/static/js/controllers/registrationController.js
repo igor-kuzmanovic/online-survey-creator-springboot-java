@@ -25,7 +25,7 @@
       grecaptcha.render('captcha', {
         'sitekey' : '6LfO0SwUAAAAAI73tCuECJHe4MRpJyHQQUbH1RdZ'
       });
-    };
+    }
 
     function saveUser(savedUser) {
       self.registeredUser = savedUser;
@@ -47,7 +47,13 @@
       self.registeredUser.roles = [{id: 2, type:"ROLE_USER"}];
       
       UserService.saveUser(self.registeredUser).then(handleSuccessUser, function(error){
-        console.log(error);
+        if(error === 'email') {
+          alert('Email already in use!');
+        } else if(error === 'username') {
+          alert('Username already taken');
+        } else {
+          alert('Error')
+        }
       });
     }
 
@@ -56,5 +62,5 @@
       $location.path('/user/verify');
     }
 
-  };
+  }
 })();
