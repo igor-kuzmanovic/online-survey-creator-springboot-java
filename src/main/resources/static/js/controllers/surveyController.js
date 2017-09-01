@@ -2,13 +2,14 @@
   angular.module('app')
     .controller('SurveyController', SurveyController);
 
-  SurveyController.$inject = ['SurveyService', 'ResultService', ''$routeParams', '$location', '$scope'];
+  SurveyController.$inject = ['SurveyService', 'ResultService', 'NotificationService', '$routeParams', '$location', '$scope'];
 
-  function SurveyController(SurveyService, ResultService, $routeParams, $location, $scope) {
+  function SurveyController(SurveyService, ResultService, NotificationService, $routeParams, $location, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.submitSurvey = submitSurvey;
+    self.postNotification = postNotification;
     
     self.user = {};
     
@@ -77,11 +78,22 @@
         })
       }
     }
-
+    
+    function postNotification() {
+      NotificationService.postSurveyNotification(self.survey, self.notification)
+        .then(
+        function(response) {
+        console.log("success")
+      }, function(error){
+        console.log(error);
+      })
+    }
+    
     function submitSurvey() { 
       ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
         .then(
         function(response){
+          postNotification();
           $location.path('/survey/finish/' + self.surveyHashedId);
         }, 
         function(error){

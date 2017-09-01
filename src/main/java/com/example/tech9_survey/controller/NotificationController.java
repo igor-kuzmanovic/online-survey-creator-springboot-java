@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.tech9_survey.domain.Comment;
 import com.example.tech9_survey.domain.Notification;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.domain.User;
+import com.example.tech9_survey.service.CommentService;
 import com.example.tech9_survey.service.NotificationService;
 import com.example.tech9_survey.service.SurveyService;
 import com.example.tech9_survey.service.UserService;
@@ -28,11 +30,13 @@ public class NotificationController {
 	private NotificationService notificationService;
 	private UserService userService;
 	private SurveyService surveyService;
+	private CommentService commentService;
 	
-	public NotificationController(NotificationService notificationService, UserService userService, SurveyService surveyService) {
+	public NotificationController(NotificationService notificationService, UserService userService, SurveyService surveyService, CommentService commentService) {
 		this.notificationService = notificationService;
 		this.userService = userService;
 		this.surveyService = surveyService;
+		this.commentService = commentService;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -50,8 +54,8 @@ public class NotificationController {
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-	@PostMapping(path = "/{survey_id}")
-    public ResponseEntity<Object> save(@PathVariable("survey_id") Long surveyId, @RequestBody Notification notification) {
+	@PostMapping(path = "/survey/{surveyId}")
+    public ResponseEntity<Notification> save(@PathVariable("surveyId") Long surveyId, @RequestBody Notification notification) {
         User sender = userService.getLoggedInUser();
         Survey completedSurvey = surveyService.findOne(surveyId);
         User receiver = userService.findByUsername(completedSurvey.getCreator());
@@ -66,6 +70,28 @@ public class NotificationController {
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
+        userService.save(receiver);
+        
+        return new ResponseEntity<>(HttpStatus.OK);
+	}
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@PostMapping(path = "/comment/{commentId}")
+    public ResponseEntity<Notification> save1(@PathVariable("commentId") Long commentId, @RequestBody Notification notification) {
+        User sender = userService.getLoggedInUser();
+        Comment comment = commentService.findOne(commentId);
+        User receiver = userService.findByUsername(comment.getPoster());
+
+        if (comment.getPoster().equals(sender.getUsername())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        
+        notification.setSender(sender.getUsername());
+        notification.setReceiver(receiver.getUsername());
+        notification.setCreationDate(new Date());
+        
+        notificationService.save(notification);
+        receiver.getNotifications().add(notification);
+        userService.save(receiver);
         
         return new ResponseEntity<>(HttpStatus.OK);
 	}

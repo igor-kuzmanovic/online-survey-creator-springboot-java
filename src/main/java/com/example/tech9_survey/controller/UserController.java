@@ -3,7 +3,6 @@ package com.example.tech9_survey.controller;
 import com.example.tech9_survey.domain.Notification;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.domain.VerificationToken;
-import com.example.tech9_survey.service.NotificationService;
 import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
 import org.springframework.http.*;
@@ -27,13 +26,11 @@ import java.util.*;
 public class UserController {
 
     private UserService userService;
-    private NotificationService notificationService;
     private VerificationTokenService verificationTokenService;
     private JavaMailSender javaMailSender;
 
-    public UserController(UserService userService, VerificationTokenService verificationTokenService, NotificationService notificationService, JavaMailSender javaMailSender) {
+    public UserController(UserService userService, VerificationTokenService verificationTokenService, JavaMailSender javaMailSender) {
         this.userService = userService;
-        this.notificationService = notificationService;
         this.verificationTokenService = verificationTokenService;
         this.javaMailSender = javaMailSender;
     }

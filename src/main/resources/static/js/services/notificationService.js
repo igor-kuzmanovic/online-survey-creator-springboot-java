@@ -8,7 +8,7 @@
     
   var service = {
     deleteNotification: deleteNotification,
-    postNotification: postNotification
+    postSurveyNotification: postSurveyNotification
   }
   return service;
     
@@ -27,13 +27,12 @@
       return def.promise;
     }
     
-  function postNotification(survey) {
-    notification.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
+  function postSurveyNotification(survey, notification) {
       var def = $q.defer();
       var req = {
         method: 'POST',
-        url: "/api/notifications/" + survey.id,
-        data: notifications
+        url: "/api/notifications/survey/" + survey.id,
+        data: notification
       }
       $http(req).success(function (data) {
         def.resolve(data);

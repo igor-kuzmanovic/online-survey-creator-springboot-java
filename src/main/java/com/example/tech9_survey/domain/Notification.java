@@ -6,14 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 
 @Entity
 public class Notification extends BaseEntity {
-	
-	@Size(max=240)
-	@Column(nullable = false)
-	private String content;
 	
 	@Column(nullable = false)
     private String receiver;
@@ -30,14 +25,6 @@ public class Notification extends BaseEntity {
 	
 	@Column(name = "notification_link", nullable = false)
 	private String link;
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
 
 	public String getReceiver() {
 		return receiver;

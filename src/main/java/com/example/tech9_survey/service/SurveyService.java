@@ -22,8 +22,8 @@ public class SurveyService {
         return surveyRepository.findAll();
     }
     
-    public Survey findOne(Long surveyId) {
-    	return surveyRepository.findOne(surveyId);
+    public Survey findOne(Long id) {
+    	return surveyRepository.findOne(id);
     }
     
     public Survey findByHashedId(String hashedId) {
