@@ -2,7 +2,6 @@ package com.example.tech9_survey.domain;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,9 +28,6 @@ public class Question extends BaseEntity {
 	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
 	
-	@Column(name = "is_flagged")
-	private boolean isFlagged;
-
 	public Survey getSurvey() {
 		return survey;
 	}
@@ -54,14 +50,6 @@ public class Question extends BaseEntity {
 
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
-	}
-
-	public boolean isFlagged() {
-		return isFlagged;
-	}
-
-	public void setFlagged(boolean isFlagged) {
-		this.isFlagged = isFlagged;
 	}
 
 }

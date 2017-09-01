@@ -63,9 +63,6 @@ public class Survey extends BaseEntity {
 	@JoinColumn(name = "survey_id")
 	private List<Comment> comments;
 	
-	@Column(name = "is_flagged")
-	private boolean isFlagged;
-	
 	public void generateHash() throws NoSuchAlgorithmException {
 		String dateString = getCreationDate().toString();
 		String userString = getCreator().toString();
@@ -173,12 +170,4 @@ public class Survey extends BaseEntity {
 		this.isPublic = isPublic;
 	}
 
-	public boolean isFlagged() {
-		return isFlagged;
-	}
-
-	public void setFlagged(boolean isFlagged) {
-		this.isFlagged = isFlagged;
-	}
-	
 }

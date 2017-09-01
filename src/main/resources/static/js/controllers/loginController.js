@@ -9,9 +9,9 @@
     var self = this;
     self.getCredentials = getCredentials;
     self.checkForm = checkForm;
-    
+
     init();
-    
+
     function init() {
       if ($scope.mc.checkUser()) {
         $location.path('/home');
@@ -19,6 +19,10 @@
     }
 
     function getCredentials(credentials, rememberMe) {
+      if(!checkForm()){
+        return;
+      }
+
       UserService.login(credentials, rememberMe).then(handleSuccessCredentials);
     }
 
@@ -30,15 +34,15 @@
     function checkForm() {
       var focusedElement;
 
-      if($scope.surveyForm.$invalid) {
-        if($scope.surveyForm.description.$invalid) {
-          $scope.surveyForm.description.$setDirty();
-          focusedElement = '#description';
+      if($scope.loginForm.$invalid) {
+        if($scope.loginForm.password.$invalid) {
+          $scope.loginForm.password.$setDirty();
+          focusedElement = '#password';
         }
 
-        if($scope.surveyForm.name.$invalid) {
-          $scope.surveyForm.name.$setDirty();
-          focusedElement = '#name';
+        if($scope.loginForm.username.$invalid) {
+          $scope.loginForm.username.$setDirty();
+          focusedElement = '#username';
         }
 
         $(focusedElement).focus();
