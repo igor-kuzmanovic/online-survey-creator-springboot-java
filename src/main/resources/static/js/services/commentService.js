@@ -2,14 +2,17 @@
   angular.module('app')
     .factory('CommentService', CommentService);
 
-  CommentService.$inject = ['$http', '$q', '$filter'];
+  CommentService.$inject = ['UserService', '$http', '$q', '$filter'];
 
-  function CommentService($http, $q, $filter) {
+  function CommentService(UserService, $http, $q, $filter) {
+
+    var comments = [];
 
     var service = {
       postComment: postComment,
       deleteComment: deleteComment,
-      findAllComments: findAllComments
+      findAllComments: findAllComments,
+      getCommentsWithImage: getCommentsWithImage
     };
 
     return service;
@@ -39,12 +42,30 @@
         data: comment
       };
       $http(req).success(function (data) {
-        def.resolve(data);
+        var comment = data;
+        UserService.getImageFromUrl().then(function (data, status) {
+            comment.imageUrl = data;
+        });
+        comment.survey = survey.name;
+        comments.push(comment);
+        def.resolve(comment);
       })
         .error(function () {
         def.reject("Failed to post a comment");
       });
       return def.promise;
+    }
+    
+    function getCommentsWithImage(survey) {
+        var commentsFromSurvey = [];
+
+        for(var i = 0; i < comments.length; i++) {
+            if(comments[i].survey === survey) {
+                commentsFromSurvey.push(comments[i]);
+            }
+        }
+
+        return commentsFromSurvey;
     }
 
     function deleteComment(id) {

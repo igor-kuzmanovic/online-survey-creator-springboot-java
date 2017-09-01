@@ -29,6 +29,10 @@
         .then(
         function(response){
           self.survey = response;
+          self.comments = CommentService.getCommentsWithImage(self.survey.name);
+          for(var i = 0; i < self.comments.length; i++) {
+            console.log(self.comments[i]);
+          }
           checkSurvey();
         })
     }

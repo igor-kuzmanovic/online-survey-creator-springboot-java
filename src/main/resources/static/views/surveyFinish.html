@@ -5,9 +5,9 @@
         <h3>Write a comment</h3>
       </div>
 
-      <div class="media" ng-repeat = "comment in sfc.survey.comments | orderBy: 'date':true">
+      <div class="media" ng-repeat = "comment in sfc.comments | orderBy: 'date':true">
         <div class="media-left media-middle">
-          <span class="glyphicon glyphicon-user comment-user"></span>
+          <img ng-src="{{'data:image/jpg;base64,'+ comment.imageUrl}}" class="media-object" style="width:64px">
         </div>
         <div class="media-body">       
           <h4 class="media-heading">
