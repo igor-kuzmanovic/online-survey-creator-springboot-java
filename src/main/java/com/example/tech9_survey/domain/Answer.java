@@ -1,5 +1,6 @@
 package com.example.tech9_survey.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +18,9 @@ public class Answer extends BaseEntity {
 	
 	@Size(max=240)
 	private String content;
+	
+	@Column(name = "is_flagged")
+	private boolean isFlagged;
 
 	public Question getQuestion() {
 		return question;
@@ -32,6 +36,14 @@ public class Answer extends BaseEntity {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public boolean isFlagged() {
+		return isFlagged;
+	}
+
+	public void setFlagged(boolean isFlagged) {
+		this.isFlagged = isFlagged;
 	}
 	
 }

@@ -16,10 +16,10 @@
       <div class="form-group">
         <label for="surveyPrivacy">Survey privacy options</label>
         <div class="radio">
-          <label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" ng-value="1" ng-model="scfc.survey.surveyPrivacy.id">Available to everyone</label>
+          <label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" value="true" ng-model="scfc.survey.isPublic">Available to everyone</label>
         </div>
         <div class="radio">
-          <label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" ng-value="2" ng-model="scfc.survey.surveyPrivacy.id">Available to registered users only</label> 
+          <label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" value="false" ng-model="scfc.survey.isPublic">Available to registered users only</label> 
         </div>
       </div>
 

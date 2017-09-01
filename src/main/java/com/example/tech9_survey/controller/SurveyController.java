@@ -21,7 +21,6 @@ import com.example.tech9_survey.domain.Answer;
 import com.example.tech9_survey.domain.Comment;
 import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.domain.Survey;
-import com.example.tech9_survey.domain.SurveyPrivacy;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.AnswerService;
 import com.example.tech9_survey.service.QuestionService;
@@ -119,10 +118,7 @@ public class SurveyController {
 		survey.setExpirationDate(new Date());
 		survey.setExitMessage(new String());
 		survey.setIsActive(false);
-		SurveyPrivacy surveyPrivacy = new SurveyPrivacy();
-		surveyPrivacy.setType(SurveyPrivacy.SurveyPrivacyType.VISIBILITY_ALL);
-		surveyPrivacy.setId(1L);
-		survey.setSurveyPrivacy(surveyPrivacy);
+		survey.setIsPublic(false);
 		Survey createdSurvey = surveyService.save(survey);
 		
     	return new ResponseEntity<>(createdSurvey, HttpStatus.CREATED);
