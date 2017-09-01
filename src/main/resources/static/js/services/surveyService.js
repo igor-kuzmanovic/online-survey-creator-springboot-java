@@ -9,13 +9,14 @@
     var service = {
       saveSurvey: saveSurvey,
       deactivateSurvey: deactivateSurvey,
+      toggleSurveyPrivacy: toggleSurveyPrivacy,
       deleteSurvey: deleteSurvey,
       generateSurvey: generateSurvey,
       getSurveys: getSurveys,
       getCurrentSurvey: getCurrentSurvey,
       getSurveyComments: getSurveyComments,
-        getSurveyByQuestion: getSurveyByQuestion,
-        getSurveyByComment: getSurveyByComment
+      getSurveyByQuestion: getSurveyByQuestion,
+      getSurveyByComment: getSurveyByComment
     };
 
     function saveSurvey(survey) {
@@ -49,6 +50,21 @@
       })
         .error(function () {
         def.reject("Failed to deactivate a survey!");
+      });
+      return def.promise;
+    }
+    
+    function toggleSurveyPrivacy(surveyId) {
+      var def = $q.defer();
+      var req = {
+        method: 'PUT',
+        url: "/api/survey/privacy/" + surveyId
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to toggle privacy for a survey!");
       });
       return def.promise;
     }

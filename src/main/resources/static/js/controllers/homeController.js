@@ -11,6 +11,7 @@
     self.setCurrentSurvey = setCurrentSurvey;
     self.facebookShare = facebookShare;
     self.deactivateSurvey = deactivateSurvey;
+    self.toggleSurveyPrivacy = toggleSurveyPrivacy;
 
     self.facebookLink = [];
     self.twitterLink = [];
@@ -60,6 +61,17 @@
 
     function deactivateSurvey() {
       SurveyService.deactivateSurvey(self.currentSurvey.id)
+        .then(
+        function(response){
+          getSurveys();
+        }, 
+        function(error){
+          console.log(error);
+        })
+    }
+    
+    function toggleSurveyPrivacy() {
+      SurveyService.toggleSurveyPrivacy(self.currentSurvey.id)
         .then(
         function(response){
           getSurveys();

@@ -36,11 +36,17 @@
           window.alert("You cannot complete your own survey!");
           $location.path('/home');
         }
+        
+        if(!self.user && !self.survey.isPublic) {
+          window.alert("This survey isn't open for unregistered users!");
+          $location.path('/');
+        }
+        
         checkSubmitter();
       }
       else {
         window.alert("This survey is not active!");
-        $location.path('/survey/details/' + self.surveyHashedId);
+        $location.path('/survey/results/' + self.surveyHashedId);
       }
     }
 

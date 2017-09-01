@@ -28,15 +28,20 @@
               <div class="btn btn-primary"><a ng-href="https://plus.google.com/share?app=110&url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-google-plus-square" aria-hidden="true" style="color:white"></i></a></div>
 
               <a href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button">
-                <span class="glyphicon glyphicon-signal"></span>
+                <span class="glyphicon glyphicon-stats"></span>
               </a>
 
               <a href="#/survey/details/{{survey.hashedId}}" class="btn btn-primary" role="button">
                 <span class="glyphicon glyphicon-list"></span>
               </a>
+              
+              <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#togglePrivacyModal" ng-click="hc.setCurrentSurvey(survey)">
+                <span ng-if="!survey.isPublic" class="glyphicon glyphicon-eye-open"></span>
+                <span ng-if="survey.isPublic" class="glyphicon glyphicon-eye-close"></span>
+              </button>
 
               <button ng-if="survey.isActive" class="btn btn-primary" type="button" data-toggle="modal" data-target="#deactivateSurveyModal" ng-click="hc.setCurrentSurvey(survey)">
-                <span class="glyphicon glyphicon-remove"></span>
+                <span class="glyphicon glyphicon-off"></span>
               </button>
 
               <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#deleteSurveyModal" ng-click="hc.setCurrentSurvey(survey)">
@@ -81,6 +86,24 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="hc.deactivateSurvey()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="togglePrivacyModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to make your survey available{{hc.currentSurvey.isPublic ? ' only to registered users' : ' to everyone'}}?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="hc.toggleSurveyPrivacy()">Confirm</button>
       </div>
     </div>
   </div>

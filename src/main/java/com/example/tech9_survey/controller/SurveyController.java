@@ -182,6 +182,22 @@ public class SurveyController {
 	}
 	
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@PutMapping(path = "/privacy/{id}")
+	public ResponseEntity<Survey> togglePrivacy(@PathVariable Long id) {
+		Survey survey = surveyService.findOne(id);
+		
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		survey.setIsPublic(!survey.getIsPublic());
+		surveyService.save(survey);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Survey> delete(@PathVariable Long id) {
 		Survey findSurvey = surveyService.findOne(id);
