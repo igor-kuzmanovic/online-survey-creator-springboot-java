@@ -1,100 +1,113 @@
 (function () {
-  angular.module('app')
-    .controller('SurveyController', SurveyController);
+	angular.module('app')
+		.controller('SurveyController', SurveyController);
 
-  SurveyController.$inject = ['SurveyService', 'ResultService', '$routeParams', '$location', '$scope'];
+	SurveyController.$inject = ['SurveyService', 'ResultService', '$routeParams', '$location', '$scope'];
 
-  function SurveyController(SurveyService, ResultService, $routeParams, $location, $scope) {
+	function SurveyController(SurveyService, ResultService, $routeParams, $location, $scope) {
 
-    var self = this;
-    self.getCurrentSurvey = getCurrentSurvey;
-    self.submitSurvey = submitSurvey;
+		var self = this;
+		self.getCurrentSurvey = getCurrentSurvey;
+		self.submitSurvey = submitSurvey;
 
-    self.user = {};
+		self.user = {};
 
-    init();
+		init();
 
-    function init() {
-      $scope.mc.getImage();
-      self.user = $scope.mc.checkUser();
-      self.surveyHashedId = $routeParams.hashedId;
-      getCurrentSurvey();
-    }
+		function init() {
+			$scope.mc.getImage();
+			self.user = $scope.mc.checkUser();
+			self.surveyHashedId = $routeParams.hashedId;
+			getCurrentSurvey();
+		}
 
-    function getCurrentSurvey() {
-      SurveyService.getCurrentSurvey(self.surveyHashedId)
-        .then(
-        function(response){
-          self.survey = response;
-          checkSurvey();
-        });
-    }
+		function getCurrentSurvey() {
+			SurveyService.getCurrentSurvey(self.surveyHashedId)
+				.then(
+				function(response){
+					self.survey = response;
+					checkSurvey();
+				}, 
+				function(error){
+					console.log(error);
+					alert(error);          
+				});
+		}
 
-    function checkSurvey() {
-      if(self.survey.isActive) {
-        if(self.user && self.survey.creator === self.user.username) {
-          window.alert("You cannot complete your own survey!");
-          $location.path('/home');
-        }
-        
-        if(!self.user && !self.survey.isPublic) {
-          window.alert("This survey isn't open for unregistered users!");
-          $location.path('/');
-        }
-        
-        checkSubmitter();
-      }
-      else {
-        window.alert("This survey is not active!");
-        $location.path('/survey/results/' + self.surveyHashedId);
-      }
-    }
+		function checkSurvey() {
+			if(self.survey.isActive) {
+				if(self.user && self.survey.creator === self.user.username) {
+					console.log('You cannot complete your own survey!');
+					alert('You cannot complete your own survey!');
+					$location.path('/home');
+				}
 
-    function checkSubmitter() {
-      if(self.user) {
-        ResultService.getSurveyResults(self.survey.id)
-          .then(
-          function(response){
-            for(i = 0; i < response.length; i++) {
-              if(response[i].submitedBy === self.user.username) {
-                window.alert("You have already completed this survey!");
-                $location.path('/home');
-              }           
-            }
+				if(!self.user && !self.survey.isPublic) {
+					console.log("This survey isn't open for unregistered users!")
+					alert("This survey isn't open for unregistered users!");
+					$location.path('/');
+				}
 
-            initiateSurveyResult(self.user.username);
-          });
-      }
-      else {
-        initiateSurveyResult();
-      }
-    }
+				checkSubmitter();
+			}
+			else {
+				console.log("This survey is not active!");
+				alert("This survey is not active!");
+				$location.path('/survey/results/' + self.surveyHashedId);
+			}
+		}
 
-    function initiateSurveyResult(submitter) {
-      self.surveyResult = [];
-      self.surveyResult = {
-        submitedBy: submitter || "anonymous",
-        results: []
-      };
+		function checkSubmitter() {
+			if(self.user) {
+				ResultService.getSurveyResults(self.survey.id)
+					.then(
+					function(response){
+						for(i = 0; i < response.length; i++) {
+							if(response[i].submitedBy === self.user.username) {
+								console.log("You have already completed this survey!");
+								alert("You have already completed this survey!");
+								$location.path('/home');
+							}           
+						}
 
-      for(i = 0; i < self.survey.questions.length; i++) {
-        self.surveyResult.results.push({
-          questionId: self.survey.questions[i],
-          answerId: {}
-        })
-      }
-    }
+						initiateSurveyResult(self.user.username);
+					}, 
+					function(error){
+						console.log(error);
+						alert(error);          
+					});
+			}
+			else {
+				initiateSurveyResult();
+			}
+		}
 
-    function submitSurvey() { 
-      ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
-        .then(
-        function(response){
-          $location.path('/survey/finish/' + self.surveyHashedId);
-        }, 
-        function(error){
-          console.log(error);
-        })
-    }
+		function initiateSurveyResult(submitter) {
+			self.surveyResult = [];
+			self.surveyResult = {
+				submitedBy: submitter || "anonymous",
+				results: []
+			};
 
-  };
+			for(i = 0; i < self.survey.questions.length; i++) {
+				self.surveyResult.results.push({
+					questionId: self.survey.questions[i],
+					answerId: {}
+				})
+			}
+		}
+
+		function submitSurvey() { 
+			ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
+				.then(
+				function(response){
+					$location.path('/survey/finish/' + self.surveyHashedId);
+				}, 
+				function(error){
+					console.log(error);
+					alert(error);          
+				});
+		}
+
+	};
 })();

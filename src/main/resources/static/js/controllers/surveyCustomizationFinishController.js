@@ -36,7 +36,8 @@
           setExpirationDate();
         }, 
         function(error){
-          console.log(error);
+					console.log(error);
+					alert(error);
         })
     }
 
@@ -60,7 +61,8 @@
           $location.path('/survey/details/' + response.hashedId);
         }, 
         function(error){
-          console.log(error);
+					console.log(error);
+					alert(error);
         })
     }
 

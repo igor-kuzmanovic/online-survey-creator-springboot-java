@@ -4,6 +4,8 @@
       <div align="center" class="form-group">
         <h3>Create a new survey</h3>
       </div>
+			
+			<hr>
 
       <div class="form-group" ng-class="{'has-feedback': surveyForm.name.$dirty, 'has-error': surveyForm.name.$dirty && surveyForm.name.$invalid, 'has-success': surveyForm.name.$dirty && surveyForm.name.$valid}">
         <label for="name">Name</label>
@@ -20,6 +22,8 @@
         <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.description.$dirty && surveyForm.description.$invalid"></span>
         <label class="text-danger" ng-show="surveyForm.description.$dirty && surveyForm.description.$invalid">Please enter a survey description!</label>
       </div>
+			
+			<hr>
 
       <div align="center" class="form-group">
         <button type="submit" class="btn btn-default btn-success">Create <span class="glyphicon glyphicon-check"></span></button>

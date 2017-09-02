@@ -1,49 +1,53 @@
 <div class="row">
-  <div class="col-md-offset-4 col-md-4">
-    <form  name="surveyForm" ng-submit="scfc.saveSurvey(scfc.survey)" novalidate>
-      <div align="center" class="form-group">
-        <h3>Finish up your survey</h3>
-      </div>
+	<div class="col-md-offset-4 col-md-4">
+		<form  name="surveyForm" ng-submit="scfc.saveSurvey(scfc.survey)" novalidate>
+			<div align="center" class="form-group">
+				<h3>Finish up your survey</h3>
+			</div>
 
-      <div class="form-group" ng-class="{'has-feedback': surveyForm.exitMsg.$dirty, 'has-error': surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$invalid, 'has-success': surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$valid}">
-        <label for="exitMsg">Exit message</label>
-        <textarea id="exitMsg" type="text" class="form-control" name="exitMsg" rows="3" placeholder="Exit message" ng-model="scfc.survey.exitMessage" required></textarea>
-        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$valid"></span>
-        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$invalid"></span>
-        <label class="text-danger" ng-show="surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$error.required">Please enter an exit message!</label>
-      </div>
+			<hr>
 
-      <div class="form-group">
-        <label for="surveyPrivacy">Survey privacy options</label>
-        <div class="radio">
-          <label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" value="true" ng-model="scfc.survey.isPublic">Available to everyone</label>
-        </div>
-        <div class="radio">
-          <label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" value="false" ng-model="scfc.survey.isPublic">Available to registered users only</label> 
-        </div>
-      </div>
+			<div class="form-group" ng-class="{'has-feedback': surveyForm.exitMsg.$dirty, 'has-error': surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$invalid, 'has-success': surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$valid}">
+				<label for="exitMsg">Exit message</label>
+				<textarea id="exitMsg" type="text" class="form-control" name="exitMsg" rows="3" placeholder="Exit message" ng-model="scfc.survey.exitMessage" required></textarea>
+				<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$valid"></span>
+				<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$invalid"></span>
+				<label class="text-danger" ng-show="surveyForm.exitMsg.$dirty && surveyForm.exitMsg.$error.required">Please enter an exit message!</label>
+			</div>
 
-      <div class="form-group">
-        <label for="surveyExpiration">Survey expiration options</label>
-        <div class="radio">
-          <label><input type="radio" name="surveyExpiration" id="surveyExpiration" ng-value="1" ng-model="scfc.surveyDeactivation" ng-click="scfc.setExpirationDate()">Active indefinitely</label>
-        </div>
-        <div class="radio">
-          <label><input type="radio" name="surveyExpiration" id="surveyExpiration" ng-value="2" ng-model="scfc.surveyDeactivation" ng-click="scfc.setExpirationDate()">Set expiration date</label>
-          <div ng-show="scfc.surveyDeactivation === 2" ng-class="{'has-feedback': surveyForm.expirationDate.$dirty, 'has-error': surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$invalid, 'has-success': surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$valid}">
-            <input ng-if="scfc.surveyDeactivation === 2" id="expirationDate" type="date" class="form-control" name="expirationDate" min="{{scfc.minDate | date:'yyyy-MM-dd'}}" placeholder="yyyy-MM-dd" ng-model="scfc.survey.expirationDate" required>
-            <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$valid"></span>
-            <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$invalid"></span>
-          </div>
-        </div>
-        <div ng-show="scfc.surveyDeactivation === 2">
-          <label class="text-danger" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$error.min">You cannot pick a current date or a date in the past!</label>
-        </div>
-      </div>
+			<div class="form-group">
+				<label for="surveyPrivacy">Survey privacy options</label>
+				<div class="radio">
+					<label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" ng-value="false" ng-model="scfc.survey.isPublic">Available to registered users only</label> 
+				</div>
+				<div class="radio">
+					<label><input type="radio" name="surveyPrivacy" id="surveyPrivacy" ng-value="true" ng-model="scfc.survey.isPublic">Available to everyone</label>
+				</div>
+			</div>
 
-      <div align="center" class="form-group">
-        <button type="submit" class="btn btn-default btn-success">Finish <span class="glyphicon glyphicon-check"></span></button>
-      </div>
-    </form> 
-  </div>
+			<div class="form-group">
+				<label for="surveyExpiration">Survey expiration options</label>
+				<div class="radio">
+					<label><input type="radio" name="surveyExpiration" id="surveyExpiration" ng-value="1" ng-model="scfc.surveyDeactivation" ng-click="scfc.setExpirationDate()">Active indefinitely</label>
+				</div>
+				<div class="radio">
+					<label><input type="radio" name="surveyExpiration" id="surveyExpiration" ng-value="2" ng-model="scfc.surveyDeactivation" ng-click="scfc.setExpirationDate()">Set expiration date</label>
+					<div ng-show="scfc.surveyDeactivation === 2" ng-class="{'has-feedback': surveyForm.expirationDate.$dirty, 'has-error': surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$invalid, 'has-success': surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$valid}">
+						<input ng-if="scfc.surveyDeactivation === 2" id="expirationDate" type="date" class="form-control" name="expirationDate" min="{{scfc.minDate | date:'yyyy-MM-dd'}}" placeholder="yyyy-MM-dd" ng-model="scfc.survey.expirationDate" required>
+						<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$valid"></span>
+						<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$invalid"></span>
+					</div>
+				</div>
+				<div ng-show="scfc.surveyDeactivation === 2">
+					<label class="text-danger" ng-show="surveyForm.expirationDate.$dirty && surveyForm.expirationDate.$error.min">You cannot pick a current date or a date in the past!</label>
+				</div>
+			</div>
+
+			<hr>
+
+			<div align="center" class="form-group">
+				<button type="submit" class="btn btn-default btn-success">Finish <span class="glyphicon glyphicon-check"></span></button>
+			</div>
+		</form> 
+	</div>
 </div>

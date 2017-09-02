@@ -62,6 +62,30 @@ public class SurveyController {
         return new ResponseEntity<>(surveys, HttpStatus.OK);
     }
 	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@GetMapping(path = "/creator")
+    public ResponseEntity<List<Survey>> findAllByCreator() {
+		User user = userService.getLoggedInUser();
+		
+		if(user == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+    	List<Survey> surveys = surveyService.findAllByCreator(user.getUsername());	
+    	
+    	if(surveys.isEmpty()) {
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    	}
+    	
+    	for(int i = 0; i < surveys.size(); i++) {
+    		Survey survey = surveys.get(i);
+    		survey = surveyIsActiveCheck(survey);
+    		surveys.set(i, survey);
+    	}
+    	
+        return new ResponseEntity<>(surveys, HttpStatus.OK);
+    }
+	
 	@GetMapping(path = "/{hashedId}")
 	public ResponseEntity<Survey> findByHashedId(@PathVariable String hashedId) {
 		Survey survey = surveyService.findByHashedId(hashedId);	

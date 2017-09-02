@@ -48,6 +48,7 @@ public class AnswerController {
 		return new ResponseEntity<>(answers, HttpStatus.OK);
 	}
 	
+	// Unused
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Answer> findOne(@PathVariable Long id) {
 		Answer answer = answerService.findOne(id);
@@ -59,6 +60,7 @@ public class AnswerController {
 		return new ResponseEntity<>(answer, HttpStatus.OK);
 	}
 	
+	// Unused
 	@PostMapping(path = "/{questionId}")
 	public ResponseEntity<Answer> save(@PathVariable Long questionId, @RequestBody Answer answer) {
 		Question question = questionService.findOne(questionId);

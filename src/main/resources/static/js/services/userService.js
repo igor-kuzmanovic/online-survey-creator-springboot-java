@@ -211,7 +211,7 @@
         def.resolve(data);
       })
         .error(function () {
-        def.reject("Failed to get notifications for selected user");
+        def.reject("Failed to get notifications for the selected user");
       });
       return def.promise;
     }

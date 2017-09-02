@@ -22,6 +22,10 @@ public class SurveyService {
         return surveyRepository.findAll();
     }
     
+    public List<Survey> findAllByCreator(String creator) {
+    	return surveyRepository.findAllByCreator(creator);
+    }
+    
     public Survey findOne(Long surveyId) {
     	return surveyRepository.findOne(surveyId);
     }

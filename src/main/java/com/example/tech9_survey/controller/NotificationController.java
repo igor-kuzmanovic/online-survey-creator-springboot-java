@@ -30,18 +30,21 @@ public class NotificationController {
 		this.userService = userService;
 	}
 	
+	// Unused
 	@GetMapping
 	public ResponseEntity<List<Notification>> findAll() {
 		List<Notification> allNotifications = notificationService.findAll(); 
 		return new ResponseEntity<>(allNotifications, HttpStatus.OK);
 	}
 	
+	// Unused
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Notification> findOne(@PathVariable Long id) {
 		Notification notification = notificationService.findOne(id);
 		return new ResponseEntity<>(notification, HttpStatus.OK);
 	}
 	
+	// Unused
 	@PostMapping(path = "/{userId}")
 	public ResponseEntity<Object> save(@PathVariable Long userId, @RequestBody Notification notification) throws NoSuchAlgorithmException {
 		User sender = userService.getLoggedInUser();

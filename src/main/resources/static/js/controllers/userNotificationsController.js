@@ -35,6 +35,7 @@
         getUserNotifications();
       }, function(error){
         console.log(error);
+				alert(error);
       })
     }
     

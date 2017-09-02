@@ -51,7 +51,15 @@
 
     function getImage() {
       if(self.user) {
-        UserService.getImageFromUrl().then(handleSuccessImage);
+        UserService.getImageFromUrl()
+					.then(
+          function(response){
+            self.img = data;
+          },
+					function(error){
+						alert(error);
+						console.log(error);
+					});
       }
     }
 
@@ -68,16 +76,20 @@
         credentials.username = CookieService.getCookie('username');
         credentials.password = CookieService.getCookie('password');
 
-        UserService.login(credentials, true).then(
+        UserService.login(credentials, true)
+					.then(
           function(response){
             self.user = response;
             console.log('Logged in ' + self.user.username + ' from cookies');
             $route.reload();
-          });
+          },
+					function(error){
+						console.log(error);
+						alert(error);					
+					});
       }
       else if(!self.user && !UserService.checkUserCookies()) {
         console.log('User not found, cookies not found');
-        //$location.path('/');
       }
 
       if(self.user) {

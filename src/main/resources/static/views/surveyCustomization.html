@@ -4,6 +4,8 @@
       <div align="center" class="form-group">
         <h3>Customize your survey</h3>
       </div>
+			
+			<hr>
 
       <div ng-repeat="question in scc.survey.questions track by $index">
         <div class="form-group">
@@ -46,6 +48,8 @@
         <button type="input" class="btn btn-default btn-primary col-md-offset-2" ng-hide="scc.survey.questions.length >= 10" ng-click="scc.createQuestion()">Question <span class="glyphicon glyphicon-plus"></span>
         </button>
       </div>
+			
+			<hr>
 
       <div align="center" class="form-group">
         <button type="submit" class="btn btn-default btn-success" ng-click="scc.finishCustomization()">Finish customization <span class="glyphicon glyphicon-check"></span></button>
