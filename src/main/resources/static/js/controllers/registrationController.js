@@ -31,7 +31,7 @@
       self.registeredUser = savedUser;
       var response = grecaptcha.getResponse();
 
-      if(response.length === 0) {
+      if(!response) {
         alert("Captcha is not done.");
         return;
       }
@@ -52,7 +52,7 @@
         } else if(error === 'username') {
           alert('Username already taken');
         } else {
-          alert('Error')
+          alert('Error');
         }
       });
     }
