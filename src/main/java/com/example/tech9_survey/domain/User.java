@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -34,8 +35,9 @@ public class User extends BaseEntity {
     @Column(name = "registration_date")
     private Date registrationDate;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Lob
+    @Column(name = "image_url", columnDefinition = "longblob")
+    private byte[] imageUrl;
 
     @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -65,12 +67,12 @@ public class User extends BaseEntity {
     public void setSecondName(String secondName) {
         this.secondName = secondName;
     }
-  
-    public String getImageUrl() {
+
+    public byte[] getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(byte[] imageUrl) {
         this.imageUrl = imageUrl;
     }
 

@@ -77,11 +77,11 @@ public class UserController {
 
         if (userService.findByUsername(user.getUsername()) == null) {
             if (userService.findByEmail(user.getEmail()) == null) {
-                String imagePath = Paths.get("D:\\user_images", "default_user.jpg").toString();
+                //String imagePath = Paths.get("D:\\user_images", "default_user.jpg").toString();
 
                 user.setEnabled(false);
                 user.setRegistrationDate(new Date());
-                user.setImageUrl(imagePath);
+                //user.setImageUrl(imagePath);
 
                 token.setUser(user);
                 verificationTokenService.save(token);
