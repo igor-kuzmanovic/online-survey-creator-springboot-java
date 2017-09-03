@@ -38,3 +38,15 @@ textarea {
 .comment-poster {
   font-weight: bold;
 }
+
+.btn-facebook {
+	background-color: #3b5998;
+}
+
+.btn-twitter {
+	background-color: #1da1f2;
+}
+
+.btn-google {
+	background-color: #d34836;
+}

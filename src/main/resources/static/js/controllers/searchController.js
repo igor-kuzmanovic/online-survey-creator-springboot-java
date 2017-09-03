@@ -30,7 +30,7 @@
 			SurveyService.getSurveys()
 				.then(
 				function(response){
-					self.surveys = data;
+					self.surveys = response;
 				}, 
 				function(error){
 					console.log(error);
