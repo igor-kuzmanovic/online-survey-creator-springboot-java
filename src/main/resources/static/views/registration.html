@@ -10,7 +10,7 @@
 				<input class="form-control" id="username" type="text" name="username" auto-focus="true" required ng-model="savedUser.username">
 				<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="signupForm.username.$dirty && signupForm.username.$valid"></span>
 				<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="signupForm.username.$dirty && signupForm.username.$invalid"></span>
-				<label class="text-danger" ng-show="signupForm.username.$dirty && signupForm.username.$invalid">Please enter your username!</label>
+				<label class="text-danger" ng-show="signupForm.username.$dirty && signupForm.username.$invalid">Please enter a username!</label>
 			</div>
 
 			<div class="form-group" ng-class="{'has-feedback': signupForm.password.$dirty, 'has-error': signupForm.password.$dirty && signupForm.password.$invalid, 'has-success': signupForm.password.$dirty && signupForm.password.$valid}">
@@ -18,7 +18,7 @@
 				<input type="password" class="form-control" id="password" name="password" required ng-model="savedUser.password">
 				<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="signupForm.password.$dirty && signupForm.password.$valid"></span>
 				<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="signupForm.password.$dirty && signupForm.password.$invalid"></span>
-				<label class="text-danger" ng-show="signupForm.password.$dirty && signupForm.password.$invalid">Please enter your password!</label>
+				<label class="text-danger" ng-show="signupForm.password.$dirty && signupForm.password.$invalid">Please enter a password!</label>
 			</div>
 
 			<div class="form-group" ng-class="{'has-feedback': signupForm.email.$dirty, 'has-error': signupForm.email.$dirty && signupForm.email.$invalid, 'has-success': signupForm.email.$dirty && signupForm.email.$valid}">
@@ -26,7 +26,7 @@
 				<input type="email" class="form-control" id="email" name="email" required ng-model="savedUser.email">
 				<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="signupForm.email.$dirty && signupForm.email.$valid"></span>
 				<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="signupForm.email.$dirty && signupForm.email.$invalid"></span>
-				<label class="text-danger" ng-show="signupForm.email.$dirty && signupForm.email.$invalid">Please enter your password!</label>
+				<label class="text-danger" ng-show="signupForm.email.$dirty && signupForm.email.$invalid">Please enter a valid email!</label>
 			</div>
 
 			<div id="captcha" align="center" class="form-group"></div>
