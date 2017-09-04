@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('SurveyResultsController', SurveyResultsController);
 
-  SurveyResultsController.$inject = ['SurveyService', '$routeParams', '$location', '$scope'];
+  SurveyResultsController.$inject = ['SurveyService', '$routeParams', '$location', '$scope', '$anchorScroll'];
 
-  function SurveyResultsController(SurveyService, $routeParams, $location, $scope) {
+  function SurveyResultsController(SurveyService, $routeParams, $location, $scope, $anchorScroll) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;

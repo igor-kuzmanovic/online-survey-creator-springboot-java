@@ -131,7 +131,7 @@ public class NotificationController {
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
         notification.setRead(false);
-        notification.setLink("/admin/?" + completedSurvey.getId());
+        notification.setLink("/admin/" + completedSurvey.getId());
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
@@ -179,7 +179,7 @@ public class NotificationController {
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
         notification.setRead(false);    
-        notification.setLink("/survey/results/" + survey.getHashedId() + "/?" + commentId);
+        notification.setLink("/survey/results/" + survey.getHashedId() + "/" + commentId);
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
@@ -229,7 +229,7 @@ public class NotificationController {
         	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        notification.setLink("/admin/?" + commentId);
+        notification.setLink("/admin/" + commentId);
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);

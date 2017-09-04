@@ -46,7 +46,7 @@
       controller: 'SurveyDetailsController',
       controllerAs: 'sdc'
     })
-      .when('/survey/results/:hashedId', {
+      .when('/survey/results/:hashedId/:elementId?', {
       templateUrl: '/views/surveyResults.html',
       controller: 'SurveyResultsController',
       controllerAs: 'src'

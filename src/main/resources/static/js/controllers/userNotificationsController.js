@@ -26,7 +26,7 @@
       UserService.getUserNotifications(self.user)
         .then(
         function(response){
-          self.notifications = data;
+          self.notifications = response;
           $scope.mc.unreadNotifications = 0;
         },
         function(error){
