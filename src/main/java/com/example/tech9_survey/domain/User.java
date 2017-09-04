@@ -1,11 +1,9 @@
 package com.example.tech9_survey.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
-import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;

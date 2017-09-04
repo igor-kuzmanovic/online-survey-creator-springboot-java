@@ -41,10 +41,6 @@
 
     function init() {
       getUser();
-      
-      if(checkUser()) {
-          setImage(self.user.imageUrl);
-      }
     }
 
     function getImage() {
@@ -97,7 +93,7 @@
           }
         }
 
-        getImage();
+        setImage(self.user.imageUrl);
       }
     }
 

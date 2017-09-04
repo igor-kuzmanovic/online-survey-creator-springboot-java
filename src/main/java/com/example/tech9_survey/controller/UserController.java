@@ -7,7 +7,6 @@ import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
 import com.google.common.io.ByteStreams;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.*;
 
 @EnableScheduling
