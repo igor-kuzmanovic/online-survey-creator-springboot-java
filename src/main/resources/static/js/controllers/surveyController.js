@@ -11,6 +11,7 @@
 		self.submitSurvey = submitSurvey;
 
 		self.user = {};
+    self.error = '';
 
 		init();
 
@@ -30,7 +31,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);          
+//					alert(error);
+          self.error = error;
 				});
 		}
 
@@ -38,21 +40,19 @@
 			if(self.survey.isActive) {
 				if(self.user && self.survey.creator === self.user.username) {
 					console.log('You cannot complete your own survey!');
-					alert('You cannot complete your own survey!');
-					$location.path('/home');
+//					alert('You cannot complete your own survey!');
+          self.error = 'You cannot complete your own survey!';
 				}
 
 				if(!self.user && !self.survey.isPublic) {
-					console.log("This survey isn't open for unregistered users!")
-					alert("This survey isn't open for unregistered users!");
-					$location.path('/');
+					console.log("This survey isn't open for unregistered users!");
+//					alert("This survey isn't open for unregistered users!");
+          self.error = "This survey isn't open for unregistered users!";
 				}
 
 				checkSubmitter();
 			}
 			else {
-				console.log("This survey is not active!");
-				alert("This survey is not active!");
 				$location.path('/survey/results/' + self.surveyHashedId);
 			}
 		}
@@ -65,7 +65,8 @@
 						for(i = 0; i < response.length; i++) {
 							if(response[i].submitedBy === self.user.username) {
 								console.log("You have already completed this survey!");
-								alert("You have already completed this survey!");
+//								alert("You have already completed this survey!");
+                self.error = "You have already completed this survey!";
 								$location.path('/home');
 							}           
 						}
@@ -74,7 +75,8 @@
 					}, 
 					function(error){
 						console.log(error);
-						alert(error);          
+//						alert(error);       
+            self.error = error;
 					});
 			}
 			else {
@@ -105,7 +107,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);          
+//					alert(error); 
+          self.error = error;
 				});
 		}
 

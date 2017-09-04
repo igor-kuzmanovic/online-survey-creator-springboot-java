@@ -16,6 +16,7 @@
 		self.facebookLink = [];
 		self.twitterLink = [];
 		self.googleLink = [];
+    self.error = '';
 
 		init();
 
@@ -35,7 +36,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);				
+//					alert(error);		
+          self.error = error;
 				})
 		}
 
@@ -52,7 +54,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);
+//					alert(error);
+          self.error = error;
 				})
 		}
 
@@ -74,7 +77,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);				
+//					alert(error);	
+          self.error = error;
 				})
 		}
 
@@ -86,7 +90,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);				
+//					alert(error);	
+          self.error = error;
 				})
 		}
 	};

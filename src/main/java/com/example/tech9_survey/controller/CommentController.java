@@ -64,7 +64,7 @@ public class CommentController {
 	    User user = userService.getLoggedInUser();
 	    
 	    if(user == null) {
-	    	comment.setPoster("anonymous");
+	    	return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 	    }
 	    else{
 	    	comment.setPoster(user.getUsername());
