@@ -77,7 +77,7 @@
       var def = $q.defer();
       var req = {
         method: 'GET',
-        url: "/api/users/" + username
+        url: "/api/users/user/" + username
       };
       $http(req).success(function (data) {
         def.resolve(data);
@@ -135,36 +135,36 @@
       });
       return def.promise;
     }
-    
+
     function deleteUser(id) {
-        var def = $q.defer();
-        var req = {
-            method: 'DELETE',
-            url: "/api/users/" + id
-        };
-        $http(req).success(function (data) {
-            def.resolve(data);
-        })
-            .error(function () {
-                def.reject("Failed to delete a user");
-            });
-        return def.promise;
+      var def = $q.defer();
+      var req = {
+        method: 'DELETE',
+        url: "/api/users/" + id
+      };
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to delete a user");
+      });
+      return def.promise;
     }
 
-      function toggleUserBlock(id) {
-          var def = $q.defer();
-          var req = {
-              method: 'PUT',
-              url: "/api/users/block/" + id
-          };
-          $http(req).success(function (data) {
-              def.resolve(data);
-          })
-              .error(function () {
-                  def.reject("Failed to block/unblock a user");
-              });
-          return def.promise;
-      }
+    function toggleUserBlock(id) {
+      var def = $q.defer();
+      var req = {
+        method: 'PUT',
+        url: "/api/users/block/" + id
+      };
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to block/unblock a user");
+      });
+      return def.promise;
+    }
 
     function arrayBufferToBase64(buffer) {
       var binary = '';
@@ -216,21 +216,21 @@
       return def.promise;
     }
 
-      function findAllUsers() {
-          var def = $q.defer();
-          var req = {
-              method: 'GET',
-              url: "/api/users/"
-          };
-          $http(req)
-              .success(function (data) {
-                  def.resolve(data);
-              })
-              .error(function () {
-                  def.reject("Failed to get all users!");
-              });
-          return def.promise;
-      }
+    function findAllUsers() {
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "/api/users/"
+      };
+      $http(req)
+        .success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to get all users!");
+      });
+      return def.promise;
+    }
 
     function getCredentialsFromCookies() {
       var credentials = {}

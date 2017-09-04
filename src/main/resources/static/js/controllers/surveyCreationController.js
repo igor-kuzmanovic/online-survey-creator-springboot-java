@@ -9,12 +9,9 @@
 		var self = this;
 		self.generateSurvey = generateSurvey;
     
-    self.error = '';
-
 		init();
 
 		function init() {
-			$scope.mc.getImage();
 			if (!$scope.mc.checkUser()) {
 				$location.path('/');
 			}
@@ -32,7 +29,6 @@
 				}, 
 				function(error){
 					console.log(error);
-//					alert(error);
           self.error = error;
 				})
 		}

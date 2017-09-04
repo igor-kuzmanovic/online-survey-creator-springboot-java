@@ -150,6 +150,7 @@ public class NotificationController {
         
         User user = userService.getLoggedInUser();
         String sender = new String();
+        Survey survey = surveyService.findSurveyByCommentsId(commentId);
         
         if(user == null) {
         	sender = "anonymous";
@@ -157,12 +158,10 @@ public class NotificationController {
         else {
         	sender = user.getUsername();
         	
-        	if (comment.getPoster().equals(user.getUsername())) {
+        	if (survey.getCreator().equals(user.getUsername())) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
-        
-        Survey survey = surveyService.findSurveyByCommentsId(commentId);
         
         if(survey == null) {
         	return new ResponseEntity<>(HttpStatus.NOT_FOUND);

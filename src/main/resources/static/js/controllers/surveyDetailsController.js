@@ -1,37 +1,38 @@
 (function(){
-	angular.module('app')
-		.controller('SurveyDetailsController', SurveyDetailsController);
+  angular.module('app')
+    .controller('SurveyDetailsController', SurveyDetailsController);
 
-	SurveyDetailsController.$inject = ['SurveyService', '$routeParams', '$scope'];
+  SurveyDetailsController.$inject = ['SurveyService', '$routeParams', '$scope'];
 
-	function SurveyDetailsController(SurveyService, $routeParams, $scope) {
+  function SurveyDetailsController(SurveyService, $routeParams, $scope) {
 
-		var self = this;
-		self.getCurrentSurvey = getCurrentSurvey;
+    var self = this;
+    self.getCurrentSurvey = getCurrentSurvey;
 
-		init();
+    init();
 
-		function init() {
-			$scope.mc.getImage();
-			if (!$scope.mc.checkUser()) {
-				$location.path('/');
-			}
+    function init() {
+      $scope.mc.getImage();
+      if (!$scope.mc.checkUser()) {
+        $location.path('/');
+      }
+      else {
+        self.surveyHashedId = $routeParams.hashedId;
+        getCurrentSurvey(); 
+      }
+    }
 
-			self.surveyHashedId = $routeParams.hashedId;
-			getCurrentSurvey();
-		}
+    function getCurrentSurvey() {
+      SurveyService.getCurrentSurvey(self.surveyHashedId)
+        .then(
+        function(response){
+          self.survey = response;
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        });
+    }
 
-		function getCurrentSurvey() {
-			SurveyService.getCurrentSurvey(self.surveyHashedId)
-				.then(
-				function(response){
-					self.survey = response;
-				}, 
-				function(error){
-					console.log(error);
-					alert(error);
-				});
-		}
-
-	}
+  }
 })();

@@ -79,6 +79,17 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
+		for(int i = 0; i < notifications.size(); i++) {
+			if(notifications.get(i).isRead() == false) {
+				Notification notification = notifications.get(i);
+				notification.setRead(true);
+				notifications.set(i, notification);
+			}
+		}
+		
+		user.setNotifications(notifications);
+		userService.save(user);
+		
 		return new ResponseEntity<>(notifications, HttpStatus.OK);
 	}
 
@@ -158,7 +169,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @GetMapping(path = "/{username}")
+    @GetMapping(path = "/user/{username}")
     public ResponseEntity<User> findLoggedUser(@PathVariable("username") String username) {
         User loggedUser = userService.findByUsername(username);
 

@@ -10,19 +10,17 @@
     self.getCurrentSurvey = getCurrentSurvey;
     self.saveSurvey = saveSurvey;
     self.setExpirationDate = setExpirationDate;
-    
-    self.error = '';
 
     init();
 
     function init() {
-      $scope.mc.getImage();
-      if (!$scope.mc.checkUser()) {
+      if(!$scope.mc.checkUser()) {
         $location.path('/');
       }
-
-      self.surveyHashedId = $routeParams.hashedId;
-      getCurrentSurvey();
+      else {
+        self.surveyHashedId = $routeParams.hashedId;
+        getCurrentSurvey();
+      }
     }
 
     function getCurrentSurvey() {
@@ -36,8 +34,7 @@
           setExpirationDate();
         }, 
         function(error){
-					console.log(error);
-//					alert(error);
+          console.log(error);
           self.error = error;
         })
     }
@@ -62,8 +59,7 @@
           $location.path('/survey/details/' + response.hashedId);
         }, 
         function(error){
-					console.log(error);
-//					alert(error);
+          console.log(error);
           self.error = error;
         })
     }

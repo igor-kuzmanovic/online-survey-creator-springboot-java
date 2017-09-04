@@ -30,10 +30,6 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -41,6 +37,10 @@ public class UserService implements UserDetailsService {
     public User findOne(Long userId) {
 		return userRepository.findOne(userId);
 	}
+    
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);

@@ -15,13 +15,13 @@
     init();
 
     function init() {
-      $scope.mc.getImage();
       if (!$scope.mc.checkUser()) {
         $location.path('/');
       }
-
-      self.surveyHashedId = $routeParams.hashedId;
-      getCurrentSurvey();
+      else {
+        self.surveyHashedId = $routeParams.hashedId;
+        getCurrentSurvey();
+      }
     }
 
     function getCurrentSurvey() {
@@ -30,10 +30,10 @@
         function(response){
           self.survey = response;
         },
-				function(error){
-					console.log(error);
-					alert(error);
-				});
+        function(error){
+          console.log(error);
+          self.error = error;
+        });
     }
 
     function generateBarChart() {
@@ -95,7 +95,7 @@
         chart.draw(data, options);
       }
     }
-    
+
     function reportComment(commentId) {
       // Insert reporting logic
     }
