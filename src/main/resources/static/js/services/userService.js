@@ -23,7 +23,8 @@
       sendCaptchaResponse: sendCaptchaResponse,
       getUserNotifications: getUserNotifications,
       toggleUserBlock: toggleUserBlock,
-      checkUserCookies: checkUserCookies
+      checkUserCookies: checkUserCookies,
+      getUsersForComments: getUsersForComments
     };
 
     function login(credentials, rememberMe) {
@@ -184,6 +185,22 @@
         def.reject("Failed to get notifications for selected user");
       });
 
+      return def.promise;
+    }
+
+    function getUsersForComments(surveyId) {
+      var def = $q.defer();
+      var req = {
+          method: 'GET',
+          url: "/api/users/comment/survey/ " + surveyId
+      };
+      $http(req)
+          .success(function (data) {
+              def.resolve(data);
+          })
+          .error(function () {
+              def.reject("Failed to get all users with images!");
+          });
       return def.promise;
     }
 

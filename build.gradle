@@ -24,6 +24,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-security')
+    compile 'com.google.guava:guava:23.0'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.5.4.RELEASE'
 //    compile('org.springframework.boot:spring-boot-devtools')
     testCompile group: 'junit', name: 'junit', version: '4.12'

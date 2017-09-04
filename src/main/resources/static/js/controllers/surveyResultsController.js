@@ -2,15 +2,16 @@
   angular.module('app')
     .controller('SurveyResultsController', SurveyResultsController);
 
-  SurveyResultsController.$inject = ['SurveyService', 'CommentService', '$routeParams', '$location', '$scope'];
+  SurveyResultsController.$inject = ['SurveyService', 'CommentService', 'UserService', '$routeParams', '$location', '$scope'];
 
-  function SurveyResultsController(SurveyService, CommentService, $routeParams, $location, $scope) {
+  function SurveyResultsController(SurveyService, CommentService, UserService, $routeParams, $location, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.generateBarChart = generateBarChart;
     self.generatePieChart = generatePieChart;
     self.reportComment = reportComment;
+    self.allComments = [];
 
     init();
 
@@ -28,6 +29,7 @@
         .then(
         function(response){
           self.survey = response;
+          pairUsersWithComments();
         })
     }
 
@@ -57,6 +59,20 @@
         var chart = new google.visualization.BarChart(document.getElementById('chart'));
         chart.draw(data, options);
       }
+    }
+    
+    function pairUsersWithComments() {
+        UserService.getUsersForComments(self.survey.id).then(function (data, status) {
+            self.users = data;
+            for(var i = 0; i < self.survey.comments.length; i++) {
+                for(var j = 0; j < self.users.length; j++) {
+                    if(self.survey.comments[i].poster === self.users[j].username) {
+                        self.survey.comments[i].image = self.users[j].imageUrl;
+                        self.allComments.push(self.survey.comments[i]);
+                    }
+                }
+            }
+        });
     }
 
     function generatePieChart(questionIndex, questionId) {

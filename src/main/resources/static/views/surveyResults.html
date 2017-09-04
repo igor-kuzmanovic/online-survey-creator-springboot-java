@@ -17,9 +17,9 @@
       <h3>Comments</h3>
       <hr>
     </div>
-    <div class="media" ng-repeat = "comment in src.survey.comments | orderBy: 'creationDate':true">
+    <div class="media" ng-repeat = "comment in src.allComments | orderBy: 'creationDate':true">
       <div class="media-left media-middle">
-        <!--<img ng-src="{{'data:image/jpg;base64,'+ src.findImage(comment.poster)}}">-->
+        <img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
       </div>
       <div class="media-body">
         <h4 class="media-heading">
