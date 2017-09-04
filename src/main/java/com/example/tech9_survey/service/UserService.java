@@ -37,22 +37,18 @@ public class UserService implements UserDetailsService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
-
-    public User findOne(Long id) {
-        return userRepository.findOne(id);
-    }
-
-    public User save(User user) {
-        return userRepository.save(user);
-    }
+    
+    public User findOne(Long userId) {
+		return userRepository.findOne(userId);
+	}
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
     
-    public User findOne(Long userId) {
-		return userRepository.findOne(userId);
-	}
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 
     public void delete(Long id) {
         userRepository.delete(id);
