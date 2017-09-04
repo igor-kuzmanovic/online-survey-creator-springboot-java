@@ -114,7 +114,7 @@ public class NotificationController {
         else {
         	sender = user.getUsername();
         	
-            if (completedSurvey.getCreator().equals(user.getUsername())) {
+            if (completedSurvey.getCreator().equals(user.getUsername()) || user.getUsername().equals("admin")) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
@@ -131,7 +131,7 @@ public class NotificationController {
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
         notification.setRead(false);
-        notification.setLink("/admin/" + completedSurvey.getId());
+        notification.setLink("/admin");
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
@@ -198,6 +198,7 @@ public class NotificationController {
         
         User user = userService.getLoggedInUser();
         String sender = new String();
+        Survey survey = surveyService.findSurveyByCommentsId(commentId);
         
         if(user == null) {
         	sender = "anonymous";
@@ -205,7 +206,7 @@ public class NotificationController {
         else {
         	sender = user.getUsername();
         	
-        	if (comment.getPoster().equals(user.getUsername())) {
+        	if (comment.getPoster().equals(user.getUsername()) || user.getUsername().equals("admin")) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
@@ -223,13 +224,11 @@ public class NotificationController {
         notification.setCreationDate(new Date());
         notification.setRead(false);
         
-        Survey survey = surveyService.findSurveyByCommentsId(commentId);
-        
         if(survey == null) {
         	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
-        notification.setLink("/admin/" + commentId);
+        notification.setLink("/admin");
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
@@ -238,6 +237,7 @@ public class NotificationController {
         return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	//UNUSED
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping
 	public ResponseEntity<Object> delete(@PathVariable Long notificationId) {

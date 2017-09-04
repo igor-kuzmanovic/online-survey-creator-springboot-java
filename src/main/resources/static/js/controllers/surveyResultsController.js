@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('SurveyResultsController', SurveyResultsController);
 
-  SurveyResultsController.$inject = ['SurveyService', '$routeParams', '$location', '$scope', '$anchorScroll'];
+  SurveyResultsController.$inject = ['SurveyService', 'NotificationService', '$routeParams', '$location', '$scope', '$anchorScroll'];
 
-  function SurveyResultsController(SurveyService, $routeParams, $location, $scope, $anchorScroll) {
+  function SurveyResultsController(SurveyService, NotificationService, $routeParams, $location, $scope, $anchorScroll) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -97,8 +97,12 @@
     }
 
     function reportComment(commentId) {
-      // Insert reporting logic
-    }
+      NotificationService.reportCommentNotification(commentId)
+        .then(function(response){}, function(error){
+        console.log(error);
+        self.error = error;
+      })
+   }
 
   }
 })();

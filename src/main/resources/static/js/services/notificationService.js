@@ -78,11 +78,11 @@
     }
 
 
-    function reportCommentNotification(comment) {
+    function reportCommentNotification(commentId) {
       var def = $q.defer();
       var req = {
         method: 'POST',
-        url: "/api/notifications/report/comment/" + comment.id
+        url: "/api/notifications/report/comment/" + commentId
       }
       $http(req).success(function (data) {
         def.resolve(data);
