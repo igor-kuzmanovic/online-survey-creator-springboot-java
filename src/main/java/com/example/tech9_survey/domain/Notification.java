@@ -10,6 +10,9 @@ import javax.persistence.TemporalType;
 @Entity
 public class Notification extends BaseEntity {
 	
+	@Column(name = "notification_type", nullable = false)
+	private int notificationType;
+	
 	@Column(nullable = false)
     private String receiver;
 	
@@ -25,6 +28,14 @@ public class Notification extends BaseEntity {
 	
 	@Column(name = "notification_link", nullable = false)
 	private String link;
+
+	public int getNotificationType() {
+		return notificationType;
+	}
+
+	public void setNotificationType(int notificationType) {
+		this.notificationType = notificationType;
+	}
 
 	public String getReceiver() {
 		return receiver;

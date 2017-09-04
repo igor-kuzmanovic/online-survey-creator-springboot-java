@@ -1,16 +1,53 @@
 <div class = "row">
   <div class="col-md-offset-3 col-md-6">
     <h1>Notifications</h1>
-    <div class="media"  ng-repeat = "notification in unc.notifications | orderBy: 'creationDate':true">
-      <div class="media-left">
-        <img src = "https://ih1.redbubble.net/image.88970289.0659/ap,550x550,12x16,1,transparent,t.u1.png" style="width: 50px; height: 50px">
-      </div>
-      <div class="media-body">
-        <p style="font-size: 15px"> The user <i> {{notification.sender}} </i> has successfully completed your <i>Test</i> survey.
-          <br>
-          <b>{{notification.creationDate | date:'medium'}}</b></p>
-      </div>
-      <hr style="margin: 10px 0 10px 0">
+    <div ng-repeat = "notification in unc.notifications | orderBy: 'creationDate':true">
+        <div class="media">
+          <div class="media-left">
+            <img src = "https://ih1.redbubble.net/image.88970289.0659/ap,550x550,12x16,1,transparent,t.u1.png" style="width: 50px; height: 50px">
+          </div>
+
+          <div ng-if="notification.notificationType === 1" class="media-body">
+            <p style="font-size: 15px"> 
+              <i> {{notification.sender}} </i> has successfully completed your survey.
+              <br>
+              <a ng-href="#{{notification.link}}">Link</a>
+              <br>
+              <b>{{notification.creationDate | date:'medium'}}</b>
+            </p>
+          </div>
+
+          <div ng-if="notification.notificationType === 2" class="media-body">
+            <p style="font-size: 15px">
+              <i> {{notification.sender}} </i> has commented on your survey.
+              <br>
+              <a ng-href="#{{notification.link}}">Link</a>
+              <br>
+              <b>{{notification.creationDate | date:'medium'}}</b>
+            </p>
+          </div>
+
+          <div ng-if="notification.notificationType === 3" class="media-body">
+            <p style="font-size: 15px">
+              <i> {{notification.sender}} </i> has reported a survey.
+              <br>
+              <a ng-href="#{{notification.link}}">Link</a>
+              <br>
+              <b>{{notification.creationDate | date:'medium'}}</b>
+            </p>
+          </div>
+
+          <div ng-if="notification.notificationType === 4" class="media-body">
+            <p style="font-size: 15px">
+              <i> {{notification.sender}} </i> has reported a comment.
+              <br>
+              <a ng-href="#{{notification.link}}">Link</a>
+              <br>
+              <b>{{notification.creationDate | date:'medium'}}</b></p>
+          </div>
+
+          <hr ng-if="!$last" style="margin: 10px 0 10px 0">
+        </div>
     </div>
   </div>
 </div>

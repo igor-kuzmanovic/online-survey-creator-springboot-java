@@ -10,9 +10,9 @@
     self.getCurrentSurvey = getCurrentSurvey;
     self.submitSurvey = submitSurvey;
     self.postNotification = postNotification;
-    
+
     self.user = {};
-    
+
     init();
 
     function init() {
@@ -29,7 +29,7 @@
           checkSurvey();
         });
     }
-    
+
     function checkSurvey() {
       if(self.survey.isActive) {
         if(self.user && self.survey.creator === self.user.username) {
@@ -55,7 +55,7 @@
                 $location.path('/home');
               }           
             }
-            
+
             initiateSurveyResult(self.user.username);
           });
       }
@@ -78,17 +78,7 @@
         })
       }
     }
-    
-    function postNotification() {
-      NotificationService.postSurveyNotification(self.survey, self.notification)
-        .then(
-        function(response) {
-        console.log("success")
-      }, function(error){
-        console.log(error);
-      })
-    }
-    
+
     function submitSurvey() { 
       ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
         .then(
@@ -97,6 +87,16 @@
           $location.path('/survey/finish/' + self.surveyHashedId);
         }, 
         function(error){
+          console.log(error);
+        })
+    }
+
+    function postNotification() {
+      NotificationService.postSurveyNotification(self.survey)
+        .then(
+        function(response) {
+          console.log("success");
+        }, function(error){
           console.log(error);
         })
     }

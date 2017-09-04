@@ -1,18 +1,21 @@
 (function () {
   angular.module('app')
-  .factory('NotificationService', NotificationService);
-  
+    .factory('NotificationService', NotificationService);
+
   NotificationService.$inject = ['$http', '$q', '$filter'];
-  
+
   function NotificationService($http, $q, $filter) {
-    
-  var service = {
-    deleteNotification: deleteNotification,
-    postSurveyNotification: postSurveyNotification
-  }
-  return service;
-    
-  function deleteNotification(id) {
+
+    var service = {
+      deleteNotification: deleteNotification,
+      postSurveyNotification: postSurveyNotification,
+      postCommentNotification: postCommentNotification,
+      reportSurveyNotification: reportSurveyNotification,
+      reportCommentNotification: reportCommentNotification
+    }
+    return service;
+
+    function deleteNotification(id) {
       var def = $q.defer();
       var req = {
         method: 'DELETE',
@@ -26,22 +29,69 @@
       });
       return def.promise;
     }
-    
-  function postSurveyNotification(survey, notification) {
+
+    function postSurveyNotification(survey) {
       var def = $q.defer();
       var req = {
         method: 'POST',
-        url: "/api/notifications/survey/" + survey.id,
-        data: notification
+        url: "/api/notifications/survey/" + survey.id
       }
       $http(req).success(function (data) {
         def.resolve(data);
       })
         .error(function () {
-        def.reject("Failed to post a notification");
+        def.reject("Failed to post a survey notification");
       });
       return def.promise;
     }
+
+
+    function postCommentNotification(comment) {
+      var def = $q.defer();
+      var req = {
+        method: 'POST',
+        url: "/api/notifications/comment/" + comment.id
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to post a comment notification");
+      });
+      return def.promise;
+    }
+
+
+    function reportSurveyNotification(survey) {
+      var def = $q.defer();
+      var req = {
+        method: 'POST',
+        url: "/api/notifications/report/survey/" + survey.id
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to post a report survey notification");
+      });
+      return def.promise;
+    }
+
+
+    function reportCommentNotification(comment) {
+      var def = $q.defer();
+      var req = {
+        method: 'POST',
+        url: "/api/notifications/report/comment/" + comment.id
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to post a report comment notification");
+      });
+      return def.promise;
+    }
+
   }
-  
 })();

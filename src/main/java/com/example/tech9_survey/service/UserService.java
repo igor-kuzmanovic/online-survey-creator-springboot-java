@@ -87,6 +87,12 @@ public class UserService implements UserDetailsService {
         String loggedInUserUsername = auth.getName();
         User user = findByUsername(loggedInUserUsername);
         
-        return user;
+        if(user == null) {
+        	return null;
+        }
+        else
+        {
+        	return user;
+        }
     }
 }
