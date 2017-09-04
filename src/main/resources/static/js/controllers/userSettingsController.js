@@ -1,56 +1,65 @@
 (function () {
-  angular.module('app')
-    .controller('UserSettingsController', UserSettingsController);
+	angular.module('app')
+		.controller('UserSettingsController', UserSettingsController);
 
-  UserSettingsController.$inject = ['UserService', '$scope'];
+	UserSettingsController.$inject = ['UserService', '$scope'];
 
-  function UserSettingsController(UserService, $scope) {
+	function UserSettingsController(UserService, $scope) {
 
-    var self = this;
-    self.editUser = editUser;
-    self.onSuccess = onSuccess;
-    self.getImage = getImage;
+		var self = this;
+		self.editUser = editUser;
+		self.onSuccess = onSuccess;
+		self.getImage = getImage;
 
-    init();
+		init();
 
-    function init(){
-      $scope.mc.getImage();
-      if (!$scope.mc.checkUser()) {
-        $location.path('/');
-      }
+		function init(){
+			$scope.mc.getImage();
+			if (!$scope.mc.checkUser()) {
+				$location.path('/');
+			}
 
-      getWholeUser(UserService.getUser().username);
-      getImage();
-    }
+			getWholeUser(UserService.getUser().username);
+			getImage();
+		}
 
-    function onSuccess(response) {
-      init();
-      $scope.mc.getImage();
-    }
+		function onSuccess(response) {
+			init();
+			$scope.mc.getImage();
+		}
 
-    function getImage() {
-      UserService.getImageFromUrl().then(handleSuccessImage);
-    }
+		function getImage() {
+			UserService.getImageFromUrl().then(handleSuccessImage, function(error) {
+				console.log(error);
+				alert(error);
+			});
+		}
 
-    function handleSuccessImage(data, status) {
-      self.img = data;
-    }
+		function handleSuccessImage(data, status) {
+			self.img = data;
+		}
 
-    function getWholeUser(username) {
-      UserService.findUser(username).then(handleSuccessWholeUser);
-    }
+		function getWholeUser(username) {
+			UserService.findUser(username).then(handleSuccessWholeUser, function(error) {
+				console.log(error);
+				alert(error);
+			});
+		}
 
-    function handleSuccessWholeUser(data, status){
-      self.wholeUser = data;
-    }
+		function handleSuccessWholeUser(data, status){
+			self.wholeUser = data;
+		}
 
-    function editUser() {
-      UserService.editUser(self.wholeUser).then(handleSuccessEditedUser);
-    }
+		function editUser() {
+			UserService.editUser(self.wholeUser).then(handleSuccessEditedUser, function(error) {
+				console.log(error);
+				alert(error);
+			});
+		}
 
-    function handleSuccessEditedUser(data, status){
-      UserService.setUser(data);
-    }
+		function handleSuccessEditedUser(data, status){
+			UserService.setUser(data);
+		}
 
-  };
+	};
 })();

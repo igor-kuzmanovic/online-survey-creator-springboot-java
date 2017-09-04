@@ -1,6 +1,6 @@
 (function() {
   var app = angular
-  .module('app', [ 'ngRoute', 'ngAnimate', 'ngSanitize', 'ngCookies', 'lr.upload']);
+  .module('app', [ 'ngRoute', 'ngAnimate', 'ngCookies', 'lr.upload']);
 
   app
     .config([

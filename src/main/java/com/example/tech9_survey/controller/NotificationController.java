@@ -46,7 +46,6 @@ public class NotificationController {
 		return new ResponseEntity<>(allNotifications, HttpStatus.OK);
 	}
 	
-	
 	// UNUSED
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")

@@ -28,6 +28,6 @@
     function handleSuccessUserNotifications(data, status) {
       self.notifications = data;
     }
-
+    
   };
 })();

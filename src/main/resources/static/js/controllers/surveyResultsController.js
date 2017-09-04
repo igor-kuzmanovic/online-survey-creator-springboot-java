@@ -29,7 +29,11 @@
         .then(
         function(response){
           self.survey = response;
-        })
+        },
+				function(error){
+					console.log(error);
+					alert(error);
+				});
     }
 
     function generateBarChart() {

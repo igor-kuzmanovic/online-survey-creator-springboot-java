@@ -11,7 +11,7 @@
     self.saveSurvey = saveSurvey;
     self.setExpirationDate = setExpirationDate;
     
-    self.minDate = 0;
+    self.error = '';
 
     init();
 
@@ -36,7 +36,9 @@
           setExpirationDate();
         }, 
         function(error){
-          console.log(error);
+					console.log(error);
+//					alert(error);
+          self.error = error;
         })
     }
 
@@ -60,7 +62,9 @@
           $location.path('/survey/details/' + response.hashedId);
         }, 
         function(error){
-          console.log(error);
+					console.log(error);
+//					alert(error);
+          self.error = error;
         })
     }
 

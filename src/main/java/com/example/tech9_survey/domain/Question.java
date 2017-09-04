@@ -1,6 +1,7 @@
 package com.example.tech9_survey.domain;
 
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +27,7 @@ public class Question extends BaseEntity {
 	@Cascade(CascadeType.DELETE)
 	@OneToMany(mappedBy = "question")
 	private List<Answer> answers;
-
+	
 	public Survey getSurvey() {
 		return survey;
 	}

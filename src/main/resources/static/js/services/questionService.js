@@ -54,7 +54,7 @@
                 def.resolve(data);
             })
             .error(function () {
-                def.reject("Failed to get question for given answer!");
+                def.reject("Failed to get question for the given answer!");
             });
         return def.promise;
     }

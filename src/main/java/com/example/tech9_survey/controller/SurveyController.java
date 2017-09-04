@@ -21,7 +21,6 @@ import com.example.tech9_survey.domain.Answer;
 import com.example.tech9_survey.domain.Comment;
 import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.domain.Survey;
-import com.example.tech9_survey.domain.SurveyPrivacy;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.AnswerService;
 import com.example.tech9_survey.service.QuestionService;
@@ -49,6 +48,30 @@ public class SurveyController {
 	@GetMapping
     public ResponseEntity<List<Survey>> findAll() {
     	List<Survey> surveys = surveyService.findAll();	
+    	
+    	if(surveys.isEmpty()) {
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    	}
+    	
+    	for(int i = 0; i < surveys.size(); i++) {
+    		Survey survey = surveys.get(i);
+    		survey = surveyIsActiveCheck(survey);
+    		surveys.set(i, survey);
+    	}
+    	
+        return new ResponseEntity<>(surveys, HttpStatus.OK);
+    }
+	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@GetMapping(path = "/creator")
+    public ResponseEntity<List<Survey>> findAllByCreator() {
+		User user = userService.getLoggedInUser();
+		
+		if(user == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+    	List<Survey> surveys = surveyService.findAllByCreator(user.getUsername());	
     	
     	if(surveys.isEmpty()) {
     		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -119,10 +142,7 @@ public class SurveyController {
 		survey.setExpirationDate(new Date());
 		survey.setExitMessage(new String());
 		survey.setIsActive(false);
-		SurveyPrivacy surveyPrivacy = new SurveyPrivacy();
-		surveyPrivacy.setType(SurveyPrivacy.SurveyPrivacyType.VISIBILITY_ALL);
-		surveyPrivacy.setId(1L);
-		survey.setSurveyPrivacy(surveyPrivacy);
+		survey.setIsPublic(false);
 		Survey createdSurvey = surveyService.save(survey);
 		
     	return new ResponseEntity<>(createdSurvey, HttpStatus.CREATED);
@@ -184,6 +204,22 @@ public class SurveyController {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@PutMapping(path = "/privacy/{id}")
+	public ResponseEntity<Survey> togglePrivacy(@PathVariable Long id) {
+		Survey survey = surveyService.findOne(id);
+		
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		survey.setIsPublic(!survey.getIsPublic());
+		surveyService.save(survey);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 	
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping(path = "/{id}")
