@@ -18,7 +18,7 @@
     init();
 
     function init() {
-      if(!$scope.mc.checkUser()) {
+      if (!$scope.mc.checkUser()) {
         $location.path('/');
       }
       else {

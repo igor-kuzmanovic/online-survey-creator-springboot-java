@@ -1,10 +1,10 @@
 (function() {
   angular.module('app')
-    .controller('SurveyFinishController', SurveyFinishController);
+      .controller('SurveyFinishController', SurveyFinishController);
 
-  SurveyFinishController.$inject = ['SurveyService', 'CommentService', 'NotificationService', '$location', '$routeParams', '$scope'];
+  SurveyFinishController.$inject = ['SurveyService', 'CommentService', 'NotificationService', 'UserService', '$location', '$routeParams', '$scope'];
 
-  function SurveyFinishController(SurveyService, CommentService, NotificationService, $location, $routeParams, $scope) {
+  function SurveyFinishController(SurveyService, CommentService, NotificationService, UserService, $location, $routeParams, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -12,6 +12,8 @@
     self.deleteComment = deleteComment;
     self.reportComment = reportComment;
 
+    self.allComments = [];
+    self.user = {};
     self.comment = {};
 
     init();
@@ -27,6 +29,8 @@
         .then(
         function(response){
           self.survey = response;
+          self.allComments = [];
+          pairUsersWithImages();
 
           if(commentPosted) {
             postNotification();
@@ -37,6 +41,20 @@
         function(error){
           console.log(error);
           self.initError = error;
+        });
+    }
+    
+    function pairUsersWithImages() {
+     		UserService.getUsersForComments(self.survey.id).then(function (data, status) {
+						self.users = data;
+            for(var i = 0; i < self.survey.comments.length; i++) {
+                for(var j = 0; j < self.users.length; j++) {
+                    if(self.survey.comments[i].poster === self.users[j].username) {
+                        self.survey.comments[i].image = self.users[j].imageUrl;
+                        self.allComments.push(self.survey.comments[i]);
+                    }
+                }
+            }
         });
     }
 

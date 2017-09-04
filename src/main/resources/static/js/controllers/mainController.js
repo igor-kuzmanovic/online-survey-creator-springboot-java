@@ -12,6 +12,7 @@
     self.removeUser = removeUser;
     self.getUser = getUser;
     self.getImage = getImage;
+    self.setImage = setImage;
 
     self.themes = [
       { name: 'Cerulean', url: 'cerulean' },
@@ -40,30 +41,24 @@
 
     function init() {
       getUser();
-      getImage();
-    }
-
-    function checkUser() {
-      if(self.user) {
-        return self.user;
+      
+      if(checkUser()) {
+          setImage(self.user.imageUrl);
       }
     }
 
     function getImage() {
-      if(self.user) {
-        UserService.getImageFromUrl()
-          .then(
-          function(response){
-            self.img = response;
-          },
-          function(error){
-            console.log(error);
-          });
-      }
+      return self.imageUrl;
+    }
+    
+    function setImage(image) {
+      self.imageUrl = image;
     }
 
-    function handleSuccessImage(data, status) {
-      self.img = data;
+    function checkUser() {
+      if(self.user) {
+          return self.user;
+      }
     }
 
     function getUser() {
@@ -93,7 +88,7 @@
 
       if(self.user) {
         console.log('User found');
-
+        
         self.unreadNotifications = 0;
 
         for(i = 0; i < self.user.notifications.length; i++) {
@@ -111,5 +106,6 @@
       delete self.user;
       $location.path('/');
     }
-  };
+
+  }
 })();

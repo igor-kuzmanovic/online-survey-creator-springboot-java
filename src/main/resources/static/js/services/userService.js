@@ -21,10 +21,10 @@
       deleteUser: deleteUser,
       findAllUsers: findAllUsers,
       sendCaptchaResponse: sendCaptchaResponse,
-      getImageFromUrl: getImageFromUrl,
       getUserNotifications: getUserNotifications,
       toggleUserBlock: toggleUserBlock,
-      checkUserCookies: checkUserCookies
+      checkUserCookies: checkUserCookies,
+      getUsersForComments: getUsersForComments
     };
 
     function login(credentials, rememberMe) {
@@ -119,23 +119,6 @@
       return def.promise;
     }
 
-    function getImageFromUrl() {
-      var def = $q.defer();
-      var req = {
-        method: 'GET',
-        url: "/upload/image",
-        responseType: 'arraybuffer'
-      };
-      $http(req).success(function (data) {
-        data = arrayBufferToBase64(data);
-        def.resolve(data);
-      })
-        .error(function (response) {
-        def.reject(response);
-      });
-      return def.promise;
-    }
-
     function deleteUser(id) {
       var def = $q.defer();
       var req = {
@@ -164,18 +147,6 @@
         def.reject("Failed to block/unblock a user");
       });
       return def.promise;
-    }
-
-    function arrayBufferToBase64(buffer) {
-      var binary = '';
-      var bytes = new Uint8Array(buffer);
-      var len = bytes.byteLength;
-
-      for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
-      }
-
-      return window.btoa(binary);
     }
 
     function removeUser() {
@@ -213,6 +184,23 @@
         .error(function () {
         def.reject("Failed to get notifications for the selected user");
       });
+
+      return def.promise;
+    }
+
+    function getUsersForComments(surveyId) {
+      var def = $q.defer();
+      var req = {
+          method: 'GET',
+          url: "/api/users/comment/survey/ " + surveyId
+      };
+      $http(req)
+          .success(function (data) {
+              def.resolve(data);
+          })
+          .error(function () {
+              def.reject("Failed to get all users with images!");
+          });
       return def.promise;
     }
 
@@ -242,7 +230,6 @@
     function checkUserCookies() {
       return CookieService.getCookie('username') && CookieService.getCookie('password');
     }
-
 
     return service;
 

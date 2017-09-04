@@ -7,11 +7,11 @@
 
       <hr ng-if="sfc.user">
 
-      <div class="media" ng-repeat = "comment in sfc.survey.comments | orderBy: 'date':true">
+      <div class="media" ng-repeat = "comment in sfc.allComments track by $index | orderBy: 'date':true">
         <div class="media-left media-middle">
-          <span class="glyphicon glyphicon-user comment-user"></span>
+          <img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
         </div>
-        <div class="media-body">       
+        <div class="media-body">
           <h4 class="media-heading">
             <button ng-if="comment.poster !== sfc.user.username && sfc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sfc.reportComment(comment.id)"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
             <button ng-if="comment.poster === sfc.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-remove-sign" ng-click="sfc.deleteComment(comment.id)"></span></button>

@@ -54,7 +54,7 @@ public class CommentController {
     
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping(path = "/{surveyId}")
-    public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Comment comment) throws NoSuchAlgorithmException {
+    public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Comment comment) {
     	Survey survey = surveyService.findOne(surveyId);
 		
 		if(survey == null) {
@@ -69,9 +69,9 @@ public class CommentController {
 	    else{
 	    	comment.setPoster(user.getUsername());
 	    }
-	    
+
     	survey.getComments().add(comment);
-        surveyService.save(survey);
+      surveyService.save(survey);
         
     	return new ResponseEntity<>(HttpStatus.OK);
 

@@ -1,13 +1,14 @@
 package com.example.tech9_survey.controller;
 
-import com.example.tech9_survey.domain.Notification;
-import com.example.tech9_survey.domain.User;
-import com.example.tech9_survey.domain.UserRole;
-import com.example.tech9_survey.domain.UserStatus;
-import com.example.tech9_survey.domain.VerificationToken;
+import com.example.tech9_survey.domain.*;
 import com.example.tech9_survey.service.CommentService;
+import com.example.tech9_survey.service.SurveyService;
 import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
+import com.google.common.io.ByteStreams;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,6 +21,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -32,11 +34,13 @@ public class UserController {
     private CommentService commentService;
     private VerificationTokenService verificationTokenService;
     private JavaMailSender javaMailSender;
+    private SurveyService surveyService;
 
     public UserController(UserService userService, VerificationTokenService verificationTokenService,
-                          CommentService commentService, JavaMailSender javaMailSender) {
+                          CommentService commentService, JavaMailSender javaMailSender, SurveyService surveyService) {
         this.commentService = commentService;
         this.userService = userService;
+        this.surveyService = surveyService;
         this.verificationTokenService = verificationTokenService;
         this.javaMailSender = javaMailSender;
     }
@@ -110,19 +114,44 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(path = "/comment/survey/{id}")
+    public ResponseEntity<List<User>> usersWithImage(@PathVariable("id") Long surveyId) {
+        Survey survey = surveyService.findOne(surveyId);
+        List<User> users = new ArrayList<>();
+
+        List<Comment> comments = survey.getComments();
+
+        for (Comment comment : comments) {
+            if (users.contains(userService.findByUsername(comment.getPoster()))) {
+                continue;
+            }
+            users.add(userService.findByUsername(comment.getPoster()));
+        }
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
+        Resource resource = new ClassPathResource("static/images/default_user.jpg");
 
         token.setToken(UUID.randomUUID().toString());
 
         if (userService.findByUsername(user.getUsername()) == null) {
             if (userService.findByEmail(user.getEmail()) == null) {
-                String imagePath = Paths.get("D:\\user_images", "default_user.jpg").toString();
+                //String imagePath = Paths.get("D:\\user_images", "default_user.jpg").toString();
 
                 user.setEnabled(false);
                 user.setRegistrationDate(new Date());
-                user.setImageUrl(imagePath);
+                try {
+                    InputStream stream = resource.getInputStream();
+                    user.setImageUrl(ByteStreams.toByteArray(stream));
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+                //user.setImageUrl(imagePath);
 
                 token.setUser(user);
                 verificationTokenService.save(token);

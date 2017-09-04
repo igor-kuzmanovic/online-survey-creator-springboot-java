@@ -2,9 +2,9 @@
   angular.module('app')
     .factory('CommentService', CommentService);
 
-  CommentService.$inject = ['$http', '$q', '$filter'];
+  CommentService.$inject = ['UserService', '$http', '$q', '$filter'];
 
-  function CommentService($http, $q, $filter) {
+  function CommentService(UserService, $http, $q, $filter) {
 
     var service = {
       postComment: postComment,

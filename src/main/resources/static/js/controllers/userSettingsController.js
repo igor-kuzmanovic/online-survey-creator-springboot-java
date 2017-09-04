@@ -6,38 +6,27 @@
 
 	function UserSettingsController(UserService, $scope) {
 
-		var self = this;
-		self.editUser = editUser;
-		self.onSuccess = onSuccess;
-		self.getImage = getImage;
+    var self = this;
+    self.editUser = editUser;
+    self.onSuccess = onSuccess;
 
 		init();
 
-		function init(){
-			$scope.mc.getImage();
-			if (!$scope.mc.checkUser()) {
-				$location.path('/');
-			}
+    function init(){
+      if (!$scope.mc.checkUser()) {
+        $location.path('/');
+      }
 
-			getWholeUser(UserService.getUser().username);
-			getImage();
-		}
+      getWholeUser(UserService.getUser().username);
+    }
 
-		function onSuccess(response) {
-			init();
-			$scope.mc.getImage();
-		}
-
-		function getImage() {
-			UserService.getImageFromUrl().then(handleSuccessImage, function(error) {
-				console.log(error);
-				alert(error);
-			});
-		}
-
-		function handleSuccessImage(data, status) {
-			self.img = data;
-		}
+    function onSuccess(response) {
+      init();
+      
+      UserService.findUser(self.wholeUser.username).then(function (data, response) {
+          $scope.mc.setImage(data.imageUrl);
+      });
+    }
 
 		function getWholeUser(username) {
 			UserService.findUser(username).then(handleSuccessWholeUser, function(error) {
