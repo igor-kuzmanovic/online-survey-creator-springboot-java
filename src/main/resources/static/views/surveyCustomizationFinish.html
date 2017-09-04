@@ -47,7 +47,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="scfc.error = ''"><span aria-hidden="true">&times;</span></button>
         <strong>Error:</strong> {{scfc.error}}
       </div>
-      
+
       <hr>
 
       <div align="center" class="form-group">
@@ -57,7 +57,6 @@
   </div>
 </div>
 
-<div class="alert alert-danger alert-dismissible" role="alert" ng-if="scfc.initError">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="scfc.initError = ''"><span aria-hidden="true">&times;</span></button>
+<div class="alert alert-danger" role="alert" ng-if="scfc.initError">
   <strong>Error:</strong> {{scfc.initError}}
 </div>

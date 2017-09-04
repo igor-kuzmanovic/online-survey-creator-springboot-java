@@ -14,6 +14,9 @@ public class Notification extends BaseEntity {
 	private int notificationType;
 	
 	@Column(nullable = false)
+	private String content;
+	
+	@Column(nullable = false)
     private String receiver;
 	
 	@Column(nullable = false)
@@ -35,6 +38,14 @@ public class Notification extends BaseEntity {
 
 	public void setNotificationType(int notificationType) {
 		this.notificationType = notificationType;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public String getReceiver() {

@@ -49,6 +49,9 @@ public class User extends BaseEntity {
     @OneToMany
     @JoinColumn(name = "user_id")
     private List<Notification> notifications;
+    
+    @Column(name = "notify_by_email", nullable = false)
+    private boolean notifyByEmail;
   
     public String getFirstName() {
         return firstName;
@@ -137,5 +140,13 @@ public class User extends BaseEntity {
     public void setNotifications(List<Notification> notifications) {
       this.notifications = notifications;
     }
+
+	public boolean isNotifyByEmail() {
+		return notifyByEmail;
+	}
+
+	public void setNotifyByEmail(boolean notifyByEmail) {
+		this.notifyByEmail = notifyByEmail;
+	}
     
 }

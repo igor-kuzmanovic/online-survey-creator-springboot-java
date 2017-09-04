@@ -13,7 +13,7 @@
         </div>
         <div class="media-body">       
           <h4 class="media-heading">
-            <button ng-if="comment.poster !== sfc.user.username || sfc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sfc.reportComment(comment.id)"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+            <button ng-if="comment.poster !== sfc.user.username && sfc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sfc.reportComment(comment.id)"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
             <button ng-if="comment.poster === sfc.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-remove-sign" ng-click="sfc.deleteComment(comment.id)"></span></button>
             <span class="comment-poster">{{comment.poster}}</span>
           </h4>
@@ -21,7 +21,7 @@
             <b><span class="comment-date">{{comment.creationDate | date:'medium'}}</span></b></p>
         </div>
       </div>
-      
+
       <hr>
 
       <div ng-if="sfc.user" class="form-group" ng-class="{'has-feedback': sfc.commentForm.comment.$dirty, 'has-error': sfc.commentForm.comment.$dirty && sfc.commentForm.comment.$invalid}">
@@ -53,7 +53,6 @@
   </div>
 </div>
 
-<div class="alert alert-danger alert-dismissible" role="alert" ng-if="sfc.initError">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sfc.initError = ''"><span aria-hidden="true">&times;</span></button>
+<div class="alert alert-danger" role="alert" ng-if="sfc.initError">
   <strong>Error:</strong> {{sfc.initError}}
 </div>

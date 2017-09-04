@@ -9,6 +9,7 @@
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.submitSurvey = submitSurvey;
+    self.reportSurvey = reportSurvey;
 
     init();
 
@@ -99,13 +100,13 @@
 
     function submitSurvey() {
       self.captchaResponse = grecaptcha.getResponse(self.recaptchaId);
-      
+
       if(!self.captchaResponse) {
         console.log("Please complete the captcha!");
         self.error = "Please complete the captcha!";
         return;
       }
-      
+
       UserService.sendCaptchaResponse(self.captchaResponse)
         .then(
         function(response){
@@ -133,6 +134,14 @@
           console.log(error);
           self.error = error;
         })
+    }
+
+    function reportSurvey() {
+      NotificationService.reportSurveyNotification(self.survey)
+        .then(function(response){}, function(error){
+        console.log(error);
+        self.error = error;
+      })
     }
 
   };

@@ -2,7 +2,7 @@
   <div class="col-md-offset-3 col-md-6">
     <form class="form-horizontal" novalidate>
       <div align="center" class="form-group">
-        <h2>{{sc.survey.name}}</h2>
+        <h2>{{sc.survey.name}}<button ng-if="sc.survey.creator !== sc.user.username && sc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sc.reportSurvey()"><span class="glyphicon glyphicon-exclamation-sign"></span></button></h2>
         <h3>{{sc.survey.description}}</h3>
       </div>
 
@@ -22,6 +22,8 @@
         <hr ng-if="!$last">
       </div> 
 
+	  <hr>
+
       <div id="captcha-survey" align="center" class="form-group"></div>
 
       <div class="alert alert-danger alert-dismissible" role="alert" ng-if="sc.error">
@@ -38,6 +40,6 @@
   </div>
 </div>
 
-<div class="alert alert-danger alert-dismissible" role="alert" ng-if="sc.initError">
-  <strong>Error:</strong> {{sc.error}} <a href="#/" class="alert-link">Go to Tech9 Survey</a>
+<div class="alert alert-danger" role="alert" ng-if="sc.initError">
+  <strong>Error:</strong> {{sc.initError}} <a href="#/" class="alert-link">Go to Tech9 Survey</a>
 </div>

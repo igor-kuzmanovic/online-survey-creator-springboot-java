@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +32,14 @@ public class NotificationController {
 	private UserService userService;
 	private SurveyService surveyService;
 	private CommentService commentService;
+	private JavaMailSender javaMailSender;
 	
-	public NotificationController(NotificationService notificationService, UserService userService, SurveyService surveyService, CommentService commentService) {
+	public NotificationController(NotificationService notificationService, UserService userService, SurveyService surveyService, CommentService commentService, JavaMailSender javaMailSender) {
 		this.notificationService = notificationService;
 		this.userService = userService;
 		this.surveyService = surveyService;
 		this.commentService = commentService;
+		this.javaMailSender = javaMailSender;
 	}
 	
 	// UNUSED
@@ -89,10 +93,15 @@ public class NotificationController {
         notification.setCreationDate(new Date());
         notification.setRead(false);
         notification.setLink("/survey/results/" + completedSurvey.getHashedId());
+        notification.setContent(notification.getSender() + " has successfully completed your survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
         userService.save(receiver);
+        
+    	if(receiver.isNotifyByEmail() == true) {
+    		notifyByEmail(receiver, notification);
+    	}
         
         return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -132,10 +141,15 @@ public class NotificationController {
         notification.setCreationDate(new Date());
         notification.setRead(false);
         notification.setLink("/admin");
+        notification.setContent(notification.getSender() + " has flagged the survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
         userService.save(receiver);
+        
+        if(receiver.isNotifyByEmail() == true) {
+    		notifyByEmail(receiver, notification);
+    	}
         
         return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -180,10 +194,15 @@ public class NotificationController {
         notification.setCreationDate(new Date());
         notification.setRead(false);    
         notification.setLink("/survey/results/" + survey.getHashedId() + "/" + commentId);
+        notification.setContent(notification.getSender() + " has commented '" + comment.getContent() + "' on your survey '" + survey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
         userService.save(receiver);
+        
+        if(receiver.isNotifyByEmail() == true) {
+     		notifyByEmail(receiver, notification);
+     	}
         
         return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -211,6 +230,10 @@ public class NotificationController {
             }
         }
         
+        if(survey == null) {
+        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }	
+        
         User receiver = userService.findByUsername("admin");
 
         if(receiver == null) {
@@ -223,16 +246,16 @@ public class NotificationController {
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
         notification.setRead(false);
-        
-        if(survey == null) {
-        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        
         notification.setLink("/admin");
+        notification.setContent(notification.getSender() + " has flagged the comment '" + comment.getContent() + "' on the survey '" + survey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());            
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
         userService.save(receiver);
+        
+        if(receiver.isNotifyByEmail() == true) {
+     		notifyByEmail(receiver, notification);
+     	}
         
         return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -243,6 +266,16 @@ public class NotificationController {
 	public ResponseEntity<Object> delete(@PathVariable Long notificationId) {
 		notificationService.delete(notificationId);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	private void notifyByEmail(User user, Notification notification) {		
+        SimpleMailMessage mail = new SimpleMailMessage();
+
+        mail.setTo(user.getEmail());
+        mail.setSubject("Tech9 Survey | " + notification.getReceiver() + " | Notification");
+        mail.setText(notification.getContent());
+
+		javaMailSender.send(mail);
 	}
 
 }

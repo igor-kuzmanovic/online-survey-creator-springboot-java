@@ -23,7 +23,7 @@
       </div>
       <div class="media-body">
         <h4 class="media-heading">
-          <button ng-if="comment.poster !== src.user.username || src.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="src.reportComment(comment.id)"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+          <button ng-if="comment.poster !== src.user.username && src.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="src.reportComment(comment.id)"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
           <span class="comment-poster">{{comment.poster}}</span>
         </h4>
         <p class="comment-content">{{comment.content}}</p>
@@ -33,7 +33,6 @@
   </div>  
 </div>
 
-<div class="alert alert-danger alert-dismissible" role="alert" ng-if="src.initError">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="src.initError = ''"><span aria-hidden="true">&times;</span></button>
+<div class="alert alert-danger" role="alert" ng-if="src.initError">
   <strong>Error:</strong> {{src.initError}}
 </div>

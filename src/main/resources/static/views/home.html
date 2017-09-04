@@ -10,7 +10,7 @@
         <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate">
           <td>
             {{survey.name}} - {{survey.description}}    
-            
+
             <div class="btn-group pull-right" role="group" aria-label="...">
 
               <!--  Uncomment if individual buttons don't work
@@ -47,7 +47,7 @@
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
             </div>  
-            
+
             <br>Created: {{survey.creationDate | date:'mediumDate'}}
           </td>
         </tr>
@@ -66,8 +66,7 @@
   </div>
 </div>
 
-<div class="alert alert-danger alert-dismissible" role="alert" ng-if="hc.initError">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="hc.initError = ''"><span aria-hidden="true">&times;</span></button>
+<div class="alert alert-danger" role="alert" ng-if="hc.initError">
   <strong>Error:</strong> {{hc.initError}}
 </div>
 

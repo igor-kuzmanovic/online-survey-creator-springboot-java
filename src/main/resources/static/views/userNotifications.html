@@ -29,7 +29,7 @@
 
           <div ng-if="notification.notificationType === 3" class="media-body">
             <p style="font-size: 15px">
-              <i> {{notification.sender}} </i> has reported a survey.
+              <i> {{notification.sender}} </i> has flagged a survey.
               <br>
               <a ng-href="#{{notification.link}}">Link</a>
               <br>
@@ -39,7 +39,7 @@
 
           <div ng-if="notification.notificationType === 4" class="media-body">
             <p style="font-size: 15px">
-              <i> {{notification.sender}} </i> has reported a comment.
+              <i> {{notification.sender}} </i> has flagged a comment.
               <br>
               <a ng-href="#{{notification.link}}">Link</a>
               <br>
@@ -52,7 +52,6 @@
   </div>
 </div>
 
-<div class="alert alert-danger alert-dismissible" role="alert" ng-if="unc.initError">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="unc.initError = ''"><span aria-hidden="true">&times;</span></button>
+<div class="alert alert-danger" role="alert" ng-if="unc.initError">
   <strong>Error:</strong> {{unc.initError}}
 </div>
