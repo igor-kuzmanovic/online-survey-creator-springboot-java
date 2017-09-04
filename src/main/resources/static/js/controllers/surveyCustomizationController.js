@@ -107,14 +107,14 @@
     function deleteQuestion(questionIndex, surveyId, questionId) {
       QuestionService.deleteQuestion(questionId)	
         .then(
-        function(response){}, 
+        function(response){
+          self.survey.questions.splice(questionIndex, 1);
+          self.saveSurvey();
+        }, 
         function(error){
           console.log(error);
           self.error = error;
         });
-
-      self.survey.questions.splice(questionIndex, 1);
-      self.saveSurvey();
     }
 
     function createAnswer(questionIndex) {
@@ -125,14 +125,14 @@
     function deleteAnswer(questionIndex, answerIndex, questionId, answerId) {
       AnswerService.deleteAnswer(answerId)
         .then(
-        function(response){}, 
+        function(response){
+          self.survey.questions[questionIndex].answers.splice(answerIndex, 1);
+          self.saveSurvey();
+        }, 
         function(error){
           console.log(error);
           self.error = error;
         });
-
-      self.survey.questions[questionIndex].answers.splice(answerIndex, 1);
-      self.saveSurvey();
     }
 
   };

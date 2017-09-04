@@ -53,16 +53,36 @@
     }
 
     function postComment() {
+      if(!checkForm()){
+        return;
+      }
+      
       CommentService.postComment(self.survey, self.comment)
         .then(
         function(response) {
           getCurrentSurvey(true);
           self.comment = {};
+          self.commentForm.$setPristine();
         }, 
         function(error){
           console.log(error);
           self.error = error;
         })
+    }
+
+    function checkForm() {
+      var focusedElement;
+
+      if(self.commentForm.$invalid) {
+        if(self.commentForm.comment.$invalid) {
+          self.commentForm.comment.$setDirty();
+          focusedElement = '#comment';
+        }
+
+        return false;
+      }
+
+      return true;
     }
 
     function deleteComment(commentId){

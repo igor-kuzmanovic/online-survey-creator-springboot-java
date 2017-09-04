@@ -1,27 +1,27 @@
 <div class="row">
   <div class="col-md-offset-4 col-md-4">
-    <form name="loginForm" ng-init="credentials = {}" ng-submit="lc.error = ''; lc.getCredentials(credentials, rememberMe)" novalidate>
+    <form name="lc.loginForm" ng-init="credentials = {}" novalidate>
       <div align="center" class="form-group">
         <h3>Login</h3>
       </div>
 
-      <div class="form-group" ng-class="{'has-feedback': loginForm.username.$dirty, 'has-error': loginForm.username.$dirty && loginForm.username.$invalid, 'has-success': loginForm.username.$dirty && loginForm.username.$valid}">
+      <div class="form-group" ng-class="{'has-feedback': lc.loginForm.username.$dirty, 'has-error': lc.loginForm.username.$dirty && lc.loginForm.username.$invalid, 'has-success': lc.loginForm.username.$dirty && lc.loginForm.username.$valid}">
         <label for="username">Username:</label>
         <input class="form-control" id="username" type="text" name="username" auto-focus="true" required ng-model="credentials.username">
-        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="loginForm.username.$dirty && loginForm.username.$valid"></span>
-        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="loginForm.username.$dirty && loginForm.username.$invalid"></span>
-        <label class="text-danger" ng-show="loginForm.username.$dirty && loginForm.username.$invalid">Please enter your username!</label>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="lc.loginForm.username.$dirty && lc.loginForm.username.$valid"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="lc.loginForm.username.$dirty && lc.loginForm.username.$invalid"></span>
+        <label class="text-danger" ng-show="lc.loginForm.username.$dirty && lc.loginForm.username.$invalid">Please enter your username!</label>
       </div>
 
-      <div class="form-group" ng-class="{'has-feedback': loginForm.password.$dirty, 'has-error': loginForm.password.$dirty && loginForm.password.$invalid, 'has-success': loginForm.password.$dirty && loginForm.password.$valid}">
+      <div class="form-group" ng-class="{'has-feedback': lc.loginForm.password.$dirty, 'has-error': lc.loginForm.password.$dirty && lc.loginForm.password.$invalid, 'has-success': lc.loginForm.password.$dirty && lc.loginForm.password.$valid}">
         <label for="password">Password:</label>
         <input type="password" class="form-control" id="password" name="password" required ng-model="credentials.password">
-        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="loginForm.password.$dirty && loginForm.password.$valid"></span>
-        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="loginForm.password.$dirty && loginForm.password.$invalid"></span>
-        <label class="text-danger" ng-show="loginForm.password.$dirty && loginForm.password.$invalid">Please enter your password!</label>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="lc.loginForm.password.$dirty && lc.loginForm.password.$valid"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="lc.loginForm.password.$dirty && lc.loginForm.password.$invalid"></span>
+        <label class="text-danger" ng-show="lc.loginForm.password.$dirty && lc.loginForm.password.$invalid">Please enter your password!</label>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" align="center">
         <div class="checkbox">
           <label><input type="checkbox" ng-model="rememberMe"> Remember me?</label>
         </div>
@@ -33,7 +33,7 @@
       </div>
 
       <div align="center" class="form-group">
-        <button type="submit" class="btn btn-default btn-success">Log in</button>
+        <button type="submit" class="btn btn-default btn-success" ng-click="lc.error = ''; lc.getCredentials(credentials, rememberMe)">Log in</button>
       </div>
     </form>
 

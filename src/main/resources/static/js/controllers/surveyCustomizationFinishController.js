@@ -11,6 +11,8 @@
     self.saveSurvey = saveSurvey;
     self.setExpirationDate = setExpirationDate;
 
+    self.$scope = $scope;
+    
     init();
 
     function init() {
@@ -72,14 +74,14 @@
     function checkForm() {
       var focusedElement;
 
-      if($scope.surveyForm.$invalid) {
-        if($scope.surveyForm.expirationDate && $scope.surveyForm.expirationDate.$invalid) {
-          $scope.surveyForm.expirationDate.$setDirty();
+      if(self.surveyForm.$invalid) {
+        if(self.surveyForm.expirationDate && self.surveyForm.expirationDate.$invalid) {
+          self.surveyForm.expirationDate.$setDirty();
           focusedElement = '#expirationDate';
         }
 
-        if($scope.surveyForm.exitMsg.$invalid) {
-          $scope.surveyForm.exitMsg.$setDirty();
+        if(self.surveyForm.exitMsg.$invalid) {
+          self.surveyForm.exitMsg.$setDirty();
           focusedElement = '#exitMsg';
         }
 

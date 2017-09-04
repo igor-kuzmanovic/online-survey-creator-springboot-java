@@ -1,6 +1,6 @@
 <div ng-if="!sfc.initError" class = "row">
   <div class="col-md-offset-3 col-md-6">
-    <form name="commentForm" ng-init="sfc.comment = {}" ng-submit="sfc.postComment()" novalidate>
+    <form name="sfc.commentForm" ng-init="sfc.comment = {}" novalidate>
       <div align="center" class="form-group">
         <h3>{{sfc.survey.exitMessage}}</h3>
       </div>
@@ -21,15 +21,18 @@
             <b><span class="comment-date">{{comment.creationDate | date:'medium'}}</span></b></p>
         </div>
       </div>
+      
+      <hr>
 
-      <div ng-if="sfc.user" class="form-group" ng-class="{'has-feedback': commentForm.password.$dirty, 'has-error': commentForm.password.$dirty && commentForm.password.$invalid, 'has-success': commentForm.password.$dirty && commentForm.password.$valid}">
+      <div ng-if="sfc.user" class="form-group" ng-class="{'has-feedback': sfc.commentForm.comment.$dirty, 'has-error': sfc.commentForm.comment.$dirty && sfc.commentForm.comment.$invalid}">
         <div class="input-group">
-          <input type="text" name="comment" class="form-control" placeholder="Write a comment..." ng-model = "sfc.comment.content">
+          <input type="text" id="comment" name="comment" class="form-control" placeholder="Write a comment..." required ng-model = "sfc.comment.content">
 
           <div class="input-group-btn">
-            <button type="submit" class="btn btn-default btn-success">Post <span class="glyphicon glyphicon-envelope"></span></button>
+            <button type="submit" class="btn btn-default btn-success" ng-click="sfc.postComment()">Post <span class="glyphicon glyphicon-envelope"></span></button>
           </div>
         </div>
+        <label class="text-danger" ng-show="sfc.commentForm.comment.$dirty && sfc.commentForm.comment.$invalid">You cannot post an empty comment!</label>
       </div>
 
       <div ng-if="!sfc.user" class="form-group">

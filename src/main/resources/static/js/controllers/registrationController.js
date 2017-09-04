@@ -82,19 +82,19 @@
     function checkForm() {
       var focusedElement;
 
-      if($scope.signupForm.$invalid) {
-        if($scope.signupForm.email.$invalid) {
-          $scope.signupForm.email.$setDirty();
+      if(self.signupForm.$invalid) {
+        if(self.signupForm.email.$invalid) {
+          self.signupForm.email.$setDirty();
           focusedElement = '#email';
         }
 
-        if($scope.signupForm.password.$invalid) {
-          $scope.signupForm.password.$setDirty();
+        if(self.signupForm.password.$invalid) {
+          self.signupForm.password.$setDirty();
           focusedElement = '#password';
         }
 
-        if($scope.signupForm.username.$invalid) {
-          $scope.signupForm.username.$setDirty();
+        if(self.signupForm.username.$invalid) {
+          self.signupForm.username.$setDirty();
           focusedElement = '#username';
         }
 

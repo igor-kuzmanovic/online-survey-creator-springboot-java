@@ -54,6 +54,11 @@
     </table>
   </div>
 
+  <div class="alert alert-info" role="alert" ng-if="hc.surveys.length === 0">
+    <strong>Info:</strong> You have no surveys!
+  </div>
+
+
   <div class="alert alert-danger alert-dismissible" role="alert" ng-if="hc.error">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="hc.error = ''"><span aria-hidden="true">&times;</span></button>
     <strong>Error:</strong> {{hc.error}}
@@ -63,10 +68,6 @@
 <div class="alert alert-danger alert-dismissible" role="alert" ng-if="hc.initError">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="hc.initError = ''"><span aria-hidden="true">&times;</span></button>
   <strong>Error:</strong> {{hc.initError}}
-</div>
-
-<div class="alert alert-info" role="alert" ng-if="hc.surveys.length === 0">
-  <strong>Info:</strong> You have no surveys!
 </div>
 
 <div class="modal fade" id="deleteSurveyModal" role="dialog">

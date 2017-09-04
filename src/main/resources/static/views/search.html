@@ -33,6 +33,10 @@
       </tbody>
     </table>
   </div>
+
+  <div class="alert alert-info" role="alert" ng-if="sc.surveys.length === 0">
+    <strong>Info:</strong> There are no surveys!
+  </div>
 </div>
 
 <div class="alert alert-danger alert-dismissible" role="alert" ng-if="sc.initError">
