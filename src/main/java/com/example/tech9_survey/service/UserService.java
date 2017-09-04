@@ -30,24 +30,24 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+    
+    public User findOne(Long userId) {
+		return userRepository.findOne(userId);
+	}
+    
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    public User findOne(Long id) {
-        return userRepository.findOne(id);
-    }
-
-    public User save(User user) {
-        return userRepository.save(user);
-    }
-
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+    
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     public void delete(Long id) {
@@ -94,6 +94,12 @@ public class UserService implements UserDetailsService {
         String loggedInUserUsername = auth.getName();
         User user = findByUsername(loggedInUserUsername);
         
-        return user;
+        if(user == null) {
+        	return null;
+        }
+        else
+        {
+        	return user;
+        }
     }
 }

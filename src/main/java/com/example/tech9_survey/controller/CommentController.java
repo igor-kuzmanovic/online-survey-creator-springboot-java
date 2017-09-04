@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,39 +35,58 @@ public class CommentController {
     
     @GetMapping
     public ResponseEntity<List<Comment>> findAll() {
-		List<Comment> allComments = commentService.findAll();
-		return new ResponseEntity<>(allComments, HttpStatus.OK);
+		List<Comment> comments = commentService.findAll();
+		
+		if(comments.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<>(comments, HttpStatus.OK);
 	}
     
+    // Unused
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping(path = "/{id}")
     public ResponseEntity<Comment> findOne(@PathVariable Long id) {
     	Comment comment = commentService.findOne(id);
 		return new ResponseEntity<>(comment, HttpStatus.OK);
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PostMapping(path = "/{surveyId}")
-    public ResponseEntity<Comment> save(@PathVariable Long surveyId, @RequestBody Comment comment) {
-    	Survey commentedSurvey = surveyService.findOne(surveyId);
+    public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody Comment comment) {
+    	Survey survey = surveyService.findOne(surveyId);
+		
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 	    User user = userService.getLoggedInUser();
 	    
 	    if(user == null) {
-	    	comment.setPoster("anonymous");
+	    	return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 	    }
 	    else{
 	    	comment.setPoster(user.getUsername());
 	    }
 
-	    Comment commentForSave = commentService.save(comment);
-    	commentedSurvey.getComments().add(commentForSave);
-        surveyService.save(commentedSurvey);
+    	survey.getComments().add(comment);
+      surveyService.save(survey);
         
-    	return new ResponseEntity<>(commentForSave, HttpStatus.OK);
+    	return new ResponseEntity<>(HttpStatus.OK);
 
     }
     
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @DeleteMapping(path = "/{commentId}")
     public ResponseEntity<Object> delete(@PathVariable Long commentId) {
+    	Comment comment = commentService.findOne(commentId);
+    	
+    	if(comment == null) {
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	}
+    	
     	commentService.delete(commentId);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

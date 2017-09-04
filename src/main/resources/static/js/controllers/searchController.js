@@ -9,29 +9,29 @@
     var self = this;
     self.facebookShare = facebookShare;
 
-    self.facebookLink = [];
-    self.twitterLink = [];
-    self.googleLink = [];
-
     init();
 
     function init(){
       self.user = $scope.mc.checkUser();
-      $scope.mc.getImage();
 
       if (!self.user) {
         $location.path('/');
       }
-
-      getSurveys();			
+      else {
+        getSurveys();
+      }
     }
 
     function getSurveys(){
-      SurveyService.getSurveys().then(handleSuccessSurveys);
-    }
-
-    function handleSuccessSurveys(data, status) {
-      self.surveys = data;
+      SurveyService.getSurveys()
+        .then(
+        function(response){
+          self.surveys = response;
+        }, 
+        function(error){
+          console.log(error);
+          self.initError = error;
+        });
     }
 
     function facebookShare(id) {

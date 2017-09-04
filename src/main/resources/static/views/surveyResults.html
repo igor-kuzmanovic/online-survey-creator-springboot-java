@@ -1,4 +1,4 @@
-<div class="row">
+<div ng-if="!src.initError" class="row">
   <div class="col-md-offset-2 col-md-8">
     <div align="center">
       <h3>Results</h3>
@@ -17,13 +17,13 @@
       <h3>Comments</h3>
       <hr>
     </div>
-    <div class="media" ng-repeat = "comment in src.allComments | orderBy: 'creationDate':true">
+    <div id="{{comment.id}}" class="media" ng-repeat = "comment in src.allComments | orderBy: 'creationDate':true">
       <div class="media-left media-middle">
         <img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
       </div>
       <div class="media-body">
         <h4 class="media-heading">
-          <button type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="src.reportComment(comment.id)"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+          <button ng-if="comment.poster !== src.user.username && src.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="src.reportComment(comment.id)"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
           <span class="comment-poster">{{comment.poster}}</span>
         </h4>
         <p class="comment-content">{{comment.content}}</p>
@@ -31,4 +31,8 @@
       </div>
     </div>
   </div>  
+</div>
+
+<div class="alert alert-danger" role="alert" ng-if="src.initError">
+  <strong>Error:</strong> {{src.initError}}
 </div>

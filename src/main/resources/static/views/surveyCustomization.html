@@ -1,14 +1,16 @@
-<div class="row">
+<div ng-if="!scc.initError" class="row">
   <div class="col-md-offset-2 col-md-8">
-    <form class="form-horizontal" novalidate>
+    <form name="scc.surveyForm" class="form-horizontal" novalidate>
       <div align="center" class="form-group">
         <h3>Customize your survey</h3>
       </div>
 
+      <hr>
+
       <div ng-repeat="question in scc.survey.questions track by $index">
         <div class="form-group">
           <label  class="control-label col-md-2" for="question{{$index + 1}}">Question {{$index + 1}}</label>
-          
+
           <div class="input-group col-md-10">
             <input id="question{{$index + 1}}" type="text" class="form-control" name="question{{$index + 1}}" placeholder="Question title" ng-model="question.content">
 
@@ -19,10 +21,10 @@
             </div>
           </div>
         </div>
-        
+
         <div class="form-group" ng-repeat="answer in scc.survey.questions[$index].answers track by $index">
           <label  class="control-label col-md-2" for="question{{$parent.$index + 1}}answer{{$index + 1}}">Option {{$index + 1}}</label>
-          
+
           <div class="input-group col-md-10">
             <input id="question{{$parent.$index + 1}}answer{{$index + 1}}" type="text" class="form-control" name="question{{$parent.$index + 1}}answer{{$index + 1}}" placeholder="Option content" ng-model="answer.content">
 
@@ -38,7 +40,7 @@
           <button type="input" class="btn btn-default btn-primary col-md-offset-2" ng-hide="scc.survey.questions[$parent.$index].answers.length >= 10" ng-click="scc.createAnswer($index)">Answer <span class="glyphicon glyphicon-plus"></span>
           </button>
         </div>
-        
+
         <hr ng-if="!$last">
       </div>
 
@@ -47,9 +49,20 @@
         </button>
       </div>
 
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="scc.error">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="scc.error = ''"><span aria-hidden="true">&times;</span></button>
+        <strong>Error:</strong> {{scc.error}}
+      </div>
+
+      <hr>
+
       <div align="center" class="form-group">
-        <button type="submit" class="btn btn-default btn-success" ng-click="scc.finishCustomization()">Finish customization <span class="glyphicon glyphicon-check"></span></button>
+        <button type="submit" class="btn btn-default btn-success" ng-click="scc.error = ''; scc.finishCustomization()">Finish customization <span class="glyphicon glyphicon-check"></span></button>
       </div>
     </form>
   </div>
+</div>
+
+<div class="alert alert-danger" role="alert" ng-if="scc.initError">
+  <strong>Error:</strong> {{scc.initError}}
 </div>

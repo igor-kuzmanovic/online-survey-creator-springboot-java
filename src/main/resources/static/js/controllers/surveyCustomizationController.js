@@ -21,9 +21,10 @@
       if (!$scope.mc.checkUser()) {
         $location.path('/');
       }
-
-      self.surveyHashedId = $routeParams.hashedId;
-      getCurrentSurvey();
+      else {
+        self.surveyHashedId = $routeParams.hashedId;
+        getCurrentSurvey();
+      }
     }
 
     function getCurrentSurvey() {
@@ -31,6 +32,10 @@
         .then(
         function(response){
           self.survey = response;
+        },
+        function(error){
+          console.log(error);
+          self.initError = error;
         });
     }
 
@@ -42,6 +47,7 @@
         }, 
         function(error){
           console.log(error);
+          self.error = error;
         })
     }
 
@@ -51,7 +57,14 @@
       if(survey.questions) {
         for(i = 0; i < survey.questions.length; i++){
           if(!(survey.questions[i].content && survey.questions[i].content.length > 0)){
-            QuestionService.deleteQuestion(survey.questions[i].id);
+            QuestionService.deleteQuestion(survey.questions[i].id)
+              .then(
+              function(response){}, 
+              function(error){
+                console.log(error);
+                self.error = error;
+              });
+
             survey.questions.splice(i, 1);
           }
         }
@@ -60,7 +73,14 @@
           if(survey.questions[i].answers) {
             for(j = 0; j < survey.questions[i].answers.length; j++) {
               if(!(survey.questions[i].answers[j].content && survey.questions[i].answers[j].content.length > 0)) {
-                AnswerService.deleteAnswer(survey.questions[i].answers[j].id);
+                AnswerService.deleteAnswer(survey.questions[i].answers[j].id)
+                  .then(
+                  function(response){}, 
+                  function(error){
+                    console.log(error);
+                    self.error = error;
+                  });
+
                 survey.questions[i].answers.splice(j, 1);
               }
             }
@@ -75,6 +95,7 @@
         }, 
         function(error){
           console.log(error);
+          self.error = error;
         })
     }
 
@@ -84,9 +105,16 @@
     }
 
     function deleteQuestion(questionIndex, surveyId, questionId) {
-      QuestionService.deleteQuestion(questionId);
-      self.survey.questions.splice(questionIndex, 1);
-      self.saveSurvey();
+      QuestionService.deleteQuestion(questionId)	
+        .then(
+        function(response){
+          self.survey.questions.splice(questionIndex, 1);
+          self.saveSurvey();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        });
     }
 
     function createAnswer(questionIndex) {
@@ -95,9 +123,16 @@
     }
 
     function deleteAnswer(questionIndex, answerIndex, questionId, answerId) {
-      AnswerService.deleteAnswer(answerId);
-      self.survey.questions[questionIndex].answers.splice(answerIndex, 1);
-      self.saveSurvey();
+      AnswerService.deleteAnswer(answerId)
+        .then(
+        function(response){
+          self.survey.questions[questionIndex].answers.splice(answerIndex, 1);
+          self.saveSurvey();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        });
     }
 
   };

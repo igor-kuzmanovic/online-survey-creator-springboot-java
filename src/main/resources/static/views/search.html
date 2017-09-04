@@ -1,24 +1,23 @@
-<div class="row">
+<div ng-if="!sc.initError" class="row">
   <div class="table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-hover table-bordered" style="background-color:white">
       <thead>
         <tr>
           <h1>All Surveys</h1>
         </tr>
       </thead>
       <tbody>
-        <tr ng-if="survey.creator !== sc.user.username" ng-repeat="survey in sc.surveys track by $index" class="table-animate" ng-class="{danger: !survey.isActive, success: survey.isActive}">
+        <tr ng-if="survey.creator !== sc.user.username" ng-repeat="survey in sc.surveys track by $index" class="table-animate">
           <td>
-            {{survey.creator}} - {{survey.name}} - {{survey.description}}<br>Created: {{survey.creationDate | date:'mediumDate'}} 
-          </td>
-          <td>
+            {{survey.creator}} - {{survey.name}} - {{survey.description}}
+
             <div class="btn-group pull-right" role="group" aria-label="...">
-              <div class="btn btn-primary" ng-click="sc.facebookShare(survey.hashedId)"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
+              <div class="btn btn-primary btn-facebook" ng-click="sc.facebookShare(survey.hashedId)"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
               </div>
 
-              <div class="btn btn-primary"><a href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2F&amp;ref_src=twsrc%5Etfw&amp;text=Test%20survey&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}&amp;via=tech9survey"><i class="fa fa-twitter-square" aria-hidden="true" style="color:white"></i></a></div>
+              <div class="btn btn-primary btn-twitter"><a href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2F&amp;ref_src=twsrc%5Etfw&amp;text=Test%20survey&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}&amp;via=tech9survey"><i class="fa fa-twitter-square" aria-hidden="true" style="color:white"></i></a></div>
 
-              <div class="btn btn-primary"><a ng-href="https://plus.google.com/share?app=110&url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-google-plus-square" aria-hidden="true" style="color:white"></i></a></div>
+              <div class="btn btn-primary btn-google"><a ng-href="https://plus.google.com/share?app=110&url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-google-plus-square" aria-hidden="true" style="color:white"></i></a></div>
 
               <a ng-if="survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button" ng-href="#/survey/submit/{{survey.hashedId}}">
                 <span class="glyphicon glyphicon-file"></span>
@@ -27,10 +26,20 @@
               <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button">
                 <span class="glyphicon glyphicon-signal"></span>
               </a>
-            </div>       
+            </div>  
+
+            <br>Created: {{survey.creationDate | date:'mediumDate'}} 
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <div class="alert alert-info" role="alert" ng-if="sc.surveys.length === 0">
+    <strong>Info:</strong> There are no surveys!
+  </div>
+</div>
+
+<div class="alert alert-danger" role="alert" ng-if="sc.initError">
+  <strong>Error:</strong> {{sc.initError}}
 </div>

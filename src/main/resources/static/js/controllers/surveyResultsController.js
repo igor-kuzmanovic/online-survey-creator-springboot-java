@@ -2,15 +2,16 @@
   angular.module('app')
     .controller('SurveyResultsController', SurveyResultsController);
 
-  SurveyResultsController.$inject = ['SurveyService', 'CommentService', 'UserService', '$routeParams', '$location', '$scope'];
+  SurveyResultsController.$inject = ['SurveyService', 'NotificationService', 'UserService', '$routeParams', '$location', '$scope'];
 
-  function SurveyResultsController(SurveyService, CommentService, UserService, $routeParams, $location, $scope) {
+  function SurveyResultsController(SurveyService, NotificationService, UserService, $routeParams, $location, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.generateBarChart = generateBarChart;
     self.generatePieChart = generatePieChart;
     self.reportComment = reportComment;
+    
     self.allComments = [];
 
     init();
@@ -19,9 +20,10 @@
       if (!$scope.mc.checkUser()) {
         $location.path('/');
       }
-
-      self.surveyHashedId = $routeParams.hashedId;
-      getCurrentSurvey();
+      else {
+        self.surveyHashedId = $routeParams.hashedId;
+        getCurrentSurvey();
+      }
     }
 
     function getCurrentSurvey() {
@@ -30,7 +32,11 @@
         function(response){
           self.survey = response;
           pairUsersWithComments();
-        })
+        },
+        function(error){
+          console.log(error);
+          self.initError = error;
+        });
     }
 
     function generateBarChart() {
@@ -106,10 +112,14 @@
         chart.draw(data, options);
       }
     }
-    
+
     function reportComment(commentId) {
-      // Insert reporting logic
-    }
+      NotificationService.reportCommentNotification(commentId)
+        .then(function(response){}, function(error){
+        console.log(error);
+        self.error = error;
+      })
+   }
 
   }
 })();

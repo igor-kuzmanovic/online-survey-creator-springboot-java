@@ -2,15 +2,14 @@
   angular.module('app')
     .controller('SurveyController', SurveyController);
 
-  SurveyController.$inject = ['SurveyService', 'ResultService', '$routeParams', '$location', '$scope'];
+  SurveyController.$inject = ['UserService', 'SurveyService', 'ResultService', 'NotificationService', '$routeParams', '$location', '$scope'];
 
-  function SurveyController(SurveyService, ResultService, $routeParams, $location, $scope) {
+  function SurveyController(UserService, SurveyService, ResultService, NotificationService, $routeParams, $location, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.submitSurvey = submitSurvey;
-
-    self.user = {};
+    self.reportSurvey = reportSurvey;
 
     init();
 
@@ -26,20 +25,29 @@
         function(response){
           self.survey = response;
           checkSurvey();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
         });
     }
 
     function checkSurvey() {
       if(self.survey.isActive) {
         if(self.user && self.survey.creator === self.user.username) {
-          window.alert("You cannot complete your own survey!");
-          $location.path('/home');
+          console.log('You cannot complete your own survey!');
+          self.initError = 'You cannot complete your own survey!';
         }
+
+        if(!self.user && !self.survey.isPublic) {
+          console.log("This survey isn't open for unregistered users!");
+          self.initError = "This survey isn't open for unregistered users!";
+        }
+
         checkSubmitter();
       }
       else {
-        window.alert("This survey is not active!");
-        $location.path('/survey/details/' + self.surveyHashedId);
+        $location.path('/survey/results/' + self.surveyHashedId);
       }
     }
 
@@ -50,12 +58,16 @@
           function(response){
             for(i = 0; i < response.length; i++) {
               if(response[i].submitedBy === self.user.username) {
-                window.alert("You have already completed this survey!");
-                $location.path('/home');
+                console.log("You have already completed this survey!");
+                self.initError = "You have already completed this survey!";
               }           
             }
 
             initiateSurveyResult(self.user.username);
+          }, 
+          function(error){
+            console.log(error);     
+            self.error = error;
           });
       }
       else {
@@ -73,20 +85,63 @@
       for(i = 0; i < self.survey.questions.length; i++) {
         self.surveyResult.results.push({
           questionId: self.survey.questions[i],
-          answerId: {}
+          answerId: self.survey.questions[i].answers[0]
         })
       }
+
+      renderCaptcha();
     }
 
-    function submitSurvey() { 
-      ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
+    function renderCaptcha() {
+      self.recaptchaId = grecaptcha.render('captcha-survey', {
+        'sitekey' : '6LfO0SwUAAAAAI73tCuECJHe4MRpJyHQQUbH1RdZ'
+      });
+    }
+
+    function submitSurvey() {
+      self.captchaResponse = grecaptcha.getResponse(self.recaptchaId);
+
+      if(!self.captchaResponse) {
+        console.log("Please complete the captcha!");
+        self.error = "Please complete the captcha!";
+        return;
+      }
+
+      UserService.sendCaptchaResponse(self.captchaResponse)
         .then(
         function(response){
-          $location.path('/survey/finish/' + self.surveyHashedId);
-        }, 
+          ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
+            .then(
+            function(response){
+              postNotification();
+              $location.path('/survey/finish/' + self.surveyHashedId);
+            }, 
+            function(error){
+              console.log(error);
+              self.error = error;
+            });
+        },
         function(error){
           console.log(error);
+          self.error = error;
+        });
+    }
+
+    function postNotification() {
+      NotificationService.postSurveyNotification(self.survey)
+        .then(
+        function(response) {}, function(error){
+          console.log(error);
+          self.error = error;
         })
+    }
+
+    function reportSurvey() {
+      NotificationService.reportSurveyNotification(self.survey)
+        .then(function(response){}, function(error){
+        console.log(error);
+        self.error = error;
+      })
     }
 
   };

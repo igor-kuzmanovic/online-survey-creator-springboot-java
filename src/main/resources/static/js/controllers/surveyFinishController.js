@@ -2,9 +2,9 @@
   angular.module('app')
       .controller('SurveyFinishController', SurveyFinishController);
 
-  SurveyFinishController.$inject = ['SurveyService', 'CommentService', 'UserService', '$location', '$routeParams', '$scope'];
+  SurveyFinishController.$inject = ['SurveyService', 'CommentService', 'NotificationService', 'UserService', '$location', '$routeParams', '$scope'];
 
-  function SurveyFinishController(SurveyService, CommentService, UserService, $location, $routeParams, $scope) {
+  function SurveyFinishController(SurveyService, CommentService, NotificationService, UserService, $location, $routeParams, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -19,15 +19,34 @@
     init();
 
     function init() {
-        $scope.mc.getImage();
-        self.user = $scope.mc.checkUser();
-        self.surveyHashedId = $routeParams.hashedId;
-        getCurrentSurvey();
+      self.user = $scope.mc.checkUser();
+      self.surveyHashedId = $routeParams.hashedId;
+      getCurrentSurvey();
+    }
+
+    function getCurrentSurvey(commentPosted) {
+      SurveyService.getCurrentSurvey(self.surveyHashedId)
+        .then(
+        function(response){
+          self.survey = response;
+          self.allComments = [];
+          pairUsersWithImages();
+
+          if(commentPosted) {
+            postNotification();
+          }
+          
+          checkSurvey();
+        },
+        function(error){
+          console.log(error);
+          self.initError = error;
+        });
     }
     
     function pairUsersWithImages() {
-        UserService.getUsersForComments(self.survey.id).then(function (data, status) {
-            self.users = data;
+     		UserService.getUsersForComments(self.survey.id).then(function (data, status) {
+						self.users = data;
             for(var i = 0; i < self.survey.comments.length; i++) {
                 for(var j = 0; j < self.users.length; j++) {
                     if(self.survey.comments[i].poster === self.users[j].username) {
@@ -39,49 +58,80 @@
         });
     }
 
-    function getCurrentSurvey() {
-        SurveyService.getCurrentSurvey(self.surveyHashedId).then(
-                function(response){
-                  self.survey = response;
-                  checkSurvey();
-                  self.allComments = [];
-                  pairUsersWithImages();
-                })
-    }
-
     function checkSurvey() {
-        if(self.survey.isActive) {
-            if(self.user && self.survey.creator === self.user.username) {
-                window.alert("You cannot complete your own survey!");
-                $location.path('/home');
-            }
+      if(self.survey.isActive) {
+        if(self.user && self.survey.creator === self.user.username) {
+          console.log("You cannot complete your own survey!");
+          self.error = "You cannot complete your own survey!";
         }
-        else {
-            window.alert("This survey is not active!");
-            $location.path('/survey/details/' + self.surveyHashedId);
-        }
+      }
+      else {
+        $location.path('/survey/results/' + self.surveyHashedId);
+      }
     }
 
     function postComment() {
-        CommentService.postComment(self.survey, self.comment).then(function(response) {
-            getCurrentSurvey();
-            self.comment = {};
-
-        }, function(error){
-            console.log(error);
+      if(!checkForm()){
+        return;
+      }
+      
+      CommentService.postComment(self.survey, self.comment)
+        .then(
+        function(response) {
+          getCurrentSurvey(true);
+          self.comment = {};
+          self.commentForm.$setPristine();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
         })
+    }
+
+    function checkForm() {
+      var focusedElement;
+
+      if(self.commentForm.$invalid) {
+        if(self.commentForm.comment.$invalid) {
+          self.commentForm.comment.$setDirty();
+          focusedElement = '#comment';
+        }
+
+        return false;
+      }
+
+      return true;
     }
 
     function deleteComment(commentId){
-        CommentService.deleteComment(commentId).then(function(response){
-            getCurrentSurvey();
-        }, function(error){
-            console.log(error);
+      CommentService.deleteComment(commentId)
+        .then(
+        function(response){
+          getCurrentSurvey();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
         })
     }
 
-    function reportComment(commentId) {
-        // Insert reporting logic
+    function postNotification() {
+      NotificationService.postCommentNotification(self.survey.comments[self.survey.comments.length - 1])
+        .then(
+        function(response) {},
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
     }
+
+   function reportComment(commentId) {
+      NotificationService.reportCommentNotification(commentId)
+        .then(function(response){}, function(error){
+        console.log(error);
+        self.error = error;
+      })
+   }
+
   }
 })();

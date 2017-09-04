@@ -1,6 +1,5 @@
 package com.example.tech9_survey.controller;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,7 @@ public class ResultController {
 		this.userService = userService;
 	}
 	
+	// Unused
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<SurveyResult>> findAll() {
@@ -67,6 +67,7 @@ public class ResultController {
 		return new ResponseEntity<>(surveyResults, HttpStatus.OK);
 	}
 	
+	// Unused
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<SurveyResult> findOne(@PathVariable Long id) {
@@ -80,7 +81,7 @@ public class ResultController {
 	}
 	
 	@PostMapping(path = "/{surveyId}")
-	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody SurveyResult surveyResult) throws NoSuchAlgorithmException {
+	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody SurveyResult surveyResult) {
 		User user = userService.getLoggedInUser();
 		
 		if(user != null && user.getUsername() == surveyResult.getSubmitedBy()) {
@@ -98,7 +99,7 @@ public class ResultController {
 		for(int i = 0; i < surveyResults.size(); i++) {
 			String poster = surveyResults.get(i).getSubmitedBy();
 			
-			if(poster.equals(user.getUsername()) && user != null) {
+			if(user != null && poster.equals(user.getUsername())) {
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
 		}
@@ -110,6 +111,7 @@ public class ResultController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	// Unused
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Object> delete(@PathVariable Long id) {

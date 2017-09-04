@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,9 +47,8 @@ public class Survey extends BaseEntity {
 	@Column(name = "is_active", nullable = false)
 	private Boolean isActive;
 	
-	@ManyToOne
-	@JoinColumn(name = "survey_privacy_id", nullable = false)
-	private SurveyPrivacy surveyPrivacy;
+	@Column(name = "is_public", nullable = false)
+	private Boolean isPublic;
 	
 	@Cascade(CascadeType.DELETE)
 	@OneToMany(mappedBy = "survey")
@@ -164,12 +162,12 @@ public class Survey extends BaseEntity {
 		this.results = results;
 	}
 
-	public SurveyPrivacy getSurveyPrivacy() {
-		return surveyPrivacy;
+	public Boolean getIsPublic() {
+		return isPublic;
 	}
 
-	public void setSurveyPrivacy(SurveyPrivacy surveyPrivacy) {
-		this.surveyPrivacy = surveyPrivacy;
+	public void setIsPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
 	}
-	
+
 }

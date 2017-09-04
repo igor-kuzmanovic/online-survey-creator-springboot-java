@@ -27,6 +27,44 @@
     <link rel="stylesheet" href="bower_components/angular-upload/src/directives/btnUpload.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
+
+    <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="bower_components/angular/angular.min.js" type="text/javascript"></script>
+    <script src="bower_components/angular-route/angular-route.min.js" type="text/javascript"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js" type="text/javascript"></script>
+    <script src="bower_components/angular-upload/angular-upload.min.js" type="text/javascript"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.min.js" type="text/javascript"></script>
+    <script src="https://www.google.com/recaptcha/api.js" type="text/javascript"></script>
+    <script src="https://www.gstatic.com/charts/loader.js" type="text/javascript"></script>
+    <script src="js/scripts.js" type="text/javascript"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+    <script src="js/routes/routeConfig.js" type="text/javascript"></script>
+    <script src="js/directives/autofocusDirective.js" type="text/javascript"></script>
+    <script src="js/controllers/mainController.js" type="text/javascript"></script>
+    <script src="js/controllers/loginController.js" type="text/javascript"></script>
+    <script src="js/controllers/registrationController.js" type="text/javascript"></script>
+    <script src="js/controllers/verifyUserController.js" type="text/javascript"></script>
+    <script src="js/controllers/homeController.js" type="text/javascript"></script>
+    <script src="js/controllers/searchController.js" type="text/javascript"></script>
+    <script src="js/controllers/surveyController.js" type="text/javascript"></script>
+    <script src="js/controllers/surveyFinishController.js" type="text/javascript"></script>
+    <script src="js/controllers/surveyCreationController.js" type="text/javascript"></script>
+    <script src="js/controllers/surveyCustomizationController.js" type="text/javascript"></script>
+    <script src="js/controllers/surveyCustomizationFinishController.js" type="text/javascript"></script>
+    <script src="js/controllers/surveyDetailsController.js" type="text/javascript"></script>
+    <script src="js/controllers/surveyResultsController.js" type="text/javascript"></script>
+    <script src="js/controllers/userSettingsController.js" type="text/javascript"></script>
+    <script src="js/controllers/userNotificationsController.js" type="text/javascript"></script>
+    <script src="js/controllers/adminPanelController.js" type="text/javascript"></script>
+    <script src="js/services/surveyService.js" type="text/javascript"></script>
+    <script src="js/services/resultService.js" type="text/javascript"></script>
+    <script src="js/services/userService.js" type="text/javascript"></script>
+    <script src="js/services/answerService.js" type="text/javascript"></script>
+    <script src="js/services/questionService.js" type="text/javascript"></script>
+    <script src="js/services/commentService.js" type="text/javascript"></script>
+    <script src="js/services/notificationService.js" type="text/javascript"></script>
+    <script src="js/services/cookieService.js" type="text/javascript"></script>
   </head>
 
   <body ng-cloak style="background-image: url('https://cdn.elegantthemes.com/blog/wp-content/uploads/2013/09/bg-6-full.jpg')">
@@ -48,15 +86,15 @@
               <li ng-if="mc.$location.path().includes('/survey')" class='active'><a href="">Survey </a></li>         
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li ng-class="{active: mc.$location.path().includes('/user/notifications')}"><a href="#/user/notifications">Notifications <span class="badge">0</span></a></li>
+              <li ng-class="{active: mc.$location.path().includes('/user/notifications')}"><a href="#/user/notifications">Notifications <span class="badge">{{mc.unreadNotifications}}</span></a></li>
               <li class="dropdown">
                 <a href="" type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   <img class="img img-circle img-nav" ng-src="{{'data:image/jpg;base64,'+ mc.imageUrl}}"> <span class="glyphicon glyphicon-chevron-down"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                    <li><a href="#/user/settings">Settings</a></li>
-                    <li ng-if="mc.user.roles.length === 2"><a href="#/admin">Admin panel</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#/" ng-click="mc.removeUser()">Log out</a></li>
+                  <li><a href="#/user/settings">Settings</a></li>
+                  <li ng-if="mc.user.roles.length === 2"><a href="#/admin">Admin panel</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#/" ng-click="mc.removeUser()">Log out</a></li>
                 </ul>
               </li>
             </ul>
@@ -90,46 +128,5 @@
         </div>
       </div>
     </nav>
-
-    <script src="https://www.google.com/recaptcha/api.js" type="text/javascript" async></script>
-    <script src="https://www.gstatic.com/charts/loader.js" type="text/javascript" async></script>
-    <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular/angular.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular-route/angular-route.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular-animate/angular-animate.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular-upload/angular-upload.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.min.js" type="text/javascript"></script>	
-    <script src="js/scripts.js" type="text/javascript"></script>
-    <script src="js/app.js" type="text/javascript"></script>
-    <script src="js/routes/routeConfig.js" type="text/javascript"></script>
-    <script src="js/directives/autofocusDirective.js" type="text/javascript"></script>
-    <script src="js/controllers/mainController.js" type="text/javascript"></script>
-    <script src="js/controllers/loginController.js" type="text/javascript"></script>
-    <script src="js/controllers/registrationController.js" type="text/javascript"></script>
-    <script src="js/controllers/verifyUserController.js" type="text/javascript"></script>
-    <script src="js/controllers/homeController.js" type="text/javascript"></script>
-    <script src="js/controllers/searchController.js" type="text/javascript"></script>
-    <script src="js/controllers/surveyController.js" type="text/javascript"></script>
-    <script src="js/controllers/surveyFinishController.js" type="text/javascript"></script>
-    <script src="js/controllers/surveyCreationController.js" type="text/javascript"></script>
-    <script src="js/controllers/surveyCustomizationController.js" type="text/javascript"></script>
-    <script src="js/controllers/surveyCustomizationFinishController.js" type="text/javascript"></script>
-    <script src="js/controllers/surveyDetailsController.js" type="text/javascript"></script>
-    <script src="js/controllers/surveyResultsController.js" type="text/javascript"></script>
-    <script src="js/controllers/userSettingsController.js" type="text/javascript"></script>
-    <script src="js/controllers/userNotificationsController.js" type="text/javascript"></script>
-    <script src="js/controllers/adminPanelController.js" type="text/javascript"></script>
-    <script src="js/services/surveyService.js" type="text/javascript"></script>
-    <script src="js/services/resultService.js" type="text/javascript"></script>
-    <script src="js/services/userService.js" type="text/javascript"></script>
-    <script src="js/services/answerService.js" type="text/javascript"></script>
-    <script src="js/services/questionService.js" type="text/javascript"></script>
-    <script src="js/services/commentService.js" type="text/javascript"></script>
-    <script src="js/services/notificationService.js" type="text/javascript"></script>
-    <script src="js/services/cookieService.js" type="text/javascript"></script>
   </body>
 </html>
-<!--https://cdn.elegantthemes.com/blog/wp-content/uploads/2013/09/bg-9-full.jpg-->
-<!--https://cdn.elegantthemes.com/blog/wp-content/uploads/2013/09/bg-6-full.jpg-->

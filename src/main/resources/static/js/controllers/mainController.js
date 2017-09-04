@@ -14,7 +14,6 @@
     self.getImage = getImage;
     self.setImage = setImage;
 
-    self.$location = $location;
     self.themes = [
       { name: 'Cerulean', url: 'cerulean' },
       { name: 'Cosmo', url: 'cosmo' },
@@ -36,11 +35,13 @@
     ];
 
     self.theme = self.themes[4];
+    self.$location = $location;
 
     init();
 
     function init() {
       getUser();
+      
       if(checkUser()) {
           setImage(self.user.imageUrl);
       }
@@ -69,20 +70,34 @@
         credentials.username = CookieService.getCookie('username');
         credentials.password = CookieService.getCookie('password');
 
-        UserService.login(credentials, true).then(
+        UserService.login(credentials, true)
+          .then(
           function(response){
             self.user = response;
             console.log('Logged in ' + self.user.username + ' from cookies');
             $route.reload();
+          },
+          function(error){
+            console.log(error);
+            alert(error);					
           });
       }
       else if(!self.user && !UserService.checkUserCookies()) {
         console.log('User not found, cookies not found');
-        //$location.path('/');
       }
 
       if(self.user) {
         console.log('User found');
+        
+        self.unreadNotifications = 0;
+
+        for(i = 0; i < self.user.notifications.length; i++) {
+          if(!self.user.notifications[i].read) {
+            self.unreadNotifications++;
+          }
+        }
+
+        getImage();
       }
     }
 

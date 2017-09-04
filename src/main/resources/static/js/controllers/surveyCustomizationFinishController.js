@@ -10,18 +10,19 @@
     self.getCurrentSurvey = getCurrentSurvey;
     self.saveSurvey = saveSurvey;
     self.setExpirationDate = setExpirationDate;
-    
-    self.minDate = 0;
 
+    self.$scope = $scope;
+    
     init();
 
     function init() {
       if (!$scope.mc.checkUser()) {
         $location.path('/');
       }
-
-      self.surveyHashedId = $routeParams.hashedId;
-      getCurrentSurvey();
+      else {
+        self.surveyHashedId = $routeParams.hashedId;
+        getCurrentSurvey();
+      }
     }
 
     function getCurrentSurvey() {
@@ -36,6 +37,7 @@
         }, 
         function(error){
           console.log(error);
+          self.initError = error;
         })
     }
 
@@ -60,6 +62,7 @@
         }, 
         function(error){
           console.log(error);
+          self.error = error;
         })
     }
 
@@ -71,14 +74,14 @@
     function checkForm() {
       var focusedElement;
 
-      if($scope.surveyForm.$invalid) {
-        if($scope.surveyForm.expirationDate && $scope.surveyForm.expirationDate.$invalid) {
-          $scope.surveyForm.expirationDate.$setDirty();
+      if(self.surveyForm.$invalid) {
+        if(self.surveyForm.expirationDate && self.surveyForm.expirationDate.$invalid) {
+          self.surveyForm.expirationDate.$setDirty();
           focusedElement = '#expirationDate';
         }
 
-        if($scope.surveyForm.exitMsg.$invalid) {
-          $scope.surveyForm.exitMsg.$setDirty();
+        if(self.surveyForm.exitMsg.$invalid) {
+          self.surveyForm.exitMsg.$setDirty();
           focusedElement = '#exitMsg';
         }
 

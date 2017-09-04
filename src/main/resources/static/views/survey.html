@@ -1,10 +1,12 @@
-<div class="row">
+<div ng-if="!sc.initError" class="row">
   <div class="col-md-offset-3 col-md-6">
     <form class="form-horizontal" novalidate>
       <div align="center" class="form-group">
-        <h3>{{sc.survey.name}}</h3>
-        <h4>{{sc.survey.description}}</h4>
+        <h2>{{sc.survey.name}}<button ng-if="sc.survey.creator !== sc.user.username && sc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sc.reportSurvey()"><span class="glyphicon glyphicon-exclamation-sign"></span></button></h2>
+        <h3>{{sc.survey.description}}</h3>
       </div>
+
+      <hr>
 
       <div ng-repeat="question in sc.survey.questions track by $index">
         <div class="form-group">
@@ -16,11 +18,28 @@
             </label>
           </div>
         </div>
+
+        <hr ng-if="!$last">
+      </div> 
+
+	  <hr>
+
+      <div id="captcha-survey" align="center" class="form-group"></div>
+
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="sc.error">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sc.error = ''"><span aria-hidden="true">&times;</span></button>
+        <strong>Error:</strong> {{sc.error}}
       </div>
+
+      <hr>
 
       <div align="center" class="form-group">
         <button type="submit" class="btn btn-default btn-success" ng-click="sc.submitSurvey()">Submit <span class="glyphicon glyphicon-check"></span></button>
       </div>
     </form>
   </div>
+</div>
+
+<div class="alert alert-danger" role="alert" ng-if="sc.initError">
+  <strong>Error:</strong> {{sc.initError}} <a href="#/" class="alert-link">Go to Tech9 Survey</a>
 </div>

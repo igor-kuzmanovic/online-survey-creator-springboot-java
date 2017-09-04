@@ -56,6 +56,46 @@ public class UserController {
         
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<User> findOne(@PathVariable("id") Long id) {
+        User user = userService.findOne(id);
+
+        if(user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/{id}/notifications")
+	public ResponseEntity<List<Notification>> findAllNotificationsFromUser(@PathVariable("id") Long id) {
+		User user = userService.findOne(id);
+		
+		if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }		
+		
+		List<Notification> notifications = user.getNotifications();
+		
+		if(notifications.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		for(int i = 0; i < notifications.size(); i++) {
+			if(notifications.get(i).isRead() == false) {
+				Notification notification = notifications.get(i);
+				notification.setRead(true);
+				notifications.set(i, notification);
+			}
+		}
+		
+		user.setNotifications(notifications);
+		userService.save(user);
+		
+		return new ResponseEntity<>(notifications, HttpStatus.OK);
+	}
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(path = "/{id}")
@@ -158,7 +198,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @GetMapping(path = "/{username}")
+    @GetMapping(path = "/user/{username}")
     public ResponseEntity<User> findLoggedUser(@PathVariable("username") String username) {
         User loggedUser = userService.findByUsername(username);
 

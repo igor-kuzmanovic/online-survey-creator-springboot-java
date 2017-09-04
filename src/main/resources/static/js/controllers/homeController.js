@@ -11,10 +11,7 @@
     self.setCurrentSurvey = setCurrentSurvey;
     self.facebookShare = facebookShare;
     self.deactivateSurvey = deactivateSurvey;
-
-    self.facebookLink = [];
-    self.twitterLink = [];
-    self.googleLink = [];
+    self.toggleSurveyPrivacy = toggleSurveyPrivacy;
 
     init();
 
@@ -22,16 +19,21 @@
       if (!$scope.mc.checkUser()) {
         $location.path('/');
       }
-
-      getSurveys();			
+      else {
+        getUserSurveys();	
+      }
     }
 
-    function getSurveys(){
-      SurveyService.getSurveys().then(handleSuccessSurveys);
-    }
-
-    function handleSuccessSurveys(data, status) {
-      self.surveys = data;
+    function getUserSurveys(){
+      SurveyService.getUserSurveys()
+        .then(
+        function(response) {
+          self.surveys = response;
+        }, 
+        function(error){
+          console.log(error);
+          self.initError = error;
+        })
     }
 
     function setCurrentSurvey(survey) {
@@ -39,12 +41,16 @@
     }
 
     function deleteSurvey() {
-      SurveyService.deleteSurvey(self.currentSurvey.id).then(function(response) {
-        $('#deleteSurveyModal').modal('hide');
-        getSurveys();
-      }, function(error){
-        self.error = error;
-      })
+      SurveyService.deleteSurvey(self.currentSurvey.id)
+        .then(
+        function(response) {
+          $('#deleteSurveyModal').modal('hide');
+          getUserSurveys();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
     }
 
     function facebookShare(id) {
@@ -61,10 +67,23 @@
       SurveyService.deactivateSurvey(self.currentSurvey.id)
         .then(
         function(response){
-          getSurveys();
+          getUserSurveys();
         }, 
         function(error){
           console.log(error);
+          self.error = error;
+        })
+    }
+
+    function toggleSurveyPrivacy() {
+      SurveyService.toggleSurveyPrivacy(self.currentSurvey.id)
+        .then(
+        function(response){
+          getUserSurveys();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
         })
     }
   };

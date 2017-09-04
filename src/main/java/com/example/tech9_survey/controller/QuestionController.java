@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class QuestionController {
 		this.userService = userService;
 	}
 
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<Question>> findAll() {
 		List<Question> questions = questionService.findAll();
@@ -45,6 +47,8 @@ public class QuestionController {
 		return new ResponseEntity<>(questions, HttpStatus.OK);
 	}
 	
+	// Unused
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Question> findOne(@PathVariable Long id) {
 		Question question = questionService.findOne(id);
@@ -56,6 +60,8 @@ public class QuestionController {
 		return new ResponseEntity<>(question, HttpStatus.OK);
 	}
 	
+	// Unused
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@PostMapping(path = "/{surveyId}")
 	public ResponseEntity<Question> save(@PathVariable Long surveyId, @RequestBody Question question) throws NoSuchAlgorithmException {		
 		Survey survey = surveyService.findOne(surveyId);
@@ -66,7 +72,7 @@ public class QuestionController {
 		
 		User user = userService.getLoggedInUser();
 		
-		if(user == null || !user.getUsername().equals(survey.getCreator())) {
+		if(!user.getUsername().equals(survey.getCreator())) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 		
@@ -77,6 +83,7 @@ public class QuestionController {
     	return new ResponseEntity<>(question, HttpStatus.OK);
     }
 	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping(path = "/{questionId}")
 	public ResponseEntity<Object> delete(@PathVariable Long questionId) {
 		Question question = questionService.findOne(questionId);

@@ -1,53 +1,61 @@
 (function(){
-  angular.module('app')
-    .controller('LoginController', LoginController);
+	angular.module('app')
+		.controller('LoginController', LoginController);
 
-  LoginController.$inject = ['UserService', '$location', '$scope'];
+	LoginController.$inject = ['UserService', '$location', '$scope'];
 
-  function LoginController(UserService, $location, $scope) {
+	function LoginController(UserService, $location, $scope) {
 
-    var self = this;
-    self.getCredentials = getCredentials;
-    self.checkForm = checkForm;
+		var self = this;
+		self.getCredentials = getCredentials;
+		self.checkForm = checkForm;
     
-    init();
-    
-    function init() {
-      if ($scope.mc.checkUser()) {
-        $location.path('/home');
-      }
-    }
+		init();
 
-    function getCredentials(credentials, rememberMe) {
-      UserService.login(credentials, rememberMe).then(handleSuccessCredentials);
-    }
+		function init() {
+			if ($scope.mc.checkUser()) {
+				$location.path('/home');
+			}
+		}
 
-    function handleSuccessCredentials(data, status){
-      $scope.mc.init();
-      $location.path('/home');
-    }
+		function getCredentials(credentials, rememberMe) {
+			if(!checkForm()){
+				return;
+			}
 
-    function checkForm() {
-      var focusedElement;
+			UserService.login(credentials, rememberMe)
+				.then(
+				function(response){
+					$scope.mc.init();
+					$location.path('/home');
+				}, 
+				function(error){
+					console.log(error);
+          self.error = error;
+				})
+		}
 
-      if($scope.surveyForm.$invalid) {
-        if($scope.surveyForm.description.$invalid) {
-          $scope.surveyForm.description.$setDirty();
-          focusedElement = '#description';
-        }
+		function checkForm() {
+			var focusedElement;
 
-        if($scope.surveyForm.name.$invalid) {
-          $scope.surveyForm.name.$setDirty();
-          focusedElement = '#name';
-        }
+			if(self.loginForm.$invalid) {
+				if(self.loginForm.password.$invalid) {
+					self.loginForm.password.$setDirty();
+					focusedElement = '#password';
+				}
 
-        $(focusedElement).focus();
+				if(self.loginForm.username.$invalid) {
+					self.loginForm.username.$setDirty();
+					focusedElement = '#username';
+				}
 
-        return false;
-      }
+				$(focusedElement).focus();
 
-      return true;
-    }
+				return false;
+			}
 
-  };
+			return true;
+		}
+
+	};
 })();

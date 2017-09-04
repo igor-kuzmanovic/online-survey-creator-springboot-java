@@ -52,4 +52,5 @@ loadWidgets = function() {
 // BODY SHOW
 function showBody() {
   $('body').show();
+  $('#username').focus();
 };

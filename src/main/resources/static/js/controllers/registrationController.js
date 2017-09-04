@@ -8,8 +8,6 @@
 
     var self = this;
     self.saveUser = saveUser;
-    
-    self.registeredUser = {};
 
     init();
 
@@ -17,49 +15,95 @@
       if ($scope.mc.checkUser()) {
         $location.path('/home');
       }
-      
-      renderCaptcha();
+      else {
+        renderCaptcha();
+      }
     }
 
     function renderCaptcha() {
-      grecaptcha.render('captcha', {
+      self.recaptchaId = grecaptcha.render('captcha', {
         'sitekey' : '6LfO0SwUAAAAAI73tCuECJHe4MRpJyHQQUbH1RdZ'
       });
     }
 
     function saveUser(savedUser) {
-      self.registeredUser = savedUser;
-      var response = grecaptcha.getResponse();
-
-      if(response.length === 0) {
-        alert("Captcha is not done.");
+      if(!checkForm()){
         return;
       }
 
-      UserService.sendCaptchaResponse(response).then(handleSuccessCaptcha, function(error){
-        console.log(error);
-        console.log("Captcha failed!")
-      });
+      self.registeredUser = savedUser;
+
+      if(!self.captchaDone) {
+        self.captchaResponse = grecaptcha.getResponse(self.recaptchaId);
+
+        if(!self.captchaResponse) {
+          console.log("Please complete the captcha!");	
+          self.error = "Please complete the captcha!";
+          return;
+        }
+
+        UserService.sendCaptchaResponse(self.captchaResponse).then(handleSuccessCaptcha, function(error){
+          console.log(error);
+          self.error = error;
+        });
+      }
+      else {
+        registerUser();
+      }
     }
 
     function handleSuccessCaptcha(data, status) {
+      self.captchaDone = true;
+      registerUser();
+    }
+
+    function registerUser() {
       self.registeredUser.userStatus = {id: 1, type:"STATUS_ACTIVE"};
       self.registeredUser.roles = [{id: 2, type:"ROLE_USER"}];
-      
+
       UserService.saveUser(self.registeredUser).then(handleSuccessUser, function(error){
         if(error === 'email') {
-          alert('Email already in use!');
+          console.log('Email already in use!');
+          self.error = 'Email already in use!';
         } else if(error === 'username') {
-          alert('Username already taken');
+          console.log('Username already in use!');
+          self.error = 'Username already in use!';
         } else {
-          alert('Error')
+          console.log('Email already in use!');
+          self.error = 'Email already in use';
         }
       });
     }
 
     function handleSuccessUser() {
-      $window.location.reload();
       $location.path('/user/verify');
+    }
+
+    function checkForm() {
+      var focusedElement;
+
+      if(self.signupForm.$invalid) {
+        if(self.signupForm.email.$invalid) {
+          self.signupForm.email.$setDirty();
+          focusedElement = '#email';
+        }
+
+        if(self.signupForm.password.$invalid) {
+          self.signupForm.password.$setDirty();
+          focusedElement = '#password';
+        }
+
+        if(self.signupForm.username.$invalid) {
+          self.signupForm.username.$setDirty();
+          focusedElement = '#username';
+        }
+
+        $(focusedElement).focus();
+
+        return false;
+      }
+
+      return true;
     }
 
   }
