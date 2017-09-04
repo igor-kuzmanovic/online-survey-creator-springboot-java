@@ -1,4 +1,4 @@
-<div class="row">
+<div ng-if="!sc.initError" class="row">
   <div class="table-responsive">
     <table class="table table-hover table-bordered" style="background-color:white">
       <thead>
@@ -33,4 +33,9 @@
       </tbody>
     </table>
   </div>
+</div>
+
+<div class="alert alert-danger alert-dismissible" role="alert" ng-if="sc.initError">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sc.initError = ''"><span aria-hidden="true">&times;</span></button>
+  <strong>Error:</strong> {{sc.initError}}
 </div>

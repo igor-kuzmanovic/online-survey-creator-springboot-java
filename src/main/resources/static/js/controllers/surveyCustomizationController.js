@@ -32,6 +32,10 @@
         .then(
         function(response){
           self.survey = response;
+        },
+        function(error){
+          console.log(error);
+          self.initError = error;
         });
     }
 

@@ -32,7 +32,7 @@
         }, 
         function(error){
           console.log(error);
-          self.error = error;
+          self.initError = error;
         })
     }
 

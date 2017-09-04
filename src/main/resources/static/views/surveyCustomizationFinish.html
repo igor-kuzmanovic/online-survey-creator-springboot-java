@@ -1,6 +1,6 @@
-<div class="row">
+<div ng-if="!scfc.initError" class="row">
   <div class="col-md-offset-4 col-md-4">
-    <form name="surveyForm" ng-submit="scfc.saveSurvey(scfc.survey)" novalidate>
+    <form name="surveyForm" ng-submit="scfc.error = ''; scfc.saveSurvey(scfc.survey)" novalidate>
       <div align="center" class="form-group">
         <h3>Finish up your survey</h3>
       </div>
@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="lc.error">
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="scfc.error">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="scfc.error = ''"><span aria-hidden="true">&times;</span></button>
         <strong>Error:</strong> {{scfc.error}}
       </div>
@@ -55,4 +55,9 @@
       </div>
     </form> 
   </div>
+</div>
+
+<div class="alert alert-danger alert-dismissible" role="alert" ng-if="scfc.initError">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="scfc.initError = ''"><span aria-hidden="true">&times;</span></button>
+  <strong>Error:</strong> {{scfc.initError}}
 </div>

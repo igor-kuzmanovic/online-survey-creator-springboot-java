@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('SurveyController', SurveyController);
 
-  SurveyController.$inject = ['SurveyService', 'ResultService', 'NotificationService', '$routeParams', '$location', '$scope'];
+  SurveyController.$inject = ['UserService', 'SurveyService', 'ResultService', 'NotificationService', '$routeParams', '$location', '$scope'];
 
-  function SurveyController(SurveyService, ResultService, NotificationService, $routeParams, $location, $scope) {
+  function SurveyController(UserService, SurveyService, ResultService, NotificationService, $routeParams, $location, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -35,12 +35,12 @@
       if(self.survey.isActive) {
         if(self.user && self.survey.creator === self.user.username) {
           console.log('You cannot complete your own survey!');
-          self.error = 'You cannot complete your own survey!';
+          self.initError = 'You cannot complete your own survey!';
         }
 
         if(!self.user && !self.survey.isPublic) {
           console.log("This survey isn't open for unregistered users!");
-          self.error = "This survey isn't open for unregistered users!";
+          self.initError = "This survey isn't open for unregistered users!";
         }
 
         checkSubmitter();
@@ -58,8 +58,7 @@
             for(i = 0; i < response.length; i++) {
               if(response[i].submitedBy === self.user.username) {
                 console.log("You have already completed this survey!");
-                self.error = "You have already completed this survey!";
-                $location.path('/home');
+                self.initError = "You have already completed this survey!";
               }           
             }
 
@@ -88,15 +87,39 @@
           answerId: self.survey.questions[i].answers[0]
         })
       }
+
+      renderCaptcha();
     }
 
-    function submitSurvey() { 
-      ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
+    function renderCaptcha() {
+      self.recaptchaId = grecaptcha.render('captcha-survey', {
+        'sitekey' : '6LfO0SwUAAAAAI73tCuECJHe4MRpJyHQQUbH1RdZ'
+      });
+    }
+
+    function submitSurvey() {
+      self.captchaResponse = grecaptcha.getResponse(self.recaptchaId);
+      
+      if(!self.captchaResponse) {
+        console.log("Please complete the captcha!");
+        self.error = "Please complete the captcha!";
+        return;
+      }
+      
+      UserService.sendCaptchaResponse(self.captchaResponse)
         .then(
         function(response){
-          postNotification();
-          $location.path('/survey/finish/' + self.surveyHashedId);
-        }, 
+          ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
+            .then(
+            function(response){
+              postNotification();
+              $location.path('/survey/finish/' + self.surveyHashedId);
+            }, 
+            function(error){
+              console.log(error);
+              self.error = error;
+            });
+        },
         function(error){
           console.log(error);
           self.error = error;

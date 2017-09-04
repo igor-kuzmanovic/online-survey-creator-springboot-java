@@ -21,7 +21,7 @@
     }
 
     function renderCaptcha() {
-      grecaptcha.render('captcha', {
+      self.recaptchaId = grecaptcha.render('captcha', {
         'sitekey' : '6LfO0SwUAAAAAI73tCuECJHe4MRpJyHQQUbH1RdZ'
       });
     }
@@ -32,22 +32,32 @@
       }
 
       self.registeredUser = savedUser;
-      var response = grecaptcha.getResponse();;
 
-      if(!response) {
-        console.log('Captcha is not done!');	
-        self.error = 'Captcha is not done!';
-        return;
+      if(!self.captchaDone) {
+        self.captchaResponse = grecaptcha.getResponse(self.recaptchaId);
+
+        if(!self.captchaResponse) {
+          console.log("Please complete the captcha!");	
+          self.error = "Please complete the captcha!";
+          return;
+        }
+
+        UserService.sendCaptchaResponse(self.captchaResponse).then(handleSuccessCaptcha, function(error){
+          console.log(error);
+          self.error = error;
+        });
       }
-
-      UserService.sendCaptchaResponse(response).then(handleSuccessCaptcha, function(error){
-        console.log(error);
-        console.log('Captcha failed!');
-        self.error = 'Captcha failed!';
-      });
+      else {
+        registerUser();
+      }
     }
 
     function handleSuccessCaptcha(data, status) {
+      self.captchaDone = true;
+      registerUser();
+    }
+
+    function registerUser() {
       self.registeredUser.userStatus = {id: 1, type:"STATUS_ACTIVE"};
       self.registeredUser.roles = [{id: 2, type:"ROLE_USER"}];
 
@@ -66,7 +76,6 @@
     }
 
     function handleSuccessUser() {
-      //			$window.location.reload();
       $location.path('/user/verify');
     }
 

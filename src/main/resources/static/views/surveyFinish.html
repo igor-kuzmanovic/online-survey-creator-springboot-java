@@ -1,11 +1,11 @@
-<div class = "row">
+<div ng-if="!sfc.initError" class = "row">
   <div class="col-md-offset-3 col-md-6">
     <form name="commentForm" ng-init="sfc.comment = {}" ng-submit="sfc.postComment()" novalidate>
       <div align="center" class="form-group">
         <h3>{{sfc.survey.exitMessage}}</h3>
       </div>
-			
-			<hr ng-if="sfc.user">
+
+      <hr ng-if="sfc.user">
 
       <div class="media" ng-repeat = "comment in sfc.survey.comments | orderBy: 'date':true">
         <div class="media-left media-middle">
@@ -23,24 +23,34 @@
       </div>
 
       <div ng-if="sfc.user" class="form-group" ng-class="{'has-feedback': commentForm.password.$dirty, 'has-error': commentForm.password.$dirty && commentForm.password.$invalid, 'has-success': commentForm.password.$dirty && commentForm.password.$valid}">
-				<div class="input-group">
-        <input type="text" name="comment" class="form-control" placeholder="Write a comment..." ng-model = "sfc.comment.content">
-					
-					<div class="input-group-btn">
-						<button type="submit" class="btn btn-default btn-success">Post <span class="glyphicon glyphicon-envelope"></span></button>
-					</div>
-				</div>
+        <div class="input-group">
+          <input type="text" name="comment" class="form-control" placeholder="Write a comment..." ng-model = "sfc.comment.content">
+
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-default btn-success">Post <span class="glyphicon glyphicon-envelope"></span></button>
+          </div>
+        </div>
       </div>
-			
-			<div ng-if="!sfc.user" class="form-group">
-				<input type="text" name="comment" class="form-control" placeholder="You must be a registered user to comment!" disabled>
-			</div>
-			
-			<hr>
-			
+
+      <div ng-if="!sfc.user" class="form-group">
+        <input type="text" name="comment" class="form-control" placeholder="You must be a registered user to comment!" disabled>
+      </div>
+
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="sfc.error">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sfc.error = ''"><span aria-hidden="true">&times;</span></button>
+        <strong>Error:</strong> {{sfc.error}}
+      </div>
+
+      <hr>
+
       <div align="center" class="form-group">
         <a type="button" class="btn btn-default btn-primary" role="button" href = "#/home">Close</a>
       </div>
     </form>
   </div>
+</div>
+
+<div class="alert alert-danger alert-dismissible" role="alert" ng-if="sfc.initError">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sfc.initError = ''"><span aria-hidden="true">&times;</span></button>
+  <strong>Error:</strong> {{sfc.initError}}
 </div>
