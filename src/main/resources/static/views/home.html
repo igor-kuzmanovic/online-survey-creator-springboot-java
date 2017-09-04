@@ -9,9 +9,8 @@
       <tbody>
         <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate">
           <td>
-            {{survey.name}} - {{survey.description}}<br>Created: {{survey.creationDate | date:'mediumDate'}}      
-          </td>
-          <td>
+            {{survey.name}} - {{survey.description}}    
+            
             <div class="btn-group pull-right" role="group" aria-label="...">
 
               <!--  Uncomment if individual buttons don't work
@@ -47,7 +46,9 @@
               <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#deleteSurveyModal" ng-click="hc.setCurrentSurvey(survey)">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
-            </div>       
+            </div>  
+            
+            <br>Created: {{survey.creationDate | date:'mediumDate'}}
           </td>
         </tr>
       </tbody>

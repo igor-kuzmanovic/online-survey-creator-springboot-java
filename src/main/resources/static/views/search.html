@@ -9,9 +9,8 @@
       <tbody>
         <tr ng-if="survey.creator !== sc.user.username" ng-repeat="survey in sc.surveys track by $index" class="table-animate">
           <td>
-            {{survey.creator}} - {{survey.name}} - {{survey.description}}<br>Created: {{survey.creationDate | date:'mediumDate'}} 
-          </td>
-          <td>
+            {{survey.creator}} - {{survey.name}} - {{survey.description}}
+
             <div class="btn-group pull-right" role="group" aria-label="...">
               <div class="btn btn-primary btn-facebook" ng-click="sc.facebookShare(survey.hashedId)"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
               </div>
@@ -27,7 +26,9 @@
               <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button">
                 <span class="glyphicon glyphicon-signal"></span>
               </a>
-            </div>       
+            </div>  
+
+            <br>Created: {{survey.creationDate | date:'mediumDate'}} 
           </td>
         </tr>
       </tbody>
