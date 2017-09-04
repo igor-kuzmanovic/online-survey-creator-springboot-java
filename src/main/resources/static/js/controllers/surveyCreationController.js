@@ -8,6 +8,8 @@
 
 		var self = this;
 		self.generateSurvey = generateSurvey;
+    
+    self.error = '';
 
 		init();
 
@@ -30,7 +32,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);
+//					alert(error);
+          self.error = error;
 				})
 		}
 

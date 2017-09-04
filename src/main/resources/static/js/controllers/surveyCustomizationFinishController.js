@@ -11,7 +11,7 @@
     self.saveSurvey = saveSurvey;
     self.setExpirationDate = setExpirationDate;
     
-    self.minDate = 0;
+    self.error = '';
 
     init();
 
@@ -37,7 +37,8 @@
         }, 
         function(error){
 					console.log(error);
-					alert(error);
+//					alert(error);
+          self.error = error;
         })
     }
 
@@ -62,7 +63,8 @@
         }, 
         function(error){
 					console.log(error);
-					alert(error);
+//					alert(error);
+          self.error = error;
         })
     }
 

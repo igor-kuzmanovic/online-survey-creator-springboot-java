@@ -10,6 +10,8 @@
 		self.getCredentials = getCredentials;
 		self.checkForm = checkForm;
 
+    self.error = '';
+    
 		init();
 
 		function init() {
@@ -31,7 +33,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);         
+//					alert(error);
+          self.error = error;
 				})
 		}
 

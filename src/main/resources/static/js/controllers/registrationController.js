@@ -10,6 +10,7 @@
 		self.saveUser = saveUser;
 
 		self.registeredUser = {};
+    self.error = '';
 
 		init();
 
@@ -36,15 +37,17 @@
 			var response = grecaptcha.getResponse();;
 
 			if(!response) {
-				console.log('Captcha is not done');
-				alert('Captcha is not done');		
+				console.log('Captcha is not done!');
+//				alert('Captcha is not done!');		
+        self.error = 'Captcha is not done!';
 				return;
 			}
 
 			UserService.sendCaptchaResponse(response).then(handleSuccessCaptcha, function(error){
 				console.log(error);
 				console.log('Captcha failed!');
-				alert(error);			
+//				alert(error);		
+        self.error = 'Captcha failed!';
 			});
 		}
 
@@ -55,19 +58,22 @@
 			UserService.saveUser(self.registeredUser).then(handleSuccessUser, function(error){
 				if(error === 'email') {
 					console.log('Email already in use!');
-					alert('Email already in use!');
+//					alert('Email already in use!');
+          self.error = 'Email already in use!';
 				} else if(error === 'username') {
 					console.log('Username already in use!');
-					alert('Username already in use!');
+//					alert('Username already in use!');
+          self.error = 'Username already in use!';
 				} else {
 					console.log('Email already in use!');
-					alert('Email already in use!');
+//					alert('Email already in use!');
+          self.error = 'Email already in use';
 				}
 			});
 		}
 
 		function handleSuccessUser() {
-			$window.location.reload();
+//			$window.location.reload();
 			$location.path('/user/verify');
 		}
 

@@ -54,7 +54,7 @@
 				UserService.getImageFromUrl()
 					.then(
 					function(response){
-						self.img = data;
+						self.img = response;
 					},
 					function(error){
 						alert(error);

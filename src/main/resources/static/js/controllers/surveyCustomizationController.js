@@ -14,6 +14,8 @@
 		self.deleteQuestion = deleteQuestion;
 		self.createAnswer = createAnswer;
 		self.deleteAnswer = deleteAnswer;
+    
+    self.error = '';
 
 		init();
 
@@ -43,7 +45,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);
+//					alert(error);
+          self.error = error;
 				})
 		}
 
@@ -58,7 +61,8 @@
 							function(response){}, 
 							function(error){
 								console.log(error);
-								alert(error);
+//								alert(error);
+                self.error = error;
 							});
 
 						survey.questions.splice(i, 1);
@@ -74,7 +78,8 @@
 									function(response){}, 
 									function(error){
 										console.log(error);
-										alert(error);
+//										alert(error);
+                    self.error = error;
 									});
 
 								survey.questions[i].answers.splice(j, 1);
@@ -91,7 +96,8 @@
 				}, 
 				function(error){
 					console.log(error);
-					alert(error);				
+//					alert(error);		
+          self.error = error;
 				})
 		}
 
@@ -106,7 +112,8 @@
 				function(response){}, 
 				function(error){
 					console.log(error);
-					alert(error);
+//					alert(error);
+          self.error = error;
 				});
 
 			self.survey.questions.splice(questionIndex, 1);
@@ -124,7 +131,8 @@
 				function(response){}, 
 				function(error){
 					console.log(error);
-					alert(error);
+//					alert(error);
+          self.error = error;
 				});
 
 			self.survey.questions[questionIndex].answers.splice(answerIndex, 1);
