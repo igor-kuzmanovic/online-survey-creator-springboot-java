@@ -21,7 +21,6 @@
       deleteUser: deleteUser,
       findAllUsers: findAllUsers,
       sendCaptchaResponse: sendCaptchaResponse,
-      getImageFromUrl: getImageFromUrl,
       getUserNotifications: getUserNotifications,
       toggleUserBlock: toggleUserBlock,
       checkUserCookies: checkUserCookies
@@ -118,30 +117,6 @@
       });
       return def.promise;
     }
-
-    function getImageFromUrl(username) {
-      var url;
-
-      if(!username) {
-        url = "/upload/image/false";
-      } else {
-        url = "/upload/image/" + username;
-      }
-      var def = $q.defer();
-      var req = {
-        method: 'GET',
-        url: url,
-        responseType: 'arraybuffer'
-      };
-      $http(req).success(function (data) {
-        data = arrayBufferToBase64(data);
-        def.resolve(data);
-      })
-        .error(function (response) {
-        def.reject(response);
-      });
-      return def.promise;
-    }
     
     function deleteUser(id) {
         var def = $q.defer();
@@ -158,31 +133,19 @@
         return def.promise;
     }
 
-      function toggleUserBlock(id) {
-          var def = $q.defer();
-          var req = {
-              method: 'PUT',
-              url: "/api/users/block/" + id
-          };
-          $http(req).success(function (data) {
-              def.resolve(data);
-          })
-              .error(function () {
-                  def.reject("Failed to block/unblock a user");
-              });
-          return def.promise;
-      }
-
-    function arrayBufferToBase64(buffer) {
-      var binary = '';
-      var bytes = new Uint8Array(buffer);
-      var len = bytes.byteLength;
-
-      for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
-      }
-
-      return window.btoa(binary);
+    function toggleUserBlock(id) {
+        var def = $q.defer();
+        var req = {
+            method: 'PUT',
+            url: "/api/users/block/" + id
+        };
+        $http(req).success(function (data) {
+            def.resolve(data);
+        })
+            .error(function () {
+                def.reject("Failed to block/unblock a user");
+            });
+        return def.promise;
     }
 
     function removeUser() {
@@ -220,6 +183,7 @@
         .error(function () {
         def.reject("Failed to get notifications for selected user");
       });
+
       return def.promise;
     }
 
@@ -249,7 +213,6 @@
     function checkUserCookies() {
       return CookieService.getCookie('username') && CookieService.getCookie('password');
     }
-
 
     return service;
 

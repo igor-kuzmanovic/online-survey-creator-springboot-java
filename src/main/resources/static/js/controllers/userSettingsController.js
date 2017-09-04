@@ -9,31 +9,22 @@
     var self = this;
     self.editUser = editUser;
     self.onSuccess = onSuccess;
-    self.getImage = getImage;
 
     init();
 
     function init(){
-      $scope.mc.getImage();
       if (!$scope.mc.checkUser()) {
         $location.path('/');
       }
 
       getWholeUser(UserService.getUser().username);
-      getImage();
     }
 
     function onSuccess(response) {
       init();
-      $scope.mc.getImage();
-    }
-
-    function getImage() {
-      UserService.getImageFromUrl().then(handleSuccessImage);
-    }
-
-    function handleSuccessImage(data, status) {
-      self.img = data;
+      UserService.findUser(self.wholeUser.username).then(function (data, response) {
+          $scope.mc.setImage(data.imageUrl);
+      });
     }
 
     function getWholeUser(username) {
@@ -52,5 +43,5 @@
       UserService.setUser(data);
     }
 
-  };
+  }
 })();

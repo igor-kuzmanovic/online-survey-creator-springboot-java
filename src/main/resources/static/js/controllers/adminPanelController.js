@@ -22,7 +22,6 @@
     init();
     
     function init() {
-      $scope.mc.getImage();
       getAllSurveys();
       getAllUsers();
     }

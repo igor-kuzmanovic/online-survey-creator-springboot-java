@@ -12,6 +12,7 @@
     self.removeUser = removeUser;
     self.getUser = getUser;
     self.getImage = getImage;
+    self.setImage = setImage;
 
     self.$location = $location;
     self.themes = [
@@ -40,23 +41,23 @@
 
     function init() {
       getUser();
-      getImage();
-    }
-
-    function checkUser() {
-      if(self.user) {
-        return self.user;
+      if(checkUser()) {
+          setImage(self.user.imageUrl);
       }
     }
 
     function getImage() {
-      if(self.user) {
-        UserService.getImageFromUrl().then(handleSuccessImage);
-      }
+      return self.imageUrl;
+    }
+    
+    function setImage(image) {
+      self.imageUrl = image;
     }
 
-    function handleSuccessImage(data, status) {
-      self.img = data;
+    function checkUser() {
+      if(self.user) {
+          return self.user;
+      }
     }
 
     function getUser() {
@@ -82,7 +83,6 @@
 
       if(self.user) {
         console.log('User found');
-        getImage();
       }
     }
 
@@ -91,5 +91,6 @@
       delete self.user;
       $location.path('/');
     }
-  };
+
+  }
 })();
