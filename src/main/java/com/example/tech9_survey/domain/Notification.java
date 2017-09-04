@@ -4,26 +4,20 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 
 @Entity
 public class Notification extends BaseEntity {
 	
-	@Size(max=240)
+	@Column(name = "notification_type", nullable = false)
+	private int notificationType;
+	
 	@Column(nullable = false)
-	private String content;
+    private String receiver;
 	
-	@ManyToOne
-	@JoinColumn(name = "receiver_id", nullable = false)
-	private User receiver;
-	
-	@ManyToOne
-	@JoinColumn(name = "sender_id", nullable = false)
-	private User sender;
+	@Column(nullable = false)
+    private String sender;
 	
 	@Column(name = "creation_date")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -35,27 +29,27 @@ public class Notification extends BaseEntity {
 	@Column(name = "notification_link", nullable = false)
 	private String link;
 
-	public String getContent() {
-		return content;
+	public int getNotificationType() {
+		return notificationType;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setNotificationType(int notificationType) {
+		this.notificationType = notificationType;
 	}
 
-	public User getReceiver() {
+	public String getReceiver() {
 		return receiver;
 	}
 
-	public void setReceiver(User receiver) {
+	public void setReceiver(String receiver) {
 		this.receiver = receiver;
 	}
 
-	public User getSender() {
+	public String getSender() {
 		return sender;
 	}
 
-	public void setSender(User sender) {
+	public void setSender(String sender) {
 		this.sender = sender;
 	}
 
