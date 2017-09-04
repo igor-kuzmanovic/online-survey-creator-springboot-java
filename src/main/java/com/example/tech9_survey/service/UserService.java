@@ -49,6 +49,10 @@ public class UserService implements UserDetailsService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+    
+    public User findOne(Long userId) {
+		return userRepository.findOne(userId);
+	}
 
     public void delete(Long id) {
         userRepository.delete(id);
@@ -94,6 +98,12 @@ public class UserService implements UserDetailsService {
         String loggedInUserUsername = auth.getName();
         User user = findByUsername(loggedInUserUsername);
         
-        return user;
+        if(user == null) {
+        	return null;
+        }
+        else
+        {
+        	return user;
+        }
     }
 }
