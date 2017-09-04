@@ -1,6 +1,6 @@
-<div class="row">
+<div ng-if="!scc.initError" class="row">
   <div class="col-md-offset-2 col-md-8">
-    <form name="surveyForm" class="form-horizontal" novalidate>
+    <form name="scc.surveyForm" class="form-horizontal" novalidate>
       <div align="center" class="form-group">
         <h3>Customize your survey</h3>
       </div>
@@ -49,7 +49,7 @@
         </button>
       </div>
 
-      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="lc.error">
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="scc.error">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="scc.error = ''"><span aria-hidden="true">&times;</span></button>
         <strong>Error:</strong> {{scc.error}}
       </div>
@@ -57,8 +57,13 @@
       <hr>
 
       <div align="center" class="form-group">
-        <button type="submit" class="btn btn-default btn-success" ng-click="scc.finishCustomization(); scc.error = ''">Finish customization <span class="glyphicon glyphicon-check"></span></button>
+        <button type="submit" class="btn btn-default btn-success" ng-click="scc.error = ''; scc.finishCustomization()">Finish customization <span class="glyphicon glyphicon-check"></span></button>
       </div>
     </form>
   </div>
+</div>
+
+<div class="alert alert-danger alert-dismissible" role="alert" ng-if="scc.initError">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="scc.initError = ''"><span aria-hidden="true">&times;</span></button>
+  <strong>Error:</strong> {{scc.initError}}
 </div>

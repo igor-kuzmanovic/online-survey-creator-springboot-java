@@ -1,43 +1,43 @@
 <div class="row">
   <div class="col-md-offset-4 col-md-4">
-    <form name="signupForm" ng-init="savedUser = {}" ng-submit="rc.saveUser(savedUser); rc.error = ''" novalidate>
+    <form name="rc.signupForm" ng-init="savedUser = {}" novalidate>
       <div align="center" class="form-group">
         <h3>Sign up</h3>
       </div>
 
-      <div class="form-group" ng-class="{'has-feedback': signupForm.username.$dirty, 'has-error': signupForm.username.$dirty && signupForm.username.$invalid, 'has-success': signupForm.username.$dirty && signupForm.username.$valid}">
+      <div class="form-group" ng-class="{'has-feedback': rc.signupForm.username.$dirty, 'has-error': rc.signupForm.username.$dirty && rc.signupForm.username.$invalid, 'has-success': rc.signupForm.username.$dirty && rc.signupForm.username.$valid}">
         <label for="username">Username:</label>
         <input class="form-control" id="username" type="text" name="username" auto-focus="true" required ng-model="savedUser.username">
-        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="signupForm.username.$dirty && signupForm.username.$valid"></span>
-        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="signupForm.username.$dirty && signupForm.username.$invalid"></span>
-        <label class="text-danger" ng-show="signupForm.username.$dirty && signupForm.username.$invalid">Please enter a username!</label>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="rc.signupForm.username.$dirty && rc.signupForm.username.$valid"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="rc.signupForm.username.$dirty && rc.signupForm.username.$invalid"></span>
+        <label class="text-danger" ng-show="rc.signupForm.username.$dirty && rc.signupForm.username.$invalid">Please enter a username!</label>
       </div>
 
-      <div class="form-group" ng-class="{'has-feedback': signupForm.password.$dirty, 'has-error': signupForm.password.$dirty && signupForm.password.$invalid, 'has-success': signupForm.password.$dirty && signupForm.password.$valid}">
+      <div class="form-group" ng-class="{'has-feedback': rc.signupForm.password.$dirty, 'has-error': rc.signupForm.password.$dirty && rc.signupForm.password.$invalid, 'has-success': rc.signupForm.password.$dirty && rc.signupForm.password.$valid}">
         <label for="password">Password:</label>
         <input type="password" class="form-control" id="password" name="password" required ng-model="savedUser.password">
-        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="signupForm.password.$dirty && signupForm.password.$valid"></span>
-        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="signupForm.password.$dirty && signupForm.password.$invalid"></span>
-        <label class="text-danger" ng-show="signupForm.password.$dirty && signupForm.password.$invalid">Please enter a password!</label>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="rc.signupForm.password.$dirty && rc.signupForm.password.$valid"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="rc.signupForm.password.$dirty && rc.signupForm.password.$invalid"></span>
+        <label class="text-danger" ng-show="rc.signupForm.password.$dirty && rc.signupForm.password.$invalid">Please enter a password!</label>
       </div>
 
-      <div class="form-group" ng-class="{'has-feedback': signupForm.email.$dirty, 'has-error': signupForm.email.$dirty && signupForm.email.$invalid, 'has-success': signupForm.email.$dirty && signupForm.email.$valid}">
+      <div class="form-group" ng-class="{'has-feedback': rc.signupForm.email.$dirty, 'has-error': rc.signupForm.email.$dirty && rc.signupForm.email.$invalid, 'has-success': rc.signupForm.email.$dirty && rc.signupForm.email.$valid}">
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email" name="email" required ng-model="savedUser.email">
-        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="signupForm.email.$dirty && signupForm.email.$valid"></span>
-        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="signupForm.email.$dirty && signupForm.email.$invalid"></span>
-        <label class="text-danger" ng-show="signupForm.email.$dirty && signupForm.email.$invalid">Please enter a valid email!</label>
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="rc.signupForm.email.$dirty && rc.signupForm.email.$valid"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="rc.signupForm.email.$dirty && rc.signupForm.email.$invalid"></span>
+        <label class="text-danger" ng-show="rc.signupForm.email.$dirty && rc.signupForm.email.$invalid">Please enter a valid email!</label>
       </div>
 
       <div id="captcha" align="center" class="form-group"></div>
 
-      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="lc.error">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="lc.error = ''"><span aria-hidden="true">&times;</span></button>
-        <strong>Error:</strong> {{lc.error}}
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="rc.error">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="rc.error = ''"><span aria-hidden="true">&times;</span></button>
+        <strong>Error:</strong> {{rc.error}}
       </div>
 
       <div align="center" class="form-group">
-        <button type="submit" class="btn btn-default btn-success">Sign up</button>
+        <button type="submit" class="btn btn-default btn-success" ng-click="rc.error = ''; rc.saveUser(savedUser)">Sign up</button>
       </div>
     </form>
 

@@ -1,4 +1,4 @@
-<div class="row">
+<div ng-if="!sc.initError" class="row">
   <div class="table-responsive">
     <table class="table table-hover table-bordered" style="background-color:white">
       <thead>
@@ -9,9 +9,8 @@
       <tbody>
         <tr ng-if="survey.creator !== sc.user.username" ng-repeat="survey in sc.surveys track by $index" class="table-animate">
           <td>
-            {{survey.creator}} - {{survey.name}} - {{survey.description}}<br>Created: {{survey.creationDate | date:'mediumDate'}} 
-          </td>
-          <td>
+            {{survey.creator}} - {{survey.name}} - {{survey.description}}
+
             <div class="btn-group pull-right" role="group" aria-label="...">
               <div class="btn btn-primary btn-facebook" ng-click="sc.facebookShare(survey.hashedId)"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
               </div>
@@ -27,10 +26,21 @@
               <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button">
                 <span class="glyphicon glyphicon-signal"></span>
               </a>
-            </div>       
+            </div>  
+
+            <br>Created: {{survey.creationDate | date:'mediumDate'}} 
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <div class="alert alert-info" role="alert" ng-if="sc.surveys.length === 0">
+    <strong>Info:</strong> There are no surveys!
+  </div>
+</div>
+
+<div class="alert alert-danger alert-dismissible" role="alert" ng-if="sc.initError">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sc.initError = ''"><span aria-hidden="true">&times;</span></button>
+  <strong>Error:</strong> {{sc.initError}}
 </div>

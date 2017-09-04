@@ -30,7 +30,7 @@
         }, 
         function(error){
           console.log(error);
-          alert(error);
+          self.initError = error;
         });
     }
 

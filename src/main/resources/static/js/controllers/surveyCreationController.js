@@ -36,14 +36,14 @@
 		function checkForm() {
 			var focusedElement;
 
-			if($scope.surveyForm.$invalid) {
-				if($scope.surveyForm.description.$invalid) {
-					$scope.surveyForm.description.$setDirty();
+			if(self.surveyForm.$invalid) {
+				if(self.surveyForm.description.$invalid) {
+					self.surveyForm.description.$setDirty();
 					focusedElement = '#description';
 				}
 
-				if($scope.surveyForm.name.$invalid) {
-					$scope.surveyForm.name.$setDirty();
+				if(self.surveyForm.name.$invalid) {
+					self.surveyForm.name.$setDirty();
 					focusedElement = '#name';
 				}
 

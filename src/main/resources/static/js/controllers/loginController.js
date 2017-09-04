@@ -38,14 +38,14 @@
 		function checkForm() {
 			var focusedElement;
 
-			if($scope.loginForm.$invalid) {
-				if($scope.loginForm.password.$invalid) {
-					$scope.loginForm.password.$setDirty();
+			if(self.loginForm.$invalid) {
+				if(self.loginForm.password.$invalid) {
+					self.loginForm.password.$setDirty();
 					focusedElement = '#password';
 				}
 
-				if($scope.loginForm.username.$invalid) {
-					$scope.loginForm.username.$setDirty();
+				if(self.loginForm.username.$invalid) {
+					self.loginForm.username.$setDirty();
 					focusedElement = '#username';
 				}
 
