@@ -54,6 +54,12 @@ public class SurveyController {
     		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     	}
     	
+    	for(int i = 0; i < surveys.size(); i++) {
+    		Survey survey = surveys.get(i);
+    		survey = surveyIsActiveCheck(survey);
+    		surveys.set(i, survey);
+    	}
+    	
         return new ResponseEntity<>(surveys, HttpStatus.OK);
     }
 	
@@ -110,8 +116,7 @@ public class SurveyController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		
-		survey.setPublicationDate(null);
-		survey.setExpirationDate(null);
+		survey.setExpirationDate(new Date());
 		survey.setExitMessage(new String());
 		survey.setIsActive(false);
 		SurveyPrivacy surveyPrivacy = new SurveyPrivacy();
@@ -165,6 +170,22 @@ public class SurveyController {
     }
 	
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@PutMapping(path = "/deactivate/{id}")
+	public ResponseEntity<Survey> deactivate(@PathVariable Long id) {
+		Survey survey = surveyService.findOne(id);
+		
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		survey.setExpirationDate(new Date());
+		survey.setIsActive(false);
+		surveyService.save(survey);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Survey> delete(@PathVariable Long id) {
 		Survey findSurvey = surveyService.findOne(id);
@@ -178,24 +199,45 @@ public class SurveyController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(path = "/question/{id}")
+    public ResponseEntity<Survey> findSurveyByQuestion(@PathVariable Long id) {
+        Survey survey = surveyService.findSurveyByQuestionId(id);
+
+        if (survey == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(survey, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping(path = "/comment/{id}")
+	public ResponseEntity<Survey> findSurveyByCommentId(@PathVariable Long id) {
+		Survey survey = surveyService.findSurveyByCommentsId(id);
+
+		if (survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(survey, HttpStatus.OK);
+	}
+
 	private Survey surveyIsActiveCheck(Survey survey) {
 		Date currentDate = new Date();
 		
-		if(survey.getIsActive() == false && survey.getPublicationDate() != null && survey.getPublicationDate().compareTo(currentDate) <= 0) {
+		if(survey.getExpirationDate() == null || survey.getExpirationDate().compareTo(currentDate) > 0) {
 			survey.setIsActive(true);
 			survey = surveyService.save(survey);
 		}
 		
-		if(survey.getIsActive() == true && survey.getPublicationDate() != null && survey.getPublicationDate().compareTo(currentDate) > 0) {
-			survey.setIsActive(false);
-			survey = surveyService.save(survey);
-		}
-		
-		if(survey.getIsActive() == true && survey.getExpirationDate() != null && survey.getExpirationDate().compareTo(currentDate) <= 0) {
+		if(survey.getExpirationDate() != null && survey.getExpirationDate().compareTo(currentDate) <= 0) {
 			survey.setIsActive(false);
 			survey = surveyService.save(survey);
 		}
 		
 		return survey;
 	}
+
+
 }

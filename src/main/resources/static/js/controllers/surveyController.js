@@ -16,6 +16,7 @@
     init();
 
     function init() {
+      $scope.mc.getImage();
       self.user = $scope.mc.checkUser();
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
@@ -40,7 +41,7 @@
       }
       else {
         window.alert("This survey is not active!");
-        $location.path('/home');
+        $location.path('/survey/details/' + self.surveyHashedId);
       }
     }
 

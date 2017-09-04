@@ -25,7 +25,7 @@ public class UploadController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity uploadFile(@RequestParam("file") MultipartFile uploadFile) {
+    public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile uploadFile) {
         try {
             String filename = uploadFile.getOriginalFilename();
             String directory = "D:\\user_images";
@@ -42,10 +42,10 @@ public class UploadController {
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/image", produces = "image/jpg")

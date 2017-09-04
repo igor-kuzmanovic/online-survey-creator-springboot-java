@@ -9,13 +9,18 @@
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.saveSurvey = saveSurvey;
-    self.setPublicationDate = setPublicationDate;
     self.setExpirationDate = setExpirationDate;
+    
+    self.minDate = 0;
 
-    init()
+    init();
 
     function init() {
-      $scope.mc.checkUser();
+      $scope.mc.getImage();
+      if (!$scope.mc.checkUser()) {
+        $location.path('/');
+      }
+
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
     }
@@ -25,9 +30,9 @@
         .then(
         function(response){
           self.survey = response;
-          self.surveyActivation = 1;
+          self.minDate = new Date();
+          self.minDate.setDate(self.minDate.getDate() + 1);
           self.surveyDeactivation = 1;
-          setPublicationDate();
           setExpirationDate();
         }, 
         function(error){
@@ -40,35 +45,28 @@
         return;
       }
 
-      if(self.surveyActivation === 1) {
-        self.survey.publicationDate = new Date();
+      if(self.surveyDeactivation === 1) {
         self.survey.isActive = true;
-      }
-      
-      if(self.surveyDeactivation === 2) {
-        self.survey.isActive = false;
+        self.survey.expirationDate = null;
       }
 
-      if(self.surveyDeactivation === 1) {
-        self.survey.expirationDate = null;
+      if(self.surveyDeactivation === 2) {
+        self.survey.isActive = false;
       }
 
       SurveyService.saveSurvey(angular.copy(self.survey))
         .then(
         function(response){
-          $location.path('/survey/submit/' + response.hashedId);
+          $location.path('/survey/details/' + response.hashedId);
         }, 
         function(error){
           console.log(error);
         })
     }
 
-    function setPublicationDate() {
-      self.survey.publicationDate = new Date();
-    }
-
     function setExpirationDate() {
       self.survey.expirationDate = new Date();
+      self.survey.expirationDate.setDate(self.survey.expirationDate.getDate() + 1);
     }
 
     function checkForm() {
@@ -78,11 +76,6 @@
         if($scope.surveyForm.expirationDate && $scope.surveyForm.expirationDate.$invalid) {
           $scope.surveyForm.expirationDate.$setDirty();
           focusedElement = '#expirationDate';
-        }
-
-        if($scope.surveyForm.publicationDate && $scope.surveyForm.publicationDate.$invalid) {
-          $scope.surveyForm.publicationDate.$setDirty();
-          focusedElement = '#publicationDate';
         }
 
         if($scope.surveyForm.exitMsg.$invalid) {

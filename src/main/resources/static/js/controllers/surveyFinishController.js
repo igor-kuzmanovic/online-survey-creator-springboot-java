@@ -10,12 +10,15 @@
     self.getCurrentSurvey = getCurrentSurvey;
     self.postComment = postComment;
     self.deleteComment = deleteComment;
+    self.reportComment = reportComment;
 
     self.user = {};
+    self.comment = {};
 
     init();
 
     function init() {
+      $scope.mc.getImage();
       self.user = $scope.mc.checkUser();
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
@@ -30,7 +33,23 @@
           if(commentPosted) {
             postNotification();
           }
+          
+          checkSurvey();
         })
+    }
+
+    function checkSurvey() {
+      if(self.survey.isActive) {
+        if(self.user && self.survey.creator === self.user.username) {
+          window.alert("You cannot complete your own survey!");
+          $location.path('/home');
+        }
+        checkSubmitter();
+      }
+      else {
+        window.alert("This survey is not active!");
+        $location.path('/survey/details/' + self.surveyHashedId);
+      }
     }
 
     function postComment() {
@@ -60,5 +79,8 @@
       })
     }
 
+    function reportComment(commentId) {
+      // Insert reporting logic
+    }
   }
 })();

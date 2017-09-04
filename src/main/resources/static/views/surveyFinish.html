@@ -9,9 +9,10 @@
         <div class="media-left media-middle">
           <span class="glyphicon glyphicon-user comment-user"></span>
         </div>
-        <div class="media-body">
-          <button ng-if="comment.poster === scf.user.username" type="button" class="close comment-delete" aria-hidden="true" ng-click="sfc.deleteComment(comment.id)">&times;</button>
+        <div class="media-body">       
           <h4 class="media-heading">
+            <button ng-if="comment.poster !== sfc.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sfc.reportComment(comment.id)"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+            <button ng-if="comment.poster === sfc.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-remove-sign" ng-click="sfc.deleteComment(comment.id)"></span></button>
             <span class="comment-poster">{{comment.poster}}</span>
           </h4>
           <p class="comment-content">{{comment.content}}<br>
@@ -24,7 +25,7 @@
         <textarea type="text" name="comment" class="form-control" placeholder="Write a comment..." ng-model = "sfc.comment.content" rows = "2"></textarea>
       </div>
       <div align="center" class="form-group">
-        <button type = "submit" class="btn btn-default btn-success" type="button" ng-click="sfc.postComment()">Post</button>
+        <button type = "submit" class="btn btn-default btn-success" type="button" ng-click="sfc.postComment()" autofocus>Post</button>
       </div>
       <div align="center" class="form-group">
         <a type = "submit" class="btn btn-default btn-primary" role="button" href = "#/home">Close</a>

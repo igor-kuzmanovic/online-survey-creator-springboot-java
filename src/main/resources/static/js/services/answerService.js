@@ -7,15 +7,17 @@
   function AnswerService($http, $q) {
 
     var service = {
-      deleteAnswer: deleteAnswer
-    }
+      deleteAnswer: deleteAnswer,
+        getAllAnswers: getAllAnswers,
+        deleteAnswer: deleteAnswer
+    };
 
     function deleteAnswer(answerId) {
       var def = $q.defer();
       var req = {
         method: 'DELETE',
         url: "/api/answer/" + answerId
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -24,7 +26,22 @@
       });
       return def.promise;
     }
-
+    
+    function getAllAnswers() {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "/api/answer/"
+        };
+        $http(req).success(function (data) {
+            def.resolve(data);
+        })
+            .error(function () {
+                def.reject("Failed to fet all answers!");
+            });
+        return def.promise;
+    }
+    
     return service;
 
   }

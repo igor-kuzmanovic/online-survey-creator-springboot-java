@@ -12,7 +12,11 @@
     init();
 
     function init() {
-      $scope.mc.checkUser();
+      $scope.mc.getImage();
+      if (!$scope.mc.checkUser()) {
+        $location.path('/');
+      }
+
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
     }

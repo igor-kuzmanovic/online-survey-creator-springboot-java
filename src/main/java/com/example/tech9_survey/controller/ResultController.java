@@ -93,6 +93,16 @@ public class ResultController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
+		List<SurveyResult> surveyResults = survey.getResults();
+		
+		for(int i = 0; i < surveyResults.size(); i++) {
+			String poster = surveyResults.get(i).getSubmitedBy();
+			
+			if(poster.equals(user.getUsername()) && user != null) {
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
+		}
+		
 		surveyResult.setSurvey(survey);
 		survey.getResults().add(surveyResult);
 		surveyService.save(survey);

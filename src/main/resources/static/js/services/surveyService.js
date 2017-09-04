@@ -8,29 +8,47 @@
 
     var service = {
       saveSurvey: saveSurvey,
+      deactivateSurvey: deactivateSurvey,
       deleteSurvey: deleteSurvey,
       generateSurvey: generateSurvey,
       getSurveys: getSurveys,
       getCurrentSurvey: getCurrentSurvey,
-      getSurveyComments: getSurveyComments
-    }
+      getSurveyComments: getSurveyComments,
+        getSurveyByQuestion: getSurveyByQuestion,
+        getSurveyByComment: getSurveyByComment
+    };
 
     function saveSurvey(survey) {
-      survey.publicationDate = $filter('date')(survey.publicationDate, "yyyy-MM-dd");
       if(survey.expirationDate) {
         survey.expirationDate = $filter('date')(survey.expirationDate, "yyyy-MM-dd");
       }
+      
       var def = $q.defer();
       var req = {
         method: 'PUT',
         url: "/api/survey",
         data: survey
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
         .error(function () {
         def.reject("Failed to save a survey!");
+      });
+      return def.promise;
+    }
+    
+    function deactivateSurvey(surveyId) {
+      var def = $q.defer();
+      var req = {
+        method: 'PUT',
+        url: "/api/survey/deactivate/" + surveyId
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to deactivate a survey!");
       });
       return def.promise;
     }
@@ -40,7 +58,7 @@
       var req = {
         method: 'DELETE',
         url: "/api/survey/" + id
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -56,7 +74,7 @@
         method: 'POST',
         url: "/api/survey",
         data: survey
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -71,7 +89,7 @@
       var req = {
         method: 'GET',
         url: "/api/survey/" + hashedId
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -86,7 +104,7 @@
       var req = {
         method: 'GET',
         url: "/api/survey"
-      }
+      };
       $http(req).success(function (data) {
         def.resolve(data);
       })
@@ -101,7 +119,7 @@
       var req = {
         method: 'GET',
         url: "/api/survey/" + survey.id + "/comment"
-      }
+      };
       $http(req)
         .success(function (data) {
         def.resolve(data);
@@ -111,7 +129,39 @@
       });
       return def.promise;
     }
-
+    
+    function getSurveyByQuestion(id) {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "/api/survey/question/" + id
+        };
+        $http(req)
+            .success(function (data) {
+                def.resolve(data);
+            })
+            .error(function () {
+                def.reject("Failed to get survey for given question!");
+            });
+        return def.promise;
+    }
+    
+    function getSurveyByComment(id) {
+        var def = $q.defer();
+        var req = {
+            method: 'GET',
+            url: "/api/survey/comment/" + id
+        };
+        $http(req)
+            .success(function (data) {
+                def.resolve(data);
+            })
+            .error(function () {
+                def.reject("Failed to get survey for given comment!");
+            });
+        return def.promise;
+    }
+    
     return service;
 
   }

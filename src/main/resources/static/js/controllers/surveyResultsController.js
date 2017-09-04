@@ -10,11 +10,16 @@
     self.getCurrentSurvey = getCurrentSurvey;
     self.generateBarChart = generateBarChart;
     self.generatePieChart = generatePieChart;
+    self.reportComment = reportComment;
 
     init();
 
     function init() {
-      $scope.mc.checkUser();
+      $scope.mc.getImage();
+      if (!$scope.mc.checkUser()) {
+        $location.path('/');
+      }
+
       self.surveyHashedId = $routeParams.hashedId;
       getCurrentSurvey();
     }
@@ -24,10 +29,6 @@
         .then(
         function(response){
           self.survey = response;
-          if(!self.survey.isActive) {
-            window.alert("This survey isn't active and has no results!");
-            $location.path('/home');
-          }
         })
     }
 
@@ -89,6 +90,10 @@
         var chart = new google.visualization.PieChart(document.getElementById('chart' + questionIndex));
         chart.draw(data, options);
       }
+    }
+    
+    function reportComment(commentId) {
+      // Insert reporting logic
     }
 
   }

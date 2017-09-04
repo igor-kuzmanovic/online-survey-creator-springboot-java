@@ -2,14 +2,15 @@
   angular.module('app')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['SurveyService', '$scope', '$sce'];
+  HomeController.$inject = ['SurveyService', '$scope', '$location'];
 
-  function HomeController(SurveyService, $scope, $sce) {
+  function HomeController(SurveyService, $scope, $location) {
 
     var self = this;
     self.deleteSurvey = deleteSurvey;
     self.setCurrentSurvey = setCurrentSurvey;
     self.facebookShare = facebookShare;
+    self.deactivateSurvey = deactivateSurvey;
 
     self.facebookLink = [];
     self.twitterLink = [];
@@ -18,7 +19,11 @@
     init();
 
     function init(){
-      $scope.mc.checkUser();
+      $scope.mc.getImage();
+      if (!$scope.mc.checkUser()) {
+        $location.path('/');
+      }
+
       getSurveys();			
     }
 
@@ -45,12 +50,23 @@
 
     function facebookShare(id) {
       var facebookHref = 'https://tech9survey.github.io/#/' + id + '/';
-      
+
       FB.ui({
         method: 'share',
         display: 'popup',
         href: facebookHref,
       }, function(response){});
+    }
+
+    function deactivateSurvey() {
+      SurveyService.deactivateSurvey(self.currentSurvey.id)
+        .then(
+        function(response){
+          getSurveys();
+        }, 
+        function(error){
+          console.log(error);
+        })
     }
   };
 })();
