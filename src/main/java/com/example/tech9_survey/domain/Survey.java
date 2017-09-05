@@ -50,6 +50,9 @@ public class Survey extends BaseEntity {
 	@Column(name = "is_public", nullable = false)
 	private Boolean isPublic;
 	
+	@Column(name = "is_flagged")
+    private Boolean isFlagged;
+	
 	@Cascade(CascadeType.DELETE)
 	@OneToMany(mappedBy = "survey")
 	private List<Question> questions;
@@ -168,6 +171,14 @@ public class Survey extends BaseEntity {
 
 	public void setIsPublic(Boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+
+	public Boolean getIsFlagged() {
+		return isFlagged;
+	}
+
+	public void setIsFlagged(Boolean isFlagged) {
+		this.isFlagged = isFlagged;
 	}
 
 }

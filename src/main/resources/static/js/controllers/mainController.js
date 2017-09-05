@@ -88,7 +88,7 @@
         self.unreadNotifications = 0;
 
         for(i = 0; i < self.user.notifications.length; i++) {
-          if(!self.user.notifications[i].read) {
+          if(!self.user.notifications[i].isRead) {
             self.unreadNotifications++;
           }
         }

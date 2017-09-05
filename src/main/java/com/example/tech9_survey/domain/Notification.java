@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 public class Notification extends BaseEntity {
 	
 	@Column(name = "notification_type", nullable = false)
-	private int notificationType;
+	private Integer notificationType;
 	
 	@Column(nullable = false)
 	private String content;
@@ -27,7 +27,7 @@ public class Notification extends BaseEntity {
 	private Date creationDate;
 	
 	@Column(name = "is_read", nullable = false)
-	private boolean isRead;
+	private Boolean isRead;
 	
 	@Column(name = "notification_link", nullable = false)
 	private String link;
@@ -72,12 +72,16 @@ public class Notification extends BaseEntity {
 		this.creationDate = creationDate;
 	}
 
-	public boolean isRead() {
+	public Boolean getIsRead() {
 		return isRead;
 	}
 
-	public void setRead(boolean isRead) {
+	public void setIsRead(Boolean isRead) {
 		this.isRead = isRead;
+	}
+
+	public void setNotificationType(Integer notificationType) {
+		this.notificationType = notificationType;
 	}
 
 	public String getLink() {

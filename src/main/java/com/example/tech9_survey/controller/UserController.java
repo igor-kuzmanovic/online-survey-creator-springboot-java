@@ -82,9 +82,9 @@ public class UserController {
 		}
 		
 		for(int i = 0; i < notifications.size(); i++) {
-			if(notifications.get(i).isRead() == false) {
+			if(notifications.get(i).getIsRead() == false) {
 				Notification notification = notifications.get(i);
-				notification.setRead(true);
+				notification.setIsRead(true);
 				notifications.set(i, notification);
 			}
 		}
@@ -140,7 +140,7 @@ public class UserController {
             if (userService.findByEmail(user.getEmail()) == null) {
                 //String imagePath = Paths.get("D:\\user_images", "default_user.jpg").toString();
 
-                user.setEnabled(false);
+                user.setIsEnabled(false);
                 user.setRegistrationDate(new Date());
                 try {
                     InputStream stream = resource.getInputStream();
@@ -188,7 +188,7 @@ public class UserController {
         }
 
         User user = verificationToken.getUser();
-        user.setEnabled(true);
+        user.setIsEnabled(true);
         userService.save(user);
         verificationTokenService.delete(verificationToken.getId());
 
@@ -262,7 +262,7 @@ public class UserController {
     @Scheduled(fixedDelay = 60000)
     public void scheduleFixedDelayTask() {
         for (VerificationToken t : verificationTokenService.findAll()) {
-            if (addDay(t.getUser().getRegistrationDate(), 1).before(addDay(new Date(), 0)) && !t.getUser().isEnabled()) {
+            if (addDay(t.getUser().getRegistrationDate(), 1).before(addDay(new Date(), 0)) && !t.getUser().getIsEnabled()) {
                 verificationTokenService.delete(t.getId());
                 userService.delete(t.getUser().getId());
             }

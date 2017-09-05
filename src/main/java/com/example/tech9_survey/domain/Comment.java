@@ -24,6 +24,9 @@ public class Comment extends BaseEntity {
 	
     @Column(nullable = false)
     private String poster;
+    
+    @Column(name = "is_flagged")
+    private Boolean isFlagged;
 
 	public String getContent() {
 		return content;
@@ -55,6 +58,14 @@ public class Comment extends BaseEntity {
 
 	public void setPoster(String poster) {
 		this.poster = poster;
+	}
+
+	public Boolean getIsFlagged() {
+		return isFlagged;
+	}
+
+	public void setIsFlagged(Boolean isFlagged) {
+		this.isFlagged = isFlagged;
 	}
 	
 }

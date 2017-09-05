@@ -29,7 +29,7 @@ public class User extends BaseEntity {
     private String secondName;
 
     @Column(name = "is_enabled", nullable = false)
-    private boolean isEnabled;
+    private Boolean isEnabled;
 
     @Column(name = "registration_date")
     private Date registrationDate;
@@ -86,15 +86,15 @@ public class User extends BaseEntity {
         this.registrationDate = registrationDate;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
-    }
+    public Boolean getIsEnabled() {
+		return isEnabled;
+	}
 
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
-    }
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
 
-    public UserStatus getUserStatus() {
+	public UserStatus getUserStatus() {
         return userStatus;
     }
 

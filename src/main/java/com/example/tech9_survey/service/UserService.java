@@ -58,7 +58,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username);
 
-        if (!user.isEnabled()) {
+        if (!user.getIsEnabled()) {
             return org.springframework.security.core.userdetails.User.withUsername(user.getUsername()).password(user.getPassword())
                     .disabled(true).roles(getAuthorities(user).toString())
                     .build();

@@ -91,7 +91,7 @@ public class NotificationController {
         notification.setSender(sender);
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
-        notification.setRead(false);
+        notification.setIsRead(false);
         notification.setLink("/survey/results/" + completedSurvey.getHashedId());
         notification.setContent(notification.getSender() + " has successfully completed your survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());
         
@@ -139,7 +139,7 @@ public class NotificationController {
         notification.setSender(sender);
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
-        notification.setRead(false);
+        notification.setIsRead(false);
         notification.setLink("/admin");
         notification.setContent(notification.getSender() + " has flagged the survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());
         
@@ -192,7 +192,7 @@ public class NotificationController {
         notification.setSender(sender);
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
-        notification.setRead(false);    
+        notification.setIsRead(false);    
         notification.setLink("/survey/results/" + survey.getHashedId() + "/" + commentId);
         notification.setContent(notification.getSender() + " has commented '" + comment.getContent() + "' on your survey '" + survey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());
         
@@ -245,7 +245,7 @@ public class NotificationController {
         notification.setSender(sender);
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
-        notification.setRead(false);
+        notification.setIsRead(false);
         notification.setLink("/admin");
         notification.setContent(notification.getSender() + " has flagged the comment '" + comment.getContent() + "' on the survey '" + survey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());            
         
