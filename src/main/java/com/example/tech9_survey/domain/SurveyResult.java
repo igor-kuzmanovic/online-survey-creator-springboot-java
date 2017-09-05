@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,15 +13,11 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
 public class SurveyResult extends BaseEntity {
 	
-	@ManyToOne
-	@JoinColumn(name = "survey_id", nullable = false)
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	private Survey survey;
+	@Column(name = "survey_id")
+	private Long surveyId;
 	
 	@Column(name = "submited_by", nullable = false)
 	private String submitedBy;
@@ -60,12 +55,12 @@ public class SurveyResult extends BaseEntity {
 		this.results = results;
 	}
 
-	public Survey getSurvey() {
-		return survey;
+	public Long getSurveyId() {
+		return surveyId;
 	}
 
-	public void setSurvey(Survey survey) {
-		this.survey = survey;
+	public void setSurveyId(Long surveyId) {
+		this.surveyId = surveyId;
 	}
 
 }

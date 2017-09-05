@@ -1,29 +1,24 @@
 package com.example.tech9_survey.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Answer extends BaseEntity {
 	
-	@ManyToOne
-	@JoinColumn(name = "question_id", nullable = false)
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	private Question question;
+	@Column(name = "question_id")
+	private Long questionId;
 	
 	@Size(max=240)
 	private String content;
 
-	public Question getQuestion() {
-		return question;
+	public Long getQuestionId() {
+		return questionId;
 	}
 
-	public void setQuestion(Question question) {
-		this.question = question;
+	public void setQuestionId(Long questionId) {
+		this.questionId = questionId;
 	}
 
 	public String getContent() {

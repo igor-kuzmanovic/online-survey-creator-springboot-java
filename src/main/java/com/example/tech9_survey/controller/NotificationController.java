@@ -76,7 +76,7 @@ public class NotificationController {
         	sender = user.getUsername();
         	
             if (completedSurvey.getCreator().equals(user.getUsername())) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         }
         
@@ -124,7 +124,7 @@ public class NotificationController {
         	sender = user.getUsername();
         	
             if (completedSurvey.getCreator().equals(user.getUsername()) || user.getUsername().equals("admin")) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         }
         
@@ -176,7 +176,7 @@ public class NotificationController {
         	sender = user.getUsername();
         	
         	if (survey.getCreator().equals(user.getUsername())) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         }
         
@@ -229,7 +229,7 @@ public class NotificationController {
         	sender = user.getUsername();
         	
         	if (comment.getPoster().equals(user.getUsername()) || user.getUsername().equals("admin")) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         }
         

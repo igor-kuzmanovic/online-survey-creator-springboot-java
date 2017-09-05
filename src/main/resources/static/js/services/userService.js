@@ -20,7 +20,6 @@
       setUser: setUser,
       deleteUser: deleteUser,
       findAllUsers: findAllUsers,
-      sendCaptchaResponse: sendCaptchaResponse,
       getUserNotifications: getUserNotifications,
       toggleUserBlock: toggleUserBlock,
       checkUserCookies: checkUserCookies,
@@ -104,21 +103,6 @@
       return def.promise;
     }
 
-    function sendCaptchaResponse(response) {
-      var def = $q.defer();
-      var req = {
-        method: 'POST',
-        url: "/api/users/captchaResponse/" + response,
-      };
-      $http(req).success(function (data) {
-        def.resolve(data);
-      })
-        .error(function (response) {
-        def.reject(response);
-      });
-      return def.promise;
-    }
-
     function deleteUser(id) {
       var def = $q.defer();
       var req = {
@@ -134,11 +118,12 @@
       return def.promise;
     }
 
-    function toggleUserBlock(id) {
+    function toggleUserBlock(id, duration) {
       var def = $q.defer();
       var req = {
         method: 'PUT',
-        url: "/api/users/block/" + id
+        url: "/api/users/block/" + id,
+        data: duration
       };
       $http(req).success(function (data) {
         def.resolve(data);

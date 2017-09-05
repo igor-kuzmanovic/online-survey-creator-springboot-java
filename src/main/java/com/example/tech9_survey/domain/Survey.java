@@ -53,13 +53,15 @@ public class Survey extends BaseEntity {
 	@Column(name = "is_flagged")
     private Boolean isFlagged;
 	
-	@Cascade(CascadeType.DELETE)
-	@OneToMany(mappedBy = "survey")
+	@Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "survey_id")
 	private List<Question> questions;
 	
 	@Cascade(CascadeType.ALL)
-	@OneToMany(mappedBy = "survey")
-	private List<SurveyResult> results;
+	@OneToMany
+	@JoinColumn(name = "survey_id")
+	private List<SurveyResult> surveyResults;
 	
 	@Cascade(CascadeType.ALL)
 	@OneToMany
@@ -158,11 +160,11 @@ public class Survey extends BaseEntity {
 	}
 
 	public List<SurveyResult> getResults() {
-		return results;
+		return surveyResults;
 	}
 
 	public void setResults(List<SurveyResult> results) {
-		this.results = results;
+		this.surveyResults = results;
 	}
 
 	public Boolean getIsPublic() {

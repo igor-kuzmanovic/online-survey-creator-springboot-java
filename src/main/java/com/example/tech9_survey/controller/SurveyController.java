@@ -17,13 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.tech9_survey.domain.Answer;
 import com.example.tech9_survey.domain.Comment;
-import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.domain.User;
-import com.example.tech9_survey.service.AnswerService;
-import com.example.tech9_survey.service.QuestionService;
 import com.example.tech9_survey.service.SurveyService;
 import com.example.tech9_survey.service.UserService;
 
@@ -33,15 +29,11 @@ public class SurveyController {
 	
 	private SurveyService surveyService;
 	private UserService userService;
-	private QuestionService questionService;
-	private AnswerService answerService;
 	
 	@Autowired
-	public SurveyController(SurveyService surveyService, UserService userService, QuestionService questionService, AnswerService answerService) {
+	public SurveyController(SurveyService surveyService, UserService userService) {
 		this.surveyService = surveyService;
 		this.userService = userService;
-		this.questionService = questionService;
-		this.answerService = answerService;
 	}
 
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
@@ -143,6 +135,7 @@ public class SurveyController {
 		survey.setExitMessage(new String());
 		survey.setIsActive(false);
 		survey.setIsPublic(false);
+		
 		Survey createdSurvey = surveyService.save(survey);
 		
     	return new ResponseEntity<>(createdSurvey, HttpStatus.CREATED);
@@ -151,42 +144,21 @@ public class SurveyController {
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@PutMapping
     public ResponseEntity<Survey> update(@RequestBody Survey survey) {
-		Survey findSurvey = surveyService.findByHashedId(survey.getHashedId());
+		Survey surveyCheck = surveyService.findByHashedId(survey.getHashedId());
 		
-		if(findSurvey == null) {
+		if(surveyCheck == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		List<Question> questions = survey.getQuestions();
+		User user = userService.getLoggedInUser();
 		
-		if(!questions.isEmpty()) {
-			for(int i = 0; i < questions.size(); i++) {
-				Question question = questions.get(i);
-				question.setSurvey(survey);
-				Question savedQuestion = questionService.save(question);
-
-				List<Answer> answers = questions.get(i).getAnswers();
-				
-				if(!answers.isEmpty()) {
-					for(int j = 0; j < answers.size(); j++) {
-						Answer answer = answers.get(j);
-						answer.setQuestion(savedQuestion);
-						Answer savedAnswer = answerService.save(answer);
-						answers.set(j, savedAnswer);
-					}
-					
-					savedQuestion.setAnswers(answers);
-				}
-				
-				questions.set(i, savedQuestion);
-			}
-			
-			survey.setQuestions(questions);
+		if(!user.getUsername().equals(survey.getCreator())) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 		
-    	Survey updatedSurvey = surveyService.save(survey);
+		survey = surveyService.save(survey);
     	
-    	return new ResponseEntity<>(updatedSurvey, HttpStatus.OK);
+    	return new ResponseEntity<>(survey, HttpStatus.OK);
     }
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -213,6 +185,12 @@ public class SurveyController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
+		User user = userService.getLoggedInUser();
+		
+		if(!user.getUsername().equals(survey.getCreator())) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
 		survey.setExpirationDate(new Date());
 		survey.setIsActive(false);
 		surveyService.save(survey);
@@ -229,6 +207,12 @@ public class SurveyController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
+		User user = userService.getLoggedInUser();
+		
+		if(!user.getUsername().equals(survey.getCreator())) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
 		survey.setIsPublic(!survey.getIsPublic());
 		surveyService.save(survey);
 		
@@ -239,9 +223,9 @@ public class SurveyController {
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Survey> delete(@PathVariable Long id) {
-		Survey findSurvey = surveyService.findOne(id);
+		Survey survey = surveyService.findOne(id);
 		
-		if(findSurvey == null) {
+		if(survey == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
@@ -277,12 +261,12 @@ public class SurveyController {
 	private Survey surveyIsActiveCheck(Survey survey) {
 		Date currentDate = new Date();
 		
-		if(survey.getExpirationDate() == null || survey.getExpirationDate().compareTo(currentDate) > 0) {
+		if(survey.getExpirationDate() == null || survey.getExpirationDate().before(currentDate)) {
 			survey.setIsActive(true);
 			survey = surveyService.save(survey);
 		}
 		
-		if(survey.getExpirationDate() != null && survey.getExpirationDate().compareTo(currentDate) <= 0) {
+		if(survey.getExpirationDate() != null && survey.getExpirationDate().after(currentDate)) {
 			survey.setIsActive(false);
 			survey = surveyService.save(survey);
 		}

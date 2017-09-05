@@ -15,10 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.InputStream;
 import java.util.*;
@@ -102,7 +99,7 @@ public class UserController {
 
         for (UserRole role : foundUser.getRoles()) {
             if (role.getType().equals(UserRole.RoleType.ROLE_ADMIN)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         }
 
@@ -138,8 +135,6 @@ public class UserController {
 
         if (userService.findByUsername(user.getUsername()) == null) {
             if (userService.findByEmail(user.getEmail()) == null) {
-                //String imagePath = Paths.get("D:\\user_images", "default_user.jpg").toString();
-
                 user.setIsEnabled(false);
                 user.setRegistrationDate(new Date());
                 try {
@@ -149,7 +144,6 @@ public class UserController {
                     System.out.println(e);
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 }
-                //user.setImageUrl(imagePath);
 
                 token.setUser(user);
                 verificationTokenService.save(token);
@@ -207,42 +201,26 @@ public class UserController {
         return new ResponseEntity<>(loggedUser, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/captchaResponse/{response}")
-    public ResponseEntity<Object> responseCaptcha(@PathVariable("response") String response) {
-        HttpHeaders headers = new HttpHeaders();
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "https://www.google.com/recaptcha/api/siteverify";
-
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
-        map.add("secret", "6LfO0SwUAAAAAPHqyQ8FxQXRRedhdl58oCp-nNz4");
-        map.add("response", response);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
-        ResponseEntity<String> postResponse = restTemplate.postForEntity( url, request , String.class );
-
-        if (postResponse.toString().contains("\"success\": true")) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(path = "/block/{user_id}")
-    public ResponseEntity<Object> changeStatus(@PathVariable("user_id") Long userId) {
+    public ResponseEntity<Object> changeStatus(@RequestBody String duration, @PathVariable("user_id") Long userId) {
         User foundUser = userService.findOne(userId);
-
+        
         if (foundUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if(duration.equals("permanent")) {
+            foundUser.setBanDate(null);
+        } else {
+            foundUser.setBanDate(addDay(new Date(), Integer.parseInt(duration)));
         }
 
         foundUser.setUserStatus(resolveStatus(foundUser));
 
         for (UserRole role : foundUser.getRoles()) {
             if (role.getType().equals(UserRole.RoleType.ROLE_ADMIN)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         }
 
@@ -254,6 +232,14 @@ public class UserController {
     @RequestMapping("/login")
     public User user(Authentication authentication) {
         User user = userService.findByUsername(authentication.getName());
+        UserStatus userStatus = new UserStatus();
+
+        if(user.getUserStatus().getType().equals(UserStatus.UserStatusType.STATUS_INACTIVE) && new Date().after(user.getBanDate())) {
+            userStatus.setType(UserStatus.UserStatusType.STATUS_ACTIVE);
+            userStatus.setId(1L);
+            user.setUserStatus(userStatus);
+            userService.save(user);
+        }
         user.setPassword(null);
 
         return user;

@@ -21,6 +21,9 @@
     self.removeAnswer = removeAnswer;
     self.setCurrentQuestion = setCurrentQuestion;
     self.removeQuestion = removeQuestion;
+    self.setCurrentUser = setCurrentUser;
+
+    self.banDays = "7";
     self.allComments = [];
     self.allQuestions = [];
     self.allAnswers = [];
@@ -31,6 +34,10 @@
       getAllSurveys();
       getAllUsers();
 
+    }
+    
+    function setCurrentUser(user) {
+        self.currentUser = user;
     }
     
     function getAllSurveys() {
@@ -84,9 +91,25 @@
         }
     }
     
-    function blockUser(id) {
-        UserService.toggleUserBlock(id).then(function (data, status) {
-            alert("User blocked/unblocked");
+    function blockUser(user) {
+        if(user) {
+           self.currentUser = user;
+        }
+
+        for(var i = 0; i < self.currentUser.roles.length; i++) {
+            if(self.currentUser.roles[i].type === 'ROLE_ADMIN') {
+                self.isAdmin = true;
+            }
+        }
+
+        if(self.isAdmin) {
+            console.log("Can't ban admin!");
+            $('#banUserModal').modal('hide');
+            return;
+        }
+
+        UserService.toggleUserBlock(self.currentUser.id, self.banDays).then(function (data, status) {
+            $('#banUserModal').modal('hide');
             getAllUsers();
         });
     }

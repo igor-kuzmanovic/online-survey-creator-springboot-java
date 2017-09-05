@@ -53,7 +53,26 @@ public class User extends BaseEntity {
     
     @Column(name = "notify_by_email", nullable = false)
     private boolean notifyByEmail;
-  
+
+    @Column(name = "ban_date")
+    private Date banDate;
+
+    public Date getBanDate() {
+        return banDate;
+    }
+
+    public void setBanDate(Date banDate) {
+        this.banDate = banDate;
+    }
+
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
+    }
+
     public String getFirstName() {
         return firstName;
     }

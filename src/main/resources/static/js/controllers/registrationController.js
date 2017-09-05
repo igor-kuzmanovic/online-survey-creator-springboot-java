@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('RegistrationController', RegistrationController);
 
-  RegistrationController.$inject = ['UserService', '$location', '$window', '$scope'];
+  RegistrationController.$inject = ['UserService', 'CaptchaService', '$location', '$window', '$scope'];
 
-  function RegistrationController(UserService, $location, $window, $scope) {
+  function RegistrationController(UserService, CaptchaService, $location, $window, $scope) {
 
     var self = this;
     self.saveUser = saveUser;
@@ -42,7 +42,7 @@
           return;
         }
 
-        UserService.sendCaptchaResponse(self.captchaResponse).then(handleSuccessCaptcha, function(error){
+        CaptchaService.sendCaptchaResponse(self.captchaResponse).then(handleSuccessCaptcha, function(error){
           console.log(error);
           self.error = error;
         });

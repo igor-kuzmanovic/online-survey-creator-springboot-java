@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.tech9_survey.domain.Result;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.domain.SurveyResult;
 import com.example.tech9_survey.domain.User;
@@ -82,16 +83,16 @@ public class ResultController {
 	
 	@PostMapping(path = "/{surveyId}")
 	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody SurveyResult surveyResult) {
-		User user = userService.getLoggedInUser();
-		
-		if(user != null && user.getUsername() == surveyResult.getSubmitedBy()) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-		
 		Survey survey = surveyService.findOne(surveyId);
 		
 		if(survey == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		User user = userService.getLoggedInUser();
+		
+		if(user != null && user.getUsername().equals(survey.getCreator())) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 		
 		List<SurveyResult> surveyResults = survey.getResults();
@@ -100,11 +101,31 @@ public class ResultController {
 			String poster = surveyResults.get(i).getSubmitedBy();
 			
 			if(user != null && poster.equals(user.getUsername())) {
-				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+				return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 			}
 		}
 		
-		surveyResult.setSurvey(survey);
+		List<Result> results = surveyResult.getResults();
+		
+		for(int i = 0; i < results.size(); i++) {
+			Result result = results.get(i);
+			
+			if(result.getAnswerId() != 0 && !result.getOptional().isEmpty()) {
+				result.setOptional("");
+				results.set(i, result);
+			}
+		}
+		
+		surveyResult.setResults(results);		
+		
+		if(user == null) {
+			surveyResult.setSubmitedBy("anonymous");
+		}
+		else {
+			surveyResult.setSubmitedBy(user.getUsername());
+		}
+		
+		surveyResult.setSurveyId(survey.getId());
 		survey.getResults().add(surveyResult);
 		surveyService.save(survey);
 		

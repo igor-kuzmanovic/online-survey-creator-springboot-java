@@ -2,38 +2,38 @@ package com.example.tech9_survey.domain;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
 public class Question extends BaseEntity {
 	
-	@ManyToOne
-	@JoinColumn(name = "survey_id", nullable = false)
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	private Survey survey;	
+	@Column(name = "survey_id")
+	private Long surveyId;	
 	
 	@Size(max=240)
 	private String content;
 
-	@Cascade(CascadeType.DELETE)
-	@OneToMany(mappedBy = "question")
+	@Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "question_id")
 	private List<Answer> answers;
 	
-	public Survey getSurvey() {
-		return survey;
+	@Column(name = "has_other_option")
+	private Boolean hasOtherOption;
+
+	public Long getSurveyId() {
+		return surveyId;
 	}
 
-	public void setSurvey(Survey survey) {
-		this.survey = survey;
+	public void setSurveyId(Long surveyId) {
+		this.surveyId = surveyId;
 	}
 
 	public String getContent() {
@@ -50,6 +50,14 @@ public class Question extends BaseEntity {
 
 	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
+	}
+
+	public Boolean getHasOtherOption() {
+		return hasOtherOption;
+	}
+
+	public void setHasOtherOption(Boolean hasOtherOption) {
+		this.hasOtherOption = hasOtherOption;
 	}
 
 }

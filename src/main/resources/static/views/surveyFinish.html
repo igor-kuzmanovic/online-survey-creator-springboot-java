@@ -7,7 +7,7 @@
 
       <hr ng-if="sfc.user">
 
-      <div class="media" ng-repeat = "comment in sfc.allComments track by $index">
+      <div class="media" ng-repeat = "comment in sfc.allComments | orderBy: 'comment.creationDate': true track by $index">
         <div class="media-left media-middle">
           <img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
         </div>

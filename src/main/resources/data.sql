@@ -18,21 +18,3 @@ INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 1);
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 2);
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (2, 2);
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (3, 2);
-
-INSERT INTO tech9survey.survey
-(id, creation_date, description, exit_message, hashed_id, is_active, name, expiration_date, is_public, creator)
-VALUES(1, '2017-08-22', 'Test survey description', 'Test survey exit message', '23828029cea10d57429c68966cfacc8c', TRUE, 'Test survey', '2017-10-22', TRUE, 'admin');
-
-INSERT INTO tech9survey.question(id, content, survey_id)
-  VALUES(1, 'First question for test survey 1', 1);
-INSERT INTO tech9survey.question(id, content, survey_id)
-  VALUES(2, 'Second question for test survey 1', 1);
-
-INSERT INTO tech9survey.answer(id, content, question_id)
-  VALUES(1, 'First answer for first question for test survey 1', 1);
-INSERT INTO tech9survey.answer(id, content, question_id)
-  VALUES(2, 'Second answer for first question for test survey 1', 1);
-INSERT INTO tech9survey.answer(id, content, question_id)
-  VALUES(3, 'First answer for second question for test survey 1', 2);
-INSERT INTO tech9survey.answer(id, content, question_id)
-  VALUES(4, 'Second answer for second question for test survey 1', 2);
