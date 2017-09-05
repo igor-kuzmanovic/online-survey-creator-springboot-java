@@ -46,8 +46,8 @@
       function drawChart() {
         var resultsData = [['Submitter','Times submitted'], ['Registered user',0], ['Anonymous',0]];
 
-        for(i = 0; i < self.survey.results.length; i++) {
-          if(self.survey.results[i].submitedBy === "anonymous") {
+        for(i = 0; i < self.survey.surveyResults.length; i++) {
+          if(self.survey.surveyResults[i].submitedBy === "anonymous") {
             resultsData[2][1]++;
           }
           else {
@@ -58,7 +58,7 @@
         var data = google.visualization.arrayToDataTable(resultsData);
 
         var options = {
-          'title':'Survey has been completed ' + self.survey.results.length + ' times',
+          'title':'Survey has been completed ' + self.survey.surveyResults.length + ' times',
           chartArea: {width: '50%'},
         };
 
@@ -100,9 +100,9 @@
         }
 
         for(i = 1; i < resultsData.length; i++) {
-          for(j = 0; j < self.survey.results.length; j++) {
-            for(k = 0; k < self.survey.results[j].results.length; k++) {
-              if(self.survey.results[j].results[k].questionId === questionId && self.survey.results[j].results[k].answerId === resultsData[i][0].id) {
+          for(j = 0; j < self.survey.surveyResults.length; j++) {
+            for(k = 0; k < self.survey.surveyResults[j].results.length; k++) {
+              if(self.survey.surveyResults[j].results[k].questionId === questionId && self.survey.surveyResults[j].results[k].answerId === resultsData[i][0].id) {
                 resultsData[i][1]++;
               }
             }

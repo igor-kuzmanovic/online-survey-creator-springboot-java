@@ -205,15 +205,15 @@ public class UserController {
     @PutMapping(path = "/block/{user_id}")
     public ResponseEntity<Object> changeStatus(@RequestBody String duration, @PathVariable("user_id") Long userId) {
         User foundUser = userService.findOne(userId);
+        
+        if (foundUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         if(duration.equals("permanent")) {
             foundUser.setBanDate(null);
         } else {
             foundUser.setBanDate(addDay(new Date(), Integer.parseInt(duration)));
-        }
-
-        if (foundUser == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         foundUser.setUserStatus(resolveStatus(foundUser));

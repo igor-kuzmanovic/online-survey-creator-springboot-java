@@ -16,7 +16,7 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 public class SurveyResult extends BaseEntity {
 	
-	@Column(name = "survey_id", nullable = false)
+	@Column(name = "survey_id")
 	private Long surveyId;
 	
 	@Column(name = "submited_by", nullable = false)
