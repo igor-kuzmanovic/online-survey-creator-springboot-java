@@ -13,140 +13,140 @@
       <a href="" class="list-group-item list-group-item-action" ng-click="apc.menuSelected('questions')" ng-class="{active: apc.active === 'questions'}">Questions</a>
       <a href="" class="list-group-item list-group-item-action" ng-click="apc.menuSelected('answers')" ng-class="{active: apc.active === 'answers'}">Answers</a>
     </div>
-  </div>
-  <div class="col-md-10" ng-if="apc.active === 'users'">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover table-striped">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Status</th>
-            <th>Role</th>
-            <th>Registration date</th>
-            <th></th>
-            <th>Block/Unblock</th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="user in apc.users track by $index" ng-class="{danger: user.userStatus.id === 2}">
-            <td>{{user.username}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.firstName}}</td>
-            <td>{{user.secondName}}</td>
-            <td>{{user.userStatus.id === 1 ? 'Active' : 'Blocked'}}</td>
-            <td>{{user.roles.id === 1 ? 'Admin' : 'Regular user'}}</td>
-            <td>{{user.registrationDate | date:'yyyy-MM-dd'}}</td>
-            <td></td>
-            <td ng-if="user.userStatus.id === 1" align="center">
-              <span class="fa fa-lock" style="cursor: pointer" ng-click="apc.setCurrentUser(user)" data-toggle="modal" data-target="#banUserModal"></span>
-            </td>
-            <td ng-if="user.userStatus.id === 2" align="center">
-              <span class="fa fa-unlock" style="cursor: pointer" ng-click="apc.blockUser(user)"></span>
-            </td>
-            <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeUser(user.id)"></span></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="col-md-10" ng-if="apc.active === 'users'">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Status</th>
+                <th>Role</th>
+                <th>Registration date</th>
+                <th></th>
+                <th>Block/Unblock</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="user in apc.users track by $index" ng-class="{danger: user.userStatus.id === 2}">
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.secondName}}</td>
+                <td>{{user.userStatus.id === 1 ? 'Active' : 'Blocked'}}</td>
+                <td>{{user.roles.id === 1 ? 'Admin' : 'Regular user'}}</td>
+                <td>{{user.registrationDate | date:'yyyy-MM-dd'}}</td>
+                <td></td>
+                <td ng-if="user.userStatus.id === 1" align="center">
+                  <span class="fa fa-lock" style="cursor: pointer" ng-click="apc.setCurrentUser(user)" data-toggle="modal" data-target="#banUserModal"></span>
+                </td>
+                <td ng-if="user.userStatus.id === 2" align="center">
+                  <span class="fa fa-unlock" style="cursor: pointer" ng-click="apc.blockUser(user)"></span>
+                </td>
+                <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeUser(user.id)"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <div class="col-md-10" ng-if="apc.active === 'surveys'">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Visibility</th>
+                        <th>Active</th>
+                        <th>Created by</th>
+                        <th>Expiration date</th>
+                        <th>Allow</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="survey in apc.surveys track by $index" ng-class="{danger: survey.isFlagged}">
+                        <td>{{survey.name}}</td>
+                        <td>{{survey.surveyPrivacy.id === 1 ? 'Everyone' : 'Registered only'}}</td>
+                        <td>{{survey.isActive === true ? 'Yes' : 'No'}}</td>
+                        <td>{{survey.creator}}</td>
+                        <td>{{survey.expirationDate}}</td>
+                        <td align="center"><span class="glyphicon glyphicon-ok" ng-if="survey.isFlagged === true" data-toggle="modal" data-target="#allowSurveyModal" ng-click="apc.setCurrentSurvey(survey)"></span></td>
+                        <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" data-toggle="modal" data-target="#removeSurveyModal" ng-click="apc.setCurrentSurvey(survey)"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
-  <div class="col-md-10" ng-if="apc.active === 'surveys'">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Visibility</th>
-            <th>Active</th>
-            <th>Created by</th>
-            <th>Expiration date</th>
-            <th></th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="survey in apc.surveys track by $index">
-            <td>{{survey.name}}</td>
-            <td>{{survey.surveyPrivacy.id === 1 ? 'Everyone' : 'Registered only'}}</td>
-            <td>{{survey.isActive === true ? 'Yes' : 'No'}}</td>
-            <td>{{survey.creator}}</td>
-            <td>{{survey.expirationDate}}</td>
-            <td></td>
-            <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeSurvey(survey.id)"></span></td>
-          </tr>
-        </tbody>
-      </table>
+  
+    <div class="col-md-10" ng-if="apc.active === 'comments'">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>Created by</th>
+                    <th>Belongs to</th>
+                    <th>Allow</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="comment in apc.allComments track by $index" ng-class="{danger: comment.isFlagged}">
+                    <td>{{comment.content}}</td>
+                    <td>{{comment.poster}}</td>
+                    <td>{{comment.survey}}</td>
+                    <td align="center"><span class="glyphicon glyphicon-ok" ng-if="comment.isFlagged === true" data-toggle="modal" data-target="#allowCommentModal" ng-click="apc.setCurrentComment(comment)"></span></td>
+                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" data-toggle="modal" data-target="#removeCommentModal" ng-click="apc.setCurrentComment(comment)"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
-  <div class="col-md-10" ng-if="apc.active === 'comments'">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover table-striped">
-        <thead>
-          <tr>
-            <th>Content</th>
-            <th>Created by</th>
-            <th>Belongs to</th>
-            <th></th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="comment in apc.allComments track by $index">
-            <td>{{comment.content}}</td>
-            <td>{{comment.poster}}</td>
-            <td>{{comment.survey}}</td>
-            <td></td>
-            <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeComment(comment.id)"></span></td>
-          </tr>
-        </tbody>
-      </table>
+  
+    <div class="col-md-8" ng-if="apc.active === 'questions'">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>Belongs to</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="question in apc.allQuestions track by $index">
+                    <td>{{question.content}}</td>
+                    <td>{{question.survey}}</td>
+                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" data-toggle="modal" data-target="#removeQuestionModal" ng-click="apc.setCurrentQuestion(question)"></span>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
-  <div class="col-md-8" ng-if="apc.active === 'questions'">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover table-striped">
-        <thead>
-          <tr>
-            <th>Content</th>
-            <th>Belongs to</th>
-            <th></th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="question in apc.allQuestions track by $index">
-            <td>{{question.content}}</td>
-            <td>{{question.survey}}</td>
-            <td></td>
-            <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeQuestion(question.id)"></span></td>
-          </tr>
-        </tbody>
-      </table>
+  
+    <div class="col-md-8" ng-if="apc.active === 'answers'">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Content</th>
+                    <th>Belongs to</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="answer in apc.allAnswers track by $index">
+                    <td>{{answer.content}}</td>
+                    <td>{{answer.question}}</td>
+                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" data-toggle="modal" data-target="#removeAnswerModal" ng-click="apc.setCurrentAnswer(answer)"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
-  <div class="col-md-8" ng-if="apc.active === 'answers'">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover table-striped">
-        <thead>
-          <tr>
-            <th>Content</th>
-            <th>Belongs to</th>
-            <th></th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="answer in apc.allAnswers track by $index">
-            <td>{{answer.content}}</td>
-            <td>{{answer.question}}</td>
-            <td></td>
-            <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeAnswer(answer.id)"></span></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>
@@ -197,6 +197,114 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary btn-sm" ng-click="apc.blockUser()" data-dismis="modal">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="allowSurveyModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to allow the survey?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="apc.allowSurvey()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="removeSurveyModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to remove the survey?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="apc.removeSurvey()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="allowCommentModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to allow the comment?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="apc.allowComment()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="removeCommentModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to remove the comment?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="apc.removeComment()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="removeQuestionModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to remove the question</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="apc.removeQuestion()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="removeAnswerModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to remove the answer?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="apc.removeAnswer()">Confirm</button>
       </div>
     </div>
   </div>

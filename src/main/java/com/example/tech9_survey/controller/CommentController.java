@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,6 +77,21 @@ public class CommentController {
 
     }
     
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping(path = "/{commentId}")
+    public ResponseEntity<Comment> allowComment(@PathVariable Long commentId) {
+    	Comment comment = commentService.findOne(commentId);
+    	
+    	if(comment == null) {
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	}
+    	
+    	comment.setIsFlagged(false);
+    	commentService.save(comment);
+    	
+    	return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @DeleteMapping(path = "/{commentId}")
     public ResponseEntity<Object> delete(@PathVariable Long commentId) {
@@ -86,6 +102,7 @@ public class CommentController {
     	}
     	
     	commentService.delete(commentId);
+    	
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

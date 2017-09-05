@@ -9,6 +9,7 @@
     var service = {
       postComment: postComment,
       deleteComment: deleteComment,
+      allowComment: allowComment,
       findAllComments: findAllComments
     };
 
@@ -58,6 +59,21 @@
       })
         .error(function () {
         def.reject("Failed to delete a comment");
+      });
+      return def.promise;
+    }
+    
+    function allowComment(id) {
+      var def = $q.defer();
+      var req = {
+        method: 'PUT',
+        url: "/api/comment/" + id
+      };
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to allow a comment");
       });
       return def.promise;
     }
