@@ -10,11 +10,18 @@
 
       <div ng-repeat="question in sc.survey.questions track by $index">
         <div class="form-group">
-          <label for="question{{$index + 1}}">{{$index + 1}}. {{question.content}}</label>
+          <label for="question{{$index + 1}}"> {{$index + 1}}. {{question.content}}</label>
+
           <div class="radio" ng-repeat="answer in question.answers track by $index">
             <label>
-              <input type="radio" name="question{{$parent.$index + 1}}answer{{$index + 1}}" id="question{{$parent.$index + 1}}answer{{$index + 1}}" ng-value="answer" ng-model="sc.surveyResult.results[$parent.$index].answerId">
-              {{answer.content}}
+              <input type="radio" name="question{{$parent.$index + 1}}answer{{$index + 1}}" id="question{{$parent.$index + 1}}answer{{$index + 1}}" ng-value="answer.id" ng-model="sc.surveyResult.results[$parent.$index].answerId"> {{answer.content}}
+            </label>
+          </div>
+
+          <div ng-if="question.hasOtherOption" class="radio">
+            <label>
+              <input type="radio" name="question{{$index + 1}}answer0" id="question{{$index + 1}}answer0" ng-value="0" ng-model="sc.surveyResult.results[$index].answerId"> Your option
+              <input type="text" name="question{{$index + 1}}answer0" id="question{{$index + 1}}answer0" class="form-control" placeholder="Please provide your option..." ng-model="sc.surveyResult.results[$index].optional">
             </label>
           </div>
         </div>
@@ -22,7 +29,7 @@
         <hr ng-if="!$last">
       </div> 
 
-	  <hr>
+      <hr>
 
       <div id="captcha-survey" align="center" class="form-group"></div>
 

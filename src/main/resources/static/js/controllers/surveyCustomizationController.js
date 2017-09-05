@@ -100,7 +100,12 @@
     }
 
     function createQuestion() {
-      self.survey.questions.push({answers:[]});
+      self.survey.questions.push({
+        surveyId: self.survey.id,
+        answers: [],
+        hasOtherOption: false
+      });
+      
       self.saveSurvey();
     }
 
@@ -118,7 +123,10 @@
     }
 
     function createAnswer(questionIndex) {
-      self.survey.questions[questionIndex].answers.push({});
+      self.survey.questions[questionIndex].answers.push({
+        questionId: self.survey.questions[questionIndex].id
+      });
+      
       self.saveSurvey();
     }
 

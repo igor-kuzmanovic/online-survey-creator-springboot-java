@@ -63,7 +63,7 @@ public class CommentController {
 	    User user = userService.getLoggedInUser();
 	    
 	    if(user == null) {
-	    	return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+	    	return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	    }
 	    else{
 	    	comment.setPoster(user.getUsername());

@@ -1,34 +1,41 @@
 package com.example.tech9_survey.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Result extends BaseEntity {
 	
-	@ManyToOne
-	@JoinColumn(name = "question_id")
-	private Question questionId;
+	@Column(name = "question_id")
+	private Long questionId;
 	
-	@ManyToOne
-	@JoinColumn(name = "answer_id")
-	private Answer answerId;
+	@Column(name = "answer_id")
+	private Long answerId;
+	
+	private String optional;
 
-	public Question getQuestionId() {
+	public Long getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestionId(Question questionId) {
+	public void setQuestionId(Long questionId) {
 		this.questionId = questionId;
 	}
 
-	public Answer getAnswerId() {
+	public Long getAnswerId() {
 		return answerId;
 	}
 
-	public void setAnswerId(Answer answerId) {
+	public void setAnswerId(Long answerId) {
 		this.answerId = answerId;
+	}
+
+	public String getOptional() {
+		return optional;
+	}
+
+	public void setOptional(String optional) {
+		this.optional = optional;
 	}
 
 }

@@ -73,10 +73,10 @@ public class QuestionController {
 		User user = userService.getLoggedInUser();
 		
 		if(!user.getUsername().equals(survey.getCreator())) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 		
-		question.setSurvey(survey);
+		question.setSurveyId(survey.getId());
     	survey.getQuestions().add(question);  	
         surveyService.save(survey);
         

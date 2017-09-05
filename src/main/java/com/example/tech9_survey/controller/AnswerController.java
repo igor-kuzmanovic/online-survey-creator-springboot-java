@@ -69,7 +69,7 @@ public class AnswerController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		Survey survey = surveyService.findOne(question.getSurvey().getId());
+		Survey survey = surveyService.findOne(question.getSurveyId());
 				
 		if(survey == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -77,11 +77,11 @@ public class AnswerController {
 		
 		User user = userService.getLoggedInUser();
 		
-		if(user == null || !user.getUsername().equals(question.getSurvey().getCreator())) {
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		if(user == null || !user.getUsername().equals(survey.getCreator())) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 		
-		answer.setQuestion(question);
+		answer.setQuestionId(question.getId());
 		question.getAnswers().add(answer);	
         questionService.save(question);
         

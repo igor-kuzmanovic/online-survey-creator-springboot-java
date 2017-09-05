@@ -65,6 +65,7 @@
     <script src="js/services/commentService.js" type="text/javascript"></script>
     <script src="js/services/notificationService.js" type="text/javascript"></script>
     <script src="js/services/cookieService.js" type="text/javascript"></script>
+    <script src="js/services/captchaService.js" type="text/javascript"></script>
   </head>
 
   <body ng-cloak style="background-image: url('https://cdn.elegantthemes.com/blog/wp-content/uploads/2013/09/bg-6-full.jpg')">
@@ -86,7 +87,7 @@
               <li ng-if="mc.$location.path().includes('/survey')" class='active'><a href="">Survey </a></li>         
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li ng-class="{active: mc.$location.path().includes('/user/notifications')}"><a href="#/user/notifications">Notifications <span class="badge">{{mc.unreadNotifications}}</span></a></li>
+              <li ng-class="{active: mc.$location.path().includes('/user/notifications')}"><a href="#/user/notifications">Notifications <span class="badge" ng-if="mc.unreadNotifications > 0">{{mc.unreadNotifications}}</span></a></li>
               <li class="dropdown">
                 <a href="" type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   <img class="img img-circle img-nav" ng-src="{{'data:image/jpg;base64,'+ mc.imageUrl}}"> <span class="glyphicon glyphicon-chevron-down"></span></a>

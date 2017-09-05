@@ -53,12 +53,14 @@ public class Survey extends BaseEntity {
 	@Column(name = "is_flagged")
     private Boolean isFlagged;
 	
-	@Cascade(CascadeType.DELETE)
-	@OneToMany(mappedBy = "survey")
+	@Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "survey_id")
 	private List<Question> questions;
 	
 	@Cascade(CascadeType.ALL)
-	@OneToMany(mappedBy = "survey")
+	@OneToMany
+	@JoinColumn(name = "survey_id")
 	private List<SurveyResult> results;
 	
 	@Cascade(CascadeType.ALL)

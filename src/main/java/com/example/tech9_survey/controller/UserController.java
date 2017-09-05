@@ -15,10 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.InputStream;
 import java.util.*;
@@ -102,7 +99,7 @@ public class UserController {
 
         for (UserRole role : foundUser.getRoles()) {
             if (role.getType().equals(UserRole.RoleType.ROLE_ADMIN)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         }
 
@@ -207,28 +204,6 @@ public class UserController {
         return new ResponseEntity<>(loggedUser, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/captchaResponse/{response}")
-    public ResponseEntity<Object> responseCaptcha(@PathVariable("response") String response) {
-        HttpHeaders headers = new HttpHeaders();
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "https://www.google.com/recaptcha/api/siteverify";
-
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
-        map.add("secret", "6LfO0SwUAAAAAPHqyQ8FxQXRRedhdl58oCp-nNz4");
-        map.add("response", response);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-
-        ResponseEntity<String> postResponse = restTemplate.postForEntity( url, request , String.class );
-
-        if (postResponse.toString().contains("\"success\": true")) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(path = "/block/{user_id}")
     public ResponseEntity<Object> changeStatus(@PathVariable("user_id") Long userId) {
@@ -242,7 +217,7 @@ public class UserController {
 
         for (UserRole role : foundUser.getRoles()) {
             if (role.getType().equals(UserRole.RoleType.ROLE_ADMIN)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         }
 

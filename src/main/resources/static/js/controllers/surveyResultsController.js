@@ -89,18 +89,29 @@
         var resultsData = [['Option','Times picked']];
 
         for(i = 0; i < self.survey.questions[questionIndex].answers.length; i++) {
-          resultsData.push([self.survey.questions[questionIndex].answers[i].content, 0]);
+          resultsData.push([self.survey.questions[questionIndex].answers[i], 0]);
+        }
+        
+        if(self.survey.questions[questionIndex].hasOtherOption) {
+          resultsData.push([{
+            id: 0,
+            content: "Other"
+          }, 0]);
         }
 
         for(i = 1; i < resultsData.length; i++) {
           for(j = 0; j < self.survey.results.length; j++) {
             for(k = 0; k < self.survey.results[j].results.length; k++) {
-              if(self.survey.results[j].results[k].questionId.id === questionId && self.survey.results[j].results[k].answerId.content === resultsData[i][0]) {
+              if(self.survey.results[j].results[k].questionId === questionId && self.survey.results[j].results[k].answerId === resultsData[i][0].id) {
                 resultsData[i][1]++;
               }
             }
           }
+          
+          resultsData[i][0] = resultsData[i][0].content;
         }
+        
+        console.log(resultsData);
 
         var data = google.visualization.arrayToDataTable(resultsData);
 

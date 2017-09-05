@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('SurveyController', SurveyController);
 
-  SurveyController.$inject = ['UserService', 'SurveyService', 'ResultService', 'NotificationService', '$routeParams', '$location', '$scope'];
+  SurveyController.$inject = ['CaptchaService', 'SurveyService', 'ResultService', 'NotificationService', '$routeParams', '$location', '$scope'];
 
-  function SurveyController(UserService, SurveyService, ResultService, NotificationService, $routeParams, $location, $scope) {
+  function SurveyController(CaptchaService, SurveyService, ResultService, NotificationService, $routeParams, $location, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -63,7 +63,7 @@
               }           
             }
 
-            initiateSurveyResult(self.user.username);
+            initiateSurveyResult();
           }, 
           function(error){
             console.log(error);     
@@ -75,18 +75,27 @@
       }
     }
 
-    function initiateSurveyResult(submitter) {
+    function initiateSurveyResult() {
       self.surveyResult = [];
       self.surveyResult = {
-        submitedBy: submitter || "anonymous",
         results: []
       };
 
       for(i = 0; i < self.survey.questions.length; i++) {
-        self.surveyResult.results.push({
-          questionId: self.survey.questions[i],
-          answerId: self.survey.questions[i].answers[0]
-        })
+        if(self.survey.questions[i].hasOtherOption) {
+          self.surveyResult.results.push({
+            questionId: self.survey.questions[i].id,
+            answerId: 0,
+            optional: ''
+          })
+        }
+        else {
+          self.surveyResult.results.push({
+            questionId: self.survey.questions[i].id,
+            answerId: self.survey.questions[i].answers[0].id,
+            optional: ''
+          })
+        }
       }
 
       renderCaptcha();
@@ -107,7 +116,7 @@
         return;
       }
 
-      UserService.sendCaptchaResponse(self.captchaResponse)
+      CaptchaService.sendCaptchaResponse(self.captchaResponse)
         .then(
         function(response){
           ResultService.submitSurvey(self.survey.id, angular.copy(self.surveyResult))
