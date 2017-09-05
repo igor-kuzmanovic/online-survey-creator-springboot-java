@@ -4,8 +4,8 @@
       <h3>Results</h3>
       <hr>
     </div>
-    <div ng-if="src.survey.results.length" ng-init="src.generateBarChart()" id="chart"></div>
-    <div ng-if="src.survey.results.length" ng-repeat="question in src.survey.questions track by $index">
+    <div ng-if="src.survey.surveyResults.length" ng-init="src.generateBarChart()" id="chart"></div>
+    <div ng-if="src.survey.surveyResults.length" ng-repeat="question in src.survey.questions track by $index">
       <div ng-init="src.generatePieChart($index, question.id)" id="chart{{$index}}"></div>    
     </div>
   </div>  
@@ -17,7 +17,7 @@
       <h3>Comments</h3>
       <hr>
     </div>
-    <div id="{{comment.id}}" class="media" ng-repeat = "comment in src.allComments | orderBy: 'creationDate':true">
+    <div id="comment{{comment.id}}" class="media" ng-repeat = "comment in src.allComments | orderBy: 'creationDate':true">
       <div class="media-left media-middle">
         <img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
       </div>

@@ -11,7 +11,7 @@
     self.generateBarChart = generateBarChart;
     self.generatePieChart = generatePieChart;
     self.reportComment = reportComment;
-    
+
     self.allComments = [];
 
     init();
@@ -31,6 +31,21 @@
         .then(
         function(response){
           self.survey = response;
+
+          if($routeParams.elementId) {
+            setTimeout(function () {
+              document.getElementById('comment' + $routeParams.elementId).setAttribute('style', 'border:solid');
+              document.getElementById('comment' + $routeParams.elementId).scrollIntoView();
+              
+              if(document.body.scrollTop < 507) {
+                document.body.scrollTop -= 100;
+              }
+              else {
+                document.body.scrollTop += 100;
+              }
+            }, 500);
+          }
+
           pairUsersWithComments();
         },
         function(error){
@@ -66,19 +81,19 @@
         chart.draw(data, options);
       }
     }
-    
+
     function pairUsersWithComments() {
-        UserService.getUsersForComments(self.survey.id).then(function (data, status) {
-            self.users = data;
-            for(var i = 0; i < self.survey.comments.length; i++) {
-                for(var j = 0; j < self.users.length; j++) {
-                    if(self.survey.comments[i].poster === self.users[j].username) {
-                        self.survey.comments[i].image = self.users[j].imageUrl;
-                        self.allComments.push(self.survey.comments[i]);
-                    }
-                }
+      UserService.getUsersForComments(self.survey.id).then(function (data, status) {
+        self.users = data;
+        for(var i = 0; i < self.survey.comments.length; i++) {
+          for(var j = 0; j < self.users.length; j++) {
+            if(self.survey.comments[i].poster === self.users[j].username) {
+              self.survey.comments[i].image = self.users[j].imageUrl;
+              self.allComments.push(self.survey.comments[i]);
             }
-        });
+          }
+        }
+      });
     }
 
     function generatePieChart(questionIndex, questionId) {
@@ -91,7 +106,7 @@
         for(i = 0; i < self.survey.questions[questionIndex].answers.length; i++) {
           resultsData.push([self.survey.questions[questionIndex].answers[i], 0]);
         }
-        
+
         if(self.survey.questions[questionIndex].hasOtherOption) {
           resultsData.push([{
             id: 0,
@@ -107,10 +122,10 @@
               }
             }
           }
-          
+
           resultsData[i][0] = resultsData[i][0].content;
         }
-        
+
         console.log(resultsData);
 
         var data = google.visualization.arrayToDataTable(resultsData);
@@ -130,7 +145,7 @@
         console.log(error);
         self.error = error;
       })
-   }
+    }
 
   }
 })();
