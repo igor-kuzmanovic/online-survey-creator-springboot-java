@@ -18,33 +18,37 @@
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-striped">
                 <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>First name</th>
-                    <th>Last name</th>
-                    <th>Status</th>
-                    <th>Role</th>
-                    <th>Registration date</th>
-                    <th></th>
-                    <th>Block/Unblock</th>
-                    <th>Remove</th>
-                </tr>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                        <th>Registration date</th>
+                        <th></th>
+                        <th>Block/Unblock</th>
+                        <th>Remove</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="user in apc.users track by $index">
-                    <td>{{user.username}}</td>
-                    <td>{{user.email}}</td>
-                    <td>{{user.firstName}}</td>
-                    <td>{{user.secondName}}</td>
-                    <td>{{user.userStatus.id === 1 ? 'Active' : 'Blocked'}}</td>
-                    <td>{{user.roles.id === 1 ? 'Admin' : 'Regular user'}}</td>
-                    <td>{{user.registrationDate | date:'yyyy-MM-dd'}}</td>
-                    <td></td>
-                    <td ng-if="user.userStatus.id === 1" align="center"><span class="fa fa-lock" style="cursor: pointer" ng-click="apc.blockUser(user.id)"></span></td>
-                    <td ng-if="user.userStatus.id === 2" align="center"><span class="fa fa-unlock" style="cursor: pointer" ng-click="apc.blockUser(user.id)"></span></td>
-                    <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeUser(user.id)"></span></td>
-                </tr>
+                    <tr ng-repeat="user in apc.users track by $index" ng-class="{danger: user.userStatus.id === 2}">
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.secondName}}</td>
+                        <td>{{user.userStatus.id === 1 ? 'Active' : 'Blocked'}}</td>
+                        <td>{{user.roles.id === 1 ? 'Admin' : 'Regular user'}}</td>
+                        <td>{{user.registrationDate | date:'yyyy-MM-dd'}}</td>
+                        <td></td>
+                        <td ng-if="user.userStatus.id === 1" align="center">
+                            <span class="fa fa-lock" style="cursor: pointer" ng-click="apc.setCurrentUser(user)" data-toggle="modal" data-target="#banUserModal"></span>
+                        </td>
+                        <td ng-if="user.userStatus.id === 2" align="center">
+                            <span class="fa fa-unlock" style="cursor: pointer" ng-click="apc.blockUser(user)"></span>
+                        </td>
+                        <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.removeUser(user.id)"></span></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -143,6 +147,41 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="banUserModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">For how long do you want to ban this user?</h4>
+            </div>
+            <div class="modal-body">
+                <form name="myForm">
+                    <label>
+                        <input type="radio" ng-model="apc.banDays" value="7" ng-checked="true">
+                        7 days
+                    </label><br/>
+                    <label>
+                        <input type="radio" ng-model="apc.banDays" value="30">
+                        30 days
+                    </label><br/>
+                    <label>
+                        <input type="radio" ng-model="apc.banDays" value="120">
+                        120 days
+                    </label><br/>
+                    <label>
+                        <input type="radio" ng-model="apc.banDays" value="Permanent">
+                        Permanent
+                    </label><br/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="apc.blockUser()" data-dismis="modal">Confirm</button>
+            </div>
         </div>
     </div>
 </div>
