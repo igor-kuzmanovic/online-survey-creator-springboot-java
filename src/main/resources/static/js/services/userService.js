@@ -118,11 +118,12 @@
       return def.promise;
     }
 
-    function toggleUserBlock(id) {
+    function toggleUserBlock(id, duration) {
       var def = $q.defer();
       var req = {
         method: 'PUT',
-        url: "/api/users/block/" + id
+        url: "/api/users/block/" + id,
+        data: duration
       };
       $http(req).success(function (data) {
         def.resolve(data);
