@@ -46,14 +46,15 @@
     function getImage() {
       return self.imageUrl;
     }
-    
+
     function setImage(image) {
       self.imageUrl = image;
     }
 
     function checkUser() {
       if(self.user) {
-          return self.user;
+        setImage(self.user.imageUrl);
+        return self.user;
       }
     }
 
@@ -84,7 +85,7 @@
 
       if(self.user) {
         console.log('User found');
-        
+
         self.unreadNotifications = 0;
 
         for(i = 0; i < self.user.notifications.length; i++) {
