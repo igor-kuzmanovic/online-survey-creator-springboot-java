@@ -2,15 +2,16 @@
 	angular.module('app')
 		.controller('UserSettingsController', UserSettingsController);
 
-	UserSettingsController.$inject = ['UserService', '$scope'];
+	UserSettingsController.$inject = ['UserService', 'ImageService', '$scope'];
 
-	function UserSettingsController(UserService, $scope) {
+	function UserSettingsController(UserService, ImageService, $scope) {
 
     var self = this;
     self.editUser = editUser;
     self.onSuccess = onSuccess;
+    self.logImages = logImages;
 
-		init();
+    init();
 
     function init(){
       if (!$scope.mc.checkUser()) {
@@ -18,6 +19,12 @@
       }
 
       getWholeUser(UserService.getUser().username);
+    }
+    
+    function logImages() {
+        ImageService.getAllImages().then(function (data, status) {
+           console.log(data);
+        });
     }
 
     function onSuccess(response) {

@@ -5,9 +5,6 @@ import com.example.tech9_survey.service.CommentService;
 import com.example.tech9_survey.service.SurveyService;
 import com.example.tech9_survey.service.UserService;
 import com.example.tech9_survey.service.VerificationTokenService;
-import com.google.common.io.ByteStreams;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.InputStream;
 import java.util.*;
 
 @EnableScheduling
@@ -135,7 +131,6 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
-        Resource resource = new ClassPathResource("static/images/default_user.jpg");
 
         token.setToken(UUID.randomUUID().toString());
 
@@ -143,13 +138,6 @@ public class UserController {
             if (userService.findByEmail(user.getEmail()) == null) {
                 user.setIsEnabled(false);
                 user.setRegistrationDate(new Date());
-                try {
-                    InputStream stream = resource.getInputStream();
-                    user.setImageUrl(ByteStreams.toByteArray(stream));
-                } catch (Exception e) {
-                    System.out.println(e);
-                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                }
 
                 token.setUser(user);
                 verificationTokenService.save(token);
