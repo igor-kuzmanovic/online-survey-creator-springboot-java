@@ -210,7 +210,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if(duration.equals("permanent")) {
+        if(duration.equals("Permanent")) {
             foundUser.setBanDate(null);
         } else {
             foundUser.setBanDate(addDay(new Date(), Integer.parseInt(duration)));
