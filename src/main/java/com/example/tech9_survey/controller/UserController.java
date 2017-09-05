@@ -103,6 +103,12 @@ public class UserController {
             }
         }
 
+        for (Survey survey : surveyService.findAll()) {
+            if (survey.getCreator().equals(foundUser.getUsername())) {
+                surveyService.delete(survey.getId());
+            }
+        }
+
         commentService.deleteByUser(foundUser.getUsername());
         userService.delete(id);
 

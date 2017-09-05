@@ -122,6 +122,7 @@
       UserService.deleteUser(id).then(function (data, status) {
         alert("User deleted");
         getAllUsers();
+        getAllSurveys();
       });
     }
 
@@ -136,6 +137,9 @@
         function(response) {
           $('#removeSurveyModal').modal('hide');
           getAllSurveys();
+          getAllComments();
+          getAllQuestions();
+          getAllAnswers();
         }, 
         function(error){
           console.log(error);
