@@ -28,12 +28,7 @@
     init();
 
     function init() {
-      self.user = $scope.mc.checkUser();
-
-      if(!self.user) {
-        $location.path('/');
-      }
-      else if(self.user.roles[0].type !== 'ROLE_ADMIN') {
+      if(!$scope.mc.checkUser()) {
         $location.path('/');
       }
       else {
