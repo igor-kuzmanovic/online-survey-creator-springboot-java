@@ -189,6 +189,21 @@ public class SurveyController {
     	return new ResponseEntity<>(updatedSurvey, HttpStatus.OK);
     }
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping(path = "/{id}")
+	public ResponseEntity<Survey> allowSurvey(@PathVariable Long id) {
+		Survey survey = surveyService.findOne(id);
+		
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		survey.setIsFlagged(false);
+		surveyService.save(survey);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@PutMapping(path = "/deactivate/{id}")
 	public ResponseEntity<Survey> deactivate(@PathVariable Long id) {

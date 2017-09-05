@@ -12,18 +12,18 @@
             {{survey.creator}} - {{survey.name}} - {{survey.description}}
 
             <div class="btn-group pull-right" role="group" aria-label="...">
-              <div class="btn btn-primary btn-facebook" ng-click="sc.facebookShare(survey.hashedId)"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
+              <div class="btn btn-primary btn-facebook" ng-click="sc.facebookShare(survey.hashedId)" title="Share on Facebook"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
               </div>
 
-              <div class="btn btn-primary btn-twitter"><a href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2F&amp;ref_src=twsrc%5Etfw&amp;text=Test%20survey&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}&amp;via=tech9survey"><i class="fa fa-twitter-square" aria-hidden="true" style="color:white"></i></a></div>
+              <div class="btn btn-primary btn-twitter" title="Share on Twitter"><a href="https://twitter.com/intent/tweet?original_referer=http%3A%2F%2Flocalhost%3A8080%2F&amp;ref_src=twsrc%5Etfw&amp;text=Test%20survey&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}&amp;via=tech9survey"><i class="fa fa-twitter-square" aria-hidden="true" style="color:white"></i></a></div>
 
-              <div class="btn btn-primary btn-google"><a ng-href="https://plus.google.com/share?app=110&url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-google-plus-square" aria-hidden="true" style="color:white"></i></a></div>
+              <div class="btn btn-primary btn-google" title="Share on Google"><a ng-href="https://plus.google.com/share?app=110&url=https%3A%2F%2Ftech9survey.github.io%2F%23%2F{{survey.hashedId}}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-google-plus-square" aria-hidden="true" style="color:white"></i></a></div>
 
-              <a ng-if="survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button" ng-href="#/survey/submit/{{survey.hashedId}}">
+              <a ng-if="survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button" ng-href="#/survey/submit/{{survey.hashedId}}" title="Complete the survey">
                 <span class="glyphicon glyphicon-file"></span>
               </a>
 
-              <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button">
+              <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button" title="The survey isn't active">
                 <span class="glyphicon glyphicon-signal"></span>
               </a>
             </div>  

@@ -11,9 +11,15 @@
     self.menuSelected = menuSelected;
     self.removeUser = removeUser;
     self.blockUser = blockUser;
+    self.setCurrentSurvey = setCurrentSurvey;
     self.removeSurvey = removeSurvey;
+    self.allowSurvey = allowSurvey;
+    self.setCurrentComment = setCurrentComment;
     self.removeComment = removeComment;
+    self.allowComment = allowComment;
+    self.setCurrentAnswer = setCurrentAnswer;
     self.removeAnswer = removeAnswer;
+    self.setCurrentQuestion = setCurrentQuestion;
     self.removeQuestion = removeQuestion;
     self.allComments = [];
     self.allQuestions = [];
@@ -24,6 +30,7 @@
     function init() {
       getAllSurveys();
       getAllUsers();
+
     }
     
     function getAllSurveys() {
@@ -90,33 +97,100 @@
             getAllUsers();
         });
     }
+    
+        
+    function setCurrentSurvey(survey) {
+      self.currentSurvey = survey;
+    }
 
-    function removeSurvey(id) {
-        SurveyService.deleteSurvey(id).then(function (data, status) {
-            alert("Survey removed");
-            getAllSurveys();
-        });
+    function removeSurvey() {
+      SurveyService.deleteSurvey(self.currentSurvey.id)
+        .then(
+        function(response) {
+          $('#removeSurveyModal').modal('hide');
+          getAllSurveys();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
     }
     
-    function removeComment(id) {
-        CommentService.deleteComment(id).then(function (data, status) {
-            alert("Comment removed");
-            getAllSurveys();
-        });
+    function allowSurvey() {
+       SurveyService.allowSurvey(self.currentSurvey.id)
+      .then(
+        function(response) {
+          $('#allowSurveyModal').modal('hide');
+          getAllSurveys();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
     }
     
-    function removeQuestion(id) {
-        QuestionService.deleteQuestion(id).then(function (data, status) {
-           alert("Question deleted!");
-           getAllSurveys();
-        });
+    function setCurrentComment(comment) {
+      self.currentComment = comment;
     }
     
-    function removeAnswer(id) {
-        AnswerService.deleteAnswer(id).then(function (data, status) {
-            alert("Answer deleted");
-            getAllSurveys();
-        });
+    function removeComment() {
+      CommentService.deleteComment(self.currentComment.id)
+        .then(
+        function(response) {
+          $('#removeCommentModal').modal('hide');
+          getAllSurveys();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
+    }
+    
+    function allowComment() {
+       CommentService.allowComment(self.currentComment.id)
+      .then(
+        function(response) {
+          $('#allowCommentModal').modal('hide');
+          getAllSurveys();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
+    }
+    
+    function setCurrentQuestion(question) {
+      self.currentQuestion = question;
+    }
+    
+    function removeQuestion() {
+      QuestionService.deleteQuestion(self.currentQuestion.id)
+        .then(
+        function(response) {
+          $('#removeQuestionModal').modal('hide');
+          getAllSurveys();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
+    }
+    
+    function setCurrentAnswer(answer) {
+      self.currentAnswer = answer;
+    }
+    
+    function removeAnswer() {
+      AnswerService.deleteAnswer(self.currentAnswer.id)
+        .then(
+        function(response) {
+          $('#removeAnswerModal').modal('hide');
+          getAllSurveys();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
     }
     
     function menuSelected(menu) {

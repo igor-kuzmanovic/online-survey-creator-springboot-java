@@ -11,6 +11,7 @@
 			deactivateSurvey: deactivateSurvey,
 			toggleSurveyPrivacy: toggleSurveyPrivacy,
 			deleteSurvey: deleteSurvey,
+            allowSurvey: allowSurvey,
 			generateSurvey: generateSurvey,
 			getSurveys: getSurveys,
 			getUserSurveys: getUserSurveys,
@@ -81,6 +82,21 @@
 			})
 				.error(function () {
 				def.reject("Failed to delete a survey");
+			});
+			return def.promise;
+		}
+      
+        function allowSurvey(id) {
+			var def = $q.defer();
+			var req = {
+				method: 'PUT',
+				url: "/api/survey/" + id
+			};
+			$http(req).success(function (data) {
+				def.resolve(data);
+			})
+				.error(function () {
+				def.reject("Failed to allow a survey");
 			});
 			return def.promise;
 		}

@@ -192,7 +192,7 @@
       var def = $q.defer();
       var req = {
           method: 'GET',
-          url: "/api/users/comment/survey/ " + surveyId
+          url: "/api/users/comment/survey/" + surveyId
       };
       $http(req)
           .success(function (data) {

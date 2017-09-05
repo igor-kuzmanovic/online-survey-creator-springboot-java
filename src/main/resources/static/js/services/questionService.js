@@ -12,17 +12,17 @@
       getQuestionByAnswer: getQuestionByAnswer
     };
     
-    function deleteQuestion(questionId) {
+    function deleteQuestion(id) {
       var def = $q.defer();
       var req = {
         method: 'DELETE',
-        url: "/api/question/" + questionId
+        url: "/api/question/" + id
       };
       $http(req).success(function (data) {
         def.resolve(data);
       })
         .error(function () {
-        def.reject("Failed to delete a question!");
+        def.reject("Failed to delete a question");
       });
       return def.promise;
     }
