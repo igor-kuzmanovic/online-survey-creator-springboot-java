@@ -138,8 +138,6 @@ public class UserController {
 
         if (userService.findByUsername(user.getUsername()) == null) {
             if (userService.findByEmail(user.getEmail()) == null) {
-                //String imagePath = Paths.get("D:\\user_images", "default_user.jpg").toString();
-
                 user.setIsEnabled(false);
                 user.setRegistrationDate(new Date());
                 try {
@@ -149,7 +147,6 @@ public class UserController {
                     System.out.println(e);
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 }
-                //user.setImageUrl(imagePath);
 
                 token.setUser(user);
                 verificationTokenService.save(token);
@@ -231,8 +228,14 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(path = "/block/{user_id}")
-    public ResponseEntity<Object> changeStatus(@PathVariable("user_id") Long userId) {
+    public ResponseEntity<Object> changeStatus(@RequestBody String duration, @PathVariable("user_id") Long userId) {
         User foundUser = userService.findOne(userId);
+
+        if(duration.equals("permanent")) {
+            foundUser.setBanDate(null);
+        } else {
+            foundUser.setBanDate(addDay(new Date(), Integer.parseInt(duration)));
+        }
 
         if (foundUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -254,6 +257,14 @@ public class UserController {
     @RequestMapping("/login")
     public User user(Authentication authentication) {
         User user = userService.findByUsername(authentication.getName());
+        UserStatus userStatus = new UserStatus();
+
+        if(user.getUserStatus().getType().equals(UserStatus.UserStatusType.STATUS_INACTIVE) && new Date().after(user.getBanDate())) {
+            userStatus.setType(UserStatus.UserStatusType.STATUS_ACTIVE);
+            userStatus.setId(1L);
+            user.setUserStatus(userStatus);
+            userService.save(user);
+        }
         user.setPassword(null);
 
         return user;
