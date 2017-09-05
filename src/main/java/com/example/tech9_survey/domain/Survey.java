@@ -159,12 +159,12 @@ public class Survey extends BaseEntity {
 		this.comments = comments;
 	}
 
-	public List<SurveyResult> getResults() {
+	public List<SurveyResult> getSurveyResults() {
 		return surveyResults;
 	}
 
-	public void setResults(List<SurveyResult> results) {
-		this.surveyResults = results;
+	public void setSurveyResults(List<SurveyResult> surveyResults) {
+		this.surveyResults = surveyResults;
 	}
 
 	public Boolean getIsPublic() {

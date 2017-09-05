@@ -4,8 +4,8 @@
       <h3>Results</h3>
       <hr>
     </div>
-    <div ng-if="src.survey.surveyResults.length" ng-init="src.generateBarChart()" id="chart"></div>
-    <div ng-if="src.survey.surveyResults.length" ng-repeat="question in src.survey.questions track by $index">
+    <div ng-if="src.survey.surveyResults.length > 0" ng-init="src.generateBarChart()" id="chart"></div>
+    <div ng-if="src.survey.surveyResults.length > 0" ng-repeat="question in src.survey.questions track by $index">
       <div ng-init="src.generatePieChart($index, question.id)" id="chart{{$index}}"></div>    
     </div>
   </div>  
