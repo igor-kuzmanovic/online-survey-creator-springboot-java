@@ -4,7 +4,7 @@
     <div ng-repeat = "notification in unc.notifications | orderBy: 'creationDate':true">
         <div class="media">
           <div class="media-left">
-            <img src = "https://ih1.redbubble.net/image.88970289.0659/ap,550x550,12x16,1,transparent,t.u1.png" style="width: 50px; height: 50px">
+            <img ng-src="{{'data:image/jpg;base64,'+ notification.image}}" class="media-object" style="width:64px">
           </div>
 
           <div ng-if="notification.notificationType === 1" class="media-body">

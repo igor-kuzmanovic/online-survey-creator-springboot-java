@@ -100,14 +100,8 @@
         self.currentUser = user;
       }
 
-      for(i = 0; i < self.currentUser.roles.length; i++) {
-        if(self.currentUser.roles[i].type === 'ROLE_ADMIN') {
-          self.isAdmin = true;
-        }
-      }
-
-      if(self.isAdmin) {
-        console.log("Can't ban admin!");
+      if(isAdmin()) {
+        console.log("Can't block admin");
         $('#banUserModal').modal('hide');
         return;
       }
@@ -118,9 +112,15 @@
       });
     }
 
-    function removeUser(id) {
-      UserService.deleteUser(id).then(function (data, status) {
-        alert("User deleted");
+    function removeUser() {
+      if(isAdmin()) {
+          console.log("Can't delete admin");
+          $('#deleteUserModal').modal('hide');
+          return;
+      }
+
+      UserService.deleteUser(self.currentUser.id).then(function (data, status) {
+        $('#deleteUserModal').modal('hide');
         getAllUsers();
         getAllSurveys();
       });
@@ -222,6 +222,20 @@
           console.log(error);
           self.error = error;
         })
+    }
+
+    function isAdmin() {
+        for(var i = 0; i < self.currentUser.roles.length; i++) {
+            if(self.currentUser.roles[i].type === 'ROLE_ADMIN') {
+                self.isAdmin = true;
+            }
+        }
+
+        if(self.isAdmin) {
+            return true;
+        }
+
+        return false;
     }
 
     function menuSelected(menu) {

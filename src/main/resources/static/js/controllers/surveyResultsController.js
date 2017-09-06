@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('SurveyResultsController', SurveyResultsController);
 
-  SurveyResultsController.$inject = ['SurveyService', 'NotificationService', 'UserService', '$routeParams', '$location', '$scope'];
+  SurveyResultsController.$inject = ['SurveyService', 'NotificationService', 'UserService', 'ImageService', '$routeParams', '$location', '$scope'];
 
-  function SurveyResultsController(SurveyService, NotificationService, UserService, $routeParams, $location, $scope) {
+  function SurveyResultsController(SurveyService, NotificationService, UserService, ImageService, $routeParams, $location, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
@@ -27,13 +27,23 @@
         getCurrentSurvey();
       }
     }
+    
+    function loadImages() {
+        ImageService.getAllImagesBinary().then(function (data, status) {
+          self.allComments = self.survey.comments;
+          for(var i = 0; i < self.allComments.length; i++) {
+            console.log(self.allComments);
+            self.allComments[i].image = data[self.allComments[i].poster];
+          }
+        });
+    }
 
     function getCurrentSurvey() {
       SurveyService.getCurrentSurvey(self.surveyHashedId)
         .then(
         function(response){
           self.survey = response;
-
+          loadImages();
           if($routeParams.elementId) {
             setTimeout(function () {
               document.getElementById('comment' + $routeParams.elementId).setAttribute('style', 'border:solid');
@@ -47,8 +57,6 @@
               }
             }, 500);
           }
-
-          pairUsersWithComments();
         },
         function(error){
           console.log(error);
