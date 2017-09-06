@@ -6,25 +6,34 @@
 
     function ImageService($http, $q) {
 
-        var allImages = [];
-
         var service = {
+            getAllImagesBinary: getAllImagesBinary,
             getAllImages: getAllImages
         };
-
+        
         function getAllImages() {
+            var def = $q.defer();
+            var req = {
+                method: 'GET',
+                url: "/api/image/"
+            };
+            $http(req).success(function (data) {
+                def.resolve(data);
+            })
+                .error(function (response) {
+                    def.reject(response);
+                });
+            return def.promise;
+        }
+
+        function getAllImagesBinary() {
             var def = $q.defer();
             var req = {
                 method: 'GET',
                 url: "/api/image/all"
             };
             $http(req).success(function (data) {
-                console.log(data);
-                for(var i = 0; i < data.length; i++) {
-                    data[i].url = arrayBufferToBase64(data[i].url);
-                    allImages.push(data[i].url);
-                }
-                def.resolve(allImages);
+                def.resolve(data);
             })
                 .error(function (response) {
                     def.reject(response);

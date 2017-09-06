@@ -14,7 +14,9 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/image")
@@ -99,25 +101,28 @@ public class ImageController {
     }
 
     @GetMapping(value = "/all")
-    public @ResponseBody List<byte[]> getFile()  {
+    public @ResponseBody Map<String, byte[]> getFile()  {
         List<Image> allImages = imageService.findAll();
-        List<byte[]> byteImages = new ArrayList<>();
+        Map<String, byte[]> map = new HashMap();
 
         try {
             for (Image image : allImages) {
-                String filePath = Paths.get(image.getUrl()).toString();
-                InputStream is = new FileInputStream(new File(filePath));
-                BufferedImage img = ImageIO.read(is);
-                ByteArrayOutputStream bao = new ByteArrayOutputStream();
-                ImageIO.write(img, "jpg", bao);
+                List<String> users = new ArrayList<>();
+                for (User user : image.getUsers()) {
+                    String filePath = Paths.get(image.getUrl()).toString();
+                    InputStream is = new FileInputStream(new File(filePath));
+                    BufferedImage img = ImageIO.read(is);
+                    ByteArrayOutputStream bao = new ByteArrayOutputStream();
+                    ImageIO.write(img, "jpg", bao);
 
-                byteImages.add(bao.toByteArray());
+                    map.put(user.getUsername(), bao.toByteArray());
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return byteImages;
+        return map;
     }
 
 }

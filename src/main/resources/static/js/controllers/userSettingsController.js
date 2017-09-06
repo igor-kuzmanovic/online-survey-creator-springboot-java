@@ -6,10 +6,11 @@
 
 	function UserSettingsController(UserService, ImageService, $scope) {
 
+	var userImageMap;
+
     var self = this;
     self.editUser = editUser;
     self.onSuccess = onSuccess;
-    self.logImages = logImages;
 
     init();
 
@@ -18,44 +19,44 @@
         $location.path('/');
       }
 
-      getWholeUser(UserService.getUser().username);
+      loadImages();
+
     }
-    
-    function logImages() {
-        ImageService.getAllImages().then(function (data, status) {
-           console.log(data);
+
+    function loadImages() {
+        ImageService.getAllImagesBinary().then(function (data, status) {
+            userImageMap = data;
+            getWholeUser(UserService.getUser().username);
         });
     }
 
     function onSuccess(response) {
-      init();
-      
-      UserService.findUser(self.wholeUser.username).then(function (data, response) {
-          $scope.mc.setImage(data.imageUrl);
-      });
+        loadImages();
+        $scope.mc.loadImages();
     }
 
-		function getWholeUser(username) {
-			UserService.findUser(username).then(handleSuccessWholeUser, function(error) {
-				console.log(error);
-				alert(error);
-			});
-		}
+	function getWholeUser(username) {
+		UserService.findUser(username).then(handleSuccessWholeUser, function(error) {
+			console.log(error);
+			alert(error);
+		});
+	}
 
-		function handleSuccessWholeUser(data, status){
-			self.wholeUser = data;
-		}
+	function handleSuccessWholeUser(data, status){
+		self.wholeUser = data;
+		self.wholeUser.imageUrl = userImageMap[self.wholeUser.username];
+	}
 
-		function editUser() {
-			UserService.editUser(self.wholeUser).then(handleSuccessEditedUser, function(error) {
-				console.log(error);
-				alert(error);
-			});
-		}
+	function editUser() {
+		UserService.editUser(self.wholeUser).then(handleSuccessEditedUser, function(error) {
+			console.log(error);
+			alert(error);
+		});
+	}
 
-		function handleSuccessEditedUser(data, status){
-			UserService.setUser(data);
-		}
+	function handleSuccessEditedUser(data, status){
+		UserService.setUser(data);
+	}
 
 	};
 })();

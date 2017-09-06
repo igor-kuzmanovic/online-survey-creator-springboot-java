@@ -2,17 +2,18 @@
   angular.module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['UserService', 'CookieService', '$location', '$route'];
+  MainController.$inject = ['UserService', 'ImageService', 'CookieService', '$location', '$route'];
 
-  function MainController(UserService, CookieService, $location, $route) {
+  function MainController(UserService, ImageService, CookieService, $location, $route) {
 
     var self = this;
     self.init = init; 
     self.checkUser = checkUser;
     self.removeUser = removeUser;
     self.getUser = getUser;
-    self.getImage = getImage;
-    self.setImage = setImage;
+    self.loadImages = loadImages;
+
+    var userImageMap;
 
     self.themes = [
       { name: 'Cerulean', url: 'cerulean' },
@@ -41,19 +42,20 @@
 
     function init() {
       getUser();
+      if(self.user) {
+          loadImages();
+      }
     }
-
-    function getImage() {
-      return self.imageUrl;
-    }
-
-    function setImage(image) {
-      self.imageUrl = image;
+    
+    function loadImages() {
+        ImageService.getAllImagesBinary().then(function (data, status) {
+          userImageMap = data;
+          self.imageUrl = userImageMap[self.user.username];
+        });
     }
 
     function checkUser() {
       if(self.user) {
-        setImage(self.user.imageUrl);
         return self.user;
       }
     }
@@ -93,8 +95,6 @@
             self.unreadNotifications++;
           }
         }
-
-        setImage(self.user.imageUrl);
       }
     }
 
