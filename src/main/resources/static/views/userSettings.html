@@ -32,8 +32,25 @@
             </div>
             <br/>
             <div align="center" class="form-group">
-                <button class="btn btn-default btn-success" ng-click="usc.editUser()">Confirm Edit</button>
+                <button class="btn btn-default btn-success" data-toggle="modal" data-target="#editUserModal">Confirm Edit</button>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="modal fade" id="editUserModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <label>User successfully edited</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" ng-click="usc.editUser()" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
