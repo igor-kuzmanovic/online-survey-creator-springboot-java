@@ -7,12 +7,27 @@
   function ResultService($http, $q, $filter) {
 
     var service = {
+      generateSurveyResult: generateSurveyResult,
       submitSurvey: submitSurvey,
       getSurveyResults: getSurveyResults
     }
+    
+    function generateSurveyResult(surveyId) {
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "/api/result/generate/" + surveyId,
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to generate a survey result!");
+      });
+      return def.promise;
+    }
 
     function submitSurvey(surveyId, surveyResult) {
-      surveyResult.creationDate = $filter('date')(new Date(), "yyyy-MM-dd");
       var def = $q.defer();
       var req = {
         method: 'POST',

@@ -103,7 +103,8 @@
       self.survey.questions.push({
         surveyId: self.survey.id,
         answers: [],
-        hasOtherOption: false
+        hasOtherOption: false,
+        hasMultipleOptions: false
       });
       
       self.saveSurvey();
