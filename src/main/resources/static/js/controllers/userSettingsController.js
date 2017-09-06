@@ -56,7 +56,6 @@
 
 	function handleSuccessEditedUser(data, status){
 		UserService.setUser(data);
-    $location.path('/home');
 	}
 
 	};

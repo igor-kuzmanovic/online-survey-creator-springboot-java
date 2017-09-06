@@ -26,7 +26,6 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="bower_components/angular-upload/src/directives/btnUpload.min.css">
-    <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
 
     <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
@@ -89,7 +88,7 @@
               <li ng-if="mc.$location.path().includes('/survey')" class='active'><a href="">Survey </a></li>         
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li ng-class="{active: mc.$location.path().includes('/user/notifications')}"><a href="#/user/notifications">Notifications <span class="badge" ng-if="mc.unreadNotifications > 0">{{mc.unreadNotifications}}</span></a></li>
+              <li ng-class="{active: mc.$location.path().includes('/user/notifications')}"><a href="#/user/notifications"><span class="glyphicon glyphicon-bell"></span> <span class="badge" ng-if="mc.unreadNotifications > 0">{{mc.unreadNotifications}}</span></a></li>
               <li class="dropdown">
                 <a href="" type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   <img class="img img-circle img-nav" ng-src="{{'data:image/jpg;base64,'+ mc.imageUrl}}"> <span class="glyphicon glyphicon-chevron-down"></span></a>

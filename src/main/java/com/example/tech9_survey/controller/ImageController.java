@@ -102,11 +102,10 @@ public class ImageController {
     @GetMapping(value = "/all")
     public @ResponseBody Map<String, byte[]> getFile()  {
         List<Image> allImages = imageService.findAll();
-        Map<String, byte[]> map = new HashMap();
+        Map<String, byte[]> map = new HashMap<>();
 
         try {
             for (Image image : allImages) {
-                List<String> users = new ArrayList<>();
                 for (User user : image.getUsers()) {
                     String filePath = Paths.get(image.getUrl()).toString();
                     InputStream is = new FileInputStream(new File(filePath));
