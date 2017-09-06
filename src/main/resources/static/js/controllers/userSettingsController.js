@@ -2,9 +2,9 @@
 	angular.module('app')
 		.controller('UserSettingsController', UserSettingsController);
 
-	UserSettingsController.$inject = ['UserService', '$scope'];
+	UserSettingsController.$inject = ['UserService', '$scope', '$location'];
 
-	function UserSettingsController(UserService, $scope) {
+	function UserSettingsController(UserService, $scope, $location) {
 
     var self = this;
     self.editUser = editUser;
@@ -48,6 +48,7 @@
 
 		function handleSuccessEditedUser(data, status){
 			UserService.setUser(data);
+      $location.path('/home');
 		}
 
 	};
