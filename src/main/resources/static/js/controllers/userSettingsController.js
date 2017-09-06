@@ -2,15 +2,15 @@
 	angular.module('app')
 		.controller('UserSettingsController', UserSettingsController);
 
-	UserSettingsController.$inject = ['UserService', 'ImageService', '$scope'];
+	UserSettingsController.$inject = ['UserService', 'ImageService', '$scope', '$location'];
 
-	function UserSettingsController(UserService, ImageService, $scope) {
-
-	var userImageMap;
+	function UserSettingsController(UserService, ImageService, $scope, $location) {
 
     var self = this;
     self.editUser = editUser;
     self.onSuccess = onSuccess;
+    
+    self.userImageMap = null;
 
     init();
 
@@ -56,6 +56,7 @@
 
 	function handleSuccessEditedUser(data, status){
 		UserService.setUser(data);
+    $location.path('/home');
 	}
 
 	};

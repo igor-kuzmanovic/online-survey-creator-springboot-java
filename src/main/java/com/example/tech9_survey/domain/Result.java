@@ -1,7 +1,14 @@
 package com.example.tech9_survey.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class Result extends BaseEntity {
@@ -13,6 +20,11 @@ public class Result extends BaseEntity {
 	private Long answerId;
 	
 	private String optional;
+	
+	@Cascade(CascadeType.ALL)
+	@OneToMany
+	@JoinColumn(name = "result_id")
+	private List<ResultBoolean> resultList;
 
 	public Long getQuestionId() {
 		return questionId;
@@ -36,6 +48,14 @@ public class Result extends BaseEntity {
 
 	public void setOptional(String optional) {
 		this.optional = optional;
+	}
+
+	public List<ResultBoolean> getResultList() {
+		return resultList;
+	}
+
+	public void setResultList(List<ResultBoolean> resultList) {
+		this.resultList = resultList;
 	}
 
 }

@@ -15,27 +15,28 @@
 
     var userImageMap;
 
-    self.themes = [
-      { name: 'Cerulean', url: 'cerulean' },
-      { name: 'Cosmo', url: 'cosmo' },
-      { name: 'Cyborg', url: 'cyborg' },
-      { name: 'Darkly', url: 'darkly' },
-      { name: 'Flatly', url: 'flatly' },
-      { name: 'Journal', url: 'journal' },
-      { name: 'Lumen', url: 'lumen' },
-      { name: 'Paper', url: 'paper' },
-      { name: 'Readable', url: 'readable' },
-      { name: 'Sandstone', url: 'sandstone' },
-      { name: 'Simplex', url: 'simplex' },
-      { name: 'Slate', url: 'slate' },
-      { name: 'Solar', url: 'solar' },
-      { name: 'Spacelab', url: 'spacelab' },
-      { name: 'Superhero', url: 'superhero' },
-      { name: 'United', url: 'united' },
-      { name: 'Yeti', url: 'yeti' }
-    ];
-
-    self.theme = self.themes[4];
+//    self.themes = [
+//      { name: 'Cerulean', url: 'cerulean' },
+//      { name: 'Cosmo', url: 'cosmo' },
+//      { name: 'Cyborg', url: 'cyborg' },
+//      { name: 'Darkly', url: 'darkly' },
+//      { name: 'Flatly', url: 'flatly' },
+//      { name: 'Journal', url: 'journal' },
+//      { name: 'Lumen', url: 'lumen' },
+//      { name: 'Paper', url: 'paper' },
+//      { name: 'Readable', url: 'readable' },
+//      { name: 'Sandstone', url: 'sandstone' },
+//      { name: 'Simplex', url: 'simplex' },
+//      { name: 'Slate', url: 'slate' },
+//      { name: 'Solar', url: 'solar' },
+//      { name: 'Spacelab', url: 'spacelab' },
+//      { name: 'Superhero', url: 'superhero' },
+//      { name: 'United', url: 'united' },
+//      { name: 'Yeti', url: 'yeti' }
+//    ];
+//
+//    self.theme = self.themes[4];
+    
     self.$location = $location;
 
     init();

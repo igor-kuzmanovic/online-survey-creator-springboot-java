@@ -261,12 +261,12 @@ public class SurveyController {
 	private Survey surveyIsActiveCheck(Survey survey) {
 		Date currentDate = new Date();
 		
-		if(survey.getExpirationDate() == null || survey.getExpirationDate().before(currentDate)) {
+		if(survey.getExpirationDate() == null || survey.getExpirationDate().after(currentDate)) {
 			survey.setIsActive(true);
 			survey = surveyService.save(survey);
 		}
 		
-		if(survey.getExpirationDate() != null && survey.getExpirationDate().after(currentDate)) {
+		if(survey.getExpirationDate() != null && (survey.getExpirationDate().before(currentDate) || survey.getExpirationDate().compareTo(currentDate) == 0)) {
 			survey.setIsActive(false);
 			survey = surveyService.save(survey);
 		}
