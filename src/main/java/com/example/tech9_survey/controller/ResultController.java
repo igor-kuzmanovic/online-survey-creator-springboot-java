@@ -138,14 +138,21 @@ public class ResultController {
 		List<Result> results = new ArrayList<Result>();
 		
 		for(int i = 0; i < questions.size(); i++) {
-			if(questions.get(i).getHasMultipleOptions() == false) {
+			if(questions.get(i).getQuestionType() == 1) {
 				Result result = new Result();
 				result.setQuestionId(questions.get(i).getId());
 				result.setAnswerId(questions.get(i).getAnswers().get(0).getId());
 				result.setOptional(null);
 				results.add(result);
 			}
-			else if(questions.get(i).getHasMultipleOptions() == true) {
+			else if(questions.get(i).getQuestionType() == 2) {
+				Result result = new Result();
+				result.setQuestionId(questions.get(i).getId());
+				result.setAnswerId(0L);
+				result.setOptional(null);
+				results.add(result);
+			}
+			else if(questions.get(i).getQuestionType() == 3) {
 				List<ResultBoolean> resultList = new ArrayList<ResultBoolean>();
 				
 				for(int j = 0; j < questions.get(i).getAnswers().size(); j++) {

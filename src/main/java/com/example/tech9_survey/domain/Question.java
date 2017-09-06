@@ -28,8 +28,8 @@ public class Question extends BaseEntity {
 	@Column(name = "has_other_option")
 	private Boolean hasOtherOption;
 	
-	@Column(name = "has_multiple_options")
-	private Boolean hasMultipleOptions;
+	@Column(name = "question_type")
+	private Long questionType;
 
 	public Long getSurveyId() {
 		return surveyId;
@@ -55,20 +55,20 @@ public class Question extends BaseEntity {
 		this.answers = answers;
 	}
 
+	public Long getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(Long questionType) {
+		this.questionType = questionType;
+	}
+
 	public Boolean getHasOtherOption() {
 		return hasOtherOption;
 	}
 
 	public void setHasOtherOption(Boolean hasOtherOption) {
 		this.hasOtherOption = hasOtherOption;
-	}
-
-	public Boolean getHasMultipleOptions() {
-		return hasMultipleOptions;
-	}
-
-	public void setHasMultipleOptions(Boolean hasMultipleOptions) {
-		this.hasMultipleOptions = hasMultipleOptions;
 	}
 
 }

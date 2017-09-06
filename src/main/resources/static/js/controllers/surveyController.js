@@ -107,48 +107,5 @@
         })
     }
 
-    //    function checkSurvey() {
-    //      if(self.survey.isActive) {
-    //        if(self.user && self.survey.creator === self.user.username) {
-    //          console.log('You cannot complete your own survey!');
-    //          self.initError = 'You cannot complete your own survey!';
-    //        }
-    //
-    //        if(!self.user && !self.survey.isPublic) {
-    //          console.log("This survey isn't open for unregistered users!");
-    //          self.initError = "This survey isn't open for unregistered users!";
-    //        }
-    //
-    //        checkSubmitter();
-    //      }
-    //      else {
-    //        $location.path('/survey/results/' + self.surveyHashedId);
-    //      }
-    //    }
-    //
-    //    function checkSubmitter() {
-    //      if(self.user) {
-    //        ResultService.getSurveyResults(self.survey.id)
-    //          .then(
-    //          function(response){
-    //            for(i = 0; i < response.length; i++) {
-    //              if(response[i].submitedBy === self.user.username) {
-    //                console.log("You have already completed this survey!");
-    //                self.initError = "You have already completed this survey!";
-    //              }           
-    //            }
-    //
-    //            initiateSurveyResult();
-    //          }, 
-    //          function(error){
-    //            console.log(error);     
-    //            self.error = error;
-    //          });
-    //      }
-    //      else {
-    //        initiateSurveyResult();
-    //      }
-    //    }
-
   };
 })();
