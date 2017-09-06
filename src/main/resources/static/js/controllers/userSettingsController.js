@@ -6,57 +6,57 @@
 
 	function UserSettingsController(UserService, ImageService, $scope, $location) {
 
-    var self = this;
-    self.editUser = editUser;
-    self.onSuccess = onSuccess;
-    
-    self.userImageMap = null;
+		var self = this;
+		self.editUser = editUser;
+		self.onSuccess = onSuccess;
 
-    init();
+		self.userImageMap = null;
 
-    function init(){
-      if (!$scope.mc.checkUser()) {
-        $location.path('/');
-      }
+		init();
 
-      loadImages();
+		function init(){
+			if (!$scope.mc.checkUser()) {
+				$location.path('/');
+			}
 
-    }
+			loadImages();
 
-    function loadImages() {
-        ImageService.getAllImagesBinary().then(function (data, status) {
-            userImageMap = data;
-            getWholeUser(UserService.getUser().username);
-        });
-    }
+		}
 
-    function onSuccess(response) {
-        loadImages();
-        $scope.mc.loadImages();
-    }
+		function loadImages() {
+			ImageService.getAllImagesBinary().then(function (data, status) {
+				userImageMap = data;
+				getWholeUser(UserService.getUser().username);
+			});
+		}
 
-	function getWholeUser(username) {
-		UserService.findUser(username).then(handleSuccessWholeUser, function(error) {
-			console.log(error);
-			alert(error);
-		});
-	}
+		function onSuccess(response) {
+			loadImages();
+			$scope.mc.loadImages();
+		}
 
-	function handleSuccessWholeUser(data, status){
-		self.wholeUser = data;
-		self.wholeUser.imageUrl = userImageMap[self.wholeUser.username];
-	}
+		function getWholeUser(username) {
+			UserService.findUser(username).then(handleSuccessWholeUser, function(error) {
+				console.log(error);
+				alert(error);
+			});
+		}
 
-	function editUser() {
-		UserService.editUser(self.wholeUser).then(handleSuccessEditedUser, function(error) {
-			console.log(error);
-			alert(error);
-		});
-	}
+		function handleSuccessWholeUser(data, status){
+			self.wholeUser = data;
+			self.wholeUser.imageUrl = userImageMap[self.wholeUser.username];
+		}
 
-	function handleSuccessEditedUser(data, status){
-		UserService.setUser(data);
-	}
+		function editUser() {
+			UserService.editUser(self.wholeUser).then(handleSuccessEditedUser, function(error) {
+				console.log(error);
+				alert(error);
+			});
+		}
+
+		function handleSuccessEditedUser(data, status){
+			UserService.setUser(data);
+		}
 
 	};
 })();

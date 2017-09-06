@@ -1,62 +1,62 @@
 <div ng-if="!unc.initError" class = "row">
-  <div class="col-md-offset-3 col-md-6">
-    <h1 style="text-align: center">Notifications</h1>
-    <hr>
-    <div class="alert alert-info" role="alert" ng-if="unc.notifications.length === 0">
-      <strong>Info:</strong> You have no notifications!
-    </div>
+	<div class="col-md-offset-3 col-md-6">
+		<h1 style="text-align: center">Notifications</h1>
+		<hr>
+		<div class="alert alert-info" role="alert" ng-if="unc.notifications.length === 0">
+			<strong>Info:</strong> You have no notifications!
+		</div>
 
-    <div ng-repeat = "notification in unc.notifications | orderBy: 'creationDate':true">
-      <div class="media">
-        <div class="media-left">
-          <img ng-src="{{'data:image/jpg;base64,'+ notification.image}}" class="media-object" style="width:64px">
-        </div>
+		<div ng-repeat = "notification in unc.notifications | orderBy: 'creationDate':true">
+			<div class="media">
+				<div class="media-left">
+					<img ng-src="{{'data:image/jpg;base64,'+ notification.image}}" class="media-object" style="width:64px">
+				</div>
 
-        <div ng-if="notification.notificationType === 1" class="media-body">
-          <p style="font-size: 15px"> 
-            <i> {{notification.sender}} </i> has successfully completed your survey.
-            <br>
-            <a ng-href="#{{notification.link}}">Link</a>
-            <br>
-            <b>{{notification.creationDate | date:'medium'}}</b>
-          </p>
-        </div>
+				<div ng-if="notification.notificationType === 1" class="media-body">
+					<p style="font-size: 15px"> 
+						<i> {{notification.sender}} </i> has successfully completed your survey.
+						<br>
+						<a ng-href="#{{notification.link}}">Link</a>
+						<br>
+						<b>{{notification.creationDate | date:'medium'}}</b>
+					</p>
+				</div>
 
-        <div ng-if="notification.notificationType === 2" class="media-body">
-          <p style="font-size: 15px">
-            <i> {{notification.sender}} </i> has commented on your survey.
-            <br>
-            <a ng-href="#{{notification.link}}">Link</a>
-            <br>
-            <b>{{notification.creationDate | date:'medium'}}</b>
-          </p>
-        </div>
+				<div ng-if="notification.notificationType === 2" class="media-body">
+					<p style="font-size: 15px">
+						<i> {{notification.sender}} </i> has commented on your survey.
+						<br>
+						<a ng-href="#{{notification.link}}">Link</a>
+						<br>
+						<b>{{notification.creationDate | date:'medium'}}</b>
+					</p>
+				</div>
 
-        <div ng-if="notification.notificationType === 3" class="media-body">
-          <p style="font-size: 15px">
-            <i> {{notification.sender}} </i> has flagged a survey.
-            <br>
-            <a ng-href="#{{notification.link}}">Link</a>
-            <br>
-            <b>{{notification.creationDate | date:'medium'}}</b>
-          </p>
-        </div>
+				<div ng-if="notification.notificationType === 3" class="media-body">
+					<p style="font-size: 15px">
+						<i> {{notification.sender}} </i> has flagged a survey.
+						<br>
+						<a ng-href="#{{notification.link}}">Link</a>
+						<br>
+						<b>{{notification.creationDate | date:'medium'}}</b>
+					</p>
+				</div>
 
-        <div ng-if="notification.notificationType === 4" class="media-body">
-          <p style="font-size: 15px">
-            <i> {{notification.sender}} </i> has flagged a comment.
-            <br>
-            <a ng-href="#{{notification.link}}">Link</a>
-            <br>
-            <b>{{notification.creationDate | date:'medium'}}</b></p>
-        </div>
+				<div ng-if="notification.notificationType === 4" class="media-body">
+					<p style="font-size: 15px">
+						<i> {{notification.sender}} </i> has flagged a comment.
+						<br>
+						<a ng-href="#{{notification.link}}">Link</a>
+						<br>
+						<b>{{notification.creationDate | date:'medium'}}</b></p>
+				</div>
 
-        <hr ng-if="!$last" style="margin: 10px 0 10px 0">
-      </div>
-    </div>
-  </div>
+				<hr ng-if="!$last" style="margin: 10px 0 10px 0">
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="alert alert-danger" role="alert" ng-if="unc.initError">
-  <strong>Error:</strong> {{unc.initError}}
+	<strong>Error:</strong> {{unc.initError}}
 </div>

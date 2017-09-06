@@ -1,83 +1,83 @@
 <ul class="nav nav-pills nav-justified" align="center">
-  <li role="presentation" ng-class="{active: src.activeTab === 1}" ng-click="src.activeTab = 1"><a href="">Results</a></li>
-  <li role="presentation" ng-class="{active: src.activeTab === 2}" ng-click="src.activeTab = 2"><a href="">Comments</a></li>
+	<li role="presentation" ng-class="{active: src.activeTab === 1}" ng-click="src.activeTab = 1"><a href="">Results</a></li>
+	<li role="presentation" ng-class="{active: src.activeTab === 2}" ng-click="src.activeTab = 2"><a href="">Comments</a></li>
 </ul>
 
 <hr>
 
 <div ng-if="!src.initError" ng-show="src.activeTab === 1" class="row">
-  <div class="col-md-offset-2 col-md-8">
-    <h4>Survey statistics</h4>
+	<div class="col-md-offset-2 col-md-8">
+		<h4>Survey statistics</h4>
 
-    <div ng-if="src.survey.surveyResults.length > 0" ng-init="src.generateBarChart()" id="chart"></div>
+		<div ng-if="src.survey.surveyResults.length > 0" ng-init="src.generateBarChart()" id="chart"></div>
 
-    <hr>
+		<hr>
 
-    <div ng-if="src.survey.surveyResults.length > 0" ng-repeat="question in src.survey.questions track by $index">
-      <h4>{{question.content}}</h4>
+		<div ng-if="src.survey.surveyResults.length > 0" ng-repeat="question in src.survey.questions track by $index">
+			<h4>{{question.content}}</h4>
 
-      <div ng-if="question.questionType === 1" ng-init="src.generatePieChart($index, question.id)" id="chart{{$index}}"></div>
-      <div ng-if="question.questionType === 3" ng-init="src.generateColumnChart($index, question.id)" id="chart{{$index}}"></div>
+			<div ng-if="question.questionType === 1" ng-init="src.generatePieChart($index, question.id)" id="chart{{$index}}"></div>
+			<div ng-if="question.questionType === 3" ng-init="src.generateColumnChart($index, question.id)" id="chart{{$index}}"></div>
 
-      <ul class="list-group" ng-if="question.questionType === 1 && question.hasOtherOption">
-        <li class="list-group-item active">Other:</li>
-        <div ng-repeat="surveyResult in src.survey.surveyResults">
-          <div ng-repeat="result in surveyResult.results">
-            <li class="list-group-item" ng-if="result.questionId === question.id && result.answerId === 0">{{surveyResult.submitedBy}}: {{result.optional}}</li>
-          </div>
-        </div>
-      </ul>
-			
+			<ul class="list-group" ng-if="question.questionType === 1 && question.hasOtherOption">
+				<li class="list-group-item active">Other:</li>
+				<div ng-repeat="surveyResult in src.survey.surveyResults">
+					<div ng-repeat="result in surveyResult.results">
+						<li class="list-group-item" ng-if="result.questionId === question.id && result.answerId === 0">{{surveyResult.submitedBy}}: {{result.optional}}</li>
+					</div>
+				</div>
+			</ul>
+
 			<ul class="list-group" ng-if="question.questionType === 2">
-        <li class="list-group-item active">Answers:</li>
-        <div ng-repeat="surveyResult in src.survey.surveyResults">
-          <div ng-repeat="result in surveyResult.results">
-            <li class="list-group-item" ng-if="result.questionId === question.id && result.answerId === 0">{{surveyResult.submitedBy}}: {{result.optional}}</li>
-          </div>
-        </div>
-      </ul>
+				<li class="list-group-item active">Answers:</li>
+				<div ng-repeat="surveyResult in src.survey.surveyResults">
+					<div ng-repeat="result in surveyResult.results">
+						<li class="list-group-item" ng-if="result.questionId === question.id && result.answerId === 0">{{surveyResult.submitedBy}}: {{result.optional}}</li>
+					</div>
+				</div>
+			</ul>
 
-      <hr ng-if="!$last">
-    </div>
-  </div>  
+			<hr ng-if="!$last">
+		</div>
+	</div>  
 </div>
 
 <div ng-if="!src.initError" ng-show="src.activeTab === 2" class="row">
-  <div class="col-md-offset-3 col-md-6">
-    <div id="comment{{comment.id}}" class="media" ng-repeat = "comment in src.allComments | orderBy: 'creationDate':true">
-      <div class="media-left media-middle">
-        <img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">
-          <button ng-if="comment.poster !== src.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right"  data-toggle="modal" data-target="#reportCommentModal" ng-click="src.setCurrentComment(comment)" title="Report the comment"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
-          <span class="comment-poster">{{comment.poster}}</span>
-        </h4>
-        <p class="comment-content">{{comment.content}}</p>
-        <b><span class="comment-date">{{comment.creationDate | date:'medium'}}</span></b>
-      </div>
-    </div>
-  </div>  
+	<div class="col-md-offset-3 col-md-6">
+		<div id="comment{{comment.id}}" class="media" ng-repeat = "comment in src.allComments | orderBy: 'creationDate':true">
+			<div class="media-left media-middle">
+				<img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">
+					<button ng-if="comment.poster !== src.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right"  data-toggle="modal" data-target="#reportCommentModal" ng-click="src.setCurrentComment(comment)" title="Report the comment"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+					<span class="comment-poster">{{comment.poster}}</span>
+				</h4>
+				<p class="comment-content">{{comment.content}}</p>
+				<b><span class="comment-date">{{comment.creationDate | date:'medium'}}</span></b>
+			</div>
+		</div>
+	</div>  
 </div>
 
 <div class="alert alert-danger" role="alert" ng-if="src.initError">
-  <strong>Error:</strong> {{src.initError}}
+	<strong>Error:</strong> {{src.initError}}
 </div>
 
 <div class="modal fade" id="reportCommentModal" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Confirmation</h4>
-      </div>
-      <div class="modal-body">
-        <label>Are you sure you want to report this comment?</label>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary btn-sm" ng-click="src.reportComment()">Confirm</button>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Confirmation</h4>
+			</div>
+			<div class="modal-body">
+				<label>Are you sure you want to report this comment?</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+				<button type="submit" class="btn btn-primary btn-sm" ng-click="src.reportComment()">Confirm</button>
+			</div>
+		</div>
+	</div>
 </div>
