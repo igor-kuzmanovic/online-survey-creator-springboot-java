@@ -50,6 +50,7 @@
     function loadImages() {
         ImageService.getAllImagesBinary().then(function (data, status) {
           userImageMap = data;
+          console.log(self.user);
           self.imageUrl = userImageMap[self.user.username];
         });
     }
@@ -74,6 +75,7 @@
           function(response){
             self.user = response;
             console.log('Logged in ' + self.user.username + ' from cookies');
+            loadImages();
             $route.reload();
           },
           function(error){
