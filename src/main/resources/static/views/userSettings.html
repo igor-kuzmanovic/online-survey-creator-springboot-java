@@ -31,6 +31,13 @@
 				<label>Password:</label>
 				<input type="password" value="{{usc.wholeUser.password}}" class="form-control" ng-model="usc.wholeUser.password">
 			</div>
+
+            <div class="form-group">
+                <label>Do you want to be notified by e-mail?
+                    <input type="checkbox" ng-model="usc.wholeUser.notifyByEmail">
+                </label>
+            </div>
+
 			<br/>
 			<div align="center" class="form-group">
 				<button class="btn btn-default btn-success" data-toggle="modal" data-target="#editUserModal">Confirm Edit</button>
