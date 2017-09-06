@@ -50,7 +50,6 @@
     function loadImages() {
         ImageService.getAllImagesBinary().then(function (data, status) {
           userImageMap = data;
-          console.log(self.user);
           self.imageUrl = userImageMap[self.user.username];
         });
     }
