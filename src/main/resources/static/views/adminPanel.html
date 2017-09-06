@@ -56,7 +56,7 @@
   </div>
 
   <div class="col-md-10" ng-if="apc.active === 'surveys'">
-    <div class="table-responsive">
+    <div class="table-responsive" ng-if="apc.surveys.length > 0">
       <table class="table table-bordered table-hover" style="background-color:white">
         <thead>
           <tr>
@@ -65,6 +65,7 @@
             <th>Active</th>
             <th>Created by</th>
             <th>Expiration date</th>
+            <th></th>
             <th>Allow</th>
             <th>Remove</th>
           </tr>
@@ -76,22 +77,29 @@
             <td>{{survey.isActive === true ? 'Yes' : 'No'}}</td>
             <td>{{survey.creator}}</td>
             <td>{{survey.expirationDate}}</td>
+            <td></td>
             <td align="center"><span class="glyphicon glyphicon-ok" ng-if="survey.isFlagged === true" data-toggle="modal" data-target="#allowSurveyModal" ng-click="apc.setCurrentSurvey(survey)"></span></td>
             <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" data-toggle="modal" data-target="#removeSurveyModal" ng-click="apc.setCurrentSurvey(survey)"></span></td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <div class="alert alert-info" role="alert" ng-if="apc.surveys.length === 0">
+      <strong>Info:</strong> There are no surveys!
+    </div>
+
   </div>
 
   <div class="col-md-10" ng-if="apc.active === 'comments'">
-    <div class="table-responsive">
+    <div class="table-responsive" ng-if="apc.allComments.length > 0">
       <table class="table table-bordered table-hover" style="background-color:white">
         <thead>
           <tr>
             <th>Content</th>
             <th>Created by</th>
             <th>Belongs to</th>
+            <th></th>
             <th>Allow</th>
             <th>Remove</th>
           </tr>
@@ -101,21 +109,28 @@
             <td>{{comment.content}}</td>
             <td>{{comment.poster}}</td>
             <td>{{comment.survey}}</td>
+            <td></td>
             <td align="center"><span class="glyphicon glyphicon-ok" ng-if="comment.isFlagged === true" data-toggle="modal" data-target="#allowCommentModal" ng-click="apc.setCurrentComment(comment)"></span></td>
             <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" data-toggle="modal" data-target="#removeCommentModal" ng-click="apc.setCurrentComment(comment)"></span></td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <div class="alert alert-info" role="alert" ng-if="apc.allComments.length === 0">
+      <strong>Info:</strong> There are no comments!
+    </div>
+
   </div>
 
-  <div class="col-md-8" ng-if="apc.active === 'questions'">
-    <div class="table-responsive">
+  <div class="col-md-10" ng-if="apc.active === 'questions'">
+    <div class="table-responsive" ng-if="apc.allQuestions.length > 0">
       <table class="table table-bordered table-hover" style="background-color:white">
         <thead>
           <tr>
             <th>Content</th>
             <th>Belongs to</th>
+            <th></th>
             <th>Remove</th>
           </tr>
         </thead>
@@ -123,20 +138,27 @@
           <tr ng-repeat="question in apc.allQuestions track by $index">
             <td>{{question.content}}</td>
             <td>{{question.survey}}</td>
+            <td></td>
             <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" data-toggle="modal" data-target="#removeQuestionModal" ng-click="apc.setCurrentQuestion(question)"></span>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <div class="alert alert-info" role="alert" ng-if="apc.allQuestions.length === 0">
+      <strong>Info:</strong> There are no questions!
+    </div>
+
   </div>
 
-  <div class="col-md-8" ng-if="apc.active === 'answers'">
-    <div class="table-responsive">
+  <div class="col-md-10" ng-if="apc.active === 'answers'">
+    <div class="table-responsive" ng-if="apc.allAnswers.length > 0">
       <table class="table table-bordered table-hover" style="background-color:white">
         <thead>
           <tr>
             <th>Content</th>
             <th>Belongs to</th>
+            <th></th>
             <th>Remove</th>
           </tr>
         </thead>
@@ -144,11 +166,17 @@
           <tr ng-repeat="answer in apc.allAnswers track by $index">
             <td>{{answer.content}}</td>
             <td>{{answer.question}}</td>
+            <td></td>
             <td align="center"><span class="glyphicon glyphicon-remove" style="cursor: pointer" data-toggle="modal" data-target="#removeAnswerModal" ng-click="apc.setCurrentAnswer(answer)"></span></td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <div class="alert alert-info" role="alert" ng-if="apc.allAnswers.length === 0">
+      <strong>Info:</strong> There are no answers!
+    </div>
+
   </div>
 </div>
 

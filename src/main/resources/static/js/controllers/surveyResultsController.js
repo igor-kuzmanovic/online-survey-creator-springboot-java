@@ -10,6 +10,7 @@
     self.getCurrentSurvey = getCurrentSurvey;
     self.generateBarChart = generateBarChart;
     self.generatePieChart = generatePieChart;
+    self.setCurrentComment = setCurrentComment;
     self.reportComment = reportComment;
 
     self.allComments = [];
@@ -36,7 +37,7 @@
             setTimeout(function () {
               document.getElementById('comment' + $routeParams.elementId).setAttribute('style', 'border:solid');
               document.getElementById('comment' + $routeParams.elementId).scrollIntoView('smooth');
-              
+
               if(document.body.scrollTop < 507) {
                 document.body.scrollTop -= 100;
               }
@@ -139,12 +140,20 @@
       }
     }
 
-    function reportComment(commentId) {
-      NotificationService.reportCommentNotification(commentId)
-        .then(function(response){}, function(error){
-        console.log(error);
-        self.error = error;
-      })
+    function setCurrentComment(comment) {
+      self.currentComment = comment;
+    }
+
+    function reportComment() {
+      NotificationService.reportCommentNotification(self.currentComment.id)
+        .then(
+        function(response) {
+          $('#reportCommentModal').modal('hide');
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
     }
 
   }

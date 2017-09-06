@@ -10,6 +10,7 @@
     self.getCurrentSurvey = getCurrentSurvey;
     self.postComment = postComment;
     self.deleteComment = deleteComment;
+    self.setCurrentComment = setCurrentComment;
     self.reportComment = reportComment;
 
     self.allComments = [];
@@ -124,14 +125,22 @@
           self.error = error;
         })
     }
+    
+     function setCurrentComment(comment) {
+      self.currentComment = comment;
+    }
 
-   function reportComment(commentId) {
-      NotificationService.reportCommentNotification(commentId)
-        .then(function(response){}, function(error){
-        console.log(error);
-        self.error = error;
-      })
-   }
+   function reportComment() {
+      NotificationService.reportCommentNotification(self.currentComment.id)
+        .then(
+        function(response) {
+          $('#reportCommentModal').modal('hide');
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
+    }
 
   }
 })();
