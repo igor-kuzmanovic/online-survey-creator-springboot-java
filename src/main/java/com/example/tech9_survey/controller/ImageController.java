@@ -70,7 +70,6 @@ public class ImageController {
             String filename = uploadFile.getOriginalFilename();
             String directory = "D:\\user_images";
             String filePath = Paths.get(directory, filename).toString();
-            System.out.println(filePath);
 
             Image image = imageService.findByUrl(filePath);
             User user = userService.getLoggedInUser();

@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('UserNotificationsController', UserNotificationsController);
 
-  UserNotificationsController.$inject = ['NotificationService', 'UserService', '$scope', '$location'];
+  UserNotificationsController.$inject = ['NotificationService', 'UserService', 'ImageService', '$scope', '$location'];
 
-  function UserNotificationsController(NotificationService, UserService, $scope, $location) {
+  function UserNotificationsController(NotificationService, UserService, ImageService, $scope, $location) {
 
     var self = this;
 
@@ -18,8 +18,15 @@
       }
       else {
         self.user = $scope.mc.checkUser();
-        getUserNotifications(); 
+        loadImages();
       }
+    }
+    
+    function loadImages() {
+      ImageService.getAllImagesBinary().then(function (data, status) {
+          self.allImages = data;
+          getUserNotifications();
+      });
     }
 
     function getUserNotifications() {
@@ -27,6 +34,9 @@
         .then(
         function(response){
           self.notifications = response;
+          for(var i = 0; i < self.notifications.length; i++) {
+            self.notifications[i].image = self.allImages[self.notifications[i].sender];
+          }
           $scope.mc.unreadNotifications = 0;
         },
         function(error){

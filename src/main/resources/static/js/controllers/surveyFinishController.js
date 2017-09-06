@@ -30,7 +30,6 @@
             imageUserMap = data;
             self.allComments = self.survey.comments;
             for(var i = 0; i < self.allComments.length; i++) {
-                console.log(self.allComments);
                 self.allComments[i].image = data[self.allComments[i].poster];
             }
         });
