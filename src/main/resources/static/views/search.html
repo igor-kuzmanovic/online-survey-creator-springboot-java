@@ -5,6 +5,7 @@
         <tr>
           <h1>All Surveys</h1>
         </tr>
+        <hr>
       </thead>
       <tbody>
         <tr ng-if="survey.creator !== sc.user.username" ng-repeat="survey in sc.surveys track by $index" class="table-animate">
@@ -23,7 +24,7 @@
                 <span class="glyphicon glyphicon-file"></span>
               </a>
 
-              <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button" title="The survey isn't active">
+              <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button" title="Show the results">
                 <span class="glyphicon glyphicon-signal"></span>
               </a>
             </div>  

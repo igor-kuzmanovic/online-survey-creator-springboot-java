@@ -2,7 +2,7 @@
   <div class="col-md-offset-3 col-md-6">
     <form class="form-horizontal" novalidate>
       <div align="center" class="form-group">
-        <h2>{{sc.survey.name}}<button ng-if="sc.survey.creator !== sc.user.username && sc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sc.reportSurvey()"><span class="glyphicon glyphicon-exclamation-sign"></span></button></h2>
+        <h2>{{sc.survey.name}}<button id="reportSurvey" ng-if="sc.survey.creator !== sc.user.username && sc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" data-toggle="modal" data-target="#reportSurveyModal"><span class="glyphicon glyphicon-exclamation-sign"></span></button></h2>
         <hr>
         <h3>{{sc.survey.description}}</h3>
       </div>
@@ -58,4 +58,22 @@
 
 <div class="alert alert-danger" role="alert" ng-if="sc.initError">
   <strong>Error:</strong> {{sc.initError}} <a href="#/" class="alert-link">Go to Tech9 Survey</a>
+</div>
+
+<div class="modal fade" id="reportSurveyModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to report this survey?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="sc.reportSurvey()">Confirm</button>
+      </div>
+    </div>
+  </div>
 </div>

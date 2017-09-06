@@ -96,10 +96,15 @@
 
     function reportSurvey() {
       NotificationService.reportSurveyNotification(self.survey)
-        .then(function(response){}, function(error){
-        console.log(error);
-        self.error = error;
-      })
+        .then(
+        function(response) {
+          $('#reportSurveyModal').modal('hide');
+          document.getElementById('reportSurvey').style.visibility='hidden';
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
     }
 
     //    function checkSurvey() {

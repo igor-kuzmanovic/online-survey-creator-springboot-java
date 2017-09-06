@@ -11,6 +11,7 @@
     self.generateBarChart = generateBarChart;
     self.generatePieChart = generatePieChart;
     self.generateColumnChart = generateColumnChart;
+    self.setCurrentComment = setCurrentComment;
     self.reportComment = reportComment;
 
     self.allComments = [];
@@ -197,6 +198,26 @@
         console.log(error);
         self.error = error;
       })
+    }
+      
+          function setCurrentComment(comment) {
+      self.currentComment = comment;
+    }
+    
+    function setCurrentComment(comment) {
+      self.currentComment = comment;
+    }
+
+    function reportComment() {
+      NotificationService.reportCommentNotification(self.currentComment.id)
+        .then(
+        function(response) {
+          $('#reportCommentModal').modal('hide');
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
     }
 
   }
