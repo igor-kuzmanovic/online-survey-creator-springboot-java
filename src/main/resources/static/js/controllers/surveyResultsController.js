@@ -13,6 +13,7 @@
     self.reportComment = reportComment;
 
     self.allComments = [];
+    self.activeTab = 1;
 
     init();
 
@@ -71,9 +72,21 @@
         }
 
         var data = google.visualization.arrayToDataTable(resultsData);
+        
+        var title = '';
+        
+        if(self.survey.surveyResults.length === 0) {
+          title = "Survey hasn't been completed yet!";
+        }
+        else if(self.survey.surveyResults.length === 1) {
+          title = "Survey has been completed once";
+        }
+        else {
+          title = "Survey has been completed " + self.survey.surveyResults.length + " times";
+        }
 
         var options = {
-          'title':'Survey has been completed ' + self.survey.surveyResults.length + ' times',
+          'title': title,
           chartArea: {width: '50%'},
         };
 
@@ -131,7 +144,7 @@
         var data = google.visualization.arrayToDataTable(resultsData);
 
         var options = {
-          'title':self.survey.questions[questionIndex].content
+//          'title':self.survey.questions[questionIndex].content
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('chart' + questionIndex));
