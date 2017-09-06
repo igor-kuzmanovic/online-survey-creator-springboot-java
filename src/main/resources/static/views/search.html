@@ -8,7 +8,7 @@
         <hr>
       </thead>
       <tbody>
-        <tr ng-if="survey.creator !== sc.user.username" ng-repeat="survey in sc.surveys track by $index" class="table-animate">
+        <tr ng-if="survey.creator !== sc.user.username" ng-init="sc.surveyCounter = 0" ng-repeat="survey in sc.surveys track by $index" class="table-animate">
           <td>
             {{survey.creator}} - {{survey.name}} - {{survey.description}}
 
@@ -27,16 +27,17 @@
               <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button" title="Show the results">
                 <span class="glyphicon glyphicon-signal"></span>
               </a>
-            </div>  
+            </div>
 
-            <br>Created: {{survey.creationDate | date:'mediumDate'}} 
+            <br>Created: {{survey.creationDate | date:'mediumDate'}}
+						<span ng-init="sc.surveyCounter = sc.surveyCounter + 1"></span>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="alert alert-info" role="alert" ng-if="sc.surveys.length === 0">
+  <div class="alert alert-info" role="alert" ng-if="sc.surveyCounter === 0">
     <strong>Info:</strong> There are no surveys!
   </div>
 </div>
