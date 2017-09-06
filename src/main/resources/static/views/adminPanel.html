@@ -75,7 +75,7 @@
 				<tbody>
 					<tr ng-repeat="survey in apc.surveys track by $index" ng-class="{danger: survey.isFlagged}">
 						<td>{{survey.name}}</td>
-						<td>{{survey.surveyPrivacy.id === 1 ? 'Everyone' : 'Registered only'}}</td>
+						<td>{{survey.isPublic === true ? 'Everyone' : 'Registered only'}}</td>
 						<td>{{survey.isActive === true ? 'Yes' : 'No'}}</td>
 						<td>{{survey.creator}}</td>
 						<td>{{survey.expirationDate}}</td>
