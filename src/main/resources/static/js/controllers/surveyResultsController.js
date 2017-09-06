@@ -35,7 +35,7 @@
           if($routeParams.elementId) {
             setTimeout(function () {
               document.getElementById('comment' + $routeParams.elementId).setAttribute('style', 'border:solid');
-              document.getElementById('comment' + $routeParams.elementId).scrollIntoView();
+              document.getElementById('comment' + $routeParams.elementId).scrollIntoView('smooth');
               
               if(document.body.scrollTop < 507) {
                 document.body.scrollTop -= 100;

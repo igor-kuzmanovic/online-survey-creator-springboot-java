@@ -95,7 +95,7 @@ public class ResultController {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 		
-		List<SurveyResult> surveyResults = survey.getResults();
+		List<SurveyResult> surveyResults = survey.getSurveyResults();
 		
 		for(int i = 0; i < surveyResults.size(); i++) {
 			String poster = surveyResults.get(i).getSubmitedBy();
@@ -126,7 +126,7 @@ public class ResultController {
 		}
 		
 		surveyResult.setSurveyId(survey.getId());
-		survey.getResults().add(surveyResult);
+		survey.getSurveyResults().add(surveyResult);
 		surveyService.save(survey);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
