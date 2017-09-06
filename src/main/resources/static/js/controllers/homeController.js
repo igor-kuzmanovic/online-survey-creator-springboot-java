@@ -20,7 +20,7 @@
         $location.path('/');
       }
       else {
-        getUserSurveys();	
+        getUserSurveys();
       }
     }
 

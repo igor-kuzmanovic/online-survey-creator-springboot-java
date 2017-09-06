@@ -27,6 +27,9 @@ public class Question extends BaseEntity {
 	
 	@Column(name = "has_other_option")
 	private Boolean hasOtherOption;
+	
+	@Column(name = "has_multiple_options")
+	private Boolean hasMultipleOptions;
 
 	public Long getSurveyId() {
 		return surveyId;
@@ -58,6 +61,14 @@ public class Question extends BaseEntity {
 
 	public void setHasOtherOption(Boolean hasOtherOption) {
 		this.hasOtherOption = hasOtherOption;
+	}
+
+	public Boolean getHasMultipleOptions() {
+		return hasMultipleOptions;
+	}
+
+	public void setHasMultipleOptions(Boolean hasMultipleOptions) {
+		this.hasMultipleOptions = hasMultipleOptions;
 	}
 
 }
