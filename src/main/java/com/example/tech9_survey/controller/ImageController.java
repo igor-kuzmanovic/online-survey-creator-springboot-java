@@ -4,6 +4,7 @@ import com.example.tech9_survey.domain.Image;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.ImageService;
 import com.example.tech9_survey.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class ImageController {
     private ImageService imageService;
     private UserService userService;
 
+    @Autowired
     public ImageController(ImageService imageService, UserService userService) {
         this.imageService = imageService;
         this.userService = userService;

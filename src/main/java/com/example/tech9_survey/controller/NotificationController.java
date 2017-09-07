@@ -3,6 +3,7 @@ package com.example.tech9_survey.controller;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -33,7 +34,8 @@ public class NotificationController {
 	private SurveyService surveyService;
 	private CommentService commentService;
 	private JavaMailSender javaMailSender;
-	
+
+	@Autowired
 	public NotificationController(NotificationService notificationService, UserService userService, SurveyService surveyService, CommentService commentService, JavaMailSender javaMailSender) {
 		this.notificationService = notificationService;
 		this.userService = userService;

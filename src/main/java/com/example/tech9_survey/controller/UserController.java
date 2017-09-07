@@ -2,6 +2,7 @@ package com.example.tech9_survey.controller;
 
 import com.example.tech9_survey.domain.*;
 import com.example.tech9_survey.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,6 +26,7 @@ public class UserController {
     private SurveyService surveyService;
     private ImageService imageService;
 
+    @Autowired
     public UserController(UserService userService, VerificationTokenService verificationTokenService,
                           CommentService commentService, JavaMailSender javaMailSender,
                           SurveyService surveyService, ImageService imageService) {
