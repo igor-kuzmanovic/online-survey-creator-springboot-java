@@ -7,11 +7,11 @@ INSERT INTO `tech9survey`.`user_status`(`type`) VALUES ('STATUS_INACTIVE');
 INSERT INTO tech9survey.image(id, url) VALUES(1, 'D:\\user_images\\default_user.jpg');
 
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `notify_by_email`, `registration_date`, `is_enabled`, `status_id`, `image_id`)
-  VALUES ('admin','admin','tech9survey@gmail.com', TRUE ,'2026-02-02', TRUE, 1, 1);
+  VALUES ('admin','admin','tech9survey@gmail.com', TRUE , NOW(), TRUE, 1, 1);
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `notify_by_email`, `registration_date`, `is_enabled`, `status_id`, `image_id`)
-  VALUES ('user','user','user@tech9survey.com', TRUE, '2026-02-02', TRUE, 1, 1);
+  VALUES ('user','user','user@tech9survey.com', TRUE, NOW(), TRUE, 1, 1);
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `notify_by_email`, `registration_date`, `is_enabled`, `status_id`, `image_id`)
-  VALUES ('milos','milos','milos@tech9survey.com', TRUE, '2026-02-02', TRUE, 1, 1);
+  VALUES ('milos','milos','milos@tech9survey.com', TRUE, NOW(), TRUE, 1, 1);
 
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 1);
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 2);

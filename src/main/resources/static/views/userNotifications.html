@@ -9,7 +9,8 @@
 		<div ng-repeat = "notification in unc.notifications | orderBy: 'creationDate':true">
 			<div class="media">
 				<div class="media-left">
-					<img ng-src="{{'data:image/jpg;base64,'+ notification.image}}" class="media-object" style="width:64px">
+					<img ng-if="notification.sender !== 'anonymous'" ng-src="{{'data:image/jpg;base64,'+ notification.image}}" class="media-object" style="width:64px">
+          <img ng-if="notification.sender === 'anonymous'" ng-src="/images/default_user.jpg" class="media-object" style="width:64px">
 				</div>
 
 				<div ng-if="notification.notificationType === 1" class="media-body">

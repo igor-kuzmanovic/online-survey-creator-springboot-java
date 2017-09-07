@@ -196,12 +196,26 @@ public class ResultController {
 		
 		List<SurveyResult> surveyResults = survey.getSurveyResults();
 		
-		for(int i = 0; i < surveyResults.size(); i++) {
-			String poster = surveyResults.get(i).getSubmitedBy();
+		@SuppressWarnings("unused")
+		Boolean userCheck;
+				
+		if(user != null) {
+			userCheck = false;
 			
-			if(user != null && poster.equals(user.getUsername())) {
-				return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			for(int i = 0; i < surveyResults.size(); i++) {
+				String poster = surveyResults.get(i).getSubmitedBy();
+				
+				if(poster.equals(user.getUsername())) {
+					userCheck = true;
+				}
 			}
+		}
+		else {
+			userCheck = true;
+		}
+		
+		if(userCheck = false) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 		
 		if(user == null && survey.getIsPublic() == false) {
