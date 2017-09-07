@@ -24,7 +24,9 @@
     init();
 
     function init() {
-      if(!$scope.mc.checkUser()) {
+      self.user = $scope.mc.checkUser();
+      
+      if(!self.user) {
         $location.path('/');
       }
       else {
@@ -149,9 +151,6 @@
         .then(
         function(response) {
           getAllSurveys();
-          getAllComments();
-          getAllQuestions();
-          getAllAnswers();
         }, 
         function(error){
           console.log(error);
@@ -179,7 +178,6 @@
       CommentService.deleteComment(self.currentComment.id)
         .then(
         function(response) {
-          getAllSurveys();
           getAllSurveys();
         }, 
         function(error){

@@ -21,7 +21,7 @@
 
     function init() {
       self.user = $scope.mc.checkUser();
-      
+
       if(!self.user) {
         $location.path('/');
       }
@@ -30,14 +30,14 @@
         getCurrentSurvey();
       }
     }
-    
+
     function loadImages() {
-        ImageService.getAllImagesBinary().then(function (data, status) {
-          self.allComments = self.survey.comments;
-          for(var i = 0; i < self.allComments.length; i++) {
-            self.allComments[i].image = data[self.allComments[i].poster];
-          }
-        });
+      ImageService.getAllImagesBinary().then(function (data, status) {
+        self.allComments = self.survey.comments;
+        for(var i = 0; i < self.allComments.length; i++) {
+          self.allComments[i].image = data[self.allComments[i].poster];
+        }
+      });
     }
 
     function getCurrentSurvey() {
@@ -46,6 +46,7 @@
         function(response){
           self.survey = response;
           loadImages();
+
           if($routeParams.elementId) {
             self.activeTab = 2;
             setTimeout(function () {
@@ -195,18 +196,6 @@
       }
     }
 
-    function reportComment(commentId) {
-      NotificationService.reportCommentNotification(commentId)
-        .then(function(response){}, function(error){
-        console.log(error);
-        self.error = error;
-      })
-    }
-      
-          function setCurrentComment(comment) {
-      self.currentComment = comment;
-    }
-    
     function setCurrentComment(comment) {
       self.currentComment = comment;
     }
@@ -215,7 +204,7 @@
       NotificationService.reportCommentNotification(self.currentComment.id)
         .then(
         function(response) {
-          $('#reportCommentModal').modal('hide');
+          getCurrentSurvey();
         }, 
         function(error){
           console.log(error);

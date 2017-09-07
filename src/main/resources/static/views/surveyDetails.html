@@ -3,10 +3,11 @@
     <form class="form-horizontal">
       <div align="center" class="form-group">
         <h3>{{sdc.survey.name}}</h3>
-        <hr>
-        <h4>{{sdc.survey.description}}</h4>
-        <hr>
       </div>
+      <div align="center" class="form-group">
+        <h4>{{sdc.survey.description}}</h4>
+      </div>
+      
       <div ng-repeat="question in sdc.survey.questions track by $index" ng-init="questionIndex = $index">
         <div class="form-group">
           <label for="question{{questionIndex + 1}}"> {{questionIndex + 1}}. {{question.content}}</label>
@@ -38,7 +39,7 @@
           </div>
         </div>
 
-        <hr>
+        <hr ng-if="!$last">
       </div> 
 
       <div align="center" class="form-group">

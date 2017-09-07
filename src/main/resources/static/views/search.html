@@ -5,12 +5,11 @@
         <tr>
           <h3>All Surveys</h3>
         </tr>
-        <hr>
       </thead>
       <tbody>
         <tr ng-if="survey.creator !== sc.user.username" ng-init="sc.surveyCounter = 0" ng-repeat="survey in sc.surveys track by $index" class="table-animate" ng-class="{danger: survey.isFlagged}">
           <td>
-            {{survey.creator}} - {{survey.name}} - {{survey.description}}
+            <i>{{survey.creator}}</i> - <strong>{{survey.name}}</strong> - {{survey.description}}
 
             <div class="btn-group pull-right" role="group" aria-label="...">
               <div class="btn btn-primary btn-facebook" ng-click="sc.facebookShare(survey.hashedId)" title="Share on Facebook"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
@@ -29,16 +28,16 @@
               </a>
             </div>
 
-            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
-						<span ng-init="sc.surveyCounter = sc.surveyCounter + 1"></span>
+            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate && survey.isActive"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
+            <span ng-init="sc.surveyCounter = sc.surveyCounter + 1"></span>
           </td>
         </tr>
       </tbody>
     </table>
-  </div>
 
-  <div class="alert alert-info" role="alert" ng-if="!sc.surveyCounter">
-    <strong>Info:</strong> There are no surveys!
+    <div class="alert alert-info" role="alert" ng-if="!sc.surveyCounter">
+      <strong>Info:</strong> There are no surveys!
+    </div>
   </div>
 </div>
 

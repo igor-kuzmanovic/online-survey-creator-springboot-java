@@ -5,8 +5,6 @@
 				<h3>Customize your survey</h3>
 			</div>
 
-			<hr>
-
 			<div ng-repeat="question in scc.survey.questions track by $index">
 				<div class="form-group">
 					<label class="control-label col-md-2" for="question{{$index + 1}}">Question {{$index + 1}}</label>
@@ -65,8 +63,6 @@
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="scc.error = ''"><span aria-hidden="true">&times;</span></button>
 				<strong>Error:</strong> {{scc.error}}
 			</div>
-
-			<hr>
 
 			<div align="center" class="form-group">
 				<button type="submit" class="btn btn-default btn-success" ng-click="scc.error = ''; scc.finishCustomization()">Finish customization <span class="glyphicon glyphicon-check"></span></button>

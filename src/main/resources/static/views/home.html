@@ -5,7 +5,6 @@
         <tr>
           <h3>Your Surveys <a class="btn btn-primary btn-success btn-md pull-right" href="#/survey/new" role="button" title="Create a new survey"><span class="glyphicon glyphicon-plus"></span> New Survey</a></h3>
         </tr>
-        <hr>
       </thead>
       <tbody>
         <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate" ng-class="{danger: survey.isFlagged}">
@@ -54,12 +53,11 @@
         </tr>
       </tbody>
     </table>
-  </div>
 
-  <div class="alert alert-info" role="alert" ng-if="hc.surveys.length === 0">
-    <strong>Info:</strong> You have no surveys!
+    <div class="alert alert-info" role="alert" ng-if="hc.surveys.length === 0">
+      <strong>Info:</strong> You have no surveys!
+    </div>
   </div>
-
 
   <div class="alert alert-danger alert-dismissible" role="alert" ng-if="hc.error">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="hc.error = ''"><span aria-hidden="true">&times;</span></button>

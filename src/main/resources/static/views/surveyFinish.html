@@ -5,15 +5,13 @@
         <h3>{{sfc.survey.exitMessage}}</h3>
       </div>
 
-      <hr ng-if="sfc.user">
-
       <div class="media" ng-repeat="comment in sfc.allComments | orderBy: 'comment.creationDate': true track by $index" ng-if="!comment.isFlagged">
         <div class="media-left media-middle">
           <img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
         </div>
         <div class="media-body">
           <h4 class="media-heading">
-            <button ng-if="comment.poster !== sfc.user.username && sfc.user.roles[0].id !== 1" type="button" class="btn btn-primary btn-danger btn-xs pull-right" data-toggle="modal" data-target="#reportCommentModal" ng-click="sfc.setCurrentComment(comment)" title="Report the comment"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+            <button ng-if="comment.poster !== sfc.user.username && src.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" data-toggle="modal" data-target="#reportCommentModal" ng-click="sfc.setCurrentComment(comment)" title="Report the comment"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
             <button ng-if="comment.poster === sfc.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sfc.deleteComment(comment.id)" title="Delete the comment"><span class="glyphicon glyphicon-remove-sign"></span></button>
             <span class="comment-poster">{{comment.poster}}</span>
           </h4>
@@ -43,8 +41,6 @@
         <strong>Error:</strong> {{sfc.error}}
       </div>
 
-      <hr>
-
       <div align="center" class="form-group">
         <a type="button" class="btn btn-default btn-primary" role="button" href = "#/home">Close</a>
       </div>
@@ -68,7 +64,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary btn-sm" ng-click="sfc.reportComment()">Confirm</button>
+        <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="sfc.reportComment()">Confirm</button>
       </div>
     </div>
   </div>
