@@ -20,7 +20,9 @@
     init();
 
     function init() {
-      if (!$scope.mc.checkUser()) {
+      self.user = $scope.mc.checkUser();
+      
+      if(!self.user) {
         $location.path('/');
       }
       else {
@@ -45,8 +47,9 @@
           self.survey = response;
           loadImages();
           if($routeParams.elementId) {
+            self.activeTab = 2;
             setTimeout(function () {
-              document.getElementById('comment' + $routeParams.elementId).setAttribute('style', 'border:solid');
+              document.getElementById('comment' + $routeParams.elementId).setAttribute('style', 'background-color:azure');
               document.getElementById('comment' + $routeParams.elementId).scrollIntoView('smooth');
 
               if(document.body.scrollTop < 507) {

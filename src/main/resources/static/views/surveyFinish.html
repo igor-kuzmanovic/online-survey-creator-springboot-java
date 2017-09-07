@@ -13,7 +13,7 @@
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading">
-						<button ng-if="comment.poster !== sfc.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right" data-toggle="modal" data-target="#reportCommentModal" ng-click="sfc.setCurrentComment(comment)" title="Report the comment"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+						<button ng-if="!comment.isFlagged && comment.poster !== sfc.user.username && sfc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" data-toggle="modal" data-target="#reportCommentModal" ng-click="sfc.setCurrentComment(comment)" title="Report the comment"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
 						<button ng-if="comment.poster === sfc.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sfc.deleteComment(comment.id)" title="Delete the comment"><span class="glyphicon glyphicon-remove-sign"></span></button>
 						<span class="comment-poster">{{comment.poster}}</span>
 					</h4>

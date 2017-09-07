@@ -44,7 +44,6 @@
 				.then(
 				function(response) {
 					self.wholeUser = response;
-					console.log(self.wholeUser);
 					self.wholeUser.imageUrl = self.userImageMap[self.wholeUser.username];
 				}, 
 				function(error) {

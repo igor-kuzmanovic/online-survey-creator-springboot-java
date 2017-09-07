@@ -1,82 +1,87 @@
 <div ng-if="!sc.initError" class="row">
-	<div class="col-md-offset-3 col-md-6">
-		<form class="form-horizontal" novalidate>
-			<div align="center" class="form-group">
-				<h2>{{sc.survey.name}}<button id="reportSurvey" ng-if="sc.survey.creator !== sc.user.username && sc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" data-toggle="modal" data-target="#reportSurveyModal"><span class="glyphicon glyphicon-exclamation-sign"></span></button></h2>
-				<hr>
-				<h3>{{sc.survey.description}}</h3>
-			</div>
+  <div class="col-md-offset-3 col-md-6">
+    <form class="form-horizontal" novalidate>
+      <div align="center" class="form-group">
+        <h2>{{sc.survey.name}}</h2>
+        <hr>
+        <h3>{{sc.survey.description}}</h3>
+      </div>
 
-			<hr>
+      <hr>
 
-			<div ng-repeat="question in sc.survey.questions track by $index" ng-init="questionIndex = $index">
-				<div class="form-group">
-					<label for="question{{questionIndex + 1}}"> {{questionIndex + 1}}. {{question.content}}</label>
+      <div ng-repeat="question in sc.survey.questions track by $index" ng-init="questionIndex = $index">
+        <div class="form-group">
+          <label for="question{{questionIndex + 1}}"> {{questionIndex + 1}}. {{question.content}}</label>
 
-					<div ng-if="question.questionType === 1">
-						<div class="radio" ng-repeat="answer in question.answers track by $index" ng-init="radioAnswerIndex = $index">
-							<label>
-								<input type="radio" name="question{{questionIndex + 1}}answer{{radioAnswerIndex + 1}}" id="question{{questionIndex + 1}}answer{{radioAnswerIndex + 1}}" ng-value="{{answer.id}}" ng-model="sc.surveyResult.results[questionIndex].answerId"> {{answer.content}}
-							</label>
-						</div>
+          <div ng-if="question.questionType === 1">
+            <div class="radio" ng-repeat="answer in question.answers track by $index" ng-init="radioAnswerIndex = $index">
+              <label>
+                <input type="radio" name="question{{questionIndex + 1}}answer{{radioAnswerIndex + 1}}" id="question{{questionIndex + 1}}answer{{radioAnswerIndex + 1}}" ng-value="{{answer.id}}" ng-model="sc.surveyResult.results[questionIndex].answerId"> {{answer.content}}
+              </label>
+            </div>
 
-						<div ng-if="question.hasOtherOption" class="radio">
-							<label>
-								<input type="radio" name="question{{questionIndex + 1}}answerOther" id="question{{questionIndex + 1}}answerOther" ng-value="0" ng-model="sc.surveyResult.results[questionIndex].answerId"> Your option</label>
-							<input type="text" name="question{{questionIndex + 1}}answerOther" id="question{{questionIndex + 1}}answerOther" class="form-control" placeholder="Please provide your option..." ng-model="sc.surveyResult.results[questionIndex].optional">
-						</div>
-					</div>
+            <div ng-if="question.hasOtherOption" class="radio">
+              <label>
+                <input type="radio" name="question{{questionIndex + 1}}answerOther" id="question{{questionIndex + 1}}answerOther" ng-value="0" ng-model="sc.surveyResult.results[questionIndex].answerId"> Your option</label>
+              <input type="text" name="question{{questionIndex + 1}}answerOther" id="question{{questionIndex + 1}}answerOther" class="form-control" placeholder="Please provide your option..." ng-model="sc.surveyResult.results[questionIndex].optional">
+            </div>
+          </div>
 
-					<div ng-if="question.questionType === 2">
-						<input type="text" name="question{{questionIndex + 1}}answerOther" id="question{{questionIndex + 1}}answerOther" class="form-control" placeholder="Please provide your option..." ng-model="sc.surveyResult.results[questionIndex].optional">
-					</div>
+          <div ng-if="question.questionType === 2">
+            <input type="text" name="question{{questionIndex + 1}}answerOther" id="question{{questionIndex + 1}}answerOther" class="form-control" placeholder="Please provide your option..." ng-model="sc.surveyResult.results[questionIndex].optional">
+          </div>
 
-					<div ng-if="question.questionType === 3">
-						<div class="checkbox" ng-repeat="answer in question.answers track by $index" ng-init="checkboxAnswerIndex = $index">
-							<label>
-								<input type="checkbox" name="question{{questionIndex + 1}}answer{{checkboxAnswerIndex + 1}}" id="question{{questionIndex + 1}}answer{{checkboxAnswerIndex + 1}}" ng-value="true" ng-model="sc.surveyResult.results[questionIndex].resultList[checkboxAnswerIndex].isChecked"> {{answer.content}}
-							</label>
-						</div>
-					</div>
-				</div>
+          <div ng-if="question.questionType === 3">
+            <div class="checkbox" ng-repeat="answer in question.answers track by $index" ng-init="checkboxAnswerIndex = $index">
+              <label>
+                <input type="checkbox" name="question{{questionIndex + 1}}answer{{checkboxAnswerIndex + 1}}" id="question{{questionIndex + 1}}answer{{checkboxAnswerIndex + 1}}" ng-value="true" ng-model="sc.surveyResult.results[questionIndex].resultList[checkboxAnswerIndex].isChecked"> {{answer.content}}
+              </label>
+            </div>
+          </div>
+        </div>
 
-				<hr>
-			</div> 
+        <hr>
+      </div> 
 
-			<div id="captcha-survey" align="center" class="form-group"></div>
+      <div id="captcha-survey" align="center" class="form-group"></div>
 
-			<div class="alert alert-danger alert-dismissible" role="alert" ng-if="sc.error">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sc.error = ''"><span aria-hidden="true">&times;</span></button>
-				<strong>Error:</strong> {{sc.error}}
-			</div>
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="sc.error">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sc.error = ''"><span aria-hidden="true">&times;</span></button>
+        <strong>Error:</strong> {{sc.error}}
+      </div>
 
-			<hr>
+      <hr>
 
-			<div align="center" class="form-group">
-				<button type="submit" class="btn btn-default btn-success" ng-click="sc.checkCaptcha()">Submit <span class="glyphicon glyphicon-check"></span></button>
-			</div>
-		</form>
-	</div>
+      <div align="center" class="form-group">
+        <div class="form-group">
+          <button type="submit" class="btn btn-default btn-success" ng-click="sc.checkCaptcha()">Submit <span class="glyphicon glyphicon-check"></span></button>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-primary btn-danger" id="reportSurvey" ng-if="sc.survey.creator !== sc.user.username && sc.user.username !== 'admin'" data-toggle="modal" data-target="#reportSurveyModal">Report <span class="glyphicon glyphicon-exclamation-sign"></span></button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div class="alert alert-danger" role="alert" ng-if="sc.initError">
-	<strong>Error:</strong> {{sc.initError}} <a href="#/" class="alert-link">Go to Tech9 Survey</a>
+  <strong>Error:</strong> {{sc.initError}} <a href="#/" class="alert-link">Go to Tech9 Survey</a>
 </div>
 
 <div class="modal fade" id="reportSurveyModal" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Confirmation</h4>
-			</div>
-			<div class="modal-body">
-				<label>Are you sure you want to report this survey?</label>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary btn-sm" ng-click="sc.reportSurvey()">Confirm</button>
-			</div>
-		</div>
-	</div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to report this survey?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="sc.reportSurvey()">Confirm</button>
+      </div>
+    </div>
+  </div>
 </div>
