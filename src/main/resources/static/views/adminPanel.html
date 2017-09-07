@@ -17,7 +17,7 @@
 
 	<div class="col-md-10" ng-if="apc.active === 'users'">
 		<div class="table-responsive">
-			<table class="table table-bordered table-hover" style="background-color:white">
+			<table class="table table-bordered table-hover">
 				<thead>
 					<tr>
 						<th>Username</th>
@@ -39,11 +39,11 @@
 						<td>{{user.firstName}}</td>
 						<td>{{user.secondName}}</td>
 						<td>{{user.userStatus.id === 1 ? 'Active' : 'Blocked'}}</td>
-						<td>{{user.roles.id === 1 ? 'Admin' : 'Regular user'}}</td>
+						<td>{{user.roles[0].id === 1 ? 'Admin' : 'Regular user'}}</td>
 						<td>{{user.registrationDate | date:'yyyy-MM-dd'}}</td>
 						<td></td>
 						<td ng-if="user.userStatus.id === 1" align="center">
-							<span class="fa fa-lock" style="cursor: pointer" ng-click="apc.setCurrentUser(user)" data-toggle="modal" data-target="#banUserModal"></span>
+							<span ng-if="user.roles[0].id !== 1" class="fa fa-lock" style="cursor: pointer" ng-click="apc.setCurrentUser(user)" data-toggle="modal" data-target="#banUserModal"></span>
 						</td>
 						<td ng-if="user.userStatus.id === 2" align="center">
 							<span class="fa fa-unlock" style="cursor: pointer" ng-click="apc.blockUser(user)"></span>
@@ -221,7 +221,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary btn-sm" ng-click="apc.blockUser()" data-dismis="modal">Confirm</button>
+				<button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="apc.blockUser()">Confirm</button>
 			</div>
 		</div>
 	</div>
@@ -239,7 +239,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary btn-sm" ng-click="apc.removeUser()">Confirm</button>
+				<button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="apc.removeUser()">Confirm</button>
 			</div>
 		</div>
 	</div>
@@ -257,7 +257,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary btn-sm" ng-click="apc.allowSurvey()">Confirm</button>
+				<button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal"  ng-click="apc.allowSurvey()">Confirm</button>
 			</div>
 		</div>
 	</div>
@@ -275,7 +275,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary btn-sm" ng-click="apc.removeSurvey()">Confirm</button>
+				<button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="apc.removeSurvey()">Confirm</button>
 			</div>
 		</div>
 	</div>
@@ -293,7 +293,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary btn-sm" ng-click="apc.allowComment()">Confirm</button>
+				<button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="apc.allowComment()">Confirm</button>
 			</div>
 		</div>
 	</div>
@@ -311,7 +311,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary btn-sm" ng-click="apc.removeComment()">Confirm</button>
+				<button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="apc.removeComment()">Confirm</button>
 			</div>
 		</div>
 	</div>

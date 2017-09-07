@@ -98,8 +98,7 @@
       NotificationService.reportSurveyNotification(self.survey)
         .then(
         function(response) {
-          $('#reportSurveyModal').modal('hide');
-          document.getElementById('reportSurvey').style.visibility='hidden';
+          $location.path('/home');
         }, 
         function(error){
           console.log(error);

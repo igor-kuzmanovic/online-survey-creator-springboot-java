@@ -1,75 +1,75 @@
 <div ng-if="!sfc.initError" class = "row">
-	<div class="col-md-offset-3 col-md-6">
-		<form name="sfc.commentForm" ng-init="sfc.comment = {}" novalidate>
-			<div align="center" class="form-group">
-				<h3>{{sfc.survey.exitMessage}}</h3>
-			</div>
+  <div class="col-md-offset-3 col-md-6">
+    <form name="sfc.commentForm" ng-init="sfc.comment = {}" novalidate>
+      <div align="center" class="form-group">
+        <h3>{{sfc.survey.exitMessage}}</h3>
+      </div>
 
-			<hr ng-if="sfc.user">
+      <hr ng-if="sfc.user">
 
-			<div class="media" ng-repeat = "comment in sfc.allComments | orderBy: 'comment.creationDate': true track by $index">
-				<div class="media-left media-middle">
-					<img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
-				</div>
-				<div class="media-body">
-					<h4 class="media-heading">
-						<button ng-if="!comment.isFlagged && comment.poster !== sfc.user.username && sfc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" data-toggle="modal" data-target="#reportCommentModal" ng-click="sfc.setCurrentComment(comment)" title="Report the comment"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
-						<button ng-if="comment.poster === sfc.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sfc.deleteComment(comment.id)" title="Delete the comment"><span class="glyphicon glyphicon-remove-sign"></span></button>
-						<span class="comment-poster">{{comment.poster}}</span>
-					</h4>
-					<p class="comment-content">{{comment.content}}<br>
-						<b><span class="comment-date">{{comment.creationDate | date:'medium'}}</span></b></p>
-				</div>
-				<hr>
-			</div>
+      <div class="media" ng-repeat="comment in sfc.allComments | orderBy: 'comment.creationDate': true track by $index" ng-if="!comment.isFlagged">
+        <div class="media-left media-middle">
+          <img ng-src="{{'data:image/jpg;base64,'+ comment.image}}" class="media-object" style="width:64px">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">
+            <button ng-if="comment.poster !== sfc.user.username && sfc.user.roles[0].id !== 1" type="button" class="btn btn-primary btn-danger btn-xs pull-right" data-toggle="modal" data-target="#reportCommentModal" ng-click="sfc.setCurrentComment(comment)" title="Report the comment"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+            <button ng-if="comment.poster === sfc.user.username" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sfc.deleteComment(comment.id)" title="Delete the comment"><span class="glyphicon glyphicon-remove-sign"></span></button>
+            <span class="comment-poster">{{comment.poster}}</span>
+          </h4>
+          <p class="comment-content">{{comment.content}}<br>
+            <b><span class="comment-date">{{comment.creationDate | date:'medium'}}</span></b></p>
+        </div>
+        <hr>
+      </div>
 
-			<div ng-if="sfc.user" class="form-group" ng-class="{'has-feedback': sfc.commentForm.comment.$dirty, 'has-error': sfc.commentForm.comment.$dirty && sfc.commentForm.comment.$invalid}">
-				<div class="input-group">
-					<input type="text" id="comment" name="comment" class="form-control" placeholder="Write a comment..." required ng-model = "sfc.comment.content">
+      <div ng-if="sfc.user" class="form-group" ng-class="{'has-feedback': sfc.commentForm.comment.$dirty, 'has-error': sfc.commentForm.comment.$dirty && sfc.commentForm.comment.$invalid}">
+        <div class="input-group">
+          <input type="text" id="comment" name="comment" class="form-control" placeholder="Write a comment..." required ng-model = "sfc.comment.content">
 
-					<div class="input-group-btn">
-						<button type="submit" class="btn btn-default btn-success" ng-click="sfc.postComment()">Post <span class="glyphicon glyphicon-envelope"></span></button>
-					</div>
-				</div>
-				<label class="text-danger" ng-show="sfc.commentForm.comment.$dirty && sfc.commentForm.comment.$invalid">You cannot post an empty comment!</label>
-			</div>
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-default btn-success" ng-click="sfc.postComment()">Post <span class="glyphicon glyphicon-envelope"></span></button>
+          </div>
+        </div>
+        <label class="text-danger" ng-show="sfc.commentForm.comment.$dirty && sfc.commentForm.comment.$invalid">You cannot post an empty comment!</label>
+      </div>
 
-			<div ng-if="!sfc.user" class="form-group">
-				<input type="text" name="comment" class="form-control" placeholder="You must be a registered user to comment!" disabled>
-			</div>
+      <div ng-if="!sfc.user" class="form-group">
+        <input type="text" name="comment" class="form-control" placeholder="You must be a registered user to comment!" disabled>
+      </div>
 
-			<div class="alert alert-danger alert-dismissible" role="alert" ng-if="sfc.error">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sfc.error = ''"><span aria-hidden="true">&times;</span></button>
-				<strong>Error:</strong> {{sfc.error}}
-			</div>
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-if="sfc.error">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sfc.error = ''"><span aria-hidden="true">&times;</span></button>
+        <strong>Error:</strong> {{sfc.error}}
+      </div>
 
-			<hr>
+      <hr>
 
-			<div align="center" class="form-group">
-				<a type="button" class="btn btn-default btn-primary" role="button" href = "#/home">Close</a>
-			</div>
-		</form>
-	</div>
+      <div align="center" class="form-group">
+        <a type="button" class="btn btn-default btn-primary" role="button" href = "#/home">Close</a>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div class="alert alert-danger" role="alert" ng-if="sfc.initError">
-	<strong>Error:</strong> {{sfc.initError}}
+  <strong>Error:</strong> {{sfc.initError}}
 </div>
 
 <div class="modal fade" id="reportCommentModal" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Confirmation</h4>
-			</div>
-			<div class="modal-body">
-				<label>Are you sure you want to report this comment?</label>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-				<button type="submit" class="btn btn-primary btn-sm" ng-click="sfc.reportComment()">Confirm</button>
-			</div>
-		</div>
-	</div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to report this comment?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" ng-click="sfc.reportComment()">Confirm</button>
+      </div>
+    </div>
+  </div>
 </div>

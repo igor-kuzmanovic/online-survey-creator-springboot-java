@@ -76,6 +76,7 @@
         .then(
         function(response) {
           getCurrentSurvey(true);
+          
           self.comment.image = imageUserMap[self.comment.poster];
           self.allComments.push(self.comment);
           self.comment = {};
@@ -132,7 +133,7 @@
       NotificationService.reportCommentNotification(self.currentComment.id)
         .then(
         function(response) {
-          $('#reportCommentModal').modal('hide');
+          getCurrentSurvey();
         }, 
         function(error){
           console.log(error);

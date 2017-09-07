@@ -70,8 +70,9 @@ public class CommentController {
 	    	comment.setPoster(user.getUsername());
 	    }
 
+	    comment.setIsFlagged(false);
     	survey.getComments().add(comment);
-      surveyService.save(survey);
+    	surveyService.save(survey);
         
     	return new ResponseEntity<>(HttpStatus.OK);
 

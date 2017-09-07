@@ -1,14 +1,14 @@
 <div ng-if="!hc.initError" class="row">
   <div class="table-responsive">
-    <table class="table table-hover table-bordered" style="background-color:white">
+    <table class="table table-hover table-bordered">
       <thead>
         <tr>
-          <h3>Your Surveys <a class="btn btn-primary btn-success btn-md pull-right" href="#/survey/new" role="button" title="Create a new survey"><span class="glyphicon glyphicon-plus"></span> New Survey</a></h1>
+          <h3>Your Surveys <a class="btn btn-primary btn-success btn-md pull-right" href="#/survey/new" role="button" title="Create a new survey"><span class="glyphicon glyphicon-plus"></span> New Survey</a></h3>
         </tr>
         <hr>
       </thead>
       <tbody>
-        <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate">
+        <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate" ng-class="{danger: survey.isFlagged}">
           <td>
             {{survey.name}} - {{survey.description}}    
 

@@ -135,6 +135,7 @@ public class SurveyController {
 		survey.setExitMessage(new String());
 		survey.setIsActive(false);
 		survey.setIsPublic(false);
+		survey.setIsFlagged(false);
 		
 		Survey createdSurvey = surveyService.save(survey);
 		
