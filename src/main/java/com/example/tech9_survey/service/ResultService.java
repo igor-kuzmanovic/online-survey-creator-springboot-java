@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.example.tech9_survey.domain.SurveyResult;
 import com.example.tech9_survey.repository.ResultRepository;
 
-@Transactional
 @Service
 public class ResultService {
 
@@ -32,11 +31,13 @@ public class ResultService {
 	public List<SurveyResult> findBySurveyId(Long surveyId) {
 		return resultRepository.findBySurveyId(surveyId);
 	}
-	
+
+	@Transactional
 	public SurveyResult save(SurveyResult surveyResult) {
 		return resultRepository.save(surveyResult);
 	}
-	
+
+	@Transactional
 	public void delete(Long id) {
 		resultRepository.delete(id);
 	}

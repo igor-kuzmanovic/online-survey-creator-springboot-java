@@ -2,6 +2,7 @@ package com.example.tech9_survey.service;
 
 import com.example.tech9_survey.domain.Image;
 import com.example.tech9_survey.repository.ImageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,6 +13,7 @@ public class ImageService {
 
     private ImageRepository imageRepository;
 
+    @Autowired
     public ImageService(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
     }

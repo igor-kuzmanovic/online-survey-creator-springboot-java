@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.repository.SurveyRepository;
 
-@Transactional
 @Service
 public class SurveyService {
 	
@@ -33,11 +32,13 @@ public class SurveyService {
     public Survey findByHashedId(String hashedId) {
     	return surveyRepository.findByHashedId(hashedId);
     }
-    
+
+    @Transactional
     public Survey save(Survey survey) {  	
     	return surveyRepository.save(survey);
     }
 
+    @Transactional
     public void delete(Long surveyId) {
     	surveyRepository.delete(surveyId);
     }

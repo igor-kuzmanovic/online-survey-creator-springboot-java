@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Transactional
 @Service
 public class UserService implements UserDetailsService {
 
@@ -45,11 +44,13 @@ public class UserService implements UserDetailsService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-    
+
+    @Transactional
     public User save(User user) {
         return userRepository.save(user);
     }
 
+    @Transactional
     public void delete(Long id) {
         userRepository.delete(id);
     }
