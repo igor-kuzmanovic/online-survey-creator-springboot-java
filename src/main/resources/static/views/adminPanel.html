@@ -22,8 +22,6 @@
 					<tr>
 						<th>Username</th>
 						<th>Email</th>
-						<th>First name</th>
-						<th>Last name</th>
 						<th>Status</th>
 						<th>Role</th>
 						<th>Registration date</th>
@@ -36,17 +34,15 @@
 					<tr ng-repeat="user in apc.users track by $index" ng-class="{danger: user.userStatus.id === 2}" ng-if="user.username !== apc.user.username">
 						<td>{{user.username}}</td>
 						<td>{{user.email}}</td>
-						<td>{{user.firstName}}</td>
-						<td>{{user.secondName}}</td>
 						<td>{{user.userStatus.id === 1 ? 'Active' : 'Blocked'}}</td>
 						<td>{{user.roles[0].id === 1 ? 'Admin' : 'Regular user'}}</td>
 						<td>{{user.registrationDate | date:'yyyy-MM-dd'}}</td>
 						<td></td>
 						<td ng-if="user.userStatus.id === 1" align="center">
-							<span ng-if="user.roles[0].id !== 1" class="fa fa-lock" style="cursor: pointer" ng-click="apc.setCurrentUser(user)" data-toggle="modal" data-target="#banUserModal"></span>
+							<span ng-if="user.roles[0].id !== 1" class="fa fa-unlock" style="cursor: pointer" ng-click="apc.setCurrentUser(user)" data-toggle="modal" data-target="#banUserModal"></span>
 						</td>
 						<td ng-if="user.userStatus.id === 2" align="center">
-							<span ng-if="user.roles[0].id !== 1" class="fa fa-unlock" style="cursor: pointer" ng-click="apc.blockUser(user)"></span>
+							<span ng-if="user.roles[0].id !== 1" class="fa fa-lock" style="cursor: pointer" ng-click="apc.blockUser(user)"></span>
 						</td>
 						<td align="center">
 							<span class="glyphicon glyphicon-remove" style="cursor: pointer" ng-click="apc.setCurrentUser(user)" data-toggle="modal" data-target="#deleteUserModal"></span>
@@ -205,7 +201,7 @@
 						<div class="radio">
 							<label>
 								<input type="radio" ng-model="apc.banDays" value="120">
-								120 days
+								60 days
 							</label>
 						</div>
 					</div>
