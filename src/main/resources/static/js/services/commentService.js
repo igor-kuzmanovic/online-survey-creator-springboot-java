@@ -2,9 +2,9 @@
   angular.module('app')
     .factory('CommentService', CommentService);
 
-  CommentService.$inject = ['UserService', '$http', '$q', '$filter'];
+  CommentService.$inject = ['UserService', '$http', '$q'];
 
-  function CommentService(UserService, $http, $q, $filter) {
+  function CommentService(UserService, $http, $q) {
 
     var service = {
       postComment: postComment,
@@ -32,7 +32,6 @@
     }
 
     function postComment(survey, comment) {
-      comment.creationDate = $filter('date')(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
       var def = $q.defer();
       var req = {
         method: 'POST',
