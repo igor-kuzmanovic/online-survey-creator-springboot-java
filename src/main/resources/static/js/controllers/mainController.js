@@ -2,9 +2,9 @@
   angular.module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['UserService', 'ImageService', 'CookieService', '$location', '$route'];
+  MainController.$inject = ['UserService', 'NotificationService', 'ImageService', 'CookieService', '$location', '$route', '$interval'];
 
-  function MainController(UserService, ImageService, CookieService, $location, $route) {
+  function MainController(UserService, NotificationService, ImageService, CookieService, $location, $route, $interval) {
 
     var self = this;
     self.init = init; 
@@ -15,21 +15,23 @@
 
     self.userImageMap;    
     self.$location = $location;
+    self.notificationPoll = null;
 
     init();
 
     function init() {
       getUser();
+
       if(self.user) {
-          loadImages();
+        loadImages();
       }
     }
-    
+
     function loadImages() {
-        ImageService.getAllImagesBinary().then(function (data, status) {
-          self.userImageMap = data;
-          self.imageUrl = self.userImageMap[self.user.username];
-        });
+      ImageService.getAllImagesBinary().then(function (data, status) {
+        self.userImageMap = data;
+        self.imageUrl = self.userImageMap[self.user.username];
+      });
     }
 
     function checkUser() {
@@ -67,12 +69,25 @@
       if(self.user) {
         console.log('User found');
 
-        self.unreadNotifications = 0;
-
-        for(i = 0; i < self.user.notifications.length; i++) {
-          if(!self.user.notifications[i].isRead) {
-            self.unreadNotifications++;
-          }
+        if(!self.notificationPoll) {
+          self.notificationPoll = $interval(function(){
+            NotificationService.getUserNotifications(self.user.id)
+              .then(
+              function(response){
+                self.user.notifications = response;
+                self.unreadNotifications = 0;
+                
+                for(i = 0; i < self.user.notifications.length; i++) {
+                  if(!self.user.notifications[i].isRead) {
+                    self.unreadNotifications++;
+                  }
+                }
+              },
+              function(error){
+              console.log(error);
+              alert(error);					
+            });
+          }, 10000);
         }
       }
     }

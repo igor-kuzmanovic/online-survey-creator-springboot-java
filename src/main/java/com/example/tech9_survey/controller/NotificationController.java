@@ -52,6 +52,24 @@ public class NotificationController {
 		return new ResponseEntity<>(allNotifications, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@GetMapping(path = "/user/{id}")
+	public ResponseEntity<List<Notification>> findAllByUser() {
+		User user = userService.getLoggedInUser();
+		
+		if(user == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<Notification> notifications = user.getNotifications();
+		
+    	if(notifications.isEmpty()) {
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    	}
+		
+		return new ResponseEntity<>(notifications, HttpStatus.OK);
+	}
+	
 	// UNUSED
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")

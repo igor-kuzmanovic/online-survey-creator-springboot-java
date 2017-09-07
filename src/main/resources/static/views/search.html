@@ -3,11 +3,11 @@
     <table class="table table-hover table-bordered">
       <thead>
         <tr>
-          <h3>All Surveys</h3>
+          <h3>Search Surveys</h3>
         </tr>
       </thead>
       <tbody>
-        <tr ng-if="survey.creator !== sc.user.username" ng-init="sc.surveyCounter = 0" ng-repeat="survey in sc.surveys track by $index" class="table-animate" ng-class="{danger: survey.isFlagged}">
+        <tr ng-if="survey.creator !== sc.user.username" ng-init="sc.surveyCounter = 0" ng-repeat="survey in sc.surveys | filter:mc.search track by $index" ng-class="{danger: survey.isFlagged}">
           <td>
             <i>{{survey.creator}}</i> - <strong>{{survey.name}}</strong> - {{survey.description}}
 

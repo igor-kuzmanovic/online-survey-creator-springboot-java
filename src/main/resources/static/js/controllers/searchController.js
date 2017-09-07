@@ -18,6 +18,7 @@
         $location.path('/');
       }
       else {
+        $scope.mc.search = '';
         getSurveys();
       }
     }
