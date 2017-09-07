@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class VerificationTokenService {
 
-    VerificationTokenRepository verificationTokenRepository;
+    private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
     public VerificationTokenService(VerificationTokenRepository verificationTokenRepository) {

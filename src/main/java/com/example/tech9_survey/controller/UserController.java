@@ -2,6 +2,7 @@ package com.example.tech9_survey.controller;
 
 import com.example.tech9_survey.domain.*;
 import com.example.tech9_survey.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,6 +26,7 @@ public class UserController {
     private SurveyService surveyService;
     private ImageService imageService;
 
+    @Autowired
     public UserController(UserService userService, VerificationTokenService verificationTokenService,
                           CommentService commentService, JavaMailSender javaMailSender,
                           SurveyService surveyService, ImageService imageService) {
@@ -59,7 +61,8 @@ public class UserController {
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-    
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping(path = "/{id}/notifications")
 	public ResponseEntity<List<Notification>> findAllNotificationsFromUser(@PathVariable("id") Long id) {
 		User user = userService.findOne(id);
@@ -112,23 +115,6 @@ public class UserController {
         userService.delete(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/comment/survey/{id}")
-    public ResponseEntity<List<User>> usersWithImage(@PathVariable("id") Long surveyId) {
-        Survey survey = surveyService.findOne(surveyId);
-        List<User> users = new ArrayList<>();
-
-        List<Comment> comments = survey.getComments();
-
-        for (Comment comment : comments) {
-            if (users.contains(userService.findByUsername(comment.getPoster()))) {
-                continue;
-            }
-            users.add(userService.findByUsername(comment.getPoster()));
-        }
-
-        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping
