@@ -61,7 +61,8 @@ public class UserController {
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-    
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping(path = "/{id}/notifications")
 	public ResponseEntity<List<Notification>> findAllNotificationsFromUser(@PathVariable("id") Long id) {
 		User user = userService.findOne(id);
@@ -114,23 +115,6 @@ public class UserController {
         userService.delete(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/comment/survey/{id}")
-    public ResponseEntity<List<User>> usersWithImage(@PathVariable("id") Long surveyId) {
-        Survey survey = surveyService.findOne(surveyId);
-        List<User> users = new ArrayList<>();
-
-        List<Comment> comments = survey.getComments();
-
-        for (Comment comment : comments) {
-            if (users.contains(userService.findByUsername(comment.getPoster()))) {
-                continue;
-            }
-            users.add(userService.findByUsername(comment.getPoster()));
-        }
-
-        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping

@@ -7,6 +7,7 @@ import com.example.tech9_survey.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,17 +44,6 @@ public class ImageController {
         return new ResponseEntity<>(allImages, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Image> findOne(@PathVariable("id") Long id) {
-        Image image = imageService.findOne(id);
-
-        if (image == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(image, HttpStatus.OK);
-    }
-
     @PostMapping
     public ResponseEntity<Image> save(@RequestBody Image image) {
         Image savedImage = imageService.save(image);
@@ -65,6 +55,7 @@ public class ImageController {
         return new ResponseEntity<>(savedImage, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping("/upload")
     @ResponseBody
     public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile uploadFile) {
