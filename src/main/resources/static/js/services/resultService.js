@@ -11,7 +11,7 @@
       submitSurvey: submitSurvey,
       getSurveyResults: getSurveyResults
     }
-    
+
     function generateSurveyResult(surveyId) {
       var def = $q.defer();
       var req = {
@@ -42,7 +42,7 @@
       });
       return def.promise;
     }
-    
+
     function getSurveyResults(surveyId) {
       var def = $q.defer();
       var req = {
@@ -57,7 +57,7 @@
       });
       return def.promise;
     }
-    
+
     return service;
 
   }

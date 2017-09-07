@@ -25,12 +25,43 @@
         .then(
         function(response){
           self.survey = response;
-          generateSurveyResult();
+          initCheck();
         }, 
         function(error){
           console.log(error);
           self.initError = error;
-        });
+        }); 
+    }
+
+    function initCheck() {
+      if(!self.user && !self.survey.isActive) {
+        console.log("This survey is no longer active!");
+        self.initError = "This survey is no longer active!";
+        return;
+      }
+      else if(!self.user && !self.survey.isPublic) {
+        console.log("This survey is not open for unregistered users!");
+        self.initError = "This survey is not open for unregistered users!";
+        return;
+      }
+      else if(self.user && self.user.username === self.survey.creator) {
+        $location.path('survey/results/' + self.surveyHashedId);
+      }
+      else if(self.user && !self.survey.isActive) {
+        $location.path('survey/results/' + self.surveyHashedId);
+      }
+      else if(self.user) {
+        for(i = 0; i < self.survey.surveyResults.length; i++) {
+          if(self.user && self.survey.surveyResults[i].submitedBy === self.user.username) {
+            console.log("You have already completed this survey!");
+            self.initError = "You have already completed this survey!";
+            return;
+          }
+        }
+      }
+      else {
+        generateSurveyResult(); 
+      } 
     }
 
     function generateSurveyResult() {
