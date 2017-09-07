@@ -1,15 +1,15 @@
 <div ng-if="!sc.initError" class="row">
   <div class="table-responsive">
-    <table class="table table-hover table-bordered" style="background-color:white">
+    <table class="table table-hover table-bordered">
       <thead>
         <tr>
-          <h1>All Surveys</h1>
+          <h3>Search Surveys</h3>
         </tr>
       </thead>
       <tbody>
-        <tr ng-if="survey.creator !== sc.user.username" ng-repeat="survey in sc.surveys track by $index" class="table-animate">
+        <tr ng-if="survey.creator !== sc.user.username" ng-init="sc.surveyCounter = 0" ng-repeat="survey in sc.surveys | filter:mc.search track by $index" ng-class="{danger: survey.isFlagged}">
           <td>
-            {{survey.creator}} - {{survey.name}} - {{survey.description}}
+            <i>{{survey.creator}}</i> - <strong>{{survey.name}}</strong> - {{survey.description}}
 
             <div class="btn-group pull-right" role="group" aria-label="...">
               <div class="btn btn-primary btn-facebook" ng-click="sc.facebookShare(survey.hashedId)" title="Share on Facebook"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
@@ -23,20 +23,21 @@
                 <span class="glyphicon glyphicon-file"></span>
               </a>
 
-              <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button" title="The survey isn't active">
+              <a ng-if="!survey.isActive" href="#/survey/results/{{survey.hashedId}}" class="btn btn-primary" role="button" title="Show the results">
                 <span class="glyphicon glyphicon-signal"></span>
               </a>
-            </div>  
+            </div>
 
-            <br>Created: {{survey.creationDate | date:'mediumDate'}} 
+            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate && survey.isActive"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
+            <span ng-init="sc.surveyCounter = sc.surveyCounter + 1"></span>
           </td>
         </tr>
       </tbody>
     </table>
-  </div>
 
-  <div class="alert alert-info" role="alert" ng-if="sc.surveys.length === 0">
-    <strong>Info:</strong> There are no surveys!
+    <div class="alert alert-info" role="alert" ng-if="!sc.surveyCounter">
+      <strong>Info:</strong> There are no surveys!
+    </div>
   </div>
 </div>
 

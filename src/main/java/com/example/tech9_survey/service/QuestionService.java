@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.repository.QuestionRepository;
 
-@Transactional
 @Service
 public class QuestionService {
 
@@ -25,11 +24,13 @@ public class QuestionService {
     public Question findOne(Long questionId) {
     	return questionRepository.findOne(questionId);
     }
-    
+
+    @Transactional
     public Question save(Question question) {
     	return questionRepository.save(question);
     }
-    
+
+    @Transactional
     public void delete(Long questionId) {
     	questionRepository.delete(questionId);
     }

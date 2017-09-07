@@ -1,6 +1,9 @@
 package com.example.tech9_survey.controller;
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +29,8 @@ public class CommentController {
 	private CommentService commentService;
 	private UserService userService;
 	private SurveyService surveyService;
-    
+
+	@Autowired
     public CommentController(CommentService commentService, UserService userService, SurveyService surveyService) {
         this.commentService = commentService;
         this.userService = userService;
@@ -70,8 +74,10 @@ public class CommentController {
 	    	comment.setPoster(user.getUsername());
 	    }
 
+	    comment.setIsFlagged(false);
+	    comment.setCreationDate(new Date());
     	survey.getComments().add(comment);
-      surveyService.save(survey);
+    	surveyService.save(survey);
         
     	return new ResponseEntity<>(HttpStatus.OK);
 

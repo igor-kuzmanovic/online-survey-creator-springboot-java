@@ -81,7 +81,7 @@
       controller: 'UserNotificationsController',
       controllerAs: 'unc'
     })
-      .when('/admin', {
+      .when('/admin:elementId?', {
       templateUrl: '/views/adminPanel.html',
       controller: 'AdminPanelController',
       controllerAs: 'apc'

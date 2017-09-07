@@ -3,6 +3,7 @@ package com.example.tech9_survey.controller;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -33,7 +34,8 @@ public class NotificationController {
 	private SurveyService surveyService;
 	private CommentService commentService;
 	private JavaMailSender javaMailSender;
-	
+
+	@Autowired
 	public NotificationController(NotificationService notificationService, UserService userService, SurveyService surveyService, CommentService commentService, JavaMailSender javaMailSender) {
 		this.notificationService = notificationService;
 		this.userService = userService;
@@ -48,6 +50,24 @@ public class NotificationController {
 	public ResponseEntity<List<Notification>> findAll() {
 		List<Notification> allNotifications = notificationService.findAll(); 
 		return new ResponseEntity<>(allNotifications, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+	@GetMapping(path = "/user/{id}")
+	public ResponseEntity<List<Notification>> findAllByUser() {
+		User user = userService.getLoggedInUser();
+		
+		if(user == null) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<Notification> notifications = user.getNotifications();
+		
+    	if(notifications.isEmpty()) {
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    	}
+		
+		return new ResponseEntity<>(notifications, HttpStatus.OK);
 	}
 	
 	// UNUSED
@@ -93,7 +113,7 @@ public class NotificationController {
         notification.setCreationDate(new Date());
         notification.setIsRead(false);
         notification.setLink("/survey/results/" + completedSurvey.getHashedId());
-        notification.setContent(notification.getSender() + " has successfully completed your survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());
+        notification.setContent(notification.getSender() + " has successfully completed your survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost:8080/#" + notification.getLink());
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
@@ -141,9 +161,9 @@ public class NotificationController {
         notification.setCreationDate(new Date());
         notification.setIsRead(false);
         notification.setLink("/admin");
-        notification.setContent(notification.getSender() + " has reported the survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());
-        completedSurvey.setIsFlagged(true);
+        notification.setContent(notification.getSender() + " has reported the survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost:8080/#" + notification.getLink());
         
+        completedSurvey.setIsFlagged(true); 
         surveyService.save(completedSurvey);
         
         notificationService.save(notification);
@@ -197,7 +217,7 @@ public class NotificationController {
         notification.setCreationDate(new Date());
         notification.setIsRead(false);    
         notification.setLink("/survey/results/" + survey.getHashedId() + "/" + commentId);
-        notification.setContent(notification.getSender() + " has commented '" + comment.getContent() + "' on your survey '" + survey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink());
+        notification.setContent(notification.getSender() + " has commented '" + comment.getContent() + "' on your survey '" + survey.getName() + "'.\n\nhttp://localhost:8080/#" + notification.getLink());
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
@@ -250,15 +270,14 @@ public class NotificationController {
         notification.setCreationDate(new Date());
         notification.setIsRead(false);
         notification.setLink("/admin");
-        notification.setContent(notification.getSender() + " has reported the comment '" + comment.getContent() + "' on the survey '" + survey.getName() + "'.\n\nhttp://localhost/#" + notification.getLink()); 
-        comment.setIsFlagged(true);
+        notification.setContent(notification.getSender() + " has reported the comment '" + comment.getContent() + "' on the survey '" + survey.getName() + "'.\n\nhttp://localhost:8080/#" + notification.getLink()); 
         
+        comment.setIsFlagged(true);
         commentService.save(comment);
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
         userService.save(receiver);
-        
         
         if(receiver.isNotifyByEmail() == true) {
      		notifyByEmail(receiver, notification);

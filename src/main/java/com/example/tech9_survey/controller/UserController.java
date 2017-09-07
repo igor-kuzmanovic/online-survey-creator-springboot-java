@@ -1,13 +1,8 @@
 package com.example.tech9_survey.controller;
 
 import com.example.tech9_survey.domain.*;
-import com.example.tech9_survey.service.CommentService;
-import com.example.tech9_survey.service.SurveyService;
-import com.example.tech9_survey.service.UserService;
-import com.example.tech9_survey.service.VerificationTokenService;
-import com.google.common.io.ByteStreams;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import com.example.tech9_survey.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.InputStream;
 import java.util.*;
 
 @EnableScheduling
@@ -30,9 +24,13 @@ public class UserController {
     private VerificationTokenService verificationTokenService;
     private JavaMailSender javaMailSender;
     private SurveyService surveyService;
+    private ImageService imageService;
 
+    @Autowired
     public UserController(UserService userService, VerificationTokenService verificationTokenService,
-                          CommentService commentService, JavaMailSender javaMailSender, SurveyService surveyService) {
+                          CommentService commentService, JavaMailSender javaMailSender,
+                          SurveyService surveyService, ImageService imageService) {
+        this.imageService = imageService;
         this.commentService = commentService;
         this.userService = userService;
         this.surveyService = surveyService;
@@ -63,7 +61,8 @@ public class UserController {
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-    
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping(path = "/{id}/notifications")
 	public ResponseEntity<List<Notification>> findAllNotificationsFromUser(@PathVariable("id") Long id) {
 		User user = userService.findOne(id);
@@ -72,24 +71,27 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }		
 		
-		List<Notification> notifications = user.getNotifications();
+		List<Notification> allNotifications = user.getNotifications();
+		List<Notification> unreadNotifications = new ArrayList<Notification>();
 		
-		if(notifications.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		
-		for(int i = 0; i < notifications.size(); i++) {
-			if(notifications.get(i).getIsRead() == false) {
-				Notification notification = notifications.get(i);
+		for(int i = 0; i < allNotifications.size(); i++) {
+			Notification notification = allNotifications.get(i);
+			unreadNotifications.add(notification);
+			
+			if(notification.getIsRead() == false) {
 				notification.setIsRead(true);
-				notifications.set(i, notification);
+				allNotifications.set(i, notification);
 			}
 		}
 		
-		user.setNotifications(notifications);
+		if(unreadNotifications.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		user.setNotifications(allNotifications);
 		userService.save(user);
 		
-		return new ResponseEntity<>(notifications, HttpStatus.OK);
+		return new ResponseEntity<>(unreadNotifications, HttpStatus.OK);
 	}
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -115,46 +117,24 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(path = "/comment/survey/{id}")
-    public ResponseEntity<List<User>> usersWithImage(@PathVariable("id") Long surveyId) {
-        Survey survey = surveyService.findOne(surveyId);
-        List<User> users = new ArrayList<>();
-
-        List<Comment> comments = survey.getComments();
-
-        for (Comment comment : comments) {
-            if (users.contains(userService.findByUsername(comment.getPoster()))) {
-                continue;
-            }
-            users.add(userService.findByUsername(comment.getPoster()));
-        }
-
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody User user) {
         VerificationToken token = new VerificationToken();
-        Resource resource = new ClassPathResource("static/images/default_user.jpg");
-
         token.setToken(UUID.randomUUID().toString());
 
         if (userService.findByUsername(user.getUsername()) == null) {
             if (userService.findByEmail(user.getEmail()) == null) {
                 user.setIsEnabled(false);
                 user.setRegistrationDate(new Date());
-                try {
-                    InputStream stream = resource.getInputStream();
-                    user.setImageUrl(ByteStreams.toByteArray(stream));
-                } catch (Exception e) {
-                    System.out.println(e);
-                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                }
 
                 token.setUser(user);
                 verificationTokenService.save(token);
 
                 User savedUser = userService.save(user);
+
+                Image defaultImage = imageService.findOne(1L);
+                defaultImage.getUsers().add(savedUser);
+                imageService.save(defaultImage);
 
                 sendMail(user.getEmail(), "http://localhost:8080/api/users/activate/" + token.getToken());
 

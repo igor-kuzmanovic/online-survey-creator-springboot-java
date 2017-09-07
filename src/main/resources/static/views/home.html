@@ -1,15 +1,15 @@
 <div ng-if="!hc.initError" class="row">
   <div class="table-responsive">
-    <table class="table table-hover table-bordered" style="background-color:white">
+    <table class="table table-hover table-bordered">
       <thead>
         <tr>
-          <h1>Your Surveys <a class="btn btn-primary btn-success btn-md pull-right" href="#/survey/new" role="button" title="Create a new survey"><span class="glyphicon glyphicon-plus"></span> New Survey</a></h1>
+          <h3>Your Surveys <a class="btn btn-primary btn-success btn-md pull-right" href="#/survey/new" role="button" title="Create a new survey"><span class="glyphicon glyphicon-plus"></span> New Survey</a></h3>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate">
+        <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate" ng-class="{danger: survey.isFlagged}">
           <td>
-            {{survey.name}} - {{survey.description}}    
+            <strong>{{survey.name}}</strong> - {{survey.description}} 
 
             <div class="btn-group pull-right" role="group" aria-label="...">
 
@@ -34,9 +34,9 @@
                 <span class="glyphicon glyphicon-list"></span>
               </a>
 
-              <button ng-if="survey.isActive" class="btn btn-primary" type="button" data-toggle="modal" data-target="#togglePrivacyModal" ng-click="hc.setCurrentSurvey(survey)">
-                <span ng-if="!survey.isPublic" class="glyphicon glyphicon-eye-open" title="Available to registered users"></span>
-                <span ng-if="survey.isPublic" class="glyphicon glyphicon-eye-close" title="Available to everyone"></span>
+              <button ng-if="survey.isActive" class="btn btn-primary" type="button" data-toggle="modal" data-target="#togglePrivacyModal" ng-click="hc.setCurrentSurvey(survey)" title="Toggle survey privacy">
+                <span ng-if="!survey.isPublic" class="glyphicon glyphicon-eye-open"></span>
+                <span ng-if="survey.isPublic" class="glyphicon glyphicon-eye-close"></span>
               </button>
 
               <button ng-if="survey.isActive" class="btn btn-primary" type="button" data-toggle="modal" data-target="#deactivateSurveyModal" ng-click="hc.setCurrentSurvey(survey)" title="Deactivate the survey">
@@ -48,17 +48,16 @@
               </button>
             </div>  
 
-            <br>Created: {{survey.creationDate | date:'mediumDate'}}
+            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
           </td>
         </tr>
       </tbody>
     </table>
-  </div>
 
-  <div class="alert alert-info" role="alert" ng-if="hc.surveys.length === 0">
-    <strong>Info:</strong> You have no surveys!
+    <div class="alert alert-info" role="alert" ng-if="hc.surveys.length === 0">
+      <strong>Info:</strong> You have no surveys!
+    </div>
   </div>
-
 
   <div class="alert alert-danger alert-dismissible" role="alert" ng-if="hc.error">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="hc.error = ''"><span aria-hidden="true">&times;</span></button>

@@ -7,6 +7,7 @@
   function NotificationService($http, $q, $filter) {
 
     var service = {
+      getUserNotifications: getUserNotifications,
       deleteNotification: deleteNotification,
       postSurveyNotification: postSurveyNotification,
       postCommentNotification: postCommentNotification,
@@ -14,6 +15,21 @@
       reportCommentNotification: reportCommentNotification
     }
     return service;
+
+    function getUserNotifications(id) {
+      var def = $q.defer();
+      var req = {
+        method: 'GET',
+        url: "/api/notifications/user/" + id
+      }
+      $http(req).success(function (data) {
+        def.resolve(data);
+      })
+        .error(function () {
+        def.reject("Failed to find user notifications");
+      });
+      return def.promise;
+    }
 
     function deleteNotification(id) {
       var def = $q.defer();

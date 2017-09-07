@@ -14,7 +14,6 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String username;
 
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
 
@@ -33,10 +32,6 @@ public class User extends BaseEntity {
 
     @Column(name = "registration_date")
     private Date registrationDate;
-
-    @Lob
-    @Column(name = "image_url", columnDefinition = "longblob")
-    private byte[] imageUrl;
 
     @ManyToMany
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -87,14 +82,6 @@ public class User extends BaseEntity {
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
-    }
-
-    public byte[] getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(byte[] imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public Date getRegistrationDate() {

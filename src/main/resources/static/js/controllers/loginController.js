@@ -9,7 +9,7 @@
 		var self = this;
 		self.getCredentials = getCredentials;
 		self.checkForm = checkForm;
-    
+
 		init();
 
 		function init() {
@@ -31,7 +31,7 @@
 				}, 
 				function(error){
 					console.log(error);
-          self.error = error;
+					self.error = error;
 				})
 		}
 

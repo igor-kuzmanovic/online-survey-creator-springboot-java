@@ -2,19 +2,21 @@
   angular.module('app')
       .controller('SurveyFinishController', SurveyFinishController);
 
-  SurveyFinishController.$inject = ['SurveyService', 'CommentService', 'NotificationService', 'UserService', '$location', '$routeParams', '$scope'];
+  SurveyFinishController.$inject = ['SurveyService', 'CommentService', 'NotificationService', 'UserService', 'ImageService', '$location', '$routeParams', '$scope'];
 
-  function SurveyFinishController(SurveyService, CommentService, NotificationService, UserService, $location, $routeParams, $scope) {
+  function SurveyFinishController(SurveyService, CommentService, NotificationService, UserService, ImageService, $location, $routeParams, $scope) {
 
     var self = this;
     self.getCurrentSurvey = getCurrentSurvey;
     self.postComment = postComment;
     self.deleteComment = deleteComment;
+    self.setCurrentComment = setCurrentComment;
     self.reportComment = reportComment;
 
     self.allComments = [];
     self.user = {};
     self.comment = {};
+    var imageUserMap;
 
     init();
 
@@ -24,13 +26,22 @@
       getCurrentSurvey();
     }
 
+    function loadImages() {
+        ImageService.getAllImagesBinary().then(function (data, status) {
+            imageUserMap = data;
+            self.allComments = self.survey.comments;
+            for(var i = 0; i < self.allComments.length; i++) {
+                self.allComments[i].image = data[self.allComments[i].poster];
+            }
+        });
+    }
+
     function getCurrentSurvey(commentPosted) {
       SurveyService.getCurrentSurvey(self.surveyHashedId)
         .then(
         function(response){
           self.survey = response;
-          self.allComments = [];
-          pairUsersWithImages();
+          loadImages();
 
           if(commentPosted) {
             postNotification();
@@ -41,20 +52,6 @@
         function(error){
           console.log(error);
           self.initError = error;
-        });
-    }
-    
-    function pairUsersWithImages() {
-     		UserService.getUsersForComments(self.survey.id).then(function (data, status) {
-						self.users = data;
-            for(var i = 0; i < self.survey.comments.length; i++) {
-                for(var j = 0; j < self.users.length; j++) {
-                    if(self.survey.comments[i].poster === self.users[j].username) {
-                        self.survey.comments[i].image = self.users[j].imageUrl;
-                        self.allComments.push(self.survey.comments[i]);
-                    }
-                }
-            }
         });
     }
 
@@ -79,6 +76,9 @@
         .then(
         function(response) {
           getCurrentSurvey(true);
+          
+          self.comment.image = imageUserMap[self.comment.poster];
+          self.allComments.push(self.comment);
           self.comment = {};
           self.commentForm.$setPristine();
         }, 
@@ -124,14 +124,22 @@
           self.error = error;
         })
     }
+    
+     function setCurrentComment(comment) {
+      self.currentComment = comment;
+    }
 
-   function reportComment(commentId) {
-      NotificationService.reportCommentNotification(commentId)
-        .then(function(response){}, function(error){
-        console.log(error);
-        self.error = error;
-      })
-   }
+   function reportComment() {
+      NotificationService.reportCommentNotification(self.currentComment.id)
+        .then(
+        function(response) {
+          getCurrentSurvey();
+        }, 
+        function(error){
+          console.log(error);
+          self.error = error;
+        })
+    }
 
   }
 })();

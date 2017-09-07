@@ -2,20 +2,22 @@ package com.example.tech9_survey.service;
 
 import com.example.tech9_survey.domain.VerificationToken;
 import com.example.tech9_survey.repository.VerificationTokenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class VerificationTokenService {
 
-    VerificationTokenRepository verificationTokenRepository;
+    private VerificationTokenRepository verificationTokenRepository;
 
+    @Autowired
     public VerificationTokenService(VerificationTokenRepository verificationTokenRepository) {
         this.verificationTokenRepository = verificationTokenRepository;
     }
 
+    @Transactional
     public void save(VerificationToken verificationToken) {
         verificationTokenRepository.save(verificationToken);
     }
@@ -24,6 +26,7 @@ public class VerificationTokenService {
         return verificationTokenRepository.findByToken(token);
     }
 
+    @Transactional
     public void delete(Long id) {
         verificationTokenRepository.delete(id);
     }

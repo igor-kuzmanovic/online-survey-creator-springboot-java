@@ -1,5 +1,7 @@
 package com.example.tech9_survey.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.domain.Result;
+import com.example.tech9_survey.domain.ResultBoolean;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.domain.SurveyResult;
 import com.example.tech9_survey.domain.User;
@@ -81,13 +85,19 @@ public class ResultController {
 		return new ResponseEntity<>(surveyResult, HttpStatus.OK);
 	}
 	
-	@PostMapping(path = "/{surveyId}")
-	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody SurveyResult surveyResult) {
+	@GetMapping(path = "/generate/{surveyId}")
+	public ResponseEntity<SurveyResult> generateSurveyResult(@PathVariable Long surveyId) {
 		Survey survey = surveyService.findOne(surveyId);
 		
 		if(survey == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		
+		if(survey.getIsActive() == false) {
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		}
+		
+		SurveyResult surveyResult = new SurveyResult();
 		
 		User user = userService.getLoggedInUser();
 		
@@ -105,18 +115,9 @@ public class ResultController {
 			}
 		}
 		
-		List<Result> results = surveyResult.getResults();
-		
-		for(int i = 0; i < results.size(); i++) {
-			Result result = results.get(i);
-			
-			if(result.getAnswerId() != 0 && !result.getOptional().isEmpty()) {
-				result.setOptional("");
-				results.set(i, result);
-			}
+		if(user == null && survey.getIsPublic() == false) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		
-		surveyResult.setResults(results);		
 		
 		if(user == null) {
 			surveyResult.setSubmitedBy("anonymous");
@@ -125,9 +126,103 @@ public class ResultController {
 			surveyResult.setSubmitedBy(user.getUsername());
 		}
 		
+		surveyResult.setCreationDate(new Date());
 		surveyResult.setSurveyId(survey.getId());
-		survey.getSurveyResults().add(surveyResult);
-		surveyService.save(survey);
+		
+		List<Question> questions = survey.getQuestions();
+		
+		if(questions.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		List<Result> results = new ArrayList<Result>();
+		
+		for(int i = 0; i < questions.size(); i++) {
+			if(questions.get(i).getQuestionType() == 1) {
+				Result result = new Result();
+				result.setQuestionId(questions.get(i).getId());
+				result.setAnswerId(questions.get(i).getAnswers().get(0).getId());
+				result.setOptional(null);
+				results.add(result);
+			}
+			else if(questions.get(i).getQuestionType() == 2) {
+				Result result = new Result();
+				result.setQuestionId(questions.get(i).getId());
+				result.setAnswerId(0L);
+				result.setOptional(null);
+				results.add(result);
+			}
+			else if(questions.get(i).getQuestionType() == 3) {
+				List<ResultBoolean> resultList = new ArrayList<ResultBoolean>();
+				
+				for(int j = 0; j < questions.get(i).getAnswers().size(); j++) {
+					ResultBoolean resultBoolean = new ResultBoolean();
+					resultBoolean.setIsChecked(false);
+					resultList.add(resultBoolean);
+				}
+				
+				Result result = new Result();
+				result.setQuestionId(questions.get(i).getId());
+				result.setAnswerId(null);
+				result.setOptional(null);
+				result.setResultList(resultList);
+				results.add(result);
+			}
+		}
+		
+		surveyResult.setResults(results);
+		resultService.save(surveyResult);
+		
+		return new ResponseEntity<>(surveyResult, HttpStatus.OK);
+	}
+	
+	@PostMapping(path = "/{surveyId}")
+	public ResponseEntity<Object> save(@PathVariable Long surveyId, @RequestBody SurveyResult surveyResult) {
+		Survey survey = surveyService.findOne(surveyId);
+		
+		if(survey == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		if(survey.getIsActive() == false) {
+			return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+		}
+		
+		User user = userService.getLoggedInUser();
+		
+		if(user != null && user.getUsername().equals(survey.getCreator())) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<SurveyResult> surveyResults = survey.getSurveyResults();
+		
+		@SuppressWarnings("unused")
+		Boolean userCheck;
+				
+		if(user != null) {
+			userCheck = false;
+			
+			for(int i = 0; i < surveyResults.size(); i++) {
+				String poster = surveyResults.get(i).getSubmitedBy();
+				
+				if(poster.equals(user.getUsername())) {
+					userCheck = true;
+				}
+			}
+		}
+		else {
+			userCheck = true;
+		}
+		
+		if(userCheck = false) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		if(user == null && survey.getIsPublic() == false) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		resultService.save(surveyResult);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

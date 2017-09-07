@@ -2,34 +2,44 @@
   <div class="col-md-offset-3 col-md-6">
     <form class="form-horizontal" novalidate>
       <div align="center" class="form-group">
-        <h2>{{sc.survey.name}}<button ng-if="sc.survey.creator !== sc.user.username && sc.user.username !== 'admin'" type="button" class="btn btn-primary btn-danger btn-xs pull-right" ng-click="sc.reportSurvey()"><span class="glyphicon glyphicon-exclamation-sign"></span></button></h2>
-        <h3>{{sc.survey.description}}</h3>
+        <h3>{{sc.survey.name}}</h3>
+        <hr>
+        <h4>{{sc.survey.description}}</h4>
+        <hr>
       </div>
-
-      <hr>
-
-      <div ng-repeat="question in sc.survey.questions track by $index">
+      <div ng-repeat="question in sc.survey.questions track by $index" ng-init="questionIndex = $index">
         <div class="form-group">
-          <label for="question{{$index + 1}}"> {{$index + 1}}. {{question.content}}</label>
+          <label for="question{{questionIndex + 1}}"> {{questionIndex + 1}}. {{question.content}}</label>
 
-          <div class="radio" ng-repeat="answer in question.answers track by $index">
-            <label>
-              <input type="radio" name="question{{$parent.$index + 1}}answer{{$index + 1}}" id="question{{$parent.$index + 1}}answer{{$index + 1}}" ng-value="answer.id" ng-model="sc.surveyResult.results[$parent.$index].answerId"> {{answer.content}}
-            </label>
+          <div ng-if="question.questionType === 1">
+            <div class="radio" ng-repeat="answer in question.answers track by $index" ng-init="radioAnswerIndex = $index">
+              <label>
+                <input type="radio" name="question{{questionIndex + 1}}answer{{radioAnswerIndex + 1}}" id="question{{questionIndex + 1}}answer{{radioAnswerIndex + 1}}" ng-value="{{answer.id}}" ng-model="sc.surveyResult.results[questionIndex].answerId"> {{answer.content}}
+              </label>
+            </div>
+
+            <div ng-if="question.hasOtherOption" class="radio">
+              <label>
+                <input type="radio" name="question{{questionIndex + 1}}answerOther" id="question{{questionIndex + 1}}answerOther" ng-value="0" ng-model="sc.surveyResult.results[questionIndex].answerId"> Other</label>
+              <input type="text" name="question{{questionIndex + 1}}answerOther" id="question{{questionIndex + 1}}answerOther" class="form-control" placeholder="Please provide your option..." ng-model="sc.surveyResult.results[questionIndex].optional">
+            </div>
           </div>
 
-          <div ng-if="question.hasOtherOption" class="radio">
-            <label>
-              <input type="radio" name="question{{$index + 1}}answer0" id="question{{$index + 1}}answer0" ng-value="0" ng-model="sc.surveyResult.results[$index].answerId"> Your option
-              <input type="text" name="question{{$index + 1}}answer0" id="question{{$index + 1}}answer0" class="form-control" placeholder="Please provide your option..." ng-model="sc.surveyResult.results[$index].optional">
-            </label>
+          <div ng-if="question.questionType === 2">
+            <input type="text" name="question{{questionIndex + 1}}answerOther" id="question{{questionIndex + 1}}answerOther" class="form-control" placeholder="Please provide your answer..." ng-model="sc.surveyResult.results[questionIndex].optional">
+          </div>
+
+          <div ng-if="question.questionType === 3">
+            <div class="checkbox" ng-repeat="answer in question.answers track by $index" ng-init="checkboxAnswerIndex = $index">
+              <label>
+                <input type="checkbox" name="question{{questionIndex + 1}}answer{{checkboxAnswerIndex + 1}}" id="question{{questionIndex + 1}}answer{{checkboxAnswerIndex + 1}}" ng-value="true" ng-model="sc.surveyResult.results[questionIndex].resultList[checkboxAnswerIndex].isChecked"> {{answer.content}}
+              </label>
+            </div>
           </div>
         </div>
 
-        <hr ng-if="!$last">
+        <hr>
       </div> 
-
-      <hr>
 
       <div id="captcha-survey" align="center" class="form-group"></div>
 
@@ -41,7 +51,12 @@
       <hr>
 
       <div align="center" class="form-group">
-        <button type="submit" class="btn btn-default btn-success" ng-click="sc.submitSurvey()">Submit <span class="glyphicon glyphicon-check"></span></button>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default btn-success" ng-click="sc.checkCaptcha()">Submit <span class="glyphicon glyphicon-check"></span></button>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-primary btn-danger" id="reportSurvey" ng-if="sc.survey.creator !== sc.user.username && sc.user.username !== 'admin'" data-toggle="modal" data-target="#reportSurveyModal">Report <span class="glyphicon glyphicon-exclamation-sign"></span></button>
+        </div>
       </div>
     </form>
   </div>
@@ -49,4 +64,22 @@
 
 <div class="alert alert-danger" role="alert" ng-if="sc.initError">
   <strong>Error:</strong> {{sc.initError}} <a href="#/" class="alert-link">Go to Tech9 Survey</a>
+</div>
+
+<div class="modal fade" id="reportSurveyModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <label>Are you sure you want to report this survey?</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm" data-dismiss="modal" ng-click="sc.reportSurvey()">Confirm</button>
+      </div>
+    </div>
+  </div>
 </div>

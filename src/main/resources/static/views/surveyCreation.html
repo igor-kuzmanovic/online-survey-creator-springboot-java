@@ -5,8 +5,6 @@
         <h3>Create a new survey</h3>
       </div>
 
-      <hr>
-
       <div class="form-group" ng-class="{'has-feedback': scc.surveyForm.name.$dirty, 'has-error': scc.surveyForm.name.$dirty && scc.surveyForm.name.$invalid, 'has-success': scc.surveyForm.name.$dirty && scc.surveyForm.name.$valid}">
         <label for="name">Name</label>
         <input id="name" type="text" class="form-control" name="name" placeholder="Survey title" ng-model="survey.name" auto-focus="true" required>
@@ -27,8 +25,6 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="scc.error = ''"><span aria-hidden="true">&times;</span></button>
         <strong>Error:</strong> {{scc.error}}
       </div>
-
-      <hr>
       
       <div align="center" class="form-group">
         <button type="submit" class="btn btn-default btn-success" ng-click="scc.error = ''; scc.generateSurvey(survey)">Create <span class="glyphicon glyphicon-check"></span></button>

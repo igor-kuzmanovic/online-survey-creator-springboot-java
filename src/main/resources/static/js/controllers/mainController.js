@@ -2,58 +2,40 @@
   angular.module('app')
     .controller('MainController', MainController);
 
-  MainController.$inject = ['UserService', 'CookieService', '$location', '$route'];
+  MainController.$inject = ['UserService', 'NotificationService', 'ImageService', 'CookieService', '$location', '$route', '$interval'];
 
-  function MainController(UserService, CookieService, $location, $route) {
+  function MainController(UserService, NotificationService, ImageService, CookieService, $location, $route, $interval) {
 
     var self = this;
     self.init = init; 
     self.checkUser = checkUser;
     self.removeUser = removeUser;
     self.getUser = getUser;
-    self.getImage = getImage;
-    self.setImage = setImage;
+    self.loadImages = loadImages;
 
-    self.themes = [
-      { name: 'Cerulean', url: 'cerulean' },
-      { name: 'Cosmo', url: 'cosmo' },
-      { name: 'Cyborg', url: 'cyborg' },
-      { name: 'Darkly', url: 'darkly' },
-      { name: 'Flatly', url: 'flatly' },
-      { name: 'Journal', url: 'journal' },
-      { name: 'Lumen', url: 'lumen' },
-      { name: 'Paper', url: 'paper' },
-      { name: 'Readable', url: 'readable' },
-      { name: 'Sandstone', url: 'sandstone' },
-      { name: 'Simplex', url: 'simplex' },
-      { name: 'Slate', url: 'slate' },
-      { name: 'Solar', url: 'solar' },
-      { name: 'Spacelab', url: 'spacelab' },
-      { name: 'Superhero', url: 'superhero' },
-      { name: 'United', url: 'united' },
-      { name: 'Yeti', url: 'yeti' }
-    ];
-
-    self.theme = self.themes[4];
+    self.userImageMap;    
     self.$location = $location;
+    self.notificationPoll = null;
 
     init();
 
     function init() {
       getUser();
+
+      if(self.user) {
+        loadImages();
+      }
     }
 
-    function getImage() {
-      return self.imageUrl;
-    }
-
-    function setImage(image) {
-      self.imageUrl = image;
+    function loadImages() {
+      ImageService.getAllImagesBinary().then(function (data, status) {
+        self.userImageMap = data;
+        self.imageUrl = self.userImageMap[self.user.username];
+      });
     }
 
     function checkUser() {
       if(self.user) {
-        setImage(self.user.imageUrl);
         return self.user;
       }
     }
@@ -72,6 +54,7 @@
           function(response){
             self.user = response;
             console.log('Logged in ' + self.user.username + ' from cookies');
+            loadImages();
             $route.reload();
           },
           function(error){
@@ -86,15 +69,26 @@
       if(self.user) {
         console.log('User found');
 
-        self.unreadNotifications = 0;
-
-        for(i = 0; i < self.user.notifications.length; i++) {
-          if(!self.user.notifications[i].isRead) {
-            self.unreadNotifications++;
-          }
+        if(!self.notificationPoll) {
+          self.notificationPoll = $interval(function(){
+            NotificationService.getUserNotifications(self.user.id)
+              .then(
+              function(response){
+                self.user.notifications = response;
+                self.unreadNotifications = 0;
+                
+                for(i = 0; i < self.user.notifications.length; i++) {
+                  if(!self.user.notifications[i].isRead) {
+                    self.unreadNotifications++;
+                  }
+                }
+              },
+              function(error){
+              console.log(error);
+              alert(error);					
+            });
+          }, 10000);
         }
-
-        setImage(self.user.imageUrl);
       }
     }
 
