@@ -29,7 +29,7 @@
               </a>
             </div>
 
-            <br>Created: {{survey.creationDate | date:'mediumDate'}}
+            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
 						<span ng-init="sc.surveyCounter = sc.surveyCounter + 1"></span>
           </td>
         </tr>
@@ -37,7 +37,7 @@
     </table>
   </div>
 
-  <div class="alert alert-info" role="alert" ng-if="sc.surveyCounter === 0">
+  <div class="alert alert-info" role="alert" ng-if="!sc.surveyCounter">
     <strong>Info:</strong> There are no surveys!
   </div>
 </div>

@@ -114,6 +114,7 @@
         var options = {
           'title': title,
           chartArea: {width: '50%'},
+          hAxis: {format: 'short'},
         };
 
         var chart = new google.visualization.BarChart(document.getElementById('chart'));

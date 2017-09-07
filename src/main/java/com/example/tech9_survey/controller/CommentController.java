@@ -1,5 +1,6 @@
 package com.example.tech9_survey.controller;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +72,7 @@ public class CommentController {
 	    }
 
 	    comment.setIsFlagged(false);
+	    comment.setCreationDate(new Date());
     	survey.getComments().add(comment);
     	surveyService.save(survey);
         

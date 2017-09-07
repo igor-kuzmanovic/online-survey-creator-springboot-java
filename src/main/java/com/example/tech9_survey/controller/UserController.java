@@ -68,24 +68,27 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }		
 		
-		List<Notification> notifications = user.getNotifications();
+		List<Notification> allNotifications = user.getNotifications();
+		List<Notification> unreadNotifications = new ArrayList<Notification>();
 		
-		if(notifications.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		
-		for(int i = 0; i < notifications.size(); i++) {
-			if(notifications.get(i).getIsRead() == false) {
-				Notification notification = notifications.get(i);
+		for(int i = 0; i < allNotifications.size(); i++) {
+			Notification notification = allNotifications.get(i);
+			unreadNotifications.add(notification);
+			
+			if(notification.getIsRead() == false) {
 				notification.setIsRead(true);
-				notifications.set(i, notification);
+				allNotifications.set(i, notification);
 			}
 		}
 		
-		user.setNotifications(notifications);
+		if(unreadNotifications.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		user.setNotifications(allNotifications);
 		userService.save(user);
 		
-		return new ResponseEntity<>(notifications, HttpStatus.OK);
+		return new ResponseEntity<>(unreadNotifications, HttpStatus.OK);
 	}
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")

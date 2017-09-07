@@ -10,7 +10,7 @@
       <tbody>
         <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate" ng-class="{danger: survey.isFlagged}">
           <td>
-            {{survey.name}} - {{survey.description}}    
+            <strong>{{survey.name}}</strong> - {{survey.description}} 
 
             <div class="btn-group pull-right" role="group" aria-label="...">
 
@@ -49,7 +49,7 @@
               </button>
             </div>  
 
-            <br>Created: {{survey.creationDate | date:'mediumDate'}}
+            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
           </td>
         </tr>
       </tbody>

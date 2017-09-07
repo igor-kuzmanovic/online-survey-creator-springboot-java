@@ -142,8 +142,8 @@ public class NotificationController {
         notification.setIsRead(false);
         notification.setLink("/admin");
         notification.setContent(notification.getSender() + " has reported the survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost:8080/#" + notification.getLink());
-        completedSurvey.setIsFlagged(true);
         
+        completedSurvey.setIsFlagged(true); 
         surveyService.save(completedSurvey);
         
         notificationService.save(notification);
@@ -251,14 +251,13 @@ public class NotificationController {
         notification.setIsRead(false);
         notification.setLink("/admin");
         notification.setContent(notification.getSender() + " has reported the comment '" + comment.getContent() + "' on the survey '" + survey.getName() + "'.\n\nhttp://localhost:8080/#" + notification.getLink()); 
-        comment.setIsFlagged(true);
         
+        comment.setIsFlagged(true);
         commentService.save(comment);
         
         notificationService.save(notification);
         receiver.getNotifications().add(notification);
         userService.save(receiver);
-        
         
         if(receiver.isNotifyByEmail() == true) {
      		notifyByEmail(receiver, notification);
