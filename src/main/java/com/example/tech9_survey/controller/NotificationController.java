@@ -177,6 +177,7 @@ public class NotificationController {
         return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@PostMapping(path = "/comment/{commentId}")
     public ResponseEntity<Notification> saveCommentSubmit(@PathVariable("commentId") Long commentId) {
         Comment comment = commentService.findOne(commentId);

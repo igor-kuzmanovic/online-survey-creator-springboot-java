@@ -1,6 +1,7 @@
 package com.example.tech9_survey.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.tech9_survey.domain.Answer;
 import com.example.tech9_survey.domain.Comment;
+import com.example.tech9_survey.domain.Question;
 import com.example.tech9_survey.domain.Survey;
 import com.example.tech9_survey.domain.User;
 import com.example.tech9_survey.service.SurveyService;
@@ -155,6 +158,16 @@ public class SurveyController {
 		
 		if(!user.getUsername().equals(survey.getCreator())) {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<Question> questions = survey.getQuestions();
+		
+		for(int i = 0; i < questions.size(); i++) {
+			Question question = questions.get(i);
+			
+			if(question.getQuestionType() == 2) {
+				question.setAnswers(new ArrayList<Answer>());
+			}
 		}
 		
 		survey = surveyService.save(survey);

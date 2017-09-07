@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ public class AnswerController {
 		this.surveyService = surveyService;
 	}
 	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<Answer>> findAll() {
 		List<Answer> answers = answerService.findAll();
@@ -49,6 +51,7 @@ public class AnswerController {
 	}
 	
 	// Unused
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Answer> findOne(@PathVariable Long id) {
 		Answer answer = answerService.findOne(id);
@@ -61,6 +64,7 @@ public class AnswerController {
 	}
 	
 	// Unused
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@PostMapping(path = "/{questionId}")
 	public ResponseEntity<Answer> save(@PathVariable Long questionId, @RequestBody Answer answer) {
 		Question question = questionService.findOne(questionId);
@@ -88,6 +92,7 @@ public class AnswerController {
     	return new ResponseEntity<>(answer, HttpStatus.OK);
     }
 	
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@DeleteMapping(path = "/{answerId}")
 	public ResponseEntity<Object> delete(@PathVariable Long answerId) {
 		Answer answer = answerService.findOne(answerId);

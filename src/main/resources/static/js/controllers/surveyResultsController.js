@@ -50,7 +50,7 @@
           if($routeParams.elementId) {
             self.activeTab = 2;
             setTimeout(function () {
-              document.getElementById('comment' + $routeParams.elementId).setAttribute('style', 'background-color:azure');
+              document.getElementById('comment' + $routeParams.elementId).setAttribute('style', 'background-color: #18bc9c');
               document.getElementById('comment' + $routeParams.elementId).scrollIntoView('smooth');
 
               if(document.body.scrollTop < 507) {
@@ -59,7 +59,7 @@
               else {
                 document.body.scrollTop += 100;
               }
-            }, 500);
+            }, 100);
           }
         },
         function(error){
