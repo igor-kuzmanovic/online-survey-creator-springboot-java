@@ -160,7 +160,7 @@ public class NotificationController {
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
         notification.setIsRead(false);
-        notification.setLink("/admin");
+        notification.setLink("/admin/survey");
         notification.setContent(notification.getSender() + " has reported the survey '" + completedSurvey.getName() + "'.\n\nhttp://localhost:8080/#" + notification.getLink());
         
         completedSurvey.setIsFlagged(true); 
@@ -270,7 +270,7 @@ public class NotificationController {
         notification.setReceiver(receiver.getUsername());
         notification.setCreationDate(new Date());
         notification.setIsRead(false);
-        notification.setLink("/admin");
+        notification.setLink("/admin/comment");
         notification.setContent(notification.getSender() + " has reported the comment '" + comment.getContent() + "' on the survey '" + survey.getName() + "'.\n\nhttp://localhost:8080/#" + notification.getLink()); 
         
         comment.setIsFlagged(true);

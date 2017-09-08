@@ -18,7 +18,6 @@
           <p class="comment-content">{{comment.content}}<br>
             <b><span class="comment-date">{{comment.creationDate | date:'medium'}}</span></b></p>
         </div>
-        <hr>
       </div>
 
       <div ng-if="sfc.user" class="form-group" ng-class="{'has-feedback': sfc.commentForm.comment.$dirty, 'has-error': sfc.commentForm.comment.$dirty && sfc.commentForm.comment.$invalid}">
