@@ -9,8 +9,10 @@
       <tbody>
         <tr ng-repeat="survey in hc.surveys track by $index" class="table-animate" ng-class="{danger: survey.isFlagged}">
           <td>
-            <strong>{{survey.name}}</strong> - {{survey.description}} 
-
+            <strong>{{survey.name}}</strong> - {{survey.description}}
+            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
+          </td>
+          <td>
             <div class="btn-group pull-right" role="group" aria-label="...">
               <div class="btn btn-primary btn-facebook" ng-click="hc.facebookShare(survey.hashedId)" title="Share on Facebook"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
               </div>
@@ -40,8 +42,6 @@
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
             </div>  
-
-            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
           </td>
         </tr>
       </tbody>

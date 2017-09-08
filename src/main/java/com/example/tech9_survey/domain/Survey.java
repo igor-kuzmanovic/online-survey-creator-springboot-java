@@ -50,7 +50,7 @@ public class Survey extends BaseEntity {
 	@Column(name = "is_public", nullable = false)
 	private Boolean isPublic;
 	
-	@Column(name = "is_flagged")
+	@Column(name = "is_flagged", nullable = false)
     private Boolean isFlagged;
 	
 	@Cascade(CascadeType.ALL)
@@ -143,30 +143,6 @@ public class Survey extends BaseEntity {
 		this.isActive = isActive;
 	}
 
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
-	}
-
-	public List<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
-
-	public List<SurveyResult> getSurveyResults() {
-		return surveyResults;
-	}
-
-	public void setSurveyResults(List<SurveyResult> surveyResults) {
-		this.surveyResults = surveyResults;
-	}
-
 	public Boolean getIsPublic() {
 		return isPublic;
 	}
@@ -181,6 +157,30 @@ public class Survey extends BaseEntity {
 
 	public void setIsFlagged(Boolean isFlagged) {
 		this.isFlagged = isFlagged;
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+
+	public List<SurveyResult> getSurveyResults() {
+		return surveyResults;
+	}
+
+	public void setSurveyResults(List<SurveyResult> surveyResults) {
+		this.surveyResults = surveyResults;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 }

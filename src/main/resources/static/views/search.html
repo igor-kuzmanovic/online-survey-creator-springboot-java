@@ -10,7 +10,9 @@
         <tr ng-if="survey.creator !== sc.user.username" ng-init="sc.surveyCounter = 0" ng-repeat="survey in sc.surveys | filter:mc.search track by $index" ng-class="{danger: survey.isFlagged}">
           <td>
             <i>{{survey.creator}}</i> - <strong>{{survey.name}}</strong> - {{survey.description}}
-
+            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate && survey.isActive"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
+          </td>
+          <td>
             <div class="btn-group pull-right" role="group" aria-label="...">
               <div class="btn btn-primary btn-facebook" ng-click="sc.facebookShare(survey.hashedId)" title="Share on Facebook"><i class="fa fa-facebook-square" aria-hidden="true" style="color:white"></i>
               </div>
@@ -27,8 +29,6 @@
                 <span class="glyphicon glyphicon-signal"></span>
               </a>
             </div>
-
-            <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate && survey.isActive"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
             <span ng-init="sc.surveyCounter = sc.surveyCounter + 1"></span>
           </td>
         </tr>
