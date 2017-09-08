@@ -68,7 +68,7 @@
       if(self.user) {
         console.log('User found');
 
-        if(!self.notificationPoll) {
+        if(self.user && !self.notificationPoll) {
           self.notificationPoll = $interval(function(){
             NotificationService.getUserNotifications(self.user.id)
               .then(

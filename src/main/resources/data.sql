@@ -533,54 +533,6 @@ VALUES(138, 'No', 26);
 
 INSERT INTO tech9survey.survey
 (id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
-VALUES(4, '2017-09-08', 'user2', 'The purpose of this survey is to get statistic about different supermarkets and their customers.', 'Thank you for completing the survey!', '2021-11-23', 'ced17a3db75827bdabb83b266794104e', 1, 0, 1, 'Supermarket Survey');
-
-INSERT INTO tech9survey.question
-(id, content, has_other_option, question_type, survey_id)
-VALUES(28, 'Which national supermarket chains can you think of?', NULL, 3, 4);
-INSERT INTO tech9survey.question
-(id, content, has_other_option, question_type, survey_id)
-VALUES(29, 'Have you heard of any of the following?', NULL, 3, 4);
-INSERT INTO tech9survey.question
-(id, content, has_other_option, question_type, survey_id)
-VALUES(30, 'What is the MAXIMUM distance you are prepared to travel to your preferred store?', NULL, 1, 4);
-INSERT INTO tech9survey.question
-(id, content, has_other_option, question_type, survey_id)
-VALUES(31, 'Are you male or female?', NULL, 1, 4);
-INSERT INTO tech9survey.question
-(id, content, has_other_option, question_type, survey_id)
-VALUES(32, 'What is your age?', NULL, 1, 4);
-INSERT INTO tech9survey.question
-(id, content, has_other_option, question_type, survey_id)
-VALUES(33, 'How many people do you buy for?', NULL, 2, 4);
-INSERT INTO tech9survey.question
-(id, content, has_other_option, question_type, survey_id)
-VALUES(34, 'How much do you spend in an average week?', NULL, 2, 4);
-
-INSERT INTO tech9survey.answer
-(id, content, question_id)
-VALUES(161, 'Male', 31);
-INSERT INTO tech9survey.answer
-(id, content, question_id)
-VALUES(162, 'Female', 31);
-INSERT INTO tech9survey.answer
-(id, content, question_id)
-VALUES(163, 'Under 18', 32);
-INSERT INTO tech9survey.answer
-(id, content, question_id)
-VALUES(164, '18 to 24', 32);
-INSERT INTO tech9survey.answer
-(id, content, question_id)
-VALUES(165, '25 to 44', 32);
-INSERT INTO tech9survey.answer
-(id, content, question_id)
-VALUES(166, '45 to 60', 32);
-INSERT INTO tech9survey.answer
-(id, content, question_id)
-VALUES(167, 'Over 60', 32);
-
-INSERT INTO tech9survey.survey
-(id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
 VALUES(5, '2017-09-08', 'user2', 'The purpose of this survey is to get statistic about transport to work.', 'Thank you for completing the survey!', '2020-03-11', 'b5be35adb663e7e7c86842daf1d14d6a', 1, 0, 1, 'Transport Survey');
 
 INSERT INTO tech9survey.question
