@@ -527,3 +527,219 @@ VALUES(137, 'Yes', 26);
 INSERT INTO tech9survey.answer
 (id, content, question_id)
 VALUES(138, 'No', 26);
+
+INSERT INTO tech9survey.survey
+(id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
+VALUES(4, '2017-09-08', 'user1', 'The purpose of this survey is to get statistic about different supermarkets and their customers.', 'Thank you for completing the survey!', NULL, 'ced17a3db75827bdabb83b266794104e', 1, 0, 1, 'Supermarket Survey');
+
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(28, 'Which national supermarket chains can you think of?', NULL, 3, 4);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(29, 'Have you heard of any of the following?', NULL, 3, 4);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(30, 'What is the MAXIMUM distance you are prepared to travel to your preferred store?', NULL, 1, 4);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(31, 'Are you male or female?', NULL, 1, 4);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(32, 'What is your age?', NULL, 1, 4);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(33, 'How many people do you buy for?', NULL, 2, 4);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(34, 'How much do you spend in an average week?', NULL, 2, 4);
+
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(161, 'Male', 31);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(162, 'Female', 31);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(163, 'Under 18', 32);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(164, '18 to 24', 32);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(165, '25 to 44', 32);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(166, '45 to 60', 32);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(167, 'Over 60', 32);
+
+INSERT INTO tech9survey.survey
+(id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
+VALUES(5, '2017-09-08', 'user1', 'The purpose of this survey is to get statistic about transport to work.', 'Thank you for completing the survey!', NULL, 'b5be35adb663e7e7c86842daf1d14d6a', 1, 0, 1, 'Transport Survey');
+
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(35, 'Which forms of transport do you use to get to work?', NULL, 3, 5);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(36, 'In an average week how many times do you travel to work walking?', NULL, 2, 5);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(37, 'Would you consider car sharing?', NULL, 1, 5);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(38, 'Are you male or female?', NULL, 1, 5);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(39, 'What is your age?', NULL, 1, 5);
+
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(169, 'Cycle', 35);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(170, 'Motorcycle', 35);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(171, 'Taxi', 35);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(172, 'Train', 35);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(173, 'Car', 35);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(174, 'Underground', 35);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(175, 'Bus', 35);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(176, 'Walk', 35);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(177, 'Yes', 37);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(178, 'No', 37);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(179, 'Male', 38);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(180, 'Female', 38);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(181, 'Under 18', 39);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(182, '18 to 24', 39);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(183, '25 to 44', 39);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(184, '45 to 60', 39);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(185, 'Over 60', 39);
+
+INSERT INTO tech9survey.survey
+(id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
+VALUES(6, '2017-09-08', 'user1', 'Getting information about using different social media is the purpose of this survey.', 'Thank you for completing the survey!', NULL, 'a1032a32d229c65380700cc9c760adef', 1, 0, 1, 'Social Media Survey');
+
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(40, 'Which of these social media sites do you use?', NULL, 3, 6);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(41, 'Which of the following do you use to acces them?', NULL, 3, 6);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(42, 'Where do you most access social media?', NULL, 1, 6);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(43, 'How often do you use social media?', NULL, 2, 6);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(44, 'Do you use social media for work?', NULL, 1, 6);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(45, 'Are you male or female?', NULL, 1, 6);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(46, 'What is your age?', NULL, 1, 6);
+
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(186, 'Facebook', 40);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(187, 'Twitter', 40);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(188, 'Instagram', 40);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(189, 'Google +', 40);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(190, 'Linkedin', 40);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(191, 'YouTube', 40);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(192, 'Smartphone', 41);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(193, 'Tablet', 41);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(194, 'Laptop', 41);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(195, 'PC', 41);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(196, 'At home', 42);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(197, 'At work', 42);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(198, 'Out and about', 42);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(199, 'Yes', 44);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(200, 'No, but I expect to in the future', 44);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(201, 'No, and I don''t expect to', 44);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(202, 'Male', 45);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(203, 'Female', 45);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(204, 'Under 18', 46);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(205, '18 to 24', 46);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(206, '25 to 44', 46);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(207, '45 to 60', 46);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(208, 'Over 60', 46);
