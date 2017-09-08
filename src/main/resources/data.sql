@@ -428,3 +428,102 @@ VALUES(113, 'Very confident', 20);
 INSERT INTO tech9survey.answer
 (id, content, question_id)
 VALUES(114, 'Extremely confident', 20);
+
+INSERT INTO tech9survey.survey
+(id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
+VALUES(3, '2017-09-08', 'user1', 'The purpose of this survey is to get statistic about learning foreign languages in Serbia.', 'Thank you for completing the survey!', NULL, '6dc243b7a1575308f300761508397ce4', 1, 0, 1, 'Learning foreign languages Survey');
+
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(21, 'Are you male or female?', NULL, 1, 3);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(22, 'What is your age?', NULL, 1, 3);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(23, 'Which foreign languages did you learn in high school?', NULL, 3, 3);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(24, 'How do you learn foreign languages?', NULL, 1, 3);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(25, 'How often do you practise verbal conversation and grammatik?', NULL, 1, 3);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(26, 'Do you plan to keep on improving your knowledge of foreign language in the future?', NULL, 1, 3);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(27, 'What is your biggest motive for learning a new language?', NULL, 2, 3);
+
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(115, 'Male', 21);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(116, 'Female', 21);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(117, 'Under 18', 22);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(118, '18 to 24', 22);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(119, '25 to 44', 22);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(120, '45 to 60', 22);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(121, 'Over 60', 22);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(122, 'English', 23);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(123, 'German', 23);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(124, 'French', 23);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(125, 'Italian', 23);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(126, 'Russian', 23);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(127, 'At school', 24);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(128, 'Attending a course', 24);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(129, 'Attendind online courses', 24);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(130, 'Styding at home', 24);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(131, 'Reading a book', 24);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(132, 'Watching movies', 24);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(133, 'Every dan', 25);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(134, 'Once a week', 25);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(135, 'Once a month', 25);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(136, 'Never', 25);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(137, 'Yes', 26);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(138, 'No', 26);
