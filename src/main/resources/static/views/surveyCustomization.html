@@ -33,7 +33,7 @@
 				</div>
 
 				<div class="form-group" ng-if="question.questionType !== 2" ng-repeat="answer in scc.survey.questions[questionIndex].answers track by $index" ng-init="answerIndex">
-					<label class="control-label col-md-2">Option {{questionIndex + 1}}</label>
+					<label class="control-label col-md-2">Option {{answerIndex + 1}}</label>
 
 					<div class="input-group col-md-10">
 						<input id="question{{questionIndex + 1}}answer{{answerIndex + 1}}" type="text" class="form-control" name="question{{questionIndex + 1}}answer{{answerIndex + 1}}" placeholder="Option content" ng-model="answer.content">
