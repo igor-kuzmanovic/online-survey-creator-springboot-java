@@ -9,15 +9,18 @@ INSERT INTO tech9survey.image(id, url) VALUES(1, 'D:\\user_images\\default_user.
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `notify_by_email`, `registration_date`, `is_enabled`, `status_id`, `image_id`)
   VALUES ('admin','admin','tech9survey@gmail.com', TRUE , NOW(), TRUE, 1, 1);
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `notify_by_email`, `registration_date`, `is_enabled`, `status_id`, `image_id`)
-  VALUES ('user1','user1','user@tech9survey.com', TRUE, NOW(), TRUE, 1, 1);
+  VALUES ('user1','user1','user1@tech9survey.com', TRUE, NOW(), TRUE, 1, 1);
+INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `notify_by_email`, `registration_date`, `is_enabled`, `status_id`, `image_id`)
+  VALUES ('user2','user2','user2@tech9survey.com', TRUE, NOW(), TRUE, 1, 1);
 
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 1);
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 2);
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (2, 2);
+INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (3, 2);
 
 INSERT INTO tech9survey.survey
 (id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
-VALUES(1, '2017-09-08', 'user1', 'The purpose of this survey is to to better understand the challenges that companies face in business and define measures for improving the business environment in Serbia', 'Thank you for completing the survey!', NULL, 'f267bd7b09f97f4e0fd23dc67aac80e4', 1, 0, 1, 'Investors` satisfaction and confidence');
+VALUES(1, '2017-09-08', 'user1', 'The purpose of this survey is to to better understand the challenges that companies face in business and define measures for improving the business environment in Serbia', 'Thank you for completing the survey!', '2019-02-03', 'f267bd7b09f97f4e0fd23dc67aac80e4', 1, 0, 1, 'Investors` satisfaction and confidence');
 
 INSERT INTO tech9survey.question
 (id, content, has_other_option, question_type, survey_id)
@@ -326,7 +329,7 @@ VALUES(86, 'Excellent', 15);
 
 INSERT INTO tech9survey.survey
 (id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
-VALUES(2, '2017-09-08', 'user1', 'The purpose of this survey is to find out about your current experiences in college and at work, and to learn about your plans for the future.', 'Thank you for completing the survey!', NULL, '40cd54001068d3c7293459dd1eff58a6', 1, 0, 1, 'College Student Survey');
+VALUES(2, '2017-09-08', 'user1', 'The purpose of this survey is to find out about your current experiences in college and at work, and to learn about your plans for the future.', 'Thank you for completing the survey!', '2019-01-09', '40cd54001068d3c7293459dd1eff58a6', 1, 0, 1, 'College Student Survey');
 
 INSERT INTO tech9survey.question
 (id, content, has_other_option, question_type, survey_id)
@@ -431,7 +434,7 @@ VALUES(114, 'Extremely confident', 20);
 
 INSERT INTO tech9survey.survey
 (id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
-VALUES(3, '2017-09-08', 'user1', 'The purpose of this survey is to get statistic about learning foreign languages in Serbia.', 'Thank you for completing the survey!', NULL, '6dc243b7a1575308f300761508397ce4', 1, 0, 1, 'Learning foreign languages Survey');
+VALUES(3, '2017-09-08', 'user1', 'The purpose of this survey is to get statistic about learning foreign languages in Serbia.', 'Thank you for completing the survey!', '2021-05-01', '6dc243b7a1575308f300761508397ce4', 1, 0, 1, 'Learning foreign languages Survey');
 
 INSERT INTO tech9survey.question
 (id, content, has_other_option, question_type, survey_id)
@@ -530,7 +533,7 @@ VALUES(138, 'No', 26);
 
 INSERT INTO tech9survey.survey
 (id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
-VALUES(4, '2017-09-08', 'user1', 'The purpose of this survey is to get statistic about different supermarkets and their customers.', 'Thank you for completing the survey!', NULL, 'ced17a3db75827bdabb83b266794104e', 1, 0, 1, 'Supermarket Survey');
+VALUES(4, '2017-09-08', 'user2', 'The purpose of this survey is to get statistic about different supermarkets and their customers.', 'Thank you for completing the survey!', '2021-11-23', 'ced17a3db75827bdabb83b266794104e', 1, 0, 1, 'Supermarket Survey');
 
 INSERT INTO tech9survey.question
 (id, content, has_other_option, question_type, survey_id)
@@ -578,7 +581,7 @@ VALUES(167, 'Over 60', 32);
 
 INSERT INTO tech9survey.survey
 (id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
-VALUES(5, '2017-09-08', 'user1', 'The purpose of this survey is to get statistic about transport to work.', 'Thank you for completing the survey!', NULL, 'b5be35adb663e7e7c86842daf1d14d6a', 1, 0, 1, 'Transport Survey');
+VALUES(5, '2017-09-08', 'user2', 'The purpose of this survey is to get statistic about transport to work.', 'Thank you for completing the survey!', '2020-03-11', 'b5be35adb663e7e7c86842daf1d14d6a', 1, 0, 1, 'Transport Survey');
 
 INSERT INTO tech9survey.question
 (id, content, has_other_option, question_type, survey_id)
@@ -650,7 +653,7 @@ VALUES(185, 'Over 60', 39);
 
 INSERT INTO tech9survey.survey
 (id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
-VALUES(6, '2017-09-08', 'user1', 'Getting information about using different social media is the purpose of this survey.', 'Thank you for completing the survey!', NULL, 'a1032a32d229c65380700cc9c760adef', 1, 0, 1, 'Social Media Survey');
+VALUES(6, '2017-09-08', 'user2', 'Getting information about using different social media is the purpose of this survey.', 'Thank you for completing the survey!', '2018-06-23', 'a1032a32d229c65380700cc9c760adef', 1, 0, 1, 'Social Media Survey');
 
 INSERT INTO tech9survey.question
 (id, content, has_other_option, question_type, survey_id)
