@@ -58,8 +58,7 @@
             $route.reload();
           },
           function(error){
-            console.log(error);
-            alert(error);					
+            console.log(error);				
           });
       }
       else if(!self.user && !UserService.checkUserCookies()) {
@@ -84,8 +83,7 @@
                 }
               },
               function(error){
-              console.log(error);
-              alert(error);					
+              console.log(error);				
             });
           }, 10000);
         }

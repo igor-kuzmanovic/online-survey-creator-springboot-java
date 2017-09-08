@@ -130,7 +130,7 @@
       self.saveSurvey();
     }
 
-    function deleteAnswer(questionIndex, answerIndex, questionId, answerId) {
+    function deleteAnswer(questionIndex, answerIndex, questionId, answerId) {      
       AnswerService.deleteAnswer(answerId)
         .then(
         function(response){
