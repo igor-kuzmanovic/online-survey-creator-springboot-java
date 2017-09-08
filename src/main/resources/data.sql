@@ -323,3 +323,108 @@ VALUES(85, 'Very good', 15);
 INSERT INTO tech9survey.answer
 (id, content, question_id)
 VALUES(86, 'Excellent', 15);
+
+INSERT INTO tech9survey.survey
+(id, creation_date, creator, description, exit_message, expiration_date, hashed_id, is_active, is_flagged, is_public, name)
+VALUES(2, '2017-09-08', 'user1', 'The purpose of this survey is to find out about your current experiences in college and at work, and to learn about your plans for the future.', 'Thank you for completing the survey!', NULL, '40cd54001068d3c7293459dd1eff58a6', 1, 0, 1, 'College Student Survey');
+
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(16, 'How many classes have you completed in college?', NULL, 1, 2);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(17, 'When you graduate from this college, what do you plan to do?', NULL, 3, 2);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(18, 'Besides yourself, who has helped you most to make plans for the future?', NULL, 1, 2);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(19, 'In your opinion, how prepared are you to undertake the plans you have made for yourself after graduating from college?', NULL, 1, 2);
+INSERT INTO tech9survey.question
+(id, content, has_other_option, question_type, survey_id)
+VALUES(20, 'Right now, how confident do you feel that your plans for after graduation will help you reach your ultimate career goals?', NULL, 1, 2);
+
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(87, '1-5 classes', 16);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(88, '6-10 classes', 16);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(89, '11-15 classes', 16);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(90, '16-20 classes', 16);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(91, '21 or more classes', 16);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(92, 'Undecided', 17);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(93, 'Enter military service', 17);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(94, 'Participate in a formal apprenticeship program', 17);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(95, 'Work part time (less than 40 hours per week)', 17);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(96, 'Work full time (40 hours per week or more)', 17);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(97, 'Attend job training', 17);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(98, 'Attend 2-year community college or technical school', 17);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(99, 'Attend 4-year college or university', 17);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(100, 'Teacher', 18);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(101, 'Counselor', 18);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(102, 'Family member or guardian', 18);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(103, 'Friend', 18);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(104, 'Work supervisor, co-worker or work site mentor', 18);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(105, 'Not at all prepared', 19);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(106, 'Somewhat prepared', 19);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(107, 'Fairly well prepared', 19);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(108, 'Very well prepared', 19);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(109, 'Extremely well prepared', 19);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(110, 'Not at all confident', 20);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(111, 'Somewhat confident', 20);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(112, 'Fairly confident', 20);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(113, 'Very confident', 20);
+INSERT INTO tech9survey.answer
+(id, content, question_id)
+VALUES(114, 'Extremely confident', 20);

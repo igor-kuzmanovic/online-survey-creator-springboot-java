@@ -9,7 +9,7 @@
       <tbody>
         <tr ng-if="survey.creator !== sc.user.username" ng-init="sc.surveyCounter = 0" ng-repeat="survey in sc.surveys | filter:mc.search track by $index" ng-class="{danger: survey.isFlagged}">
           <td>
-            <i>{{survey.creator}}</i> - <strong>{{survey.name}}</strong> - {{survey.description}}
+            <i>{{survey.creator}}</i> - <strong>{{survey.name}}</strong>
             <br><i>{{survey.creationDate | date:'mediumDate'}}</i><span ng-if="survey.expirationDate && survey.isActive"> - <i>{{survey.expirationDate | date:'mediumDate'}}</i></span>
           </td>
           <td>
