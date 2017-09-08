@@ -16,20 +16,24 @@
     </div>
   </div>
   <div class="col-md-8">
-    <form>
+    <form name="usc.userForm" novalidate>
       <div class="form-group">
         <label>First name:</label>
-        <input type="text" value="{{usc.wholeUser.firstName}}" class="form-control" ng-model="usc.wholeUser.firstName">
+        <input type="text" class="form-control" ng-model="usc.wholeUser.firstName">
       </div>
 
       <div class="form-group">
         <label>Last name:</label>
-        <input type="text" value="{{usc.wholeUser.secondName}}" class="form-control" ng-model="usc.wholeUser.secondName">
+        <input type="text" class="form-control" ng-model="usc.wholeUser.secondName">
       </div>
 
-      <div class="form-group">
-        <label>Password:</label>
-        <input type="password" value="{{usc.wholeUser.password}}" class="form-control" ng-model="usc.wholeUser.password">
+      <div class="form-group" ng-class="{'has-feedback': usc.userForm.password.$dirty, 'has-error': usc.userForm.password.$dirty && usc.userForm.password.$invalid, 'has-success': usc.userForm.password.$dirty && usc.userForm.password.$valid}">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required ng-minLength='5' class="form-control" ng-model="usc.wholeUser.password">
+        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="usc.userForm.password.$dirty && usc.userForm.password.$valid"></span>
+        <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="usc.userForm.password.$dirty && usc.userForm.password.$invalid"></span>
+        <label class="text-danger" ng-show="usc.userForm.password.$dirty && usc.userForm.password.$invalid && usc.userForm.password.$error.required">Please enter a password!</label>
+        <label class="text-danger" ng-show="usc.userForm.password.$dirty && usc.userForm.password.$invalid && usc.userForm.password.$error.minlength">Please enter a longer password!</label>
       </div>
 
       <div class="form-group">
