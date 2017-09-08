@@ -5,13 +5,16 @@ INSERT INTO `tech9survey`.`user_status`(`type`) VALUES ('STATUS_ACTIVE');
 INSERT INTO `tech9survey`.`user_status`(`type`) VALUES ('STATUS_INACTIVE');
 
 INSERT INTO tech9survey.image(id, url) VALUES(1, 'D:\\user_images\\default_user.jpg');
+INSERT INTO tech9survey.image(id, url) VALUES(2, 'D:\\user_images\\admin.jpg');
+INSERT INTO tech9survey.image(id, url) VALUES(3, 'D:\\user_images\\user1.jpg');
+INSERT INTO tech9survey.image(id, url) VALUES(4, 'D:\\user_images\\user2.jpg');
 
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `notify_by_email`, `registration_date`, `is_enabled`, `status_id`, `image_id`)
-  VALUES ('admin','admin','tech9survey@gmail.com', TRUE , NOW(), TRUE, 1, 1);
+  VALUES ('admin','admin','tech9survey@gmail.com', TRUE , NOW(), TRUE, 1, 2);
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `notify_by_email`, `registration_date`, `is_enabled`, `status_id`, `image_id`)
-  VALUES ('user1','user1','user1@tech9survey.com', TRUE, NOW(), TRUE, 1, 1);
+  VALUES ('user1','user1','user1@tech9survey.com', TRUE, NOW(), TRUE, 1, 3);
 INSERT INTO `tech9survey`.`user`(`username`,`password`,`email`, `notify_by_email`, `registration_date`, `is_enabled`, `status_id`, `image_id`)
-  VALUES ('user2','user2','user2@tech9survey.com', TRUE, NOW(), TRUE, 1, 1);
+  VALUES ('user2','user2','user2@tech9survey.com', TRUE, NOW(), TRUE, 1, 4);
 
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 1);
 INSERT INTO `tech9survey`.`user_roles`(`user_id`,`role_id`) VALUES (1, 2);
@@ -698,3 +701,232 @@ VALUES(207, '45 to 60', 46);
 INSERT INTO tech9survey.answer
 (id, content, question_id)
 VALUES(208, 'Over 60', 46);
+
+INSERT INTO tech9survey.survey_result
+(id, creation_date, submited_by, survey_id)
+VALUES(1, '2017-09-08 13:54:29.000', 'user1', 6);
+INSERT INTO tech9survey.survey_result
+(id, creation_date, submited_by, survey_id)
+VALUES(2, '2017-09-08 13:56:19.000', 'admin', 6);
+INSERT INTO tech9survey.survey_result
+(id, creation_date, submited_by, survey_id)
+VALUES(3, '2017-09-08 13:57:22.000', 'anonymous', 6);
+INSERT INTO tech9survey.survey_result
+(id, creation_date, submited_by, survey_id)
+VALUES(4, '2017-09-08 13:59:59.000', 'anonymous', 6);
+
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(1, NULL, NULL, 40, 1);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(2, NULL, NULL, 41, 1);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(3, 198, NULL, 42, 1);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(4, 0, 'Not so often', 43, 1);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(5, 200, NULL, 44, 1);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(6, 203, NULL, 45, 1);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(7, 206, NULL, 46, 1);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(8, NULL, NULL, 40, 2);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(9, NULL, NULL, 41, 2);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(10, 197, NULL, 42, 2);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(11, 0, 'I use them 2-3 times a week', 43, 2);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(12, 200, NULL, 44, 2);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(13, 202, NULL, 45, 2);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(14, 207, NULL, 46, 2);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(15, NULL, NULL, 40, 3);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(16, NULL, NULL, 41, 3);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(17, 197, NULL, 42, 3);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(18, 0, 'Every day', 43, 3);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(19, 200, NULL, 44, 3);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(20, 203, NULL, 45, 3);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(21, 204, NULL, 46, 3);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(22, NULL, NULL, 40, 4);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(23, NULL, NULL, 41, 4);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(24, 198, NULL, 42, 4);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(25, 0, 'Not so often', 43, 4);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(26, 201, NULL, 44, 4);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(27, 203, NULL, 45, 4);
+INSERT INTO tech9survey.`result`
+(id, answer_id, optional, question_id, survey_result_id)
+VALUES(28, 207, NULL, 46, 4);
+
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(1, 1, 1);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(2, 0, 1);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(3, 1, 1);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(4, 0, 1);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(5, 1, 1);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(6, 0, 1);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(7, 1, 2);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(8, 0, 2);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(9, 1, 2);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(10, 0, 2);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(11, 1, 8);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(12, 0, 8);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(13, 1, 8);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(14, 0, 8);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(15, 1, 8);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(16, 0, 8);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(17, 1, 9);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(18, 0, 9);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(19, 1, 9);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(20, 0, 9);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(21, 1, 15);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(22, 0, 15);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(23, 1, 15);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(24, 0, 15);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(25, 1, 15);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(26, 0, 15);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(27, 1, 16);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(28, 0, 16);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(29, 1, 16);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(30, 0, 16);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(31, 1, 22);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(32, 0, 22);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(33, 1, 22);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(34, 0, 22);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(35, 1, 22);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(36, 0, 22);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(37, 1, 23);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(38, 0, 23);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(39, 1, 23);
+INSERT INTO tech9survey.result_boolean
+(id, is_checked, result_id)
+VALUES(40, 0, 23);
+
+INSERT INTO tech9survey.comment
+(id, content, creation_date, is_flagged, poster, update_date, survey_id)
+VALUES(1, 'Great survey, I will recommend it to all my friends! :)', '2017-09-08 13:55:04.000', 0, 'user1', NULL, 6);
+INSERT INTO tech9survey.comment
+(id, content, creation_date, is_flagged, poster, update_date, survey_id)
+VALUES(2, 'P.S Tech9 Survey is a great website!', '2017-09-08 13:55:41.000', 0, 'user1', NULL, 6);
+INSERT INTO tech9survey.comment
+(id, content, creation_date, is_flagged, poster, update_date, survey_id)
+VALUES(3, 'Nice survey, best wishes to @user2', '2017-09-08 13:57:12.000', 0, 'admin', NULL, 6);

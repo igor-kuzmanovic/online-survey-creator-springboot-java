@@ -68,23 +68,25 @@
       if(self.user) {
         console.log('User found');
 
-        if(self.user && !self.notificationPoll) {
+        if(!self.notificationPoll) {
           self.notificationPoll = $interval(function(){
-            NotificationService.getUserNotifications(self.user.id)
-              .then(
-              function(response){
-                self.user.notifications = response;
-                self.unreadNotifications = 0;
-                
-                for(i = 0; i < self.user.notifications.length; i++) {
-                  if(!self.user.notifications[i].isRead) {
-                    self.unreadNotifications++;
+            if(self.user) {
+              NotificationService.getUserNotifications(self.user.id)
+                .then(
+                function(response){
+                  self.user.notifications = response;
+                  self.unreadNotifications = 0;
+
+                  for(i = 0; i < self.user.notifications.length; i++) {
+                    if(!self.user.notifications[i].isRead) {
+                      self.unreadNotifications++;
+                    }
                   }
-                }
-              },
-              function(error){
-              console.log(error);				
-            });
+                },
+                function(error){
+                  console.log(error);				
+                });
+            }
           }, 10000);
         }
       }
