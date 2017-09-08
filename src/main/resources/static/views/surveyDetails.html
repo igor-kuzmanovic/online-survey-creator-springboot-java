@@ -10,7 +10,7 @@
       
       <div ng-repeat="question in sdc.survey.questions track by $index" ng-init="questionIndex = $index">
         <div class="form-group">
-          <label for="question{{questionIndex + 1}}"> {{questionIndex + 1}}. {{question.content}}</label>
+          <label class="control-label" for="question{{questionIndex + 1}}"> {{questionIndex + 1}}. {{question.content}}</label>
 
           <div ng-if="question.questionType === 1">
             <div class="radio" ng-repeat="answer in question.answers track by $index">
