@@ -3,13 +3,11 @@
     <form class="form-horizontal" novalidate>
       <div align="center" class="form-group">
         <h3>{{sc.survey.name}}</h3>
-        <hr>
         <h4>{{sc.survey.description}}</h4>
-        <hr>
       </div>
       <div ng-repeat="question in sc.survey.questions track by $index" ng-init="questionIndex = $index">
         <div class="form-group">
-          <label for="question{{questionIndex + 1}}"> {{questionIndex + 1}}. {{question.content}}</label>
+          <label class="control-label" for="question{{questionIndex + 1}}"> {{questionIndex + 1}}. {{question.content}}</label>
 
           <div ng-if="question.questionType === 1">
             <div class="radio" ng-repeat="answer in question.answers track by $index" ng-init="radioAnswerIndex = $index">
@@ -38,7 +36,7 @@
           </div>
         </div>
 
-        <hr>
+        <hr ng-if="!$last">
       </div> 
 
       <div id="captcha-survey" align="center" class="form-group"></div>
@@ -47,8 +45,6 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="sc.error = ''"><span aria-hidden="true">&times;</span></button>
         <strong>Error:</strong> {{sc.error}}
       </div>
-
-      <hr>
 
       <div align="center" class="form-group">
         <div class="form-group">

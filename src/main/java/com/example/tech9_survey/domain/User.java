@@ -3,6 +3,8 @@ package com.example.tech9_survey.domain;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -11,9 +13,11 @@ import java.util.Set;
 @Entity
 public class User extends BaseEntity {
 
+	@Length(min=5)
     @Column(nullable = false)
     private String username;
 
+    @Length(min=5)
     @Column(nullable = false)
     private String password;
 

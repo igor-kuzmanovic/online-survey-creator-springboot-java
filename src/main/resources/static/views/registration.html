@@ -7,18 +7,20 @@
 
 			<div class="form-group" ng-class="{'has-feedback': rc.signupForm.username.$dirty, 'has-error': rc.signupForm.username.$dirty && rc.signupForm.username.$invalid, 'has-success': rc.signupForm.username.$dirty && rc.signupForm.username.$valid}">
 				<label for="username">Username:</label>
-				<input class="form-control" id="username" type="text" name="username" auto-focus="true" required ng-model="savedUser.username">
+				<input class="form-control" id="username" type="text" name="username" auto-focus="true" required ng-minLength='5' ng-model="savedUser.username">
 				<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="rc.signupForm.username.$dirty && rc.signupForm.username.$valid"></span>
 				<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="rc.signupForm.username.$dirty && rc.signupForm.username.$invalid"></span>
-				<label class="text-danger" ng-show="rc.signupForm.username.$dirty && rc.signupForm.username.$invalid">Please enter a username!</label>
+				<label class="text-danger" ng-show="rc.signupForm.username.$dirty && rc.signupForm.username.$invalid && rc.signupForm.username.$error.required">Please enter a username!</label>
+        <label class="text-danger" ng-show="rc.signupForm.username.$dirty && rc.signupForm.username.$invalid && rc.signupForm.username.$error.minlength">Please enter a longer username!</label>
 			</div>
 
 			<div class="form-group" ng-class="{'has-feedback': rc.signupForm.password.$dirty, 'has-error': rc.signupForm.password.$dirty && rc.signupForm.password.$invalid, 'has-success': rc.signupForm.password.$dirty && rc.signupForm.password.$valid}">
 				<label for="password">Password:</label>
-				<input type="password" class="form-control" id="password" name="password" required ng-model="savedUser.password">
+				<input type="password" class="form-control" id="password" name="password" required ng-minLength='5' ng-model="savedUser.password">
 				<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="rc.signupForm.password.$dirty && rc.signupForm.password.$valid"></span>
 				<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="rc.signupForm.password.$dirty && rc.signupForm.password.$invalid"></span>
-				<label class="text-danger" ng-show="rc.signupForm.password.$dirty && rc.signupForm.password.$invalid">Please enter a password!</label>
+				<label class="text-danger" ng-show="rc.signupForm.password.$dirty && rc.signupForm.password.$invalid && rc.signupForm.password.$error.required">Please enter a password!</label>
+        <label class="text-danger" ng-show="rc.signupForm.password.$dirty && rc.signupForm.password.$invalid && rc.signupForm.password.$error.minlength">Please enter a longer password!</label>
 			</div>
 
 			<div class="form-group" ng-class="{'has-feedback': rc.signupForm.email.$dirty, 'has-error': rc.signupForm.email.$dirty && rc.signupForm.email.$invalid, 'has-success': rc.signupForm.email.$dirty && rc.signupForm.email.$valid}">

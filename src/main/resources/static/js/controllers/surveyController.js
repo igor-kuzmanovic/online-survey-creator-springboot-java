@@ -45,9 +45,11 @@
         return;
       }
       else if(self.user && self.user.username === self.survey.creator) {
+				console.log("Survey submitter is the survey owner, redirecting...");
         $location.path('survey/results/' + self.surveyHashedId);
       }
       else if(self.user && !self.survey.isActive) {
+				console.log("Survey is not active, redirecting...");
         $location.path('survey/results/' + self.surveyHashedId);
       }
       else if(self.user) {
@@ -59,9 +61,8 @@
           }
         }
       }
-      else {
-        generateSurveyResult(); 
-      } 
+        
+			generateSurveyResult(); 
     }
 
     function generateSurveyResult() {

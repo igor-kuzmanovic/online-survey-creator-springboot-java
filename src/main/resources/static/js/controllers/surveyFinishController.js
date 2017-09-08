@@ -16,7 +16,7 @@
     self.allComments = [];
     self.user = {};
     self.comment = {};
-    var imageUserMap;
+    self.imageUserMap = [];
 
     init();
 
@@ -28,8 +28,9 @@
 
     function loadImages() {
         ImageService.getAllImagesBinary().then(function (data, status) {
-            imageUserMap = data;
+            self.imageUserMap = data;
             self.allComments = self.survey.comments;
+					
             for(var i = 0; i < self.allComments.length; i++) {
                 self.allComments[i].image = data[self.allComments[i].poster];
             }
@@ -71,14 +72,15 @@
       if(!checkForm()){
         return;
       }
+			
+			if(self.user) {
+				self.comment.image = self.imageUserMap[self.comment.poster];
+			}
       
       CommentService.postComment(self.survey, self.comment)
         .then(
         function(response) {
           getCurrentSurvey(true);
-          
-          self.comment.image = imageUserMap[self.comment.poster];
-          self.allComments.push(self.comment);
           self.comment = {};
           self.commentForm.$setPristine();
         }, 

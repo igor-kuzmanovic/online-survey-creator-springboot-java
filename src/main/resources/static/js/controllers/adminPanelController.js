@@ -1,238 +1,247 @@
 (function () {
-  angular.module('app')
-    .controller('AdminPanelController', AdminPanelController);
+	angular.module('app')
+		.controller('AdminPanelController', AdminPanelController);
 
-  AdminPanelController.$inject = ['SurveyService', 'UserService', 'CommentService', 'QuestionService', 'AnswerService', '$scope', '$location'];
+	AdminPanelController.$inject = ['SurveyService', 'UserService', 'CommentService', 'QuestionService', 'AnswerService', '$scope', '$location', '$routeParams'];
 
-  function AdminPanelController(SurveyService, UserService, CommentService, QuestionService, AnswerService, $scope, $location) {
+	function AdminPanelController(SurveyService, UserService, CommentService, QuestionService, AnswerService, $scope, $location, $routeParams) {
 
-    var self = this;
-    self.menuSelected = menuSelected;
-    self.setCurrentUser = setCurrentUser;
-    self.removeUser = removeUser;
-    self.blockUser = blockUser;
-    self.setCurrentSurvey = setCurrentSurvey;
-    self.removeSurvey = removeSurvey;
-    self.allowSurvey = allowSurvey;
-    self.setCurrentComment = setCurrentComment;
-    self.removeComment = removeComment;
-    self.allowComment = allowComment;
+		var self = this;
+		self.menuSelected = menuSelected;
+		self.setCurrentUser = setCurrentUser;
+		self.removeUser = removeUser;
+		self.blockUser = blockUser;
+		self.setCurrentSurvey = setCurrentSurvey;
+		self.removeSurvey = removeSurvey;
+		self.allowSurvey = allowSurvey;
+		self.setCurrentComment = setCurrentComment;
+		self.removeComment = removeComment;
+		self.allowComment = allowComment;
 
-    self.active = "users";
-    self.banDays = "7";
+		self.active = "users";
+		self.banDays = "7";
 
-    init();
+		init();
 
-    function init() {
-      self.user = $scope.mc.checkUser();
-      
-      if(!self.user) {
-        $location.path('/');
-      }
-      else {
-        getAllSurveys();
-        getAllUsers(); 
-      }
-    }
+		function init() {
+			self.user = $scope.mc.checkUser();
 
-    function setCurrentUser(user) {
-      self.currentUser = user;
-    }
+			if(!self.user) {
+				$location.path('/');
+			}
+			else {
+				getAllSurveys();
+				getAllUsers(); 
+			}
+		}
 
-    function getAllSurveys() {
-      SurveyService.getSurveys()
-        .then(
-        function(response){
-          self.surveys = response;
-          getAllComments();
-          getAllQuestions();
-          getAllAnswers();
-        },
-        function(error){
-          console.log(error);
-          self.error = error;
-        });
-    }
+		function setCurrentUser(user) {
+			self.currentUser = user;
+		}
 
-    function getAllUsers() {
-      UserService.findAllUsers()
-        .then(
-        function(response){
-          self.users = response;
-        },
-        function(error){
-          console.log(error);
-          self.error = error;
-        });
-    }
+		function getAllSurveys() {
+			SurveyService.getSurveys()
+				.then(
+				function(response){
+					self.surveys = response;
 
-    function getAllComments() {
-      self.allComments = [];
+					if($routeParams.elementType === 'survey') {
+						self.active = 'surveys';
+					}
 
-      for(i = 0; i < self.surveys.length; i++) {
-        for(var j = 0; j < self.surveys[i].comments.length; j++) {
-          self.surveys[i].comments[j].survey = self.surveys[i].name;
-          self.allComments.push(self.surveys[i].comments[j]);
-        }
-      }
-    }
+					getAllComments();
+					getAllQuestions();
+					getAllAnswers();
+				},
+				function(error){
+					console.log(error);
+					self.error = error;
+				});
+		}
 
-    function getAllQuestions() {
-      self.allQuestions = [];
+		function getAllUsers() {
+			UserService.findAllUsers()
+				.then(
+				function(response){
+					self.users = response;
+				},
+				function(error){
+					console.log(error);
+					self.error = error;
+				});
+		}
 
-      for(i = 0; i < self.surveys.length; i++) {
-        for(var j = 0; j < self.surveys[i].questions.length; j++) {
-          self.surveys[i].questions[j].survey = self.surveys[i].name;
-          self.allQuestions.push(self.surveys[i].questions[j]);
-        }
-      }
-    }
+		function getAllComments() {
+			self.allComments = [];
 
-    function getAllAnswers() {
-      self.allAnswers = [];
+			if($routeParams.elementType === 'comment') {
+				self.active = 'comments';
+			}
 
-      for(i = 0; i < self.surveys.length; i++) {
-        for(var j = 0; j < self.surveys[i].questions.length; j++) {
-          for(var k = 0; k < self.surveys[i].questions[j].answers.length; k++) {
-            self.surveys[i].questions[j].answers[k].question = self.surveys[i].questions[j].content;
-            self.allAnswers.push(self.surveys[i].questions[j].answers[k]);
-          }
-        }
-      }
-    }
+			for(i = 0; i < self.surveys.length; i++) {
+				for(var j = 0; j < self.surveys[i].comments.length; j++) {
+					self.surveys[i].comments[j].survey = self.surveys[i].name;
+					self.allComments.push(self.surveys[i].comments[j]);
+				}
+			}
+		}
 
-    function blockUser(user) {
-      if(user) {
-        self.currentUser = user;
-      }
+		function getAllQuestions() {
+			self.allQuestions = [];
 
-      if(isAdmin()) {
-        console.log("You can't block an admin");
-        self.error = "You can't block an admin";
-        return;
-      }
+			for(i = 0; i < self.surveys.length; i++) {
+				for(var j = 0; j < self.surveys[i].questions.length; j++) {
+					self.surveys[i].questions[j].survey = self.surveys[i].name;
+					self.allQuestions.push(self.surveys[i].questions[j]);
+				}
+			}
+		}
 
-      UserService.toggleUserBlock(self.currentUser.id, self.banDays)
-        .then(
-        function (response) {
-          getAllUsers();
-        },
-        function(error) {
-          console.log(error);
-          self.error = error;
-        });
-    }
+		function getAllAnswers() {
+			self.allAnswers = [];
 
-    function removeUser() {
-      if(isAdmin()) {
-        console.log("You can't delete an admin");
-        self.error = "You can't delete an admin";
-        return;
-      }
+			for(i = 0; i < self.surveys.length; i++) {
+				for(var j = 0; j < self.surveys[i].questions.length; j++) {
+					for(var k = 0; k < self.surveys[i].questions[j].answers.length; k++) {
+						self.surveys[i].questions[j].answers[k].question = self.surveys[i].questions[j].content;
+						self.allAnswers.push(self.surveys[i].questions[j].answers[k]);
+					}
+				}
+			}
+		}
 
-      UserService.deleteUser(self.currentUser.id)
-        .then(
-        function(response) {
-          getAllUsers();
-          getAllSurveys();
-        },
-        function(error){
-          console.log(error);
-          self.error = error;
-        });
-    }
+		function blockUser(user) {
+			if(user) {
+				self.currentUser = user;
+			}
 
-    function setCurrentSurvey(survey) {
-      self.currentSurvey = survey;
-    }
+			if(isAdmin()) {
+				console.log("You can't block an admin");
+				self.error = "You can't block an admin";
+				return;
+			}
 
-    function removeSurvey() {
-      SurveyService.deleteSurvey(self.currentSurvey.id)
-        .then(
-        function(response) {
-          getAllSurveys();
-        }, 
-        function(error){
-          console.log(error);
-          self.error = error;
-        })
-    }
+			UserService.toggleUserBlock(self.currentUser.id, self.banDays)
+				.then(
+				function (response) {
+					getAllUsers();
+				},
+				function(error) {
+					console.log(error);
+					self.error = error;
+				});
+		}
 
-    function allowSurvey() {
-      SurveyService.allowSurvey(self.currentSurvey.id)
-        .then(
-        function(response) {
-          getAllSurveys();
-        }, 
-        function(error){
-          console.log(error);
-          self.error = error;
-        })
-    }
+		function removeUser() {
+			if(isAdmin()) {
+				console.log("You can't delete an admin");
+				self.error = "You can't delete an admin";
+				return;
+			}
 
-    function setCurrentComment(comment) {
-      self.currentComment = comment;
-    }
+			UserService.deleteUser(self.currentUser.id)
+				.then(
+				function(response) {
+					getAllUsers();
+					getAllSurveys();
+				},
+				function(error){
+					console.log(error);
+					self.error = error;
+				});
+		}
 
-    function removeComment() {
-      CommentService.deleteComment(self.currentComment.id)
-        .then(
-        function(response) {
-          getAllSurveys();
-        }, 
-        function(error){
-          console.log(error);
-          self.error = error;
-        })
-    }
+		function setCurrentSurvey(survey) {
+			self.currentSurvey = survey;
+		}
 
-    function allowComment() {
-      CommentService.allowComment(self.currentComment.id)
-        .then(
-        function(response) {
-          getAllSurveys();
-        }, 
-        function(error){
-          console.log(error);
-          self.error = error;
-        })
-    }
+		function removeSurvey() {
+			SurveyService.deleteSurvey(self.currentSurvey.id)
+				.then(
+				function(response) {
+					getAllSurveys();
+				}, 
+				function(error){
+					console.log(error);
+					self.error = error;
+				})
+		}
 
-    function isAdmin() {
-      for(var i = 0; i < self.currentUser.roles.length; i++) {
-        if(self.currentUser.roles[i].type === 'ROLE_ADMIN') {
-          self.isAdmin = true;
-        }
-      }
+		function allowSurvey() {
+			SurveyService.allowSurvey(self.currentSurvey.id)
+				.then(
+				function(response) {
+					getAllSurveys();
+				}, 
+				function(error){
+					console.log(error);
+					self.error = error;
+				})
+		}
 
-      if(self.isAdmin) {
-        return true;
-      }
+		function setCurrentComment(comment) {
+			self.currentComment = comment;
+		}
 
-      return false;
-    }
+		function removeComment() {
+			CommentService.deleteComment(self.currentComment.id)
+				.then(
+				function(response) {
+					getAllSurveys();
+				}, 
+				function(error){
+					console.log(error);
+					self.error = error;
+				})
+		}
 
-    function menuSelected(menu) {
-      self.error = '';
+		function allowComment() {
+			CommentService.allowComment(self.currentComment.id)
+				.then(
+				function(response) {
+					getAllSurveys();
+				}, 
+				function(error){
+					console.log(error);
+					self.error = error;
+				})
+		}
 
-      switch(menu) {
-        case 'users':
-          self.active = 'users';
-          break;
-        case 'surveys':
-          self.active = 'surveys';
-          break;
-        case 'answers':
-          self.active = 'answers';
-          break;
-        case 'questions':
-          self.active = 'questions';
-          break;
-        case 'comments':
-          self.active = 'comments';
-          break;
-                 }
-    }
+		function isAdmin() {
+			for(var i = 0; i < self.currentUser.roles.length; i++) {
+				if(self.currentUser.roles[i].type === 'ROLE_ADMIN') {
+					self.isAdmin = true;
+				}
+			}
 
-  }
+			if(self.isAdmin) {
+				return true;
+			}
+
+			return false;
+		}
+
+		function menuSelected(menu) {
+			self.error = '';
+
+			switch(menu) {
+				case 'users':
+					self.active = 'users';
+					break;
+				case 'surveys':
+					self.active = 'surveys';
+					break;
+				case 'answers':
+					self.active = 'answers';
+					break;
+				case 'questions':
+					self.active = 'questions';
+					break;
+				case 'comments':
+					self.active = 'comments';
+					break;
+								 }
+		}
+
+	}
 })();
